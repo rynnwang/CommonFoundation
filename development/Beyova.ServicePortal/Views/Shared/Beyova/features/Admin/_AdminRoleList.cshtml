@@ -1,0 +1,47 @@
+﻿@using Beyova;
+@using Beyova.ApiTracking;
+@model List<AdminRole>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Parent</th>
+                <th>Description</th>
+                <th>Created Stamp (UTC)</th>
+                <th>Last Updated Stamp (UTC)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.HasItem())
+                {
+                    foreach (var one in Model)
+                    {
+                        <tr>
+                            <td><a href="javascript:showRole('@(one.Key)')">@(one.Name)</a></td>
+                            <td>@(one.ParentKey)</td>
+                            <td>@(one.Description)</td>
+                            <td>@(one.CreatedStamp.ToFullDateTimeString())</td>
+                            <td>@(one.LastUpdatedStamp.ToFullDateTimeString())</td>
+                            <td>
+                                <a href="javascript:findRoleByParent('@(one.Key)')">Find Children Roles</a>
+                                <a href="@(Url.Action("ManagePermission","Administration",new { key = one.Key }))" target="_blank"><i class="fa fa-users"></i>Manage Permission</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <text>
+                        <tr><td colspan="6">No Result.</td></tr>
+
+                    </text>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

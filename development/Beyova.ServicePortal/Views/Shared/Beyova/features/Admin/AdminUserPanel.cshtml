@@ -1,0 +1,219 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@using Beyova.CommonAdminService;
+@{
+    ViewBag.Title = "Admin User Panel";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+
+    CommonAdminService service = new CommonAdminService();
+    var roles = service.QueryAdminRole(new AdminRoleCriteria());
+}
+
+@section css{
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+        function setNewPassword(key) {
+            if (key) {
+                $("#passwordOwner").val(key);
+
+                $("#password").val('');
+                $("#password2").val('');
+
+                $("#newPassword").modal("show");
+            }
+        }
+
+        function showUserInfo(key) {
+            if (key) {
+                callAction("/Administration/GetUserInfo/?key=" + key, {}, function (response) {
+
+                    var obj = JSON.parse(response);
+                    var form = $("#entityForm");
+                    setForm(form, obj);
+                    form.modal("show");
+
+                }, undefined, function () {
+                });
+            } else {
+                var form = $("#entityForm");
+                setForm(form, {});
+                form.modal("show");
+            }
+        }
+
+        function createOrUpdateAdminUser() {
+            var form = $("#entityForm");
+            form.validator('validate');
+
+            if (form.find(".has-error").length) {
+                return;
+            }
+
+            var data = getForm(form);
+            form.find("*").prop("disabled", true);
+
+            var thisRef = $(this);
+            thisRef.text("Saving ...");
+
+            callAction("/Administration/CreateOrUpdateAdminUser", data, function (response) {
+                queryUser();
+                form.modal("hide");
+            }, undefined, function () {
+                form.find("*").prop("disabled", false);
+            });
+        }
+
+        function queryUser() {
+            var criteria = getForm($("#filter"));
+            $("#result").html("Finding ...");
+            callAction("/Administration/QueryAdminUser/", criteria, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#queryUser").click(function () {
+                queryUser();
+            });
+
+            $("#createUser").click(function () {
+                showUserInfo();
+            });
+
+            $("#btn_dialog_Save").click(function () {
+                createOrUpdateAdminUser();
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+    <div id="entityForm" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Admin User</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-horizontal" id="">
+                        <input type="hidden" name="Key" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Name" required />
+                                <span class="help-block">Required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Login Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="LoginName" required />
+                                <span class="help-block">Required.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="" class="form-control" name="Email" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Third Party ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="ThirdPartyId" />
+                                <span class="help-block">Optional. It can be any third party ID, including ActiveDirectory, Wechat, etc.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btn_dialog_Close" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a id="btn_dialog_Save" class="btn btn-custom-primary"><i class="fa fa-fw fa-cloud-upload"></i> Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="newPassword" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Set New Password</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" id="">
+                        <input type="hidden" name="Key" id="passwordOwner" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" placeholder="Password (4-24 charactors)" id="password" maxlength="24" name="Token" pattern="^.{4,}$" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Re-type Password</label>
+                            <div class="col-sm-8">
+                                <input type="password" placeholder="Re-type Password" id="password2" maxlength="24" name="Token" pattern="^.{4,}$" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btn_dialog_DiscardPassword" class="btn btn-default" data-dismiss="modal">Discard</a>
+                    <a id="btn_dialog_SavePassword" class="btn btn-custom-primary"><i class="fa fa-fw fa-cloud-upload"></i> Set</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Admin User</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="bottom-30px" id="filter">
+            <input name="Key" class="form-control" placeholder="Key ..." />
+            <input name="LoginName" class="form-control" placeholder="Login Name ..." />
+            <input name="Name" class="form-control" placeholder="Name ..." />
+            <select name="RoleKey" class="form-control">
+                <option value=""> -- Any Role -- </option>
+                @{
+                    if (roles.HasItem())
+                    {
+                        foreach (var one in roles)
+                        {
+                            <text>
+                                <option value="@(one.Key)"> @(one.Name) </option>
+                            </text>
+                        }
+                    }
+                }
+            </select>
+
+            <button id="queryUser" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+            <button id="createUser" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

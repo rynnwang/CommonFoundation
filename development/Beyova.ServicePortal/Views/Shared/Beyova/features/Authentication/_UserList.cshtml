@@ -1,0 +1,64 @@
+﻿@using Beyova;
+@using EF.E1Technology.AuthenticationProfileService.Model;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@model List<UserInfo>
+@{
+    var environment = Beyova.CommonAdminService.AdminBaseController.CurrentEnvironment.SafeToString("DEV");
+}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>English First Name</th>
+                <th>English Last Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Region</th>
+                <th>Functional Role</th>
+                <th>Created Stamp (UTC)</th>
+                <th>Last Updated Stamp (UTC)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.HasItem())
+                {
+                    foreach (var one in Model)
+                    {
+                        <tr>
+                            <td><a href="@(Url.Action("UserDetail","Authentication", new { environment, key=one.Key}))" target="_blank">@(one.Name)</a></td>
+                            <td>@(one.Email)</td>
+                            <td>@(one.EnglishFirstName)</td>
+                            <td>@(one.EnglishLastName)</td>
+                            <td>@(one.FirstName)</td>
+                            <td>@(one.LastName)</td>
+                            <td>@(one.MarketRegion.EnumToString())</td>
+                            <td>@(one.FunctionalRole.EnumToString())</td>
+                            <td>@(one.CreatedStamp.ToFullDateTimeString())</td>
+                            <td>@(one.LastUpdatedStamp.ToFullDateTimeString())</td>
+                            <td>
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(one.OdinAvatarUrl))
+                                    {
+                                        <a href="@(one.OdinAvatarUrl)" target="_blank">Avatar</a>
+                                    }
+                                }
+                                <a href="@(Url.Action("SessionInfo", "Authentication", new { key = one.Key, environment= environment}))" target="_blank">Sessions</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <text>
+                        <tr><td colspan="11">No Result.</td></tr>
+                    </text>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

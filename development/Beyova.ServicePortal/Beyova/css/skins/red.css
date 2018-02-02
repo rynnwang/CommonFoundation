@@ -1,0 +1,104 @@
+/*------------------------------------------------*/
+/*	Skin: Red
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/red.scss */
+a {
+  color: #f73838;
+}
+/* line 13, ../../../sass/skins/red.scss */
+a:hover, a:focus {
+  color: #e80909;
+}
+
+/* line 18, ../../../sass/skins/red.scss */
+.top-bar {
+  background-color: #ab1d1d;
+}
+/* line 22, ../../../sass/skins/red.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #f0a4a4;
+}
+/* line 25, ../../../sass/skins/red.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 32, ../../../sass/skins/red.scss */
+.top-bar .notifications .count {
+  border-color: #ab1d1d;
+}
+/* line 38, ../../../sass/skins/red.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #6a1212;
+  border-color: #6a1212;
+}
+/* line 43, ../../../sass/skins/red.scss */
+.top-bar .searchbox .btn {
+  background-color: #c12121;
+  border-color: #6a1212;
+}
+/* line 47, ../../../sass/skins/red.scss */
+.top-bar .searchbox .btn i {
+  color: #6a1212;
+}
+/* line 51, ../../../sass/skins/red.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #6a1212;
+}
+/* line 54, ../../../sass/skins/red.scss */
+.top-bar .searchbox .btn:hover i {
+  color: #540e0e;
+}
+
+/* widget */
+/* line 64, ../../../sass/skins/red.scss */
+.widget {
+  border-color: #dd3737;
+}
+/* line 67, ../../../sass/skins/red.scss */
+.widget .widget-header {
+  background-color: #ab1d1d;
+  border-bottom-color: #951919;
+  color: #fff;
+}
+/* line 72, ../../../sass/skins/red.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 76, ../../../sass/skins/red.scss */
+.widget .widget-header .btn-help {
+  color: #e14d4d;
+}
+/* line 80, ../../../sass/skins/red.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #9e1b1b;
+}
+/* line 83, ../../../sass/skins/red.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 88, ../../../sass/skins/red.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 91, ../../../sass/skins/red.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #ffc3c3;
+}
+
+/* main content */
+/* line 100, ../../../sass/skins/red.scss */
+.main-header h2 {
+  color: #881717;
+  border-right-color: #dd3737;
+}
+/* line 105, ../../../sass/skins/red.scss */
+.main-header em {
+  color: #b81f1f;
+}
+
+/* footer */
+/* line 111, ../../../sass/skins/red.scss */
+.footer {
+  background-color: #ab1d1d;
+}

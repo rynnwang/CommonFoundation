@@ -1,0 +1,103 @@
+﻿@using EF.E1Technology.OnlineSchoolPlatform;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ExceptionSystem;
+@using Beyova.ApiTracking;
+@{
+    ViewBag.Title = "API Exception Query";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+}
+
+
+@section css{
+}
+@section js{
+    <script type="text/javascript">
+        function queryException() {
+            var postJson = getForm($("#filter"));
+
+            if (postJson["OperatorCredentialKey"] || postJson["OperatorCredentialName"]) {
+                postJson.OperatorCredential = {};
+
+                if (postJson["OperatorCredentialKey"]) {
+                    postJson.OperatorCredential.Key = postJson["OperatorCredentialKey"];
+                }
+
+                if (postJson["OperatorCredentialName"]) {
+                    postJson.OperatorCredential.Name = postJson["OperatorCredentialName"]
+                }
+
+                delete postJson.OperatorCredentialKey;
+                delete postJson.OperatorCredentialName;
+            }
+
+            $("#result").text("Loading...");
+            callAction("/Elastic/Exception/" + $("#environment").val(), postJson, function (response) {
+                $("#result").html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+
+            $("#queryException").click(function () {
+                queryException();
+            });
+        });
+
+    </script>
+
+}
+@section modal{}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>API Exception</h2>
+        <em></em>
+    </div>
+    <input type="hidden" id="environment" name="environment" value="@(BaseRemoteRestApiController.CurrentEnvironment.SafeToString("DEV"))" />
+    <div class="main-content">
+        <div class="bottom-30px form-inline" id="filter">
+            <select name="MajorCode">
+                <option value=""> -- All Major Codes -- </option>
+                @{
+                    foreach (ExceptionCode.MajorCode one in Enum.GetValues(typeof(ExceptionCode.MajorCode)))
+                    {
+                        if (one != ExceptionCode.MajorCode.Undefined)
+                        {
+                            <text>
+                                <option value="@((int)one)">@(one.ToString())</option>
+                            </text>
+                        }
+                    }
+                }
+            </select>
+            <input name="Key" placeholder="Key ..." class="form-control" />
+            <input name="Message" placeholder="Message ..." class="form-control" />
+            <input name="ExceptionType" placeholder="Exception Type ..." class="form-control" />
+            <input name="TraceId" placeholder="Trace ID ..." class="form-control" />
+            <input name="Data" placeholder="Data ..." class="form-control" />
+            <input name="MinorCode" placeholder="Minor Code ..." class="form-control" />
+
+            <input name="ServiceIdentifier" placeholder="Service Identifier ..." class="form-control" />
+            <input name="ServerIdentifier" placeholder="Server Identifier ..." class="form-control" />
+            <input name="UserIdentifier" placeholder="User Identifier ..." class="form-control" />
+            <input name="OperatorCredentialKey" placeholder="Operator Key ..." class="form-control" />
+            <input name="OperatorCredentialName" placeholder="Operator Name ..." class="form-control" />
+
+            <select name="Count">
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+            </select>
+
+            <button id="queryException" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@using Beyova;
+@using Beyova.ExceptionSystem;
+
+@model  ExceptionInfo
+@{
+    Layout = null;
+
+    var title = Model.Code.Major.EnumToString();
+}
+<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+    <title>@title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="@(Url.Content("~/Content/bootstrap.min.css"))">
+    <link rel="stylesheet" href="@(Url.Content("~/css/font-awesome.min.css"))">
+    <link rel="stylesheet" href="@(Url.Content("~/Beyova/css/king/main.css"))">
+
+    <!--[if lte IE 9]>
+        <link href="@(Url.Content("~/Content/king/main-ie.css"))" rel="stylesheet" type="text/css"/>
+        <link href="@(Url.Content("~/Content/king/main-ie-part2.css"))" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+</head>
+
+<body>
+    @Html.Partial("~/Views/Shared/Beyova/features/Error/_Error.cshtml", Model)
+    <div class="footer">@*@Html.Raw(WebConfiguration.Copyright)*@</div>
+
+    <!-- Javascript -->
+    <script src="@(Url.Content("~/Scripts/jquery-3.1.0.min.js"))"></script>
+    <script src="@(Url.Content("~/Scripts/bootstrap.min.js"))"></script>
+</body>
+</html>

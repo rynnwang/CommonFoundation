@@ -1,0 +1,28 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductInfo]') AND type in (N'U'))
+DROP TABLE [dbo].[ProductInfo]
+GO
+
+CREATE TABLE [dbo].[ProductInfo](
+    [RowId] INT NOT NULL IDENTITY(1,1),
+    [Key] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
+    [Name] [NVARCHAR](MAX) NOT NULL,
+    [Token] [NVARCHAR](512) NULL,
+    [PublicKey] [NVARCHAR](MAX) NULL,
+    [PrivateKey] [NVARCHAR](MAX) NULL,
+    [ExpiredStamp] [DATETIME] NULL,
+    [CreatedStamp] [DATETIME] NOT NULL DEFAULT GETUTCDATE(),
+    [LastUpdatedStamp] [DATETIME] NOT NULL DEFAULT GETUTCDATE(),
+    [State] [int] NOT NULL DEFAULT 0,
+CONSTRAINT [PK_ProductInfo_Key] PRIMARY KEY NONCLUSTERED 
+(
+    [Key] ASC
+),
+CONSTRAINT [CIX_ProductInfo] UNIQUE CLUSTERED 
+(
+    [RowId] ASC
+)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+);
+
+GO
+

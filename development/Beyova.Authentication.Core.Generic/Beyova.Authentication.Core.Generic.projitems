@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>69f3a082-b749-4de1-9efc-a5b74e6d2574</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Authentication.Core.Generic</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BaseAuthenticationServiceCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\SSOAuthorizationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\AccessCredentialInfoAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BaseAuthenticationController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\SessionInfoAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\SSOAuthorizationAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\SSOAuthorizationPartnerAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\UserInfoAccessController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\Account\sp_AuthenticateAccessCredential.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\Account\sp_BindAccessCredentialOnAccount.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\Account\sp_QueryAccessCredential.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\Account\sp_SaveAccessCredential.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SessionInfo\sp_CleanSessionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SessionInfo\sp_CreateSessionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SessionInfo\sp_DisposeSessionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SessionInfo\sp_QuerySessionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Authorization\OAuth\sp_OAuthAuthorize.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Authorization\OAuth\sp_RequestOAuth.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Authorization\sp_QuerySSOAuthorization.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Authorization\TokenExchange\sp_ExchangeToken.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Authorization\TokenExchange\sp_RequestTokenExchange.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Partner\sp_CreateOrUpdateSSOAuthorizationPartner.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Partner\sp_DeleteSSOAuthorizationPartner.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\SSO\Partner\sp_QuerySSOAuthorizationPartner.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_CreateOrUpdateUserInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_GetUserByToken.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_GetUserInfoByIds.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_GetUserInfoByKeys.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_QueryUserInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\UserInfo\sp_UpdateUserAvatar.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\AccessCredential\AccessCredential.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\Security\SessionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\SSO\SSOAuthorization.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\SSO\SSOAuthorizationPartner.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\UserInfo\UserInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\View\view_SSOAuthorization.sql" />
+  </ItemGroup>
+</Project>

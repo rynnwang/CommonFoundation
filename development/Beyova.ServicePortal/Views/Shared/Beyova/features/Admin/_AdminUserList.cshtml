@@ -1,0 +1,47 @@
+﻿@using Beyova;
+@using Beyova.ApiTracking;
+@model List<AdminUserInfo>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Login Name</th>
+                <th>Third Party ID</th>
+                <th>Created Stamp (UTC)</th>
+                <th>Last Updated Stamp (UTC)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.HasItem())
+                {
+                    foreach (var one in Model)
+                    {
+                        <tr>
+                            <td><a href="javascript:showUserInfo('@(one.Key)')">@(one.Name)</a></td>
+                            <td>@(one.LoginName)</td>
+                            <td>@(one.ThirdPartyId)</td>
+                            <td>@(one.CreatedStamp.ToFullDateTimeString())</td>
+                            <td>@(one.LastUpdatedStamp.ToFullDateTimeString())</td>
+                            <td>
+                                <a href="javascript:setNewPassword('@(one.Key)')"><i class="fa fa-unlock"></i>Set new password</a>
+                                <a href="@(Url.Action("ManageRole","Administration",new { key = one.Key }))" target="_blank"><i class="fa fa-users"></i>Manage Role</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <text>
+                        <tr><td colspan="5">No Result.</td></tr>
+
+                    </text>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

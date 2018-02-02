@@ -1,0 +1,62 @@
+﻿@using Beyova;
+@using EF.E1Technology.AuthenticationProfileService.Model;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@model List<SessionInfo>
+@{
+    var environment = Beyova.CommonAdminService.AdminBaseController.CurrentEnvironment.SafeToString("DEV");
+}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Token</th>
+                <th>User Key</th>
+                <th>Device Type</th>
+                <th>Expired Stamp</th>
+                <th>IpAddress</th>
+                <th>Platform</th>
+                <th>Created Stamp (UTC)</th>
+                <th>User Agent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.HasItem())
+                {
+                    foreach (var one in Model)
+                    {
+                        var style = (one.ExpiredStamp > DateTime.UtcNow) ? "IsActive" : "";
+                        <tr class="@(style)">
+                            <td><i class="fa fa-key" onclick="showToken('@(one.Token)')" data-toggle="tooltip" title="Click to show token."></i></td>
+                            <td>@(one.UserKey)</td>
+                            <td>@(one.DeviceType.EnumToString())</td>
+                            <td>@(one.ExpiredStamp.ToFullDateTimeString())</td>
+                            <td>@(one.IpAddress)</td>
+                            <td>@(one.Platform.EnumToString())</td>
+                            <td>@(one.CreatedStamp.ToFullDateTimeString())</td>
+                            <td>@(one.UserAgent)</td>
+                            <td>
+                                @{
+                                    if (one.ExpiredStamp > DateTime.UtcNow)
+                                    {
+                                        <text>
+                                            <a href="javascript:disableSession('@(one.Token)')">Disable</a>
+                                        </text>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                            <tr><td colspan="9">No Result.</td></tr>
+                                        </text>
+                                    }
+            }
+
+        </tbody>
+    </table>
+</div>

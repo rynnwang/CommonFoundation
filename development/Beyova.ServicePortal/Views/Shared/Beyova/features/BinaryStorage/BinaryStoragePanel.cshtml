@@ -1,0 +1,112 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova.AzureExtension;
+@using Beyova;
+
+@{
+    ViewBag.Title = "Binary Storage Management";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+
+}
+
+@section css{
+    <style>
+        #filter > input, #filter > select {
+            display: inline-block;
+            width: 200px;
+        }
+
+        button.multiselect {
+            min-width: 120px;
+        }
+
+        #file {
+            display: none;
+        }
+
+        #drop {
+            display: block;
+            height: 120px;
+            border: 2px dashed #808080;
+            cursor: pointer;
+        }
+
+            #drop:hover {
+                border: 2px dashed #0087F7;
+            }
+
+            #drop div {
+                text-align: center;
+                margin: 40px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0087F7;
+                cursor: pointer;
+            }
+
+        #progress {
+            display: none;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+
+        function queryBinary() {
+            var criteria = getForm($("#filter"));
+
+            $("#result").html("Loading ...");
+
+            callAction("/BinaryStorage/QueryBinaryStorage/" + $("#environment").val(), criteria, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $('#entityForm').validator();
+
+            $("#queryBinary").click(function () {
+                queryBinary();
+            });
+
+            $("#createBinary").click(function(){ 
+                window.open("/BinaryStorage/NewBinaryStorage/" + $("#environment").val());
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Binary Storage</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <input type="hidden" id="environment" name="environment" value="@(Beyova.CommonAdminService.AdminBaseController.CurrentEnvironment.SafeToString("DEV"))" />
+        <div class="bottom-30px" id="filter">
+            <input class="form-control" name="Container" placeholder="Container ..." />
+            <input class="form-control" name="Identifier" placeholder="Identifier ..." />
+            <input class="form-control" name="Hash" placeholder="Hash (MD5 in Base64) ..." />
+            <input class="form-control" name="MIME" placeholder="Content Type ..." />
+
+            <select class="form-control" id="count">
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+            </select>
+
+            <button id="queryBinary" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+            <button id="createBinary" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

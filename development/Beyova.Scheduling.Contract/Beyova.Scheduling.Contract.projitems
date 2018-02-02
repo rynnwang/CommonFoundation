@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9cafb893-cef7-4438-9d26-e959141951cf</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Scheduling.Contract</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IDayTimeBlockAssignable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceContainerConstraintsEssential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceContainerConstraints.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceDimensionAllocationEssential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceDimensionAllocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceDimension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SchedulingResourceDimensionAllocationIndex.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeBlockSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SchedulingExtension.cs" />
+  </ItemGroup>
+</Project>

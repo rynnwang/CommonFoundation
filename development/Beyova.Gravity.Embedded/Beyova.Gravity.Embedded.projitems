@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d17689eb-eb64-4fe1-8d08-9a62779b528d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Gravity.Embedded</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityProtocolAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessageObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessagePackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessageRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\RemoteConfigurationReceipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\GravityConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EntryFile\GravityEntryFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Http\GravityHttpContextContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IGravityServiceProtocol.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GravityEntryObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\Heartbeat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\HeartbeatEcho.cs" />
+  </ItemGroup>
+</Project>

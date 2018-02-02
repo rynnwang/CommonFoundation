@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4c69230b-716d-4dd7-9202-75bc440bf525</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.ProvisioningService.Core.Generic</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DatabaseScripts\Function\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppPlatform\sp_CreateOrUpdateAppPlatform.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppPlatform\sp_QueryAppPlatform.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppProvisioning\sp_CreateOrUpdateAppProvisioning.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppProvisioning\sp_DeleteAppProvisioning.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppProvisioning\sp_QueryAppProvisioning.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppProvisioning\sp_QueryAppProvisioningSnapshot.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppVersion\sp_CreateAppVersion.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppVersion\sp_QueryAppVersion.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\AppVersion\sp_QueryAppVersionSnapshot.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_ThrowException.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\AppPlatform.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\AppProvisioning.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\AppProvisioningSnapshot.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\AppVersion.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\View\view_AppProvisioning.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\View\view_AppProvisioningSnapshot.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\View\view_AppVersion.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\View\view_AppVersionSnapshot.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\AppPlatformAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\AppProvisioningAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\AppVersionAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ProvisioningServiceBaseDataAccessController.cs" />
+  </ItemGroup>
+</Project>

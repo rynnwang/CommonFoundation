@@ -1,0 +1,221 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova.AzureExtension;
+@using Beyova;
+
+@{
+    ViewBag.Title = "Azure Blob Console";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+    var currentPermission = ContextHelper.CurrentPermissions;
+    var isAdmin = currentPermission == null ? false : currentPermission.Contains(CommonServiceConstants.Permission.Administrator);
+}
+
+@section css{
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+
+        #connectionString {
+            width: 300px;
+        }
+
+        button.multiselect {
+            min-width: 120px;
+        }
+
+        #file {
+            display: none;
+        }
+
+        #drop {
+            display: block;
+            height: 120px;
+            border: 2px dashed #808080;
+            cursor: pointer;
+        }
+
+            #drop:hover {
+                border: 2px dashed #0087F7;
+            }
+
+            #drop div {
+                text-align: center;
+                margin: 40px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0087F7;
+                cursor: pointer;
+            }
+
+        #progress {
+            display: none;
+        }
+
+        #hiddenAzureConnectionString {
+            display: none;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+        var usingAzureConnectionString;
+
+        function newBlob() {
+            var connectionString = $("#connectionString").val();
+            if (connectionString) {
+                window.open("/AzureblobConsole/NewBlob/?azureConnectionString=" + encodeURIComponent(connectionString));
+            }
+        }
+
+        function fillContainers() {
+            var connectionString = $("#connectionString").val();
+            if (connectionString) {
+                usingAzureConnectionString = connectionString;
+                callAction("/AzureblobConsole/GetBlobContainer/?azureConnectionString=" + encodeURIComponent(connectionString), {}, function (response) {
+                    var obj = JSON.parse(response);
+                    if (obj) {
+                        var select = $("#container");
+
+                        select.children().remove();
+
+                        for (var i = 0; i < obj.length; i++) {
+                            var option = $("<option></option>");
+                            option.text(obj[i]);
+                            option.attr("value", obj[i]);
+
+                            select.append(option);
+                        }
+
+                        select.multiselect('destroy').multiselect();
+                    }
+                }, undefined, function () {
+                });
+            }
+        }
+
+        function queryBlob() {
+            var criteria = {
+                azureConnectionString: $("#connectionString").val(),
+                container: $("#container").val(),
+                count: $("#count").val(),
+                contentType: $("#contentType").val(),
+                md5: $("#md5").val()
+            };
+
+            $("#result").html("Loading ...");
+
+            callAction("/AzureBlobConsole/QueryBlob/", criteria, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#connectionStringSelect").change(function () {
+                var value = $(this).val();
+                if (value) {
+                    $("#connectionString").val(value).attr('readonly', true);
+                } else {
+                    $("#connectionString").val("").attr('readonly', false);
+                }
+
+                fillContainers();
+            }).change();
+
+            $("#refresh").click(function () {
+                fillContainers();
+            });
+
+            $("#container").change(function () {
+                queryBlob();
+            });
+
+            $("#queryBlob").click(function () {
+                queryBlob();
+            });
+
+            $("#createBlob").click(newBlob);
+
+
+        });
+
+    </script>
+
+    @{
+        if (isAdmin)
+        {
+            <text>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("#result").delegate("i.delete-blob", function (e) {
+                            var id = $(this).prev().val();
+
+                            if (id) {
+                                showConfirmDialog("Confirmation", "Confirm to delete blob?", function () {
+                                    var identifier = id.split(':')[1];
+                                    var container = id.split(':')[0];
+                                    var row = $(this).closest("tr");
+                                    callAction("/AzureBlobConsole/DeleteBlob/", { azureConnectionString: connectionString, identifier: identifier, container: container }, function (response) {
+                                        row.remove();
+                                    }, undefined, function () {
+                                    });
+                                });
+                            }
+                        });
+                    });
+                </script>
+            </text>
+        }
+    }
+}
+@section modal{
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Azure Blob</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="bottom-30px" id="filter">
+            <select class="form-control" id="connectionStringSelect">
+                @{
+                    foreach (var one in EF.E1Technology.Developer.Core.ServiceConfigurationUtility.GetEndpoints())
+                    {
+                        if (one.Code.SafeEquals("AzureBlob"))
+                        {
+                            <text>
+                                <option value="@(one.ToConnectionString())">@(one.Environment)</option>
+                            </text>
+                        }
+                    }
+                }
+                <option value="">Other</option>
+            </select>
+            <input class="form-control" id="connectionString" placeholder="Azure Connection String ..." />
+            <button id="refresh" class="btn btn-primary"><i class="fa fa-refresh"></i> </button>
+            <select class="form-control" id="container"></select>
+            <input class="form-control" id="contentType" placeholder="Content Type ..." />
+            <input class="form-control" id="md5" placeholder="Hash (MD5) ..." />
+
+            <select class="form-control" id="count">
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+            </select>
+
+            <button id="queryBlob" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+            <button id="createBlob" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

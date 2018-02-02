@@ -1,0 +1,146 @@
+﻿@using Beyova;
+@{
+    ViewBag.Title = "Product Management";
+}
+
+@section css{
+}
+@section js{
+    <script type="text/javascript">
+        function showEntity(key) {
+            showEntityDialog(key, "/GravityAdministration/GetProductInfo/", "entityForm");
+        }
+
+        function createOrUpdateProduct() {
+            createorUpdateEntity("/GravityAdministration/CreateOrUpdateProduct", "entityForm", undefined, function (json) {
+                if (json) {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function queryProduct() {
+            var queryString = "?";
+
+            var key = $("#key").val();
+            if (key) {
+                queryString += ("key=" + key + "&");
+            }
+
+            callAction("/GravityAdministration/QueryProductInfo/" + queryString, {}, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#queryProduct").click(function () {
+                queryProduct();
+            }).click();
+
+            $("#createProduct").click(function () {
+                showEntity();
+            });
+
+            $("#btn_dialog_RenewSecurity").click(function () {
+                var form = $('#entityForm');
+                var key = form.find("input:hidden[name='Key']").val();
+                if (key) {
+                    showConfirmDialog("Warning", "Renew product security info would make existed product not work.", function () {
+                        callAction("/GravityAdministration/RenewProductSecurityInfo/" + key, {}, function (response) {
+                            var productInfo = JSON.parse(response);
+                            setForm(form, productInfo);
+                        }, undefined, function () {
+                        });
+                    });
+                }
+            });
+
+            $("#btn_dialog_Save").click(function () {
+                createOrUpdateProduct();
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+    <div id="entityForm" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Product</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-horizontal" id="endpointForm">
+                        <input type="hidden" name="Key" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Name" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Token</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Token" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Public Key</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="PublicKey" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Private Key</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="PrivateKey" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">ExpiredStamp</label>
+                            <div class="col-sm-8">
+                                <input type="datetime" placeholder="" class="form-control" name="ExpiredStamp" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btn_dialog_RenewSecurity" class="btn btn-default visible-to-update-only"><i class="fa fa-fw fa-key"></i> Renew Security</a>
+                    <a id="btn_dialog_Close" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a id="btn_dialog_Save" class="btn btn-custom-primary"><i class="fa fa-fw fa-cloud-upload"></i> Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Products</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="bottom-30px form-inline" id="filter">
+            <div class="form-group">
+                <button id="queryProduct" class="btn btn-primary"><i class="fa fa-refresh"></i> Refresh </button>
+            </div>
+            <div class="form-group">
+                <button id="createProduct" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+            </div>
+
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

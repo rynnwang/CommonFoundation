@@ -1,0 +1,69 @@
+﻿@using Beyova.Gravity;
+@{
+    var productKey = CentralManagementContext.ParameterProductKey;
+}
+
+<!-- left sidebar -->
+<div class="col-md-2 left-sidebar">
+    <!-- main-nav -->
+    <nav class="main-nav" id="side-menu">
+        <ul class="main-menu">
+            <li>
+                <a href="@(Url.Action("AdminUserInfo","GravityAdministration",new { productKey = productKey }))" url="gravityadministration/adminuserinfo">
+                    <i class="fa fa-users fa-fw"></i><span class="text">Admin Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminRole","GravityAdministration",new { productKey = productKey }))" url="gravityadministration/adminrole">
+                    <i class="fa fa-user-circle fa-fw"></i><span class="text">Admin Roles</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminPermission","GravityAdministration",new { productKey = productKey }))" url="gravityadministration/adminpermission">
+                    <i class="fa fa-cubes fa-fw"></i><span class="text">Admin Permission</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminSession","GravityAdministration",new { productKey = productKey }))" url="gravityadministration/adminsession">
+                    <i class="fa fa-hourglass-half fa-fw"></i><span class="text">Admin Session</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="js-sub-menu-toggle">
+                    <i class="fa fa-puzzle-piece fa-fw"></i><span class="text"> Authentication </span>
+                    <i class="toggle-icon fa fa-angle-left"></i>
+                </a>
+                <ul class="sub-menu ">
+                    <li><a href="@(Url.Action("UserInfo", "Authentication",new { productKey}))" url="authentication/userinfo"><span class="text"> User Info</span></a></li>
+                    <li><a href="@(Url.Action("SessionInfo", "Authentication",new { productKey}))" url="authentication/sessioninfo"><span class="text"> Session Info</span></a></li>
+                    <li><a href="@(Url.Action("AccessCredential", "Authentication",new { productKey}))" url="authentication/accesscredential"><span class="text"> Access Credential</span></a></li>
+                    <li><a href="@(Url.Action("SSOAuthorizationPartner", "SSOAuthorization",new { productKey}))" url="ssoauthorization/ssoauthorizationpartner"><span class="text"> SSO Authorization Partner</span></a></li>
+                    <li><a href="@(Url.Action("SSOAuthorization", "SSOAuthorization",new { productKey}))" url="ssoauthorization/ssoauthorization"><span class="text"> SSO Authorization</span></a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="@(Url.Action("IntegrationDocumentation","Help",new { productKey = productKey }))" url="help/integrationdocumentation">
+                    <i class="fa fa-code fa-fw"></i><span class="text"> Integration Documentation </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /main-nav -->
+    <div class="sidebar-minified js-toggle-minified">
+        <i class="fa fa-angle-left" style="background-color:#f1f1f1 !important;"></i>
+    </div>
+    <!-- sidebar content -->
+    @*<div class="sidebar-content">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5><i class="fa fa-lightbulb-o"></i> Tips</h5>
+                </div>
+                <div class="panel-body">
+                    <p>Portal is still in testing. </p>
+                </div>
+            </div>
+        </div>*@
+    <!-- end sidebar content -->
+</div>
+<!-- end left sidebar -->

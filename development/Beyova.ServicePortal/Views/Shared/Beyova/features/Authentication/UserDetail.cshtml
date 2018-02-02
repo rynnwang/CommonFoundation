@@ -1,0 +1,143 @@
+﻿@using EF.E1Technology.AuthenticationProfileService.Model;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@model UserInfo
+@{
+    ViewBag.Title = string.Format("User Info - {0}", Model.UserId);
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+    var environment = Beyova.CommonAdminService.AdminBaseController.CurrentEnvironment;
+}
+
+@section css{
+    <style>
+    </style>
+}
+@section js{
+
+}
+@section modal{}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>@(Model.Name)</h2>
+        <em>User Info from Authentication Service</em>
+    </div>
+    <input type="hidden" id="environment" name="environment" value="@(environment.SafeToString("DEV"))" />
+    <div class="main-content">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Key</td>
+                        <td><a href="@(Url.Action("UserDetail","Authentication", new { environment,key=Model.Key}))" target="_blank">@(Model.Key)</a></td>
+                    </tr>
+                    <tr>
+                        <td>MarketRegion</td>
+                        <td>@(Model.MarketRegion.EnumToString())</td>
+                    </tr>
+                    <tr>
+                        <td>User ID</td>
+                        <td>@(Model.UserId)</td>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>@(Model.Name)</td>
+                    </tr>
+                    <tr>
+                        <td>Functional Role</td>
+                        <td>@(Model.FunctionalRole) (@((int)Model.FunctionalRole))</td>
+                    </tr>
+                    <tr>
+                        <td>Avatar (ODIN)</td>
+                        <td>
+                            @{
+                                if (!string.IsNullOrWhiteSpace(Model.OdinAvatarUrl))
+                                {
+                                    <text>
+                                        <img height="60" src="@(Model.OdinAvatarUrl)" />
+                                    </text>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Avatar (TBV3)</td>
+                        <td>
+                            @{
+                                if (!string.IsNullOrWhiteSpace(Model.AvatarUrl))
+                                {
+                                    <text>
+                                        <img height="60" src="@(Model.AvatarUrl)" />
+                                    </text>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>@(Model.Email)</td>
+                    </tr>
+                    <tr>
+                        <td>English First Name</td>
+                        <td>@(Model.EnglishFirstName)</td>
+                    </tr>
+                    <tr>
+                        <td>English Middle Name</td>
+                        <td>@(Model.EnglishMiddleName)</td>
+                    </tr>
+                    <tr>
+                        <td>English Last Name</td>
+                        <td>@(Model.EnglishLastName)</td>
+                    </tr>
+                    <tr>
+                        <td>First Name</td>
+                        <td>@(Model.FirstName)</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name</td>
+                        <td>@(Model.LastName)</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>@(Model.Status)</td>
+                    </tr>
+                    <tr>
+                        <td>Language</td>
+                        <td>@(Model.Language)</td>
+                    </tr>
+                    <tr>
+                        <td>Time Zone</td>
+                        <td>@(Model.TimeZone.ConvertTimeZoneMinuteToTimeZone())</td>
+                    </tr>
+                    <tr>
+                        <td>Status Updated UTC Date Time</td>
+                        <td>@(Model.StatusUpdatedUtcDateTime.ToFullDateTimeString())</td>
+                    </tr>
+                    <tr>
+                        <td>Created Stamp</td>
+                        <td>@(Model.CreatedStamp.ToFullDateTimeString())</td>
+                    </tr>
+                    <tr>
+                        <td>Last Updated Stamp</td>
+                        <td>@(Model.LastUpdatedStamp.ToFullDateTimeString())</td>
+                    </tr>
+                    <tr>
+                        <td>Created By</td>
+                        <td>@(Model.CreatedBy)</td>
+                    </tr>
+                    <tr>
+                        <td>Last Updated By</td>
+                        <td>@(Model.LastUpdatedBy)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

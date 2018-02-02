@@ -1,0 +1,96 @@
+﻿@using Beyova.Gravity;
+@{
+    var projectKey = CentralManagementContext.ProjectKey;
+}
+
+<!-- left sidebar -->
+<div class="col-md-2 left-sidebar">
+    <!-- main-nav -->
+    <nav class="main-nav" id="side-menu">
+        <ul class="main-menu">
+            <li>
+                <a href="@(Url.Action("Index","Overview"))" url="dashboard/">
+                    <i class="fa fa-dashboard fa-fw"></i><span class="text">Overview</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("ProjectInfo","CentralAuthentication"))" url="centralauthentication/projectinfo">
+                    <i class="fa fa-cube fa-fw"></i><span class="text">Project</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminUserInfo","CentralAuthentication"))" url="centralauthentication/adminuserinfo">
+                    <i class="fa fa-users fa-fw"></i><span class="text">Admin Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminRole","CentralAuthentication"))" url="centralauthentication/adminrole">
+                    <i class="fa fa-user-circle fa-fw"></i><span class="text">Admin Roles</span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("AdminPermission","CentralAuthentication"))" url="centralauthentication/adminpermission">
+                    <i class="fa fa-cubes fa-fw"></i><span class="text">Admin Permission</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="js-sub-menu-toggle">
+                    <i class="fa fa-puzzle-piece fa-fw"></i><span class="text"> Elasticsearch </span>
+                    <i class="toggle-icon fa fa-angle-left"></i>
+                </a>
+                <ul class="sub-menu ">
+                    <li><a href="@(Url.Action("ApiEvent", "Elastic",new { projectKey}))" url="elastic/apievent"><span class="text"> API Event</span></a></li>
+                    <li><a href="@(Url.Action("Exception", "Elastic",new { projectKey}))" url="elastic/exception"><span class="text"> Exception </span></a></li>
+                    <li><a href="@(Url.Action("EventTrace", "Elastic",new { projectKey}))" url="elastic/eventtrace"><span class="text"> Event Trace </span></a></li>
+                    <li><a href="@(Url.Action("ErrorLog", "MobileTracking",new { projectKey }))" url="mobiletracking/errorlog"><span class="text"> Mobile Error Log</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="js-sub-menu-toggle">
+                    <i class="fa fa-puzzle-piece fa-fw"></i><span class="text"> Binary Storage </span>
+                    <i class="toggle-icon fa fa-angle-left"></i>
+                </a>
+                <ul class="sub-menu ">
+                    <li><a href="@(Url.Action("Query", "BinaryStorage",new { projectKey}))" url="binarystorage/query"><i class="fa fa-file fa-fw"></i><span class="text"> Binary Storage </span></a></li>
+                    <li><a href="@(Url.Action("Query","AzureBlobConsole",new { projectKey}))" url="azureblob/query"><i class="fa fa-windows fa-fw"></i><span class="text"> Azure Blob </span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" class="js-sub-menu-toggle">
+                    <i class="fa fa-puzzle-piece fa-fw"></i><span class="text"> Utility </span>
+                    <i class="toggle-icon fa fa-angle-left"></i>
+                </a>
+                <ul class="sub-menu ">
+                    <li><a href="@(Url.Action("JsonXml", "Utility"))" url="utility/jsonxml"><span class="text"> JSON-XML</span></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="@(Url.Action("Index","NuGetPackage"))" url="nugetpackage/">
+                    <i class="fa fa-windows fa-fw"></i><span class="text"> NuGet </span>
+                </a>
+            </li>
+            <li>
+                <a href="@(Url.Action("Index","CodeSmith"))" url="codesmith/">
+                    <i class="fa fa-code fa-fw"></i><span class="text"> Code Smith </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /main-nav -->
+    <div class="sidebar-minified js-toggle-minified">
+        <i class="fa fa-angle-left" style="background-color:#f1f1f1 !important;"></i>
+    </div>
+    <!-- sidebar content -->
+    @*<div class="sidebar-content">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5><i class="fa fa-lightbulb-o"></i> Tips</h5>
+                </div>
+                <div class="panel-body">
+                    <p>Portal is still in testing. </p>
+                </div>
+            </div>
+        </div>*@
+    <!-- end sidebar content -->
+</div>
+<!-- end left sidebar -->

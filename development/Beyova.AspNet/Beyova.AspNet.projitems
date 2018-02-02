@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a0bbbeab-9a29-45d8-9e83-7924df6beb72</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.AspNet</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\Attribute\RouteRegistrationAttribution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\RouteFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\PortalViewNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\BeyovaBaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\BeyovaPortalController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\ErrorBaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\ErrorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />
+  </ItemGroup>
+</Project>

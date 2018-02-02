@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Authenticate";
+    Layout = "~/views/shared/beyova/layout/_publiclayout.cshtml";
+
+    var email = ViewBag.Email ?? string.Empty;
+    var returnUrl = ViewBag.ReturnUrl ?? string.Empty;
+}
+
+@section css{
+
+}
+@section js{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#form").validator().delegate("*", "keypress", function (e) {
+                if (e.which == 13) {
+                    $("#submitBtn").click();
+                    e.stopPropagation();
+                }
+            });
+
+            $("#submitBtn").bind("click", function (e) {
+                var form = $("#form");
+                form.validator('validate');
+                if (form.find(".has-error").length) {
+                    return;
+                }
+
+                $("#form *").prop("disabled", true);
+
+                var thisRef = $(this);
+                var originalBtnText = thisRef.html();
+                thisRef.text("Authenticating ...");
+
+                var credential = getForm(form);
+                credential.Domain = "";
+                callAction("/Security/Authenticate", credential, function (data) {
+
+                    var json = JSON.parse(data);
+
+                    if (json && json["Token"]) {
+                        setCookie('X-BA-TOKEN', json["Token"]);
+                        setCookie('UserName', json["UserInfo"]["UserName"]);
+                        thisRef.html("Redirecting...");
+                        window.location = "@(returnUrl)" || "/Dashboard/";
+                    } else {
+                        showDialog("Failed to authenticate", $("<div>Please check account and password. </div>"));
+                        $("#form *").prop("disabled", false);
+                        thisRef.html(originalBtnText);
+                    }
+                }, function (response) {
+                    $("#form *").prop("disabled", false);
+                    thisRef.html(originalBtnText);
+                });
+            });
+        });
+    </script>
+}
+
+<div style="margin-top:200px;" class="col-sm-offset-2 col-lg-offset-4 col-sm-8 col-lg-4 ">
+
+    <div class="center-block" id="form">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" placeholder="Admin Account" id="email" class="form-control" name="AccessIdentifier" value="" required />
+                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <input type="password" placeholder="Password (6-24 charactors)" id="password" maxlength="24" name="Token" pattern="^.{5,}$" class="form-control" required>
+                <span class="input-group-addon"><i class="fa fa-fw fa-lock"></i></span>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block btn-auth" id="submitBtn"><i class="fa fa-arrow-circle-o-right"></i> Authenticate</button>
+
+        <div class="links">
+
+
+        </div>
+    </div>
+</div>

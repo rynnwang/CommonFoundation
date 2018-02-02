@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>137c4411-60ca-497a-a2be-b41e9fea7406</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Http</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extension\HttpExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extension\HttpMessageExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpRequestCookieActions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpResponseApiActions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IIncomingHttpRequestExtensible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpResponseActions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpRequestActions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpActionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpContextOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpMessageContextContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpContextContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpRequestRaw.cs" />
+  </ItemGroup>
+</Project>

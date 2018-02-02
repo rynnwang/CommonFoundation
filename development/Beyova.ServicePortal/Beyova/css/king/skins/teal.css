@@ -1,0 +1,104 @@
+/*------------------------------------------------*/
+/*	Skin: Teal
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/teal.scss */
+a {
+  color: #18707a;
+}
+/* line 13, ../../../sass/skins/teal.scss */
+a:hover, a:focus {
+  color: #12555c;
+}
+
+/* line 18, ../../../sass/skins/teal.scss */
+.top-bar {
+  background-color: #084951;
+}
+/* line 22, ../../../sass/skins/teal.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #3ad8eb;
+}
+/* line 25, ../../../sass/skins/teal.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 32, ../../../sass/skins/teal.scss */
+.top-bar .notifications .count {
+  border-color: #084951;
+}
+/* line 38, ../../../sass/skins/teal.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #04282c;
+  border-color: #04282c;
+}
+/* line 43, ../../../sass/skins/teal.scss */
+.top-bar .searchbox .btn {
+  background-color: #0a5e68;
+  border-color: #04282c;
+}
+/* line 47, ../../../sass/skins/teal.scss */
+.top-bar .searchbox .btn i {
+  color: #04282c;
+}
+/* line 51, ../../../sass/skins/teal.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #010a0b;
+}
+/* line 54, ../../../sass/skins/teal.scss */
+.top-bar .searchbox .btn:hover i {
+  color: black;
+}
+
+/* widget */
+/* line 64, ../../../sass/skins/teal.scss */
+.widget {
+  border-color: #0f8897;
+}
+/* line 67, ../../../sass/skins/teal.scss */
+.widget .widget-header {
+  background-color: #084951;
+  border-bottom-color: #06343a;
+  color: #fff;
+}
+/* line 72, ../../../sass/skins/teal.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 76, ../../../sass/skins/teal.scss */
+.widget .widget-header .btn-help {
+  color: #119dae;
+}
+/* line 80, ../../../sass/skins/teal.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #073c43;
+}
+/* line 83, ../../../sass/skins/teal.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 88, ../../../sass/skins/teal.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 91, ../../../sass/skins/teal.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #d6fbff;
+}
+
+/* main content */
+/* line 100, ../../../sass/skins/teal.scss */
+.main-header h2 {
+  color: #084951;
+  border-right-color: #0f8897;
+}
+/* line 105, ../../../sass/skins/teal.scss */
+.main-header em {
+  color: #0d737f;
+}
+
+/* footer */
+/* line 111, ../../../sass/skins/teal.scss */
+.footer {
+  background-color: #084951;
+}

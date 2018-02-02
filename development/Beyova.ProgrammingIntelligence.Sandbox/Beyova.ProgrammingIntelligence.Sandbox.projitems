@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>e20bb273-9a79-42f8-b4d1-3ef8c94eec90</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.ProgrammingIntelligence.Sandbox</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BaseSandbox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RemoteAssemblyProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RemoteRuntimeCompileResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RuntimeAssemblySandbox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sandbox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxInvokeResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxMarshalInvokeResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SandboxWrapperContainer.cs" />
+  </ItemGroup>
+</Project>

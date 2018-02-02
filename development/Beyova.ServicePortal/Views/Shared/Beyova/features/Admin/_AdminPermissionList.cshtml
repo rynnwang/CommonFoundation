@@ -1,0 +1,42 @@
+﻿@using Beyova;
+@using Beyova.ApiTracking;
+@model List<BaseObject<AdminPermission>>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Identifier</th>
+                <th>Description</th>
+                <th>Created Stamp (UTC)</th>
+                <th>Last Updated Stamp (UTC)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.HasItem())
+                {
+                    foreach (var one in Model)
+                    {
+                        <tr>
+                            <td><a href="javascript:showPermission('@(one.Key)')">@(one.Object.Name)</a></td>
+                            <td>@(one.Object.Identifier)</td>
+                            <td>@(one.Object.Description)</td>
+                            <td>@(one.CreatedStamp.ToFullDateTimeString())</td>
+                            <td>@(one.LastUpdatedStamp.ToFullDateTimeString())</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <text>
+                        <tr><td colspan="5">No Result.</td></tr>
+
+                    </text>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

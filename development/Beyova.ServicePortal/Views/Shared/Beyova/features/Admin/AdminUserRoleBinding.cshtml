@@ -1,0 +1,150 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@using Beyova.CommonAdminService;
+@model Guid?
+@{
+    ViewBag.Title = "Admin Role Panel";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+
+    CommonAdminService service = new CommonAdminService();
+    var adminUser = service.QueryAdminUser(new AdminUserCriteria { Key = Model }).FirstOrDefault();
+    var roles = service.QueryAdminRole(new AdminRoleCriteria());
+}
+
+@section css{
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+        function trackBind(roleKey) {
+
+        }
+
+        function showRole(key) {
+            if (key) {
+                callAction("/Administration/GetRoleInfo/" + key, {}, function (response) {
+
+                    var obj = JSON.parse(response);
+                    var form = $("#entityForm");
+                    setForm(form, obj);
+                    form.modal("show");
+
+                }, undefined, function () {
+                });
+            } else {
+                var form = $("#entityForm");
+                setForm(form, {});
+                form.modal("show");
+            }
+        }
+
+        function createOrUpdateAdminRole() {
+            var form = $("#entityForm");
+            form.validator('validate');
+
+            if (form.find(".has-error").length) {
+                return;
+            }
+
+            var data = getForm(form);
+            form.find("*").prop("disabled", true);
+
+            var thisRef = $(this);
+            thisRef.text("Saving ...");
+
+            callAction("/Administration/CreateOrUpdateAdminRole", data, function (response) {
+                var json = JSON.parse(response);
+                if (json) {
+                    window.location.reload();
+                }
+            }, undefined, function () {
+                form.find("*").prop("disabled", false);
+            });
+        }
+
+        function queryRole() {
+            var criteria = getForm($("#filter"));
+
+            callAction("/Administration/QueryAdminRole/", criteria, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#queryRole").click(function () {
+                queryRole();
+            });
+
+            $("#createRole").click(function () {
+                showRole();
+            });
+
+            $("#btn_dialog_Save").click(function () {
+                createOrUpdateAdminRole();
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+}
+@Html.Partial("_TopNavigation")
+<input type="hidden" />
+<div class="content">
+    <div class="main-header">
+        <h2>@(adminUser.Name)</h2>
+        <em>Role Binding</em>
+    </div>
+    <div class="main-content">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Login Name</td>
+                        <td>@(adminUser.LoginName)</td>
+                    </tr>
+                    <tr>
+                        <td>Third Party ID</td>
+                        <td>@(adminUser.ThirdPartyId)</td>
+                    </tr>
+                    <tr>
+                        <td>Roles</td>
+                        <td>
+                            <div class="table-responsive">
+                                <table class="table" id="role-table">
+                                    <tbody>
+                                        @{
+                                            foreach (var one in roles)
+                                            {
+                                                <text>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>@(one.Name)</td>
+                                                        <td>@(one.Description)</td>
+                                                    </tr>
+                                                </text>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>

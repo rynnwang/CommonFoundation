@@ -1,0 +1,104 @@
+/*------------------------------------------------*/
+/*	Skin: Slate Gray
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/slategray.scss */
+a {
+  color: #708090;
+}
+/* line 13, ../../../sass/skins/slategray.scss */
+a:hover, a:focus {
+  color: #55616e;
+}
+
+/* line 18, ../../../sass/skins/slategray.scss */
+.top-bar {
+  background-color: #708090;
+}
+/* line 22, ../../../sass/skins/slategray.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #e3e6e9;
+}
+/* line 25, ../../../sass/skins/slategray.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 32, ../../../sass/skins/slategray.scss */
+.top-bar .notifications .count {
+  border-color: #708090;
+}
+/* line 38, ../../../sass/skins/slategray.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #4e5a65;
+  border-color: #4e5a65;
+}
+/* line 43, ../../../sass/skins/slategray.scss */
+.top-bar .searchbox .btn {
+  background-color: #7e8d9b;
+  border-color: #4e5a65;
+}
+/* line 47, ../../../sass/skins/slategray.scss */
+.top-bar .searchbox .btn i {
+  color: #4e5a65;
+}
+/* line 51, ../../../sass/skins/slategray.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #4e5a65;
+}
+/* line 54, ../../../sass/skins/slategray.scss */
+.top-bar .searchbox .btn:hover i {
+  color: #434d57;
+}
+
+/* widget */
+/* line 64, ../../../sass/skins/slategray.scss */
+.widget {
+  border-color: #9ba6b1;
+}
+/* line 67, ../../../sass/skins/slategray.scss */
+.widget .widget-header {
+  background-color: #708090;
+  border-bottom-color: #657382;
+  color: #fff;
+}
+/* line 72, ../../../sass/skins/slategray.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 76, ../../../sass/skins/slategray.scss */
+.widget .widget-header .btn-help {
+  color: #a9b3bd;
+}
+/* line 80, ../../../sass/skins/slategray.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #697888;
+}
+/* line 83, ../../../sass/skins/slategray.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 88, ../../../sass/skins/slategray.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 91, ../../../sass/skins/slategray.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #a0b3c6;
+}
+
+/* main content */
+/* line 100, ../../../sass/skins/slategray.scss */
+.main-header h2 {
+  color: #5e6c79;
+  border-right-color: #9ba6b1;
+}
+/* line 105, ../../../sass/skins/slategray.scss */
+.main-header em {
+  color: #798897;
+}
+
+/* footer */
+/* line 111, ../../../sass/skins/slategray.scss */
+.footer {
+  background-color: #708090;
+}

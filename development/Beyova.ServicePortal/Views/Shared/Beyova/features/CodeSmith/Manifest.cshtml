@@ -1,0 +1,126 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@{
+    ViewBag.Title = "Code Smith Manifest";
+
+}
+
+@section css{
+    <style>
+        #raw{
+            resize:vertical;
+            min-height:150px;
+        }
+    </style>
+}
+@section js{
+    <script>
+
+        function newLibraryLine() {
+            var dom = $('<div class="input-group"><input type="text" placeholder="Library name" class="form-control"><span class="input-group-addon"><i class="fa fa-times fa-fw remove"></i></span></div>');
+            $("#library").append(dom);
+
+            return dom;
+        }
+
+        $(document).ready(function () {
+            $("#add").click(function () {
+                newLibraryLine();
+            });
+
+            $("#encode").click(function () {
+                var postJson = {
+                    BaseUrl: $("#baseUrl").val(),
+                    LibraryList: []
+                };
+
+                $("#library").children().each(function (i, c) {
+                    var library = $(c).find("input").val();
+                    if (library) {
+                        postJson["LibraryList"].push(library);
+                    }
+                });
+
+                callAction("/CodeSmith/EncodeManifest/", postJson, function (response) {
+                    var json = JSON.parse(response);
+                    $("#raw").val(json);
+                }, undefined, function () {
+                });
+            });
+
+            $("#decode").click(function () {
+                callAction("/CodeSmith/DecodeManifest/", {value:$("#raw").val()}, function (response) {
+                    var json = JSON.parse(response);
+                    $("#library").children().remove();
+
+                    $("#baseUrl").val(json["BaseUrl"]);
+                    for (var i = 0; i < json["LibraryList"].length; i++) {
+                        var library = json["LibraryList"][i];
+
+                        if (library) {
+                            var dom = newLibraryLine();
+                            dom.find("input").val(library);
+                        }
+                    }
+                }, undefined, function () {
+                });
+            });
+
+            $("#library").delegate("i.remove", "click", function () {
+                $(this).closest("div.input-group").remove();
+            });
+        });
+
+    </script>
+}
+@section modal{
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Code Smith Manifest</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 form-horizontal" id="object-form">
+                <div class="form-group">
+                    <label>Base URL</label>
+                    <input id="baseUrl" placeholder="Example: http://host/" class="form-control" />
+                </div>
+
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>
+                            <i class="fa fa-file-code-o"></i> Library name
+                        </h3>
+                        <div class="btn-group widget-header-toolbar">
+                            <a class="icon-btn btn-borderless" id="add">
+                                <i class="fa fa-plus-circle" data-original-title="Add Library" data-placement="right" data-toggle="tooltip"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-content">
+                        <div class="form-horizontal" id="library">
+                            <div class="input-group">
+                                <input type="text" placeholder="Library name" class="form-control">
+                                <span class="input-group-addon"><i class="fa fa-times fa-fw remove"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-custom-primary col-sm-12 col-md-6 form-control" id="encode" value="Encode" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-6 form-horizontal" id="raw-form">
+                <div class="form-group">
+                    <label>Raw</label>
+                    <textarea class="form-control" id="raw" style="resize:vertical;"></textarea>
+                </div>
+                <div class="form-group"><input type="button" class="btn btn-custom-primary col-sm-12 form-control" id="decode" value="Decode" /></div>
+            </div>
+        </div>
+    </div>
+</div>

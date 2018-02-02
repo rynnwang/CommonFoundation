@@ -1,0 +1,176 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova.AzureExtension;
+@using Beyova;
+@model string
+@{
+    ViewBag.Title = "New Binary Storage";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="@(Url.Content("~/Beyova/css/Beyova.DropZoneAjax.css"))" />
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+
+        button.multiselect {
+            min-width: 120px;
+        }
+
+        #file {
+            display: none;
+        }
+
+        #drop {
+            display: block;
+            height: 120px;
+            border: 2px dashed #808080;
+            cursor: pointer;
+        }
+
+            #drop:hover {
+                border: 2px dashed #0087F7;
+            }
+
+            #drop div {
+                text-align: center;
+                margin: 40px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0087F7;
+                cursor: pointer;
+            }
+
+        #progress {
+            display: none;
+        }
+    </style>
+}
+@section js{
+    <script src="~/Beyova/js/beyova.DropZoneAjax.js"></script>
+    <script type="text/javascript">
+
+        function createUploadCredential() {
+            var data = {
+                meta: {
+                    Container: $("#form select[name='container']").val(),
+                    Identifier: $("#form select[name='identifier']").val(),
+                    Mime: $("#form select[name='contentType']").val(),
+                    Width: $("#form select[name='width']").val(),
+                    Height: $("#form select[name='height']").val(),
+                    Duration: $("#form select[name='duration']").val()
+                },
+                environment: $("#environment").val()
+            };
+
+            data.meta.file = undefined;
+
+            callAction("/BinaryStorage/CreateUploadCredential/", data, function (response) {
+                var obj = JSON.parse(response);
+                if (obj && obj["CredentialUri"]) {
+                    showDialog("Upload credential.", "Uri: " + obj["CredentialUri"] + ", expire: " + obj["CredentialExpiredStamp"]);
+                } else {
+                    showDialog("Error", response);
+                }
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+
+            $("#getUploadCredential").click(function () {
+                createUploadCredential();
+            });
+
+            var form = $('#form');
+            dropZoneAjax(form, form.find(".drop-area"), "Drop file here or click to upload.", "(*.*)", undefined, '/BinaryStorage/UploadBinaryStorage/' + $("#environment").val(), "POST", "text", undefined, undefined, function (response) {
+                var uploadResult = JSON.parse(response);
+                showDialog("Upload succeed", uploadResult["uri"], [{
+                    text: "OK",
+                    classset: "btn btn-primary",
+                    func: function (d) {
+                        window.location.reload();
+                    }
+                }]);
+            }, function () {
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>New Binary Storage </h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="col-lg-6">
+            <input type="hidden" id="environment" name="environment" value="@(Beyova.CommonAdminService.AdminBaseController.CurrentEnvironment.SafeToString("DEV"))" />
+            <form enctype="multipart/form-data" id="form">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Container</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="container" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Identifier</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="identifier" />
+                        <span class="help-block">Optional. Keep empty and server would assign one for you.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Content Type</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="contentType" />
+                        <span class="help-block">Optional. Example: image/png, audio/mpeg, application/octet-stream, etc.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Width</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="width" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Height</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="height" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Duration</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="" class="form-control" name="duration" />
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <button class="btn btn-primary " id="getUploadCredential"><i class="fa-fw fa-lock"></i>Get Upload Credential</button>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-11">
+                        <div class="widget">
+                            <div class="widget-header">
+                                <h3>
+                                    <i class="fa fa-cloud-upload"></i> Binary Upload
+                                </h3>
+                            </div>
+                            <div class="widget-content drop-area">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

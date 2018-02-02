@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>114d620a-06b3-44a1-b7b2-e810024fdc90</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Aop</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AopExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodCallInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInjectionDelegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Proxy\AopProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Proxy\AopProxyFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Proxy\AopProxyGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Proxy\AopProxyOptions.cs" />
+  </ItemGroup>
+</Project>

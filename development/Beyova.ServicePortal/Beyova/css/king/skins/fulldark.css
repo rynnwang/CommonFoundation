@@ -1,0 +1,194 @@
+/*------------------------------------------------*/
+/*	Skin: Full Dark
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/fulldark.scss */
+body {
+  background: #304A54;
+}
+
+/* line 14, ../../../sass/skins/fulldark.scss */
+a {
+  color: #489dc1;
+}
+/* line 17, ../../../sass/skins/fulldark.scss */
+a:hover, a:focus {
+  color: #347a98;
+}
+
+/* top bar */
+/* line 24, ../../../sass/skins/fulldark.scss */
+.top-bar {
+  background-color: #304A54;
+  border-bottom: 1px solid #273c44;
+}
+/* line 29, ../../../sass/skins/fulldark.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #90b3c0;
+}
+/* line 32, ../../../sass/skins/fulldark.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 39, ../../../sass/skins/fulldark.scss */
+.top-bar .notifications .count {
+  border-color: #304A54;
+}
+/* line 45, ../../../sass/skins/fulldark.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #21333a;
+  border-color: #273c44;
+}
+/* line 50, ../../../sass/skins/fulldark.scss */
+.top-bar .searchbox .btn {
+  background-color: #395864;
+  border-color: #2a414a;
+}
+/* line 54, ../../../sass/skins/fulldark.scss */
+.top-bar .searchbox .btn i {
+  color: #273c44;
+}
+/* line 58, ../../../sass/skins/fulldark.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #2a414a;
+}
+/* line 61, ../../../sass/skins/fulldark.scss */
+.top-bar .searchbox .btn:hover i {
+  color: #1d2d34;
+}
+
+/* line 70, ../../../sass/skins/fulldark.scss */
+.bottom {
+  border-top: 1px solid #395864;
+  border-bottom: 1px solid #273c44;
+}
+/* line 74, ../../../sass/skins/fulldark.scss */
+.bottom .container .content-wrapper {
+  background-color: #fff;
+}
+
+/* navigation */
+/* line 82, ../../../sass/skins/fulldark.scss */
+ul.main-menu > li a {
+  background-color: #304A54;
+  border-top: 1px solid #304A54;
+  color: #fff;
+}
+/* line 87, ../../../sass/skins/fulldark.scss */
+ul.main-menu > li a:hover, ul.main-menu > li a:focus {
+  background-color: #34505a;
+  text-decoration: none;
+  outline: none;
+}
+/* line 96, ../../../sass/skins/fulldark.scss */
+ul.main-menu > li.active > a {
+  background-color: #273c44;
+}
+/* line 102, ../../../sass/skins/fulldark.scss */
+ul.main-menu .sub-menu li.active > a {
+  background-color: #2c444e;
+}
+
+/* line 109, ../../../sass/skins/fulldark.scss */
+.left-sidebar.minified .main-menu > li:hover > a > .text {
+  background: #273c44;
+  border: 1px solid #304A54;
+}
+/* line 114, ../../../sass/skins/fulldark.scss */
+.left-sidebar.minified .main-menu > li:hover ul.sub-menu {
+  border: 1px solid #2a414a;
+}
+
+/* sidebar */
+/* line 121, ../../../sass/skins/fulldark.scss */
+.sidebar-minified i {
+  color: #fff;
+  background-color: #304A54;
+  border: 1px solid #fff;
+}
+/* line 126, ../../../sass/skins/fulldark.scss */
+.sidebar-minified i:hover {
+  background-color: #436774;
+}
+
+/* line 133, ../../../sass/skins/fulldark.scss */
+.sidebar-content .panel.panel-default {
+  border-color: #2a414a;
+  background-color: #36535e;
+  color: #fff;
+}
+/* line 138, ../../../sass/skins/fulldark.scss */
+.sidebar-content .panel.panel-default > .panel-heading {
+  background-color: #2e4751;
+  color: #fff;
+  border-color: #2a414a;
+}
+/* line 146, ../../../sass/skins/fulldark.scss */
+.sidebar-content h5.label-default {
+  background-color: #2e4751;
+  border: 1px solid #2a414a;
+  border-bottom: none;
+}
+/* line 152, ../../../sass/skins/fulldark.scss */
+.sidebar-content .list-info-sidebar {
+  background-color: #36535e;
+  border: 1px solid #2a414a;
+  color: #fff;
+}
+/* line 157, ../../../sass/skins/fulldark.scss */
+.sidebar-content .list-info-sidebar .data-name {
+  color: #558395;
+}
+
+/* widget */
+/* line 164, ../../../sass/skins/fulldark.scss */
+.widget {
+  border-color: #4c7585;
+}
+/* line 167, ../../../sass/skins/fulldark.scss */
+.widget .widget-header {
+  background-color: #304A54;
+  border-bottom-color: #273c44;
+  color: #fff;
+}
+/* line 172, ../../../sass/skins/fulldark.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 176, ../../../sass/skins/fulldark.scss */
+.widget .widget-header .btn-help {
+  color: #558395;
+}
+/* line 180, ../../../sass/skins/fulldark.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #2a414a;
+}
+/* line 183, ../../../sass/skins/fulldark.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 188, ../../../sass/skins/fulldark.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 191, ../../../sass/skins/fulldark.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #cef1ff;
+}
+
+/* main content */
+/* line 200, ../../../sass/skins/fulldark.scss */
+.main-header h2 {
+  color: #21333a;
+  border-right-color: #4c7585;
+}
+/* line 205, ../../../sass/skins/fulldark.scss */
+.main-header em {
+  color: #36535e;
+}
+
+/* line 210, ../../../sass/skins/fulldark.scss */
+.footer {
+  background-color: #304A54;
+  border-top: 1px solid #395864;
+}

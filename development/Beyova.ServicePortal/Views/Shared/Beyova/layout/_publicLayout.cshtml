@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
+<!--[if !(IE)]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    @RenderSection("meta", false)
+    <!-- CSS -->
+    <link rel="stylesheet" href="@(Url.Content("~/Content/bootstrap.min.css"))">
+    <link rel="stylesheet" href="@(Url.Content("~/Content/font-awesome.min.css"))">
+    <link rel="stylesheet" href="@(Url.Content("~/Beyova/css/king/main.css"))">
+
+    <!--[if lte IE 9]>
+        <link href="@(Url.Content("~/Beyova/css/king/main-ie.css"))" rel="stylesheet" type="text/css"/>
+        <link href="@(Url.Content("~/Beyova/css/king/main-ie-part2.css"))" rel="stylesheet" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="@(Url.Content("~/Beyova/css/overall-customize.css"))">
+    <link rel="stylesheet" href="@(Url.Content("~/Beyova/css/king-customize.css"))">
+    <style>
+        #form > * {
+            margin: 5px 0;
+        }
+    </style>
+
+    @RenderSection("css", false)
+</head>
+
+<body class="dashboard">
+    <!-- WRAPPER -->
+    <div class="wrapper">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-md-2 logo">
+                        @Html.Partial("~/Views/Shared/_Logo.cshtml")
+                    </div>
+                    <!-- end logo -->
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-9">
+                                <div class="top-bar-right">
+
+                                    <!-- responsive menu bar icon -->
+                                    <a href="#" class="hidden-md hidden-lg main-nav-toggle"><i class="fa fa-bars"></i></a>
+                                    <!-- end responsive menu bar icon -->
+                                    <!-- logged user and the menu -->
+                                    <div class="logged-user">
+                                        <div class="btn-group">
+                                        </div>
+                                    </div>
+                                    <!-- end logged user and the menu -->
+                                </div>
+                                <!-- /top-bar-right -->
+                            </div>
+                        </div>
+                        <!-- /row -->
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /top -->
+        <!-- BOTTOM: LEFT NAV AND RIGHT MAIN CONTENT -->
+        <div class="bottom">
+            <div class="container">
+                <div class="row">
+
+                    @RenderBody()
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- END BOTTOM: LEFT NAV AND RIGHT MAIN CONTENT -->
+    </div>
+    <!-- /wrapper -->
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div style="width:300px;margin:0 auto; padding: 0;">
+            <p style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">沪ICP备15011198号</p>
+        </div>
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+            <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202005255" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+                <img src="@(Url.Content("~/Content/image/beian.png"))" style="float:left;" />
+                <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">沪公网安备 31011202005255号</p>
+            </a>
+        </div>
+
+    </footer>
+    <!-- END FOOTER -->
+    <!-- Javascript -->
+    <script src="@(Url.Content("~/Scripts/jquery-3.1.1.min.js"))"></script>
+    <script src="@(Url.Content("~/Scripts/bootstrap.min.js"))"></script>
+    <script src="@(Url.Content("~/Beyova/js/validator.js"))"></script>
+    <script src="@(Url.Content("~/Beyova/js/qrcode.min.js"))"></script>
+    <script src="@(Url.Content("~/Beyova/js/Beyova.js"))"></script>
+
+    @RenderSection("js", false)
+
+</body>
+</html>
+

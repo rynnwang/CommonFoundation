@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b50ceaf8-c299-4ea2-9a38-2f0ff6a0354a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttribute\AssemblyDataSecurityOptionsAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheAutoRetrievalOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainerOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheContainerOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\DefaultCacheSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\IMemoryCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheContainerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaComponentAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaConfigurationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaCultureResourceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainerSummary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheHourlyStatistic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheRealm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheStatistic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\BeyovaPropertyConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\GenericFunctionalServiceConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\DefaultSecuritySettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\HttpConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\StringConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\UnicodeConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\ExceptionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\ExceptionFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\ExceptionScene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\ExceptionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\ExceptionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\BaseException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\CreditNotAffordException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\DataConflictException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\DynamicCompileException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\ExceptionCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\HttpOperationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\InitializationFailureException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\InvalidExpressiontException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\InvalidLicenseException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\InvalidObjectException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\NullObjectException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\OperationFailureException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\OperationForbiddenException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\ResourceNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\ServiceUnavailableException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\SqlStoredProcedureException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\UnauthorizedAccountException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\UnauthorizedOperationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\UnauthorizedTokenException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\UnimplementedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\UnsupportedException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\Exception\WorkflowOperationException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionSystem\Model\FriendlyHint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CollectionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CommonExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CompressionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CultureExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DatabaseExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EncodingOrSecurityExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\GlobalizationExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\IOExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonDiffExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\JsonExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\LinqExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\MathExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SentenceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SerializationExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringRegexExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SystemManagementExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ThreadExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\UiExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\BaseJsonConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\JsonConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\RemoteConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\EnvironmentCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitchObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\Framework.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\I18NResourceCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\AdaptableEnumConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\EnumStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\GuidConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\MappingTableConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaComponentInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaConfigurationInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaCultureResourceInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\BooleanSearchCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\BooleanSearchExpressionReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\ComputeOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\CriteriaOperatorComputable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\RelationshipOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\RelationshipOperatorable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\CharComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\GenericEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\LambdaComparableComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\LambdaComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\LambdaEqualityComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\CountableLoopEnumerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\DeepEquality\DeepEquality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\DeepEquality\DeepEqualityGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\DeepEquality\DeepEqualityIgnoreAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\DeepEquality\IDeepEquality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\DiffExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\DiffResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\ValueDiffResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\DualHttpWebRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\HttpListener\HttpListenerServerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Logger\DiagnosticFileLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\NuGetPackageAssemblyParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\LoopEnumerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\IObjectMemberClone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberClone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberCloneGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializableJsonObject\StrickJsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\IPlaceHolderMember.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\StringHolderReplacement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\StringPlaceHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\RegexPatternBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShifter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShifterExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShift\StringShiftShard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SystemOperation\DiagnosticUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Interface\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utility\TwoFactorAuthentication\" />
+  </ItemGroup>
+</Project>

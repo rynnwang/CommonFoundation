@@ -1,0 +1,173 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova.AzureExtension;
+@using Beyova;
+@model List<string>
+    @{
+    ViewBag.Title = "New Azure Blob";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+    var azureConnectionString = ViewBag.azureConnectionString;
+    }
+
+    @section css{
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+
+        #connectionString {
+            width: 300px;
+        }
+
+        button.multiselect {
+            min-width: 120px;
+        }
+
+        #file {
+            display: none;
+        }
+
+        #drop {
+            display: block;
+            height: 120px;
+            border: 2px dashed #808080;
+            cursor: pointer;
+        }
+
+            #drop:hover {
+                border: 2px dashed #0087F7;
+            }
+
+            #drop div {
+                text-align: center;
+                margin: 40px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #0087F7;
+                cursor: pointer;
+            }
+
+        #progress {
+            display: none;
+        }
+
+        #hiddenAzureConnectionString {
+            display: none;
+        }
+    </style>
+    }
+    @section js{
+    <script src="~/Beyova/js/beyova.DropZoneAjax.js"></script>
+    <script type="text/javascript">
+
+        function createUploadCredential() {
+            var data = {
+                azureConnectionString: $("#hiddenAzureConnectionString").val(),
+                container: $("#form select[name='container']").val(),
+                identifier: $("#form select[name='identifier']").val()
+            };
+
+            callAction("/AzureblobConsole/CreateUploadCredential/", data, function (response) {
+                var obj = JSON.parse(response);
+                if (obj && obj["CredentialUri"]) {
+                    showDialog("Upload credential.", "Uri: " + obj["CredentialUri"] + ", expire: " + obj["CredentialExpiredStamp"]);
+                } else {
+                    showDialog("Error", response);
+                }
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+
+            $("#getUploadCredential").click(function () {
+                createUploadCredential();
+            });
+
+            var form = $('#form');
+            dropZoneAjax(form, form.find(".drop-area"), "Drop file here or click to upload", "(*.*)", undefined, '/AzureBlobConsole/CommitNewBlob/', "POST", "text", undefined, undefined, function (response) {
+                showDialog("Info", JSON.parse(response), [{
+                    text: "OK",
+                    classset: "btn btn-primary",
+                    func: function (d) {
+                        window.location.reload();
+                    }
+                }]);
+            }, function () {
+
+            });
+
+        });
+
+    </script>
+
+    }
+    @section modal{
+
+    }
+    @Html.Partial("_TopNavigation")
+    <div class="content">
+        <div class="main-header">
+            <h2>New Azure Blob</h2>
+            <em></em>
+        </div>
+        <div class="main-content">
+            <div class="col-lg-6">
+                <form enctype="multipart/form-data" id="form">
+                    <input type="file" id="file" />
+                    <input type="text" id="hiddenAzureConnectionString" class="form-control" value="@(azureConnectionString)" name="azureConnectionString" />
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Container</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="container">
+                                @{
+                                if (Model != null)
+                                {
+                                foreach (var one in Model)
+                                {
+                                <text>
+                                    <option value="@(one)">@(one)</option>
+                                </text>
+                                }
+                                }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Identifier</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="" class="form-control" name="identifier" />
+                            <span class="help-block">Optional. Keep empty and server would assign one for you.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Content Type</label>
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="" class="form-control" name="contentType" />
+                            <span class="help-block">Optional. Example: image/png, audio/mpeg, application/octet-stream, etc.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-11">
+                            <div class="widget">
+                                <div class="widget-header">
+                                    <h3>
+                                        <i class="fa fa-cloud-upload"></i> Blob Upload
+                                    </h3>
+                                </div>
+                                <div class="widget-content drop-area">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary " id="getUploadCredential"><i class="fa-fw fa-lock"></i>Get Upload Credential</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

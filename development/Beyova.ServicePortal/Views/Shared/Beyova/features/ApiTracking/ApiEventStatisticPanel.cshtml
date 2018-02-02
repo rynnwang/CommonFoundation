@@ -1,0 +1,65 @@
+﻿@using EF.E1Technology.OnlineSchoolPlatform;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@{
+    ViewBag.Title = "API Event Statistic";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+}
+
+
+@section css{
+    <style>
+        #filter > * {
+            display: inline-block;
+            min-width: 100px;
+            max-width: 400px;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+        function getEventStatisticData() {
+            var criteria = {
+
+            };
+
+            if (traceId) {
+                $("#result").text("Loading...");
+                callAction("/Elastic/ApiEventStatistic/" + $("#environment").val(), { criteria: criteria }, function (response) {
+                    var json = JSON.parse(response);
+                    if (json) {
+
+                    }
+                }, undefined, function () {
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            $("#draw").click(function () {
+                getEventStatisticData();
+            });
+        });
+
+    </script>
+
+}
+@section modal{}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>API Event Dashboard</h2>
+        <em></em>
+    </div>
+    <input type="hidden" id="environment" name="environment" value="@(BaseRemoteRestApiController.CurrentEnvironment.SafeToString("DEV"))" />
+    <div class="main-content">
+        <div class="bottom-30px" id="filter">
+            <button id="draw" class="btn btn-primary"><i class="fa fa-filter"></i> Draw </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

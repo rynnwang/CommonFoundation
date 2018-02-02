@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Beyova.Common.NetStandard</AssemblyName>
+    <RootNamespace>Beyova</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Beyova.Common.BuildKey.pfx</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>bin\Beyova.Common.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>bin\Beyova.Common.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.CodeDom" Version="4.4.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.2" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+    <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
+  </ItemGroup>
+
+  <Import Project="..\Beyova.Common\Beyova.Common.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.StandardContract\Beyova.StandardContract.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Http\Beyova.Http.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Gravity\Beyova.Gravity.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Aop\Beyova.Aop.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Reflection\Beyova.Reflection.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Api\Beyova.Api.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Server\Beyova.Server.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Common.StandardSpecialized\Beyova.Common.StandardSpecialized.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems" Label="Shared" />
+
+  <Import Project="..\Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems" Label="Shared" />
+
+</Project>

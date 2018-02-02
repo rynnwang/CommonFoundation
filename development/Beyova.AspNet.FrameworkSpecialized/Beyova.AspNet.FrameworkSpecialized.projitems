@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>46226655-162b-4261-b158-52f7e6d2ae75</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.AspNet.FrameworkSpecialized</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpModuleEnhancement\ApplicationUriShifter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IRoutable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\ActionResult\CsvResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\ConfigurableAction\ConfigurableAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\ConfigurableAction\ConfigurableActionLink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\MVCAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\MVCExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\UriRewriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MVC\UriRewriteRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestApi\ProductBasedActionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestApi\ViewExtension\ApiViewAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)MVC\Controller\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Code Smith";
+}
+
+@section css{
+    <link href="~/Beyova/css/beyova.DropZoneAjax.css" rel="stylesheet" />
+}
+@section js{
+    <script src="~/Beyova/js/beyova.DropZoneAjax.js"></script>
+    <script>
+        $(document).ready(function () {
+            var form = $('#form');
+            $("#files").change(function () {
+                form.hide();
+                $("#waiting").show();
+                $("#submit").click();
+            });
+
+        });
+
+    </script>
+}
+@section modal{
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Code Smith</h2>
+        <em>Generate iOS (Objective-C) contract codes by Service Contracts (CSharp)</em>
+    </div>
+    <div class="main-content">
+        <form enctype="multipart/form-data" id="form" action="@(Url.Action("UploadLibrary","CodeSmith"))" method="post">
+            <input name="filesToUpload[]" type="file" multiple="multiple" id="files" />
+            <input type="submit" id="submit" style="display:none;" />
+        </form>
+        <div class="alert alert-warning" style="text-align:left;">
+            <i class="fa fa-info-circle"></i> No need to select "Beyova.Common", "Beyova.CodeSmith" and "Newtonsoft.Json".
+        </div>
+        <div id="waiting" style="display:none;">Uploading ... Please wait ...</div>
+    </div>
+</div>

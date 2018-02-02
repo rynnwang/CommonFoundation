@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>05f16f23-1213-48b2-a774-e4f078685d7b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.RedisCache</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Default\DefaultRedisKeyGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisKeyGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RedisCacheOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RedisCacheHub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RedisCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RedisDefaultSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StackExchangeRedisExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StackExchangeRedisSerializer.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,865 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.6\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.6\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Beyova.ServicePortal</RootNamespace>
+    <AssemblyName>Beyova.ServicePortal</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.6\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.3\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.3\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.3\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=8.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.8.7.0\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Spatial, Version=5.8.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.3\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Beyova\Helpers\GravityAdministrationUIHelperExtension.cs" />
+    <Compile Include="Constant\Constants.cs" />
+    <Compile Include="Controllers\AdminBaseController.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\CentralAuthenticationController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\GravityAdministrationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Core\WebCore.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HighCharts\HighChartsDataModel.cs" />
+    <Compile Include="Models\HighCharts\HighChartsSeriesDataModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Beyova\css\beyova.DropZoneAjax.css" />
+    <Content Include="Beyova\css\bootstrap-select.min.css" />
+    <Content Include="Beyova\css\bootstrap-theme.css" />
+    <Content Include="Beyova\css\bootstrap-theme.min.css" />
+    <Content Include="Beyova\css\bootstrap-treeview.css" />
+    <Content Include="Beyova\css\bootstrap.css" />
+    <Content Include="Beyova\css\bootstrap.min.css" />
+    <Content Include="Beyova\css\countries\ad.png" />
+    <Content Include="Beyova\css\countries\ae.png" />
+    <Content Include="Beyova\css\countries\af.png" />
+    <Content Include="Beyova\css\countries\ag.png" />
+    <Content Include="Beyova\css\countries\ai.png" />
+    <Content Include="Beyova\css\countries\al.png" />
+    <Content Include="Beyova\css\countries\am.png" />
+    <Content Include="Beyova\css\countries\an.png" />
+    <Content Include="Beyova\css\countries\ao.png" />
+    <Content Include="Beyova\css\countries\ar.png" />
+    <Content Include="Beyova\css\countries\as.png" />
+    <Content Include="Beyova\css\countries\at.png" />
+    <Content Include="Beyova\css\countries\au.png" />
+    <Content Include="Beyova\css\countries\aw.png" />
+    <Content Include="Beyova\css\countries\ax.png" />
+    <Content Include="Beyova\css\countries\az.png" />
+    <Content Include="Beyova\css\countries\ba.png" />
+    <Content Include="Beyova\css\countries\bb.png" />
+    <Content Include="Beyova\css\countries\bd.png" />
+    <Content Include="Beyova\css\countries\be.png" />
+    <Content Include="Beyova\css\countries\bf.png" />
+    <Content Include="Beyova\css\countries\bg.png" />
+    <Content Include="Beyova\css\countries\bh.png" />
+    <Content Include="Beyova\css\countries\bi.png" />
+    <Content Include="Beyova\css\countries\bj.png" />
+    <Content Include="Beyova\css\countries\bm.png" />
+    <Content Include="Beyova\css\countries\bn.png" />
+    <Content Include="Beyova\css\countries\bo.png" />
+    <Content Include="Beyova\css\countries\br.png" />
+    <Content Include="Beyova\css\countries\bs.png" />
+    <Content Include="Beyova\css\countries\bt.png" />
+    <Content Include="Beyova\css\countries\bv.png" />
+    <Content Include="Beyova\css\countries\bw.png" />
+    <Content Include="Beyova\css\countries\by.png" />
+    <Content Include="Beyova\css\countries\bz.png" />
+    <Content Include="Beyova\css\countries\ca.png" />
+    <Content Include="Beyova\css\countries\catalonia.png" />
+    <Content Include="Beyova\css\countries\cc.png" />
+    <Content Include="Beyova\css\countries\cd.png" />
+    <Content Include="Beyova\css\countries\cf.png" />
+    <Content Include="Beyova\css\countries\cg.png" />
+    <Content Include="Beyova\css\countries\ch.png" />
+    <Content Include="Beyova\css\countries\ci.png" />
+    <Content Include="Beyova\css\countries\ck.png" />
+    <Content Include="Beyova\css\countries\cl.png" />
+    <Content Include="Beyova\css\countries\cm.png" />
+    <Content Include="Beyova\css\countries\cn.png" />
+    <Content Include="Beyova\css\countries\co.png" />
+    <Content Include="Beyova\css\countries\cr.png" />
+    <Content Include="Beyova\css\countries\cs.png" />
+    <Content Include="Beyova\css\countries\cu.png" />
+    <Content Include="Beyova\css\countries\cv.png" />
+    <Content Include="Beyova\css\countries\cx.png" />
+    <Content Include="Beyova\css\countries\cy.png" />
+    <Content Include="Beyova\css\countries\cz.png" />
+    <Content Include="Beyova\css\countries\de.png" />
+    <Content Include="Beyova\css\countries\dj.png" />
+    <Content Include="Beyova\css\countries\dk.png" />
+    <Content Include="Beyova\css\countries\dm.png" />
+    <Content Include="Beyova\css\countries\do.png" />
+    <Content Include="Beyova\css\countries\dz.png" />
+    <Content Include="Beyova\css\countries\ec.png" />
+    <Content Include="Beyova\css\countries\ee.png" />
+    <Content Include="Beyova\css\countries\eg.png" />
+    <Content Include="Beyova\css\countries\eh.png" />
+    <Content Include="Beyova\css\countries\england.png" />
+    <Content Include="Beyova\css\countries\er.png" />
+    <Content Include="Beyova\css\countries\es.png" />
+    <Content Include="Beyova\css\countries\et.png" />
+    <Content Include="Beyova\css\countries\europeanunion.png" />
+    <Content Include="Beyova\css\countries\fam.png" />
+    <Content Include="Beyova\css\countries\fi.png" />
+    <Content Include="Beyova\css\countries\fj.png" />
+    <Content Include="Beyova\css\countries\fk.png" />
+    <Content Include="Beyova\css\countries\fm.png" />
+    <Content Include="Beyova\css\countries\fo.png" />
+    <Content Include="Beyova\css\countries\fr.png" />
+    <Content Include="Beyova\css\countries\ga.png" />
+    <Content Include="Beyova\css\countries\gb.png" />
+    <Content Include="Beyova\css\countries\gd.png" />
+    <Content Include="Beyova\css\countries\ge.png" />
+    <Content Include="Beyova\css\countries\gf.png" />
+    <Content Include="Beyova\css\countries\gh.png" />
+    <Content Include="Beyova\css\countries\gi.png" />
+    <Content Include="Beyova\css\countries\gl.png" />
+    <Content Include="Beyova\css\countries\gm.png" />
+    <Content Include="Beyova\css\countries\gn.png" />
+    <Content Include="Beyova\css\countries\gp.png" />
+    <Content Include="Beyova\css\countries\gq.png" />
+    <Content Include="Beyova\css\countries\gr.png" />
+    <Content Include="Beyova\css\countries\gs.png" />
+    <Content Include="Beyova\css\countries\gt.png" />
+    <Content Include="Beyova\css\countries\gu.png" />
+    <Content Include="Beyova\css\countries\gw.png" />
+    <Content Include="Beyova\css\countries\gy.png" />
+    <Content Include="Beyova\css\countries\hk.png" />
+    <Content Include="Beyova\css\countries\hm.png" />
+    <Content Include="Beyova\css\countries\hn.png" />
+    <Content Include="Beyova\css\countries\hr.png" />
+    <Content Include="Beyova\css\countries\ht.png" />
+    <Content Include="Beyova\css\countries\hu.png" />
+    <Content Include="Beyova\css\countries\id.png" />
+    <Content Include="Beyova\css\countries\ie.png" />
+    <Content Include="Beyova\css\countries\il.png" />
+    <Content Include="Beyova\css\countries\in.png" />
+    <Content Include="Beyova\css\countries\io.png" />
+    <Content Include="Beyova\css\countries\iq.png" />
+    <Content Include="Beyova\css\countries\ir.png" />
+    <Content Include="Beyova\css\countries\is.png" />
+    <Content Include="Beyova\css\countries\it.png" />
+    <Content Include="Beyova\css\countries\jm.png" />
+    <Content Include="Beyova\css\countries\jo.png" />
+    <Content Include="Beyova\css\countries\jp.png" />
+    <Content Include="Beyova\css\countries\ke.png" />
+    <Content Include="Beyova\css\countries\kg.png" />
+    <Content Include="Beyova\css\countries\kh.png" />
+    <Content Include="Beyova\css\countries\ki.png" />
+    <Content Include="Beyova\css\countries\km.png" />
+    <Content Include="Beyova\css\countries\kn.png" />
+    <Content Include="Beyova\css\countries\kp.png" />
+    <Content Include="Beyova\css\countries\kr.png" />
+    <Content Include="Beyova\css\countries\kw.png" />
+    <Content Include="Beyova\css\countries\ky.png" />
+    <Content Include="Beyova\css\countries\kz.png" />
+    <Content Include="Beyova\css\countries\la.png" />
+    <Content Include="Beyova\css\countries\lb.png" />
+    <Content Include="Beyova\css\countries\lc.png" />
+    <Content Include="Beyova\css\countries\li.png" />
+    <Content Include="Beyova\css\countries\lk.png" />
+    <Content Include="Beyova\css\countries\lr.png" />
+    <Content Include="Beyova\css\countries\ls.png" />
+    <Content Include="Beyova\css\countries\lt.png" />
+    <Content Include="Beyova\css\countries\lu.png" />
+    <Content Include="Beyova\css\countries\lv.png" />
+    <Content Include="Beyova\css\countries\ly.png" />
+    <Content Include="Beyova\css\countries\ma.png" />
+    <Content Include="Beyova\css\countries\mc.png" />
+    <Content Include="Beyova\css\countries\md.png" />
+    <Content Include="Beyova\css\countries\me.png" />
+    <Content Include="Beyova\css\countries\mg.png" />
+    <Content Include="Beyova\css\countries\mh.png" />
+    <Content Include="Beyova\css\countries\mk.png" />
+    <Content Include="Beyova\css\countries\ml.png" />
+    <Content Include="Beyova\css\countries\mm.png" />
+    <Content Include="Beyova\css\countries\mn.png" />
+    <Content Include="Beyova\css\countries\mo.png" />
+    <Content Include="Beyova\css\countries\mp.png" />
+    <Content Include="Beyova\css\countries\mq.png" />
+    <Content Include="Beyova\css\countries\mr.png" />
+    <Content Include="Beyova\css\countries\ms.png" />
+    <Content Include="Beyova\css\countries\mt.png" />
+    <Content Include="Beyova\css\countries\mu.png" />
+    <Content Include="Beyova\css\countries\mv.png" />
+    <Content Include="Beyova\css\countries\mw.png" />
+    <Content Include="Beyova\css\countries\mx.png" />
+    <Content Include="Beyova\css\countries\my.png" />
+    <Content Include="Beyova\css\countries\mz.png" />
+    <Content Include="Beyova\css\countries\na.png" />
+    <Content Include="Beyova\css\countries\nc.png" />
+    <Content Include="Beyova\css\countries\ne.png" />
+    <Content Include="Beyova\css\countries\nf.png" />
+    <Content Include="Beyova\css\countries\ng.png" />
+    <Content Include="Beyova\css\countries\ni.png" />
+    <Content Include="Beyova\css\countries\nl.png" />
+    <Content Include="Beyova\css\countries\no.png" />
+    <Content Include="Beyova\css\countries\np.png" />
+    <Content Include="Beyova\css\countries\nr.png" />
+    <Content Include="Beyova\css\countries\nu.png" />
+    <Content Include="Beyova\css\countries\nz.png" />
+    <Content Include="Beyova\css\countries\om.png" />
+    <Content Include="Beyova\css\countries\pa.png" />
+    <Content Include="Beyova\css\countries\pe.png" />
+    <Content Include="Beyova\css\countries\pf.png" />
+    <Content Include="Beyova\css\countries\pg.png" />
+    <Content Include="Beyova\css\countries\ph.png" />
+    <Content Include="Beyova\css\countries\pk.png" />
+    <Content Include="Beyova\css\countries\pl.png" />
+    <Content Include="Beyova\css\countries\pm.png" />
+    <Content Include="Beyova\css\countries\pn.png" />
+    <Content Include="Beyova\css\countries\pr.png" />
+    <Content Include="Beyova\css\countries\ps.png" />
+    <Content Include="Beyova\css\countries\pt.png" />
+    <Content Include="Beyova\css\countries\pw.png" />
+    <Content Include="Beyova\css\countries\py.png" />
+    <Content Include="Beyova\css\countries\qa.png" />
+    <Content Include="Beyova\css\countries\re.png" />
+    <Content Include="Beyova\css\countries\ro.png" />
+    <Content Include="Beyova\css\countries\rs.png" />
+    <Content Include="Beyova\css\countries\ru.png" />
+    <Content Include="Beyova\css\countries\rw.png" />
+    <Content Include="Beyova\css\countries\sa.png" />
+    <Content Include="Beyova\css\countries\sb.png" />
+    <Content Include="Beyova\css\countries\sc.png" />
+    <Content Include="Beyova\css\countries\scotland.png" />
+    <Content Include="Beyova\css\countries\sd.png" />
+    <Content Include="Beyova\css\countries\se.png" />
+    <Content Include="Beyova\css\countries\sg.png" />
+    <Content Include="Beyova\css\countries\sh.png" />
+    <Content Include="Beyova\css\countries\si.png" />
+    <Content Include="Beyova\css\countries\sj.png" />
+    <Content Include="Beyova\css\countries\sk.png" />
+    <Content Include="Beyova\css\countries\sl.png" />
+    <Content Include="Beyova\css\countries\sm.png" />
+    <Content Include="Beyova\css\countries\sn.png" />
+    <Content Include="Beyova\css\countries\so.png" />
+    <Content Include="Beyova\css\countries\sr.png" />
+    <Content Include="Beyova\css\countries\st.png" />
+    <Content Include="Beyova\css\countries\sv.png" />
+    <Content Include="Beyova\css\countries\sy.png" />
+    <Content Include="Beyova\css\countries\sz.png" />
+    <Content Include="Beyova\css\countries\tc.png" />
+    <Content Include="Beyova\css\countries\td.png" />
+    <Content Include="Beyova\css\countries\tf.png" />
+    <Content Include="Beyova\css\countries\tg.png" />
+    <Content Include="Beyova\css\countries\th.png" />
+    <Content Include="Beyova\css\countries\tj.png" />
+    <Content Include="Beyova\css\countries\tk.png" />
+    <Content Include="Beyova\css\countries\tl.png" />
+    <Content Include="Beyova\css\countries\tm.png" />
+    <Content Include="Beyova\css\countries\tn.png" />
+    <Content Include="Beyova\css\countries\to.png" />
+    <Content Include="Beyova\css\countries\tr.png" />
+    <Content Include="Beyova\css\countries\tt.png" />
+    <Content Include="Beyova\css\countries\tv.png" />
+    <Content Include="Beyova\css\countries\tw.png" />
+    <Content Include="Beyova\css\countries\tz.png" />
+    <Content Include="Beyova\css\countries\ua.png" />
+    <Content Include="Beyova\css\countries\ug.png" />
+    <Content Include="Beyova\css\countries\um.png" />
+    <Content Include="Beyova\css\countries\us.png" />
+    <Content Include="Beyova\css\countries\uy.png" />
+    <Content Include="Beyova\css\countries\uz.png" />
+    <Content Include="Beyova\css\countries\va.png" />
+    <Content Include="Beyova\css\countries\vc.png" />
+    <Content Include="Beyova\css\countries\ve.png" />
+    <Content Include="Beyova\css\countries\vg.png" />
+    <Content Include="Beyova\css\countries\vi.png" />
+    <Content Include="Beyova\css\countries\vn.png" />
+    <Content Include="Beyova\css\countries\vu.png" />
+    <Content Include="Beyova\css\countries\wales.png" />
+    <Content Include="Beyova\css\countries\wf.png" />
+    <Content Include="Beyova\css\countries\ws.png" />
+    <Content Include="Beyova\css\countries\ye.png" />
+    <Content Include="Beyova\css\countries\yt.png" />
+    <Content Include="Beyova\css\countries\za.png" />
+    <Content Include="Beyova\css\countries\zm.png" />
+    <Content Include="Beyova\css\countries\zw.png" />
+    <Content Include="Beyova\css\gallery\bird.jpg" />
+    <Content Include="Beyova\css\gallery\cafe.jpg" />
+    <Content Include="Beyova\css\gallery\chair.jpg" />
+    <Content Include="Beyova\css\gallery\cuba-cup.jpg" />
+    <Content Include="Beyova\css\gallery\desk.jpg" />
+    <Content Include="Beyova\css\gallery\desk2.jpg" />
+    <Content Include="Beyova\css\gallery\fence.jpg" />
+    <Content Include="Beyova\css\gallery\hand.jpg" />
+    <Content Include="Beyova\css\gallery\jet-sky.jpg" />
+    <Content Include="Beyova\css\gallery\kitsune.jpg" />
+    <Content Include="Beyova\css\gallery\lighthouse.jpg" />
+    <Content Include="Beyova\css\gallery\mac.jpg" />
+    <Content Include="Beyova\css\highlightjs\agate.css" />
+    <Content Include="Beyova\css\highlightjs\androidstudio.css" />
+    <Content Include="Beyova\css\highlightjs\arduino-light.css" />
+    <Content Include="Beyova\css\highlightjs\arta.css" />
+    <Content Include="Beyova\css\highlightjs\ascetic.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-cave-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-cave-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-dune-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-dune-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-estuary-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-estuary-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-forest-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-forest-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-heath-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-heath-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-lakeside-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-lakeside-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-plateau-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-plateau-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-savanna-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-savanna-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-seaside-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-seaside-light.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-sulphurpool-dark.css" />
+    <Content Include="Beyova\css\highlightjs\atelier-sulphurpool-light.css" />
+    <Content Include="Beyova\css\highlightjs\brown-paper.css" />
+    <Content Include="Beyova\css\highlightjs\brown-papersq.png" />
+    <Content Include="Beyova\css\highlightjs\codepen-embed.css" />
+    <Content Include="Beyova\css\highlightjs\color-brewer.css" />
+    <Content Include="Beyova\css\highlightjs\dark.css" />
+    <Content Include="Beyova\css\highlightjs\darkula.css" />
+    <Content Include="Beyova\css\highlightjs\default.css" />
+    <Content Include="Beyova\css\highlightjs\docco.css" />
+    <Content Include="Beyova\css\highlightjs\far.css" />
+    <Content Include="Beyova\css\highlightjs\foundation.css" />
+    <Content Include="Beyova\css\highlightjs\github-gist.css" />
+    <Content Include="Beyova\css\highlightjs\github.css" />
+    <Content Include="Beyova\css\highlightjs\googlecode.css" />
+    <Content Include="Beyova\css\highlightjs\grayscale.css" />
+    <Content Include="Beyova\css\highlightjs\hopscotch.css" />
+    <Content Include="Beyova\css\highlightjs\hybrid.css" />
+    <Content Include="Beyova\css\highlightjs\idea.css" />
+    <Content Include="Beyova\css\highlightjs\ir-black.css" />
+    <Content Include="Beyova\css\highlightjs\kimbie.dark.css" />
+    <Content Include="Beyova\css\highlightjs\kimbie.light.css" />
+    <Content Include="Beyova\css\highlightjs\magula.css" />
+    <Content Include="Beyova\css\highlightjs\mono-blue.css" />
+    <Content Include="Beyova\css\highlightjs\monokai-sublime.css" />
+    <Content Include="Beyova\css\highlightjs\monokai.css" />
+    <Content Include="Beyova\css\highlightjs\monokai_sublime.css" />
+    <Content Include="Beyova\css\highlightjs\obsidian.css" />
+    <Content Include="Beyova\css\highlightjs\paraiso-dark.css" />
+    <Content Include="Beyova\css\highlightjs\paraiso-light.css" />
+    <Content Include="Beyova\css\highlightjs\pojoaque.css" />
+    <Content Include="Beyova\css\highlightjs\pojoaque.jpg" />
+    <Content Include="Beyova\css\highlightjs\railscasts.css" />
+    <Content Include="Beyova\css\highlightjs\rainbow.css" />
+    <Content Include="Beyova\css\highlightjs\school-book.css" />
+    <Content Include="Beyova\css\highlightjs\school-book.png" />
+    <Content Include="Beyova\css\highlightjs\solarized-dark.css" />
+    <Content Include="Beyova\css\highlightjs\solarized-light.css" />
+    <Content Include="Beyova\css\highlightjs\solarized_dark.css" />
+    <Content Include="Beyova\css\highlightjs\solarized_light.css" />
+    <Content Include="Beyova\css\highlightjs\sunburst.css" />
+    <Content Include="Beyova\css\highlightjs\tomorrow-night-blue.css" />
+    <Content Include="Beyova\css\highlightjs\tomorrow-night-bright.css" />
+    <Content Include="Beyova\css\highlightjs\tomorrow-night-eighties.css" />
+    <Content Include="Beyova\css\highlightjs\tomorrow-night.css" />
+    <Content Include="Beyova\css\highlightjs\tomorrow.css" />
+    <Content Include="Beyova\css\highlightjs\vs.css" />
+    <Content Include="Beyova\css\highlightjs\xcode.css" />
+    <Content Include="Beyova\css\highlightjs\zenburn.css" />
+    <Content Include="Beyova\css\ico\favicon.png" />
+    <Content Include="Beyova\css\ico\kingadmin-favicon114x114.png" />
+    <Content Include="Beyova\css\ico\kingadmin-favicon144x144.png" />
+    <Content Include="Beyova\css\ico\kingadmin-favicon57x57.png" />
+    <Content Include="Beyova\css\ico\kingadmin-favicon72x72.png" />
+    <Content Include="Beyova\css\images\Appior_109x39.png" />
+    <Content Include="Beyova\css\images\Appior_121x54.png" />
+    <Content Include="Beyova\css\images\Appior_140x74.png" />
+    <Content Include="Beyova\css\images\apple-xcode-icon.png" />
+    <Content Include="Beyova\css\images\CloudDistribution.png" />
+    <Content Include="Beyova\css\images\DefaultAvatar.png" />
+    <Content Include="Beyova\css\images\defaultProject.png" />
+    <Content Include="Beyova\css\images\xcodeproject.png" />
+    <Content Include="Beyova\css\introduction\clients\ef.svg" />
+    <Content Include="Beyova\css\introduction\clients\zte.png" />
+    <Content Include="Beyova\css\king-customize.css" />
+    <Content Include="Beyova\css\king\gallery\bird.jpg" />
+    <Content Include="Beyova\css\king\gallery\cafe.jpg" />
+    <Content Include="Beyova\css\king\gallery\chair.jpg" />
+    <Content Include="Beyova\css\king\gallery\cuba-cup.jpg" />
+    <Content Include="Beyova\css\king\gallery\desk.jpg" />
+    <Content Include="Beyova\css\king\gallery\desk2.jpg" />
+    <Content Include="Beyova\css\king\gallery\fence.jpg" />
+    <Content Include="Beyova\css\king\gallery\hand.jpg" />
+    <Content Include="Beyova\css\king\gallery\jet-sky.jpg" />
+    <Content Include="Beyova\css\king\gallery\kitsune.jpg" />
+    <Content Include="Beyova\css\king\gallery\lighthouse.jpg" />
+    <Content Include="Beyova\css\king\gallery\mac.jpg" />
+    <Content Include="Beyova\css\king\ico\favicon.png" />
+    <Content Include="Beyova\css\king\ico\kingadmin-favicon114x114.png" />
+    <Content Include="Beyova\css\king\ico\kingadmin-favicon144x144.png" />
+    <Content Include="Beyova\css\king\ico\kingadmin-favicon57x57.png" />
+    <Content Include="Beyova\css\king\ico\kingadmin-favicon72x72.png" />
+    <Content Include="Beyova\css\king\kingadmin-logo-white.png" />
+    <Content Include="Beyova\css\king\kingadmin-logo.png" />
+    <Content Include="Beyova\css\king\main-ie-part2.css" />
+    <Content Include="Beyova\css\king\main-ie.css" />
+    <Content Include="Beyova\css\king\main.css" />
+    <Content Include="Beyova\css\king\profile-avatar.png" />
+    <Content Include="Beyova\css\king\search-result-img.png" />
+    <Content Include="Beyova\css\king\skins\darkblue.css" />
+    <Content Include="Beyova\css\king\skins\darkbrown.css" />
+    <Content Include="Beyova\css\king\skins\fullbright.css" />
+    <Content Include="Beyova\css\king\skins\fulldark.css" />
+    <Content Include="Beyova\css\king\skins\lightgreen.css" />
+    <Content Include="Beyova\css\king\skins\orange.css" />
+    <Content Include="Beyova\css\king\skins\red.css" />
+    <Content Include="Beyova\css\king\skins\slategray.css" />
+    <Content Include="Beyova\css\king\skins\teal.css" />
+    <Content Include="Beyova\css\king\skins\yellow.css" />
+    <Content Include="Beyova\css\king\user-avatar.png" />
+    <Content Include="Beyova\css\king\user1.png" />
+    <Content Include="Beyova\css\king\user2.png" />
+    <Content Include="Beyova\css\king\user3.png" />
+    <Content Include="Beyova\css\king\user4.png" />
+    <Content Include="Beyova\css\king\user5.png" />
+    <Content Include="Beyova\css\overall-customize.css" />
+    <Content Include="Beyova\css\skins\darkblue.css" />
+    <Content Include="Beyova\css\skins\darkbrown.css" />
+    <Content Include="Beyova\css\skins\fullbright.css" />
+    <Content Include="Beyova\css\skins\fulldark.css" />
+    <Content Include="Beyova\css\skins\lightgreen.css" />
+    <Content Include="Beyova\css\skins\orange.css" />
+    <Content Include="Beyova\css\skins\red.css" />
+    <Content Include="Beyova\css\skins\slategray.css" />
+    <Content Include="Beyova\css\skins\teal.css" />
+    <Content Include="Beyova\css\skins\yellow.css" />
+    <Content Include="Beyova\css\treeview\bootstrap-treeview.css" />
+    <Content Include="Beyova\js\beyova.DropZoneAjax.js" />
+    <Content Include="Beyova\js\beyova.js" />
+    <Content Include="Beyova\js\bootstrap-datepicker.js" />
+    <Content Include="Beyova\js\bootstrap-multiselect.js" />
+    <Content Include="Beyova\js\bootstrap-select.js" />
+    <Content Include="Beyova\js\bootstrap-switch.min.js" />
+    <Content Include="Beyova\js\bootstrap-treeview.js" />
+    <Content Include="Beyova\js\d3.min.js" />
+    <Content Include="Beyova\js\dataTables.bootstrap.js" />
+    <Content Include="Beyova\js\highcharts\highcharts-more.js" />
+    <Content Include="Beyova\js\highcharts\highcharts.js" />
+    <Content Include="Beyova\js\highcharts\modules\boost.js" />
+    <Content Include="Beyova\js\highcharts\modules\boost.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\broken-axis.js" />
+    <Content Include="Beyova\js\highcharts\modules\broken-axis.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\canvas-tools.js" />
+    <Content Include="Beyova\js\highcharts\modules\canvas-tools.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\data.js" />
+    <Content Include="Beyova\js\highcharts\modules\data.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\drilldown.js" />
+    <Content Include="Beyova\js\highcharts\modules\drilldown.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\exporting.js" />
+    <Content Include="Beyova\js\highcharts\modules\exporting.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\funnel.js" />
+    <Content Include="Beyova\js\highcharts\modules\funnel.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\heatmap.js" />
+    <Content Include="Beyova\js\highcharts\modules\heatmap.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\no-data-to-display.js" />
+    <Content Include="Beyova\js\highcharts\modules\no-data-to-display.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\offline-exporting.js" />
+    <Content Include="Beyova\js\highcharts\modules\offline-exporting.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\solid-gauge.js" />
+    <Content Include="Beyova\js\highcharts\modules\solid-gauge.src.js" />
+    <Content Include="Beyova\js\highcharts\modules\treemap.js" />
+    <Content Include="Beyova\js\highcharts\modules\treemap.src.js" />
+    <Content Include="Beyova\js\highcharts\themes\dark-blue.js" />
+    <Content Include="Beyova\js\highcharts\themes\dark-green.js" />
+    <Content Include="Beyova\js\highcharts\themes\dark-unica.js" />
+    <Content Include="Beyova\js\highcharts\themes\gray.js" />
+    <Content Include="Beyova\js\highcharts\themes\grid-light.js" />
+    <Content Include="Beyova\js\highcharts\themes\grid.js" />
+    <Content Include="Beyova\js\highcharts\themes\sand-signika.js" />
+    <Content Include="Beyova\js\highcharts\themes\skies.js" />
+    <Content Include="Beyova\js\highlight.pack.js" />
+    <Content Include="Beyova\js\jquery.dataTables.min.js" />
+    <Content Include="Beyova\js\jquery.form.js" />
+    <Content Include="Beyova\js\jquery.gritter.min.js" />
+    <Content Include="Beyova\js\jquery.sparkline.min.js" />
+    <Content Include="Beyova\js\king\king-chart-stat.js" />
+    <Content Include="Beyova\js\king\king-common.js" />
+    <Content Include="Beyova\js\king\king-components.js" />
+    <Content Include="Beyova\js\king\king-elements.js" />
+    <Content Include="Beyova\js\king\king-page.js" />
+    <Content Include="Beyova\js\king\king-table.js" />
+    <Content Include="Beyova\js\qrcode.min.js" />
+    <Content Include="Beyova\js\validator.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fa-brands.css" />
+    <Content Include="Content\fa-brands.min.css" />
+    <Content Include="Content\fa-regular.css" />
+    <Content Include="Content\fa-regular.min.css" />
+    <Content Include="Content\fa-solid.css" />
+    <Content Include="Content\fa-solid.min.css" />
+    <Content Include="Content\fontawesome-all.css" />
+    <Content Include="Content\fontawesome-all.min.css" />
+    <Content Include="Content\fontawesome.css" />
+    <Content Include="Content\fontawesome.min.css" />
+    <Content Include="Content\image\beian.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Configurations\Beyova.ServicePortal.DEBUG.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Beyova\css\bootstrap-theme.css.map" />
+    <Content Include="Beyova\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="Properties\PublishProfiles\beyova - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\beyova - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\AdminPermissionPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\AdminRolePanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\AdminRolePermissionBinding.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\AdminUserPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\AdminUserRoleBinding.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\_AdminPermissionList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\_AdminRoleList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Admin\_AdminUserList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiEventDetail.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiEventPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiEventStatisticPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiExceptionDetail.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiExceptionPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiExceptionStatisticPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\ApiTracePanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\_ApiEventList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\_ApiExceptionDetail.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\_ApiExceptionList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\ApiTracking\_ApiTraceDetail.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\AzureBlob\AzureBlobPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\AzureBlob\AzureNewBlob.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\AzureBlob\_AzureBlobList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\BinaryStorage\BinaryStoragePanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\BinaryStorage\UploadBinaryStorage.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\BinaryStorage\_BinaryStorageList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\EnvironmentEndpoint\Panel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\EnvironmentEndpoint\Selection.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\EnvironmentEndpoint\_EndpointList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\SSOAuthorization\SSOAuthorizationPartnerPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\SSOAuthorization\_SSOAuthorizationPartnerList.cshtml" />
+    <Content Include="Views\Shared\Beyova\components\Json.cshtml" />
+    <Content Include="Views\Shared\Beyova\components\_json.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\Index.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\SessionPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\UserDetail.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\UserPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\_SessionList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Authentication\_UserList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CodeSmith\CodeSmithPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CodeSmith\CodeWorkshop.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CodeSmith\Manifest.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Security\Authenticate.cshtml" />
+    <Content Include="Views\Shared\EnvironmentEndpoint.cshtml" />
+    <Content Include="Views\Shared\_Logo.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Shared\_TopNavigation.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_applicationInsightsLayout.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_kingDeveloperLayout.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_Logo.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_NotFound.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_publicLayout.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_publicLayout2.cshtml" />
+    <Content Include="Views\Security\Authenticate.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\ProductInfoPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Error\Error.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\Error\_Error.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\_ProductInfoList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\AdminUserInfoPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\_AdminUserInfoList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\AdminRolePanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\AdminPermissionPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\layout\_ProductBasedSidebar.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\_AdminRoleList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\AdminUserRoleBindingPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\AdminRolePermissionBindingPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\GravityAdministration\_AdminPermissionList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralCommericalService\BusinessLawEntityPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\AdminPermissionPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\AdminRolePanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\AdminRolePermissionBindingPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\AdminUserInfoPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\AdminUserRoleBindingPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\ProductInfoPanel.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\_AdminPermissionList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\_AdminRoleList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\_AdminUserInfoList.cshtml" />
+    <Content Include="Views\Shared\Beyova\features\CentralAuthentication\_ProductInfoList.cshtml" />
+    <Content Include="webfonts\fa-brands-400.svg" />
+    <Content Include="webfonts\fa-regular-400.svg" />
+    <Content Include="webfonts\fa-solid-900.svg" />
+    <Content Include="webfonts\fa-solid-900.woff2" />
+    <Content Include="webfonts\fa-solid-900.woff" />
+    <Content Include="webfonts\fa-solid-900.ttf" />
+    <Content Include="webfonts\fa-solid-900.eot" />
+    <Content Include="webfonts\fa-regular-400.woff2" />
+    <Content Include="webfonts\fa-regular-400.woff" />
+    <Content Include="webfonts\fa-regular-400.ttf" />
+    <Content Include="webfonts\fa-regular-400.eot" />
+    <Content Include="webfonts\fa-brands-400.woff2" />
+    <Content Include="webfonts\fa-brands-400.woff" />
+    <Content Include="webfonts\fa-brands-400.ttf" />
+    <Content Include="webfonts\fa-brands-400.eot" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Beyova\css\introduction\testimonials\" />
+    <Folder Include="Client\" />
+    <Folder Include="Views\Shared\Beyova\features\Provisioning\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beyova.AzureExtension\Beyova.AzureExtension.csproj">
+      <Project>{17d71314-f555-4cbb-9c42-4c54fa5eb0dd}</Project>
+      <Name>Beyova.AzureExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beyova.Elastic\Beyova.Elastic.csproj">
+      <Project>{bdfd06da-0ce3-426b-927e-8bd99152de9f}</Project>
+      <Name>Beyova.Elastic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beyova.WebExtension\Beyova.WebExtension.csproj">
+      <Project>{7ed3c3f5-fb77-4e3f-bd02-e6c11e165a92}</Project>
+      <Name>Beyova.WebExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63735</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63735/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.6\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.6\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,118 @@
+﻿@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@using Beyova.CommonAdminService;
+@{
+    ViewBag.Title = "Admin Role Permission Binding";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+
+    CommonAdminService service = new CommonAdminService();
+    var permissions = service.QueryAdminPermission(new AdminPermissionCriteria());
+}
+
+@section css{
+    <style>
+        #filter > input {
+            display: inline-block;
+            width: 200px;
+        }
+    </style>
+}
+@section js{
+    <script type="text/javascript">
+
+        function showRole(key) {
+            if (key) {
+                callAction("/Administration/GetRoleInfo/" + key, {}, function (response) {
+
+                    var obj = JSON.parse(response);
+                    var form = $("#entityForm");
+                    setForm(form, obj);
+                    form.modal("show");
+
+                }, undefined, function () {
+                });
+            } else {
+                var form = $("#entityForm");
+                setForm(form, {});
+                form.modal("show");
+            }
+        }
+
+        function createOrUpdateAdminRole() {
+            var form = $("#entityForm");
+            form.validator('validate');
+
+            if (form.find(".has-error").length) {
+                return;
+            }
+
+            var data = getForm(form);
+            form.find("*").prop("disabled", true);
+
+            var thisRef = $(this);
+            thisRef.text("Saving ...");
+
+            callAction("/Administration/CreateOrUpdateAdminRole", data, function (response) {
+                var json = JSON.parse(response);
+                if (json) {
+                    window.location.reload();
+                }
+            }, undefined, function () {
+                form.find("*").prop("disabled", false);
+            });
+        }
+
+        function queryRole() {
+            var criteria = getForm($("#filter"));
+
+            callAction("/Administration/QueryAdminRole/", criteria, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#queryRole").click(function () {
+                queryRole();
+            });
+
+            $("#createRole").click(function () {
+                showRole();
+            });
+
+            $("#btn_dialog_Save").click(function () {
+                createOrUpdateAdminRole();
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Admin Role Permission Binding</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="bottom-30px" id="filter">
+            <input name="Key" class="form-control" placeholder="Key ..." />
+            <input name="ParentKey" class="form-control" placeholder="Parent Key ..." />
+            <input name="Name" class="form-control" placeholder="Name ..." />
+
+            <button id="queryRole" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+            <button id="createRole" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

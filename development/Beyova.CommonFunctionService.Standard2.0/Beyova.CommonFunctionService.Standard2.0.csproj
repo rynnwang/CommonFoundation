@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Beyova.CommonFunctionService.Generic</RootNamespace>
+    <AssemblyName>Beyova.CommonFunctionService</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Beyova.Common.Standard2.0\Beyova.Common.Standard2.0.csproj" />
+  </ItemGroup>
+
+</Project>

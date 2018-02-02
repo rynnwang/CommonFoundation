@@ -1,0 +1,104 @@
+/*------------------------------------------------*/
+/*	Skin: Orange
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/orange.scss */
+a {
+  color: #ffad4d;
+}
+/* line 13, ../../../sass/skins/orange.scss */
+a:hover, a:focus {
+  color: #ff9d29;
+}
+
+/* line 18, ../../../sass/skins/orange.scss */
+.top-bar {
+  background-color: #ee9109;
+}
+/* line 22, ../../../sass/skins/orange.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #fde7c6;
+}
+/* line 25, ../../../sass/skins/orange.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 32, ../../../sass/skins/orange.scss */
+.top-bar .notifications .count {
+  border-color: #ee9109;
+}
+/* line 38, ../../../sass/skins/orange.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #a46406;
+  border-color: #a46406;
+}
+/* line 43, ../../../sass/skins/orange.scss */
+.top-bar .searchbox .btn {
+  background-color: #d58208;
+  border-color: #a46406;
+}
+/* line 47, ../../../sass/skins/orange.scss */
+.top-bar .searchbox .btn i {
+  color: #a46406;
+}
+/* line 51, ../../../sass/skins/orange.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #a46406;
+}
+/* line 54, ../../../sass/skins/orange.scss */
+.top-bar .searchbox .btn:hover i {
+  color: #8c5505;
+}
+
+/* widget */
+/* line 64, ../../../sass/skins/orange.scss */
+.widget {
+  border-color: #fac77c;
+}
+/* line 67, ../../../sass/skins/orange.scss */
+.widget .widget-header {
+  background-color: #ee9109;
+  border-bottom-color: #d58208;
+  color: #fff;
+}
+/* line 72, ../../../sass/skins/orange.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 76, ../../../sass/skins/orange.scss */
+.widget .widget-header .btn-help {
+  color: #f9bd64;
+}
+/* line 80, ../../../sass/skins/orange.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #df8808;
+}
+/* line 83, ../../../sass/skins/orange.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 88, ../../../sass/skins/orange.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 91, ../../../sass/skins/orange.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #ffe4c5;
+}
+
+/* main content */
+/* line 100, ../../../sass/skins/orange.scss */
+.main-header h2 {
+  color: #ee9109;
+  border-right-color: #f8b24b;
+}
+/* line 105, ../../../sass/skins/orange.scss */
+.main-header em {
+  color: #f7a733;
+}
+
+/* footer */
+/* line 111, ../../../sass/skins/orange.scss */
+.footer {
+  background-color: #ee9109;
+}

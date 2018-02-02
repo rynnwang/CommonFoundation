@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>2a945e49-ccd9-423d-b13c-ddcf0b62d76b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Server</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\ApiEventTrackingOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\ApiTrackingOptionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\DefaultApiEventTrackingOptionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\Interface\IApiEventTrackingOptionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\OmitApiTrackingAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\CloudBinaryStorageOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\IBinaryStorageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\ICloudBinaryStorageOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\CentralManagementContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\Interface\ICentralAuthenticationManagementService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\Interface\ICentralAuthenticationProcotol.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\AuthenticationResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\UserInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Extensions\" />
+  </ItemGroup>
+</Project>

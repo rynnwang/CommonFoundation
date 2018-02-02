@@ -1,0 +1,213 @@
+﻿@using Beyova;
+@{
+    ViewBag.Title = "Environment Endpoint";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+
+}
+
+@section css{
+}
+@section js{
+    <script type="text/javascript">
+        function showEnvironmentEndpoint(key) {
+            if (key) {
+                callAction("/EnvironmentEndpoint/GetEnvironmentEndpoint/" + key, {}, function (response) {
+
+                    var obj = JSON.parse(response);
+                    var form = $("#entityForm");
+                    setForm(form, obj);
+                    form.modal("show");
+
+                }, undefined, function () {
+                });
+            } else {
+                var form = $("#entityForm");
+                setForm(form, {});
+                form.modal("show");
+            }
+        }
+
+        function createOrUpdateEnvironmentEndpoint() {
+            var form = $("#entityForm");
+            form.validator('validate');
+
+            if (form.find(".has-error").length) {
+                return;
+            }
+
+            var data = getForm(form);
+            form.find("*").prop("disabled", true);
+
+            var thisRef = $(this);
+            thisRef.text("Saving ...");
+
+            callAction("/EnvironmentEndpoint/CreateOrUpdateEnvironmentEndpoint", data, function (response) {
+                var json = JSON.parse(response);
+                if (json) {
+                    window.location.reload();
+                }
+            }, undefined, function () {
+                form.find("*").prop("disabled", false);
+            });
+        }
+
+        function queryEnvironmentEndpoint() {
+            var queryString = "?";
+
+            var key = $("#key").val();
+            if (key) {
+                queryString += ("key=" + key + "&");
+            }
+
+            var code = $("#code").val();
+            if (code) {
+                queryString += ("code=" + code + "&");
+            }
+
+            var environment = $("#environment").val();
+            if (environment) {
+                queryString += ("env=" + environment + "&");
+            }
+
+            callAction("/EnvironmentEndpoint/QueryEnvironmentEndpoint/" + queryString, {}, function (response) {
+                $('#result').html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+            $('#entityForm').validator();
+
+            $("#queryEnvironmentEndpoint").click(function () {
+                queryEnvironmentEndpoint();
+            }).click();
+
+            $("#createEnvironmentEndpoint").click(function () {
+                showEnvironmentEndpoint();
+            });
+
+            $("#btn_dialog_Save").click(function () {
+                createOrUpdateEnvironmentEndpoint();
+            });
+        });
+
+    </script>
+
+}
+@section modal{
+    <div id="entityForm" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Environment Endpoint</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-horizontal" id="endpointForm">
+                        <input type="hidden" name="Key" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Name" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Code</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Code" required />
+                                <span class="help-block">Required. It is used to indicate which service this endpoint refer to.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Environment</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Environment" required />
+                                <span class="help-block">Required. Example: DEV, QA, etc.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Protocol</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Protocol" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Host</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Host" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Port</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Port" pattern="^(\d+)$" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Version</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Version" pattern="^([0-9a-z\.A-Z]+)$" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Account</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Account" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Token</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="Token" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Secondary Token</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="" class="form-control" name="SecondaryToken" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btn_dialog_Close" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <a id="btn_dialog_Save" class="btn btn-custom-primary"><i class="fa fa-fw fa-cloud-upload"></i> Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>Environment Endpoints</h2>
+        <em></em>
+    </div>
+    <div class="main-content">
+        <div class="bottom-30px form-inline" id="filter">
+            <div class="form-group">
+                <input class="form-control " id="key" placeholder="Key ..." />
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="code" placeholder="Code ..." />
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="environment" placeholder="Environment ..." />
+            </div>
+            <div class="form-group">
+                <button id="queryEnvironmentEndpoint" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+            </div>
+            <div class="form-group">
+                <button id="createEnvironmentEndpoint" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Create </button>
+            </div>
+       
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>

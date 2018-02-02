@@ -1,0 +1,104 @@
+/*------------------------------------------------*/
+/*	Skin: Light Green
+/*------------------------------------------------*/
+/* general */
+/* line 10, ../../../sass/skins/lightgreen.scss */
+a {
+  color: #c3b813;
+}
+/* line 13, ../../../sass/skins/lightgreen.scss */
+a:hover, a:focus {
+  color: #a29910;
+}
+
+/* line 18, ../../../sass/skins/lightgreen.scss */
+.top-bar {
+  background-color: #bcbf23;
+}
+/* line 22, ../../../sass/skins/lightgreen.scss */
+.top-bar .top-bar-right .btn-link {
+  color: #f2f3bb;
+}
+/* line 25, ../../../sass/skins/lightgreen.scss */
+.top-bar .top-bar-right .btn-link:hover {
+  color: #fff;
+}
+/* line 32, ../../../sass/skins/lightgreen.scss */
+.top-bar .notifications .count {
+  border-color: #bcbf23;
+}
+/* line 38, ../../../sass/skins/lightgreen.scss */
+.top-bar .searchbox input[type="search"] {
+  background-color: #707115;
+  border-color: #7c7e17;
+}
+/* line 43, ../../../sass/skins/lightgreen.scss */
+.top-bar .searchbox .btn {
+  background-color: #d1d527;
+  border-color: #7c7e17;
+}
+/* line 47, ../../../sass/skins/lightgreen.scss */
+.top-bar .searchbox .btn i {
+  color: #7c7e17;
+}
+/* line 51, ../../../sass/skins/lightgreen.scss */
+.top-bar .searchbox .btn:hover {
+  border-color: #7c7e17;
+}
+/* line 54, ../../../sass/skins/lightgreen.scss */
+.top-bar .searchbox .btn:hover i {
+  color: #676913;
+}
+
+/* widget */
+/* line 64, ../../../sass/skins/lightgreen.scss */
+.widget {
+  border-color: #dcdf50;
+}
+/* line 67, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header {
+  background-color: #bcbf23;
+  border-bottom-color: #a7a91f;
+  color: #fff;
+}
+/* line 72, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header em {
+  color: #fff;
+}
+/* line 76, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header .btn-help {
+  color: #e0e365;
+}
+/* line 80, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header .widget-header-toolbar {
+  border-left-color: #afb221;
+}
+/* line 83, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header .widget-header-toolbar .control-title {
+  color: #fff;
+}
+/* line 88, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header .btn-group > a {
+  color: #fff;
+}
+/* line 91, ../../../sass/skins/lightgreen.scss */
+.widget .widget-header .btn-group > a:hover, .widget .widget-header .btn-group > a:focus {
+  color: #fcfcac;
+}
+
+/* main content */
+/* line 100, ../../../sass/skins/lightgreen.scss */
+.main-header h2 {
+  color: #9a9d1d;
+  border-right-color: #dcdf50;
+}
+/* line 105, ../../../sass/skins/lightgreen.scss */
+.main-header em {
+  color: #c9cc25;
+}
+
+/* footer */
+/* line 111, ../../../sass/skins/lightgreen.scss */
+.footer {
+  background-color: #bcbf23;
+}

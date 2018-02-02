@@ -1,0 +1,154 @@
+﻿@using EF.E1Technology.OnlineSchoolPlatform;
+@using EF.E1Technology.Developer.Portal.Controllers;
+@using Beyova;
+@using Beyova.ApiTracking;
+@{
+    ViewBag.Title = "API Event Query";
+    Layout = "~/Views/Shared/Beyova/layout/_kingDeveloperLayout.cshtml";
+}
+
+
+@section css{
+
+}
+@section js{
+    <script type="text/javascript">
+        function queryApiEvent() {
+            var postJson = getForm($("#filter"));
+            if (postJson.Platform) {
+                postJson.Platform = parseInt(postJson.Platform);
+            }
+            if (postJson.DeviceType) {
+                postJson.DeviceType = parseInt(postJson.DeviceType);
+            }
+
+            if (postJson["OperatorCredentialKey"] || postJson["OperatorCredentialName"]) {
+                postJson.OperatorCredential = {};
+
+                if (postJson["OperatorCredentialKey"]) {
+                    postJson.OperatorCredential.Key = postJson["OperatorCredentialKey"]
+                }
+
+                if (postJson["OperatorCredentialName"]) {
+                    postJson.OperatorCredential.Name = postJson["OperatorCredentialName"]
+                }
+
+                delete postJson.OperatorCredentialKey;
+                delete postJson.OperatorCredentialName;
+            }
+
+            $("#result").text("Loading...");
+            callAction("/Elastic/ApiEvent/" + $("#environment").val(), postJson, function (response) {
+                $("#result").html(response);
+            }, undefined, function () {
+            });
+        }
+
+        $(document).ready(function () {
+            $("select").multiselect();
+
+            $("#queryApiEvent").click(function () {
+                queryApiEvent();
+            });
+
+            $("#timeScope").change(function (e) {
+                var value = $(this).val();
+                if (value) {
+
+                }
+            });
+        });
+
+    </script>
+
+}
+@section modal{}
+@Html.Partial("_TopNavigation")
+<div class="content">
+    <div class="main-header">
+        <h2>API Event</h2>
+        <em></em>
+    </div>
+    <input type="hidden" id="environment" name="environment" value="@(BaseRemoteRestApiController.CurrentEnvironment.SafeToString("DEV"))" />
+    <div class="main-content">
+        <div class="bottom-30px form-inline" id="filter">
+            <select name="Platform">
+                <option value=""> -- All Platforms -- </option>
+                @{
+                    foreach (PlatformType one in Enum.GetValues(typeof(PlatformType)))
+                    {
+                        if (one != PlatformType.None)
+                        {
+                            <text>
+                                <option value="@((int)one)">@(one.ToString())</option>
+                            </text>
+                        }
+                    }
+                }
+            </select>
+            <select name="DeviceType">
+                <option value=""> -- All Device Types -- </option>
+                @{
+                    foreach (DeviceType one in Enum.GetValues(typeof(DeviceType)))
+                    {
+                        if (one != DeviceType.None)
+                        {
+                            <text>
+                                <option value="@((int)one)">@(one.ToString())</option>
+                            </text>
+                        }
+                    }
+                }
+            </select>
+            <input type="text" name="Content" placeholder="Content..." class="form-control" />
+            <input type="text" name="CultureCode" placeholder="Culture Code..." class="form-control" />
+            <input type="text" name="ApiFullName" placeholder="API Full Name..." class="form-control" />
+            <input type="text" name="TraceId" placeholder="Trace ID..." class="form-control" />
+            <input type="text" name="ExceptionKey" placeholder="Exception Key..." class="form-control" />
+            <input type="text" name="IpAddress" placeholder="Ip Address..." class="form-control" />
+            <input type="text" name="ModuleName" placeholder="Module Name..." class="form-control" />
+            <input type="text" name="RawUrl" placeholder="Raw URL..." class="form-control" />
+            <input type="text" name="ResourceName" placeholder="Resource Name..." class="form-control" />
+            <input type="text" name="ResourceEntityKey" placeholder="Resource Entity Key..." class="form-control" />
+            <input type="text" name="UserAgent" placeholder="User Agent..." class="form-control" />
+            <input type="text" name="ClientIdentifier" placeholder="Client Identifier..." class="form-control" />
+            <input type="text" name="ServiceIdentifier" placeholder="Service Identifier..." class="form-control" />
+            <input type="text" name="ServerIdentifier" placeholder="Server Identifier..." class="form-control" />
+            <input type="text" name="UserIdentifier" placeholder="User Identifier..." class="form-control" />
+            <input name="OperatorCredential.Key" placeholder="Operator Key ..." class="form-control" />
+            <input name="OperatorCredential.Name" placeholder="Operator Name ..." class="form-control" />
+
+            <input name="ApiDurationFrom" placeholder="API Duration From (ms) ..." class="form-control" />
+            <input name="ApiDurationTo" placeholder="API Duration To (ms) ..." class="form-control" />
+
+            <select id="timeScope">
+                <option value="12h">Last 12 hours</option>
+                <option value="1d">Last 1 day</option>
+                <option value="7d">Last 7 day</option>
+                <option value="30d">Last 30 day</option>
+                <option value="">Customized</option>
+            </select>
+            <input id="fromStamp" type="datetime" name="FromStamp" placeholder="From Date Time ..." class="form-control" readonly="readonly" />
+            <input id="toStamp" type="datetime" name="ToStamp" placeholder="To Date Time ..." class="form-control" readonly="readonly" />
+            <select name="HasException">
+                <option value=""> -- Ignore Exception -- </option>
+                <option value="true">Has Exception</option>
+                <option value="false">No Exception</option>
+            </select>
+
+            <select name="Count">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+                <option value="500">500</option>
+            </select>
+
+            <button id="queryApiEvent" class="btn btn-primary"><i class="fa fa-filter"></i> Find </button>
+        </div>
+
+        <div id="result">
+
+        </div>
+    </div>
+</div>
