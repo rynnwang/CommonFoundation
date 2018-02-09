@@ -9,10 +9,12 @@ namespace Beyova
     public interface IConfigurationReader
     {
         /// <summary>
-        /// Gets the settings count.
+        /// Gets the count.
         /// </summary>
-        /// <value>The settings count.</value>
-        int SettingsCount { get; }
+        /// <value>
+        /// The count.
+        /// </value>
+        int Count { get; }
 
         /// <summary>
         /// Gets the primary SQL connection.
@@ -21,12 +23,6 @@ namespace Beyova
         /// The primary SQL connection.
         /// </value>
         string PrimarySqlConnection { get; }
-
-        /// <summary>
-        /// Gets the configuration belongs.
-        /// </summary>
-        /// <value>The configuration belongs.</value>
-        Dictionary<string, string> ConfigurationBelongs { get; }
 
         /// <summary>
         /// Gets the configuration.

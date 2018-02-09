@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Beyova.Api;
 using Beyova.ApiTracking;
 using Beyova.Cache;
 
@@ -53,11 +52,6 @@ namespace Beyova.Api.RestApi
         /// </summary>
         /// <value>The operation parameters.</value>
         internal RuntimeApiOperationParameters OperationParameters { get; private set; }
-
-
-
-
-
 
         /// <summary>
         /// Gets or sets the type of the instance.

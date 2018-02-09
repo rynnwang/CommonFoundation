@@ -42,10 +42,10 @@ namespace Beyova.Configuration
         /// </summary>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         /// <returns>Dictionary&lt;System.String, ConfigurationItem&gt;.</returns>
-        protected override Dictionary<string, ConfigurationItem> Initialize(bool throwException = false)
+        protected override Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false)
         {
             var componentAttribute = GravityShell.Host?.ComponentAttribute;
-            Dictionary<string, ConfigurationItem> settingContainer = null;
+            Dictionary<string, RuntimeConfigurationItem> settingContainer = null;
 
             try
             {
@@ -71,7 +71,7 @@ namespace Beyova.Configuration
                     });
                 }
 
-                settingContainer = RestoreBackup() ?? new Dictionary<string, ConfigurationItem>();
+                settingContainer = RestoreBackup() ?? new Dictionary<string, RuntimeConfigurationItem>();
             }
 
             return settingContainer;
@@ -84,7 +84,7 @@ namespace Beyova.Configuration
         /// </summary>
         public override void RefreshSettings()
         {
-            settings.Merge(Initialize(true), true);
+            _settings.Merge(Initialize(true), true);
         }
 
         #region Backup
@@ -97,7 +97,7 @@ namespace Beyova.Configuration
         /// Saves the configuration backup.
         /// </summary>
         /// <param name="configurations">The configurations.</param>
-        protected void SaveConfigurationBackup(Dictionary<string, ConfigurationItem> configurations)
+        protected void SaveConfigurationBackup(Dictionary<string, RuntimeConfigurationItem> configurations)
         {
             if (configurations != null)
             {
@@ -119,7 +119,7 @@ namespace Beyova.Configuration
         /// Restores the backup.
         /// </summary>
         /// <returns>System.Collections.Generic.Dictionary&lt;System.String, Beyova.Configuration.BaseJsonConfigurationReader.ConfigurationItem&gt;.</returns>
-        protected Dictionary<string, ConfigurationItem> RestoreBackup()
+        protected Dictionary<string, RuntimeConfigurationItem> RestoreBackup()
         {
             try
             {
@@ -128,7 +128,7 @@ namespace Beyova.Configuration
                 {
                     var raw = File.ReadAllBytes(filePath);
                     var jsonString = Encoding.UTF8.GetString(raw.DecryptR3DES());
-                    return jsonString.TryConvertJsonToObject<Dictionary<string, ConfigurationItem>>();
+                    return jsonString.TryConvertJsonToObject<Dictionary<string, RuntimeConfigurationItem>>();
                 }
             }
             catch { }

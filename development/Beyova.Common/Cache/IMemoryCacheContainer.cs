@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Beyova.Cache
+﻿namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.Specialized;
-using System.Net;
 using System.IO;
 using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
@@ -83,7 +79,7 @@ namespace Beyova.Api.RestApi
         /// </value>
         public BaseException BaseException { get; set; }
 
-        #endregion
+        #endregion Runtime Context properties
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpApiContextContainer{TRequest, TResponse}"/> class.

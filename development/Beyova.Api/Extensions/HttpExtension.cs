@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Beyova.Api.RestApi;
+﻿using Beyova.Api.RestApi;
 
 namespace Beyova
 {

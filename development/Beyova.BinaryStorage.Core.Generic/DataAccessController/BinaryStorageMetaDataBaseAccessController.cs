@@ -334,21 +334,11 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                identifiers.CheckNullObject("identifiers");
-
-                var xml = "Identifier".CreateXml();
-                foreach (var one in identifiers)
-                {
-                    var item = "Item".CreateXml();
-                    item.SetAttributeValue(column_Container, one.Container);
-                    item.SetValue(one.Identifier.SafeToString());
-
-                    xml.Add(item);
-                }
+                identifiers.CheckNullOrEmptyCollection(nameof(identifiers));
 
                 var parameters = new List<SqlParameter>
                 {
-                    GenerateSqlSpParameter(column_Xml, xml),
+                    GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false)),
                 };
 
                 return this.ExecuteReader(spName, parameters);

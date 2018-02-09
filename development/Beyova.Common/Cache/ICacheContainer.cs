@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Beyova.Cache
+﻿namespace Beyova.Cache
 {
     /// <summary>
     /// Interface ICacheContainer. It defines all required interfaces for all kinds of cache. (Including memory and distributed)

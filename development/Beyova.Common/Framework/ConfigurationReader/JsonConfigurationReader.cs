@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Beyova.ProgrammingIntelligence;
 
 namespace Beyova.Configuration
 {
@@ -33,9 +32,9 @@ namespace Beyova.Configuration
         /// </summary>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         /// <returns>Dictionary&lt;System.String, ConfigurationItem&gt;.</returns>
-        protected override Dictionary<string, ConfigurationItem> Initialize(bool throwException = false)
+        protected override Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false)
         {
-            Dictionary<string, ConfigurationItem> result = new Dictionary<string, ConfigurationItem>();
+            Dictionary<string, RuntimeConfigurationItem> result = new Dictionary<string, RuntimeConfigurationItem>();
 
             foreach (var one in EnvironmentCore.DescendingAssemblyDependencyChain)
             {
@@ -51,13 +50,13 @@ namespace Beyova.Configuration
         /// <param name="assembly">The assembly.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         /// <returns>Dictionary&lt;System.String, System.Object&gt;.</returns>
-        protected Dictionary<string, ConfigurationItem> InitializeByAssembly(Assembly assembly, bool throwException = false)
+        protected Dictionary<string, RuntimeConfigurationItem> InitializeByAssembly(Assembly assembly, bool throwException = false)
         {
             try
             {
                 if (assembly != null)
                 {
-                    var settingContainer = new Dictionary<string, ConfigurationItem>();
+                    var settingContainer = new Dictionary<string, RuntimeConfigurationItem>();
 
                     var beyovaConfiguration = assembly.GetCustomAttribute<BeyovaConfigurationAttribute>();
                     var beyovaComponent = assembly?.GetCustomAttribute<BeyovaComponentAttribute>();
@@ -83,7 +82,7 @@ namespace Beyova.Configuration
                     return settingContainer;
                 }
 
-                return new Dictionary<string, ConfigurationItem>();
+                return new Dictionary<string, RuntimeConfigurationItem>();
             }
             catch (Exception ex)
             {
@@ -105,7 +104,7 @@ namespace Beyova.Configuration
         /// </summary>
         public override void RefreshSettings()
         {
-            settings.Merge(Initialize(true), true);
+            _settings.Merge(Initialize(true), true);
         }
 
         /// <summary>

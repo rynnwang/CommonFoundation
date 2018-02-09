@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cache\DefaultCacheSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\IMemoryCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheContainerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SystemOperation\DiagnosticUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Interface\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utility\TwoFactorAuthentication\" />
   </ItemGroup>
 </Project>

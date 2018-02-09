@@ -1,5 +1,4 @@
-﻿using System;
-using Beyova.Api;
+﻿using Beyova.Api;
 
 namespace Beyova.Cache
 {

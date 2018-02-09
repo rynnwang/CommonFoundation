@@ -206,6 +206,56 @@ namespace Beyova
         #endregion Min
 
         /// <summary>
+        /// Bytes the wise sum with.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="byteItems">The byte items.</param>
+        /// <returns></returns>
+        public static byte[] ByteWiseSumWith(this byte[] item, params byte[][] byteItems)
+        {
+            try
+            {
+                item.CheckNullOrEmptyCollection(nameof(item));
+
+                if (byteItems == null || byteItems.Length == 0)
+                {
+                    return item;
+                }
+
+                int index = 0;
+                foreach (var one in byteItems)
+                {
+                    if (one.Length != item.Length)
+                    {
+                        throw ExceptionFactory.CreateInvalidObjectException(nameof(byteItems), data: new { index }, reason: "LengthDismatch");
+                    }
+
+                    index++;
+                }
+
+                var result = new byte[item.Length];
+
+                for (var i = 0; i < item.Length; i++)
+                {
+                    var sum = Convert.ToInt32(item[i]);
+
+                    foreach (var one in byteItems)
+                    {
+                        sum += Convert.ToInt32(one[i]);
+                    }
+
+                    result[i] = Convert.ToByte(sum);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { item, byteItems });
+            }
+        }
+
+        /// <summary>
         /// Sigmoids the specified value.
         /// </summary>
         /// <param name="value">The value.</param>

@@ -453,16 +453,20 @@ namespace Beyova
                         result = JToken.FromObject(reader.Value);
                         reader.Read();
                         break;
+
                     case JsonToken.Null:
                     case JsonToken.Undefined:
                         result = null;
                         break;
+
                     case JsonToken.StartArray:
                         result = ReadAsArray(reader);
                         break;
+
                     case JsonToken.StartObject:
                         result = ReadAsObject(reader);
                         break;
+
                     case JsonToken.PropertyName:
                     case JsonToken.EndArray:
                     case JsonToken.EndObject:
@@ -476,6 +480,6 @@ namespace Beyova
             return result;
         }
 
-        #endregion
+        #endregion JsonReader
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beyova.ExceptionSystem;
 
 namespace Beyova.Cache
 {
     /// <summary>
     /// Class MemoryCacheContainer.
     /// </summary>
-    /// <typeparam name="TKey">The type of the t key.</typeparam>
-    /// <typeparam name="TEntity">The type of the t entity.</typeparam>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
     public class MemoryCacheContainer<TKey, TEntity> : CacheContainerBase<TKey, TEntity>, IMemoryCacheContainer<TKey, TEntity>
     {
         #region Inner Container

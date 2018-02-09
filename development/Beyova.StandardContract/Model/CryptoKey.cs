@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using Beyova.ExceptionSystem;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -58,12 +54,12 @@ namespace Beyova
             this._value = value.DecodeBase64ToByteArray();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region implicit methods
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="byte[]"/> to <see cref="CryptoKey"/>.
+        /// Performs an implicit conversion from <see cref="byte" /> array to <see cref="CryptoKey"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
@@ -87,7 +83,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="CryptoKey" /> to <see cref="byte[]" />.
+        /// Performs an implicit conversion from <see cref="CryptoKey" /> to <see cref="byte" /> array.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>
@@ -110,7 +106,7 @@ namespace Beyova
             return value?.StringValue;
         }
 
-        #endregion
+        #endregion implicit methods
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

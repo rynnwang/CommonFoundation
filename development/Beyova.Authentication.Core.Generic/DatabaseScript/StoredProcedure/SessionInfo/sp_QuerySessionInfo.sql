@@ -6,6 +6,7 @@ CREATE PROCEDURE [dbo].[sp_QuerySessionInfo](
     @Platform INT,
     @DeviceType INT,
     @IsExpired BIT,
+	@Realm VARCHAR(128),
     @Count INT
 )
 AS
@@ -26,6 +27,7 @@ BEGIN
       ,[CreatedStamp]
       ,[LastUpdatedStamp]
       ,[ExpiredStamp]
+	  ,[Realm]
     FROM [dbo].[SessionInfo]';
 
     IF @Token IS NOT NULL
@@ -35,6 +37,7 @@ BEGIN
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('UserKey','=',CONVERT(NVARCHAR(MAX), @UserKey),1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('UserAgent','=',@UserAgent,1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('IpAddress','=',@IpAddress,1);
+		SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Realm','=',@Realm,1);
 
         IF @Platform IS NOT NULL
         BEGIN

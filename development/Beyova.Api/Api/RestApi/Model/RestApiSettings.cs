@@ -1,5 +1,4 @@
-﻿using Beyova.Api;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Beyova.Api.RestApi
 {

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Beyova.AzureExtension</RootNamespace>
     <AssemblyName>Beyova.AzureExtension</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -75,9 +75,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Beyova.Common.Framework4.5\Beyova.Common.Framework4.5.csproj">
-      <Project>{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}</Project>
-      <Name>Beyova.Common.Framework4.5</Name>
+    <ProjectReference Include="..\Beyova.Common.Framework4.6.2\Beyova.Common.Framework4.6.2.csproj">
+      <Project>{eca11a30-d8b6-40e1-a896-62cbfff66e36}</Project>
+      <Name>Beyova.Common.Framework4.6.2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

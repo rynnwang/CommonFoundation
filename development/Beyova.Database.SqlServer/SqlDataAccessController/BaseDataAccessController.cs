@@ -12,6 +12,11 @@ namespace Beyova
         #region Constants
 
         /// <summary>
+        /// The column keys
+        /// </summary>
+        protected const string column_Keys = "Keys";
+
+        /// <summary>
         /// The column_ permission
         /// </summary>
         protected const string column_Permission = "Permission";
@@ -127,9 +132,9 @@ namespace Beyova
         protected const string column_TimeForwarding = "TimeForwarding";
 
         /// <summary>
-        /// The column_ XML
+        /// The column identifiers
         /// </summary>
-        protected const string column_Xml = "Xml";
+        protected const string column_Identifiers = "Identifiers";
 
         /// <summary>
         /// The column_ created by
@@ -310,6 +315,11 @@ namespace Beyova
         /// The column URL
         /// </summary>
         protected const string column_Url = "Url";
+
+        /// <summary>
+        /// The column value
+        /// </summary>
+        protected const string column_Value = "Value";
 
         #endregion Constants
 

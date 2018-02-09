@@ -3,37 +3,27 @@ DROP PROCEDURE [dbo].[sp_CommitBinaryStorageDeletion]
 GO
 
 /* -----------------------------------
-@Xml XML SAMPLE:
-<Storage>
-    <Item Container="Container"></Item>
-</Storage>
+@Identifiers SAMPLE:
+[{
+    "Container": ¡°xxx",
+    "Identifier": "xxx"
+}]
 ----------------------------------- */
 CREATE PROCEDURE [dbo].[sp_CommitBinaryStorageDeletion](
-    @Xml XML
+    @Identifiers XML
 )
 AS
 SET NOCOUNT ON;
 BEGIN
     DECLARE @NowTime AS DATETIME = GETUTCDATE();
 
-    IF @Xml IS NOT NULL
+    IF @Identifiers IS NOT NULL
     BEGIN
-        CREATE TABLE #BlobIdentifiers(
-            [Container] [nvarchar](128) NOT NULL,
-            [Identifier] UNIQUEIDENTIFIER NOT NULL
-        );
-
-        INSERT INTO #BlobIdentifiers([Container],[Identifier])
-            SELECT 
-            Items.R.value('(@Container)[1]','[nvarchar](128)'),
-            Items.R.value('.','UNIQUEIDENTIFIER')
-            FROM @Xml.nodes('/Storage/Item') AS Items(R);
-
         UPDATE [dbo].[BinaryStorageMetaData]
             SET [State] = 4, --Deleted
                 [LastUpdatedStamp] = @NowTime
             FROM [dbo].[BinaryStorageMetaData] AS BSM
-                JOIN #BlobIdentifiers AS B
+                JOIN [dbo].[fn_JsonToBinaryIdentifiers](@Identifiers) AS B
                     ON B.[Container] = BSM.[Container] 
                         AND B.[Identifier] = BSM.[Identifier] 
                         AND BSM.[State] = 3; --DeletePending

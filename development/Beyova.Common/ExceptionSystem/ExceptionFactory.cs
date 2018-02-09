@@ -89,6 +89,34 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Checks the zero enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumObject">The enum object.</param>
+        /// <param name="resourceName">Name of the resource.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="InvalidObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void CheckZeroEnum<T>(this T enumObject, string resourceName,
+            [CallerMemberName] string memberName = null,
+            [CallerFilePath] string sourceFilePath = null,
+            [CallerLineNumber] int sourceLineNumber = 0)
+            where T : struct, IConvertible
+        {
+            if (enumObject.EnumToInt32() == 0)
+            {
+                throw new InvalidObjectException(resourceName, scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Checks the null or empty collection.
         /// </summary>
         /// <typeparam name="T"></typeparam>

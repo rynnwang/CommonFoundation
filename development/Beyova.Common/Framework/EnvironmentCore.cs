@@ -72,26 +72,23 @@ namespace Beyova
         public static Assembly EntryAssembly { get { return DescendingAssemblyDependencyChain.FirstOrDefault(); } }
 
         /// <summary>
+        /// Gets or sets the product component information.
+        /// </summary>
+        /// <value>
+        /// The product component information.
+        /// </value>
+        public static BeyovaComponentInfo ProductComponentInfo { get; private set; }
+
+        /// <summary>
         /// Initializes static members of the <see cref="EnvironmentCore"/> class.
         /// </summary>
         static EnvironmentCore()
         {
-            DirectoryInfo baseDirectory = new DirectoryInfo(typeof(EnvironmentCore).Assembly.Location);
+            DirectoryInfo baseDirectory = new DirectoryInfo(Path.GetDirectoryName(typeof(EnvironmentCore).Assembly.Location));
             if (baseDirectory?.Exists ?? false)
             {
                 ApplicationBaseDirectory = baseDirectory.ToString();
             }
-            //DirectoryInfo baseDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
-            //if (baseDirectory != null && baseDirectory.Exists)
-            //{
-            //    var binDirectory = baseDirectory.GetSubDirectory("bin");
-            //    if (binDirectory != null && binDirectory.Exists && !baseDirectory.GetFiles("*.dll").HasItem())
-            //    {
-            //        baseDirectory = binDirectory;
-            //    }
-
-            //    ApplicationBaseDirectory = baseDirectory.ToString();
-            //}
 
             LogDirectory = Path.Combine(ApplicationBaseDirectory, "logs");
             ApplicationId = System.AppDomain.CurrentDomain.Id;
@@ -102,9 +99,16 @@ namespace Beyova
 
             foreach (var one in DescendingAssemblyDependencyChain)
             {
-                if (one.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject.RetiredStamp < DateTime.UtcNow)
+                var currentComponent = one.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
+
+                if (currentComponent?.RetiredStamp < DateTime.UtcNow)
                 {
                     throw new NotSupportedException("Retired component cannot be supported.");
+                }
+
+                if (ProductComponentInfo == null && currentComponent != null)
+                {
+                    ProductComponentInfo = currentComponent;
                 }
             }
 

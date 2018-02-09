@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Beyova.Api;
+﻿using Beyova.Api;
 
 namespace Beyova.ApiTracking
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <seealso cref="Beyova.ApiTracking.IApiEventTrackingOptionController" />
     internal class DefaultApiEventTrackingOptionController : IApiEventTrackingOptionController

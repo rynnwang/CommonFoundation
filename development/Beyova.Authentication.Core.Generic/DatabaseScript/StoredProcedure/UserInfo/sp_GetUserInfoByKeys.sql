@@ -1,14 +1,10 @@
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_GetUserInfoByKeys]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[sp_GetUserInfoByKeys]
-GO
-
 CREATE PROCEDURE [dbo].[sp_GetUserInfoByKeys](
-    @Xml [XML]
+    @Keys NVARCHAR(MAX)
 )
 AS
 SET NOCOUNT ON;
 BEGIN
-    IF @Xml IS NOT NULL
+    IF @Keys IS NOT NULL
     BEGIN
         SELECT U.[Key]
       ,U.[UserId]
@@ -36,7 +32,7 @@ BEGIN
       ,U.[LastUpdatedBy]
       ,U.[State]
         FROM [dbo].[view_UserInfo] AS U
-        JOIN [dbo].[fn_XmlListToGuidTable](@Xml) AS IDTABLE
+        JOIN [dbo].[fn_JsonListToGuidTable](@Keys) AS IDTABLE
             ON U.[Key] = IDTABLE.[Value]
         WHERE [dbo].[fn_ObjectIsWorkable](U.[State]) = 1;
 

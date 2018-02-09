@@ -105,7 +105,6 @@ namespace Beyova.Api
                 ParameterizedIdentifiers.HasItem() ?
                 string.Format("{0}:{1}/{2}/{3}/{4}/?{5}", HttpMethod, Realm, Version, Resource, Action, ParameterizedIdentifiers.Join("&")) :
                 string.Format("{0}:{1}/{2}/{3}/{4}/", HttpMethod, Realm, Version, Resource, Action);
-
         }
 
         /// <summary>
@@ -124,7 +123,7 @@ namespace Beyova.Api
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

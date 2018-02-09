@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Beyova.ApiTracking;
 using System.Reflection;
+using Beyova.ApiTracking;
 using Beyova.Cache;
 using Beyova.ExceptionSystem;
 
 namespace Beyova.Api.RestApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal static class RestApiRoutePool
     {
         /// <summary>
@@ -22,6 +24,12 @@ namespace Beyova.Api.RestApi
         private static volatile Dictionary<ApiRouteIdentifier, RuntimeRoute> routes =
             new Dictionary<ApiRouteIdentifier, RuntimeRoute>(EqualityComparer<ApiRouteIdentifier>.Default);
 
+        /// <summary>
+        /// Gets the routes.
+        /// </summary>
+        /// <value>
+        /// The routes.
+        /// </value>
         internal static Dictionary<ApiRouteIdentifier, RuntimeRoute> Routes { get { return routes; } }
 
         /// <summary>
@@ -200,7 +208,6 @@ namespace Beyova.Api.RestApi
                     foreach (var one in interfaceType.GetInterfaces())
                     {
                         InitializeApiType(doneInterfaceTypes, routes, one, instance, settings, apiContract, apiModule, omitApiTracking, tokenRequiredAttribute);
-
                     }
 
                     //Special NOTE:

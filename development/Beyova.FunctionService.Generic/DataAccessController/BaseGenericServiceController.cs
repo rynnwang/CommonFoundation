@@ -22,11 +22,22 @@ namespace Beyova.FunctionService.Generic
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseGenericServiceController{TEntity,TCriteria}" /> class.
+        /// Initializes a new instance of the <see cref="BaseGenericServiceController{TEntity, TCriteria}"/> class.
         /// </summary>
-        /// <param name="sqlConnection">The SQL connection.</param>
-        public BaseGenericServiceController(string sqlConnection)
-           : base(sqlConnection)
+        /// <param name="primarySqlConnectionString">The primary SQL connection string.</param>
+        /// <param name="readOnlySqlConnectionString">The read only SQL connection string.</param>
+        public BaseGenericServiceController(string primarySqlConnectionString, string readOnlySqlConnectionString = null)
+          : base(primarySqlConnectionString, readOnlySqlConnectionString)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseGenericServiceController{TEntity, TCriteria}"/> class.
+        /// </summary>
+        /// <param name="primarySqlConnection">The primary SQL connection.</param>
+        /// <param name="readOnlySqlConnection">The read only SQL connection.</param>
+        public BaseGenericServiceController(SqlConnection primarySqlConnection, SqlConnection readOnlySqlConnection = null)
+            : base(primarySqlConnection, readOnlySqlConnection)
         {
         }
 

@@ -20,10 +20,10 @@ namespace Beyova
         public bool? Encrypted { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum component version require.
+        /// Gets or sets the minimum component version required.
         /// </summary>
-        /// <value>The minimum component version require.</value>
-        public string MinComponentVersionRequire { get; set; }
+        /// <value>The minimum component version required.</value>
+        public string MinComponentVersionRequired { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum component version limited.

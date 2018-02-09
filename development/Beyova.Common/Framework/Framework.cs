@@ -14,6 +14,8 @@ namespace Beyova
     /// </summary>
     public static class Framework
     {
+        internal readonly static List<IConfigurationReader> _configurationReaders = new List<IConfigurationReader>();
+
         /// <summary>
         /// The configuration reader
         /// </summary>
@@ -27,7 +29,7 @@ namespace Beyova
         /// <summary>
         /// The assembly version
         /// </summary>
-        private static Dictionary<string, object> _assemblyVersion;
+        private readonly static Dictionary<string, object> _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// The RSA keys
@@ -39,10 +41,20 @@ namespace Beyova
         /// </summary>
         private static RSACryptoServiceProvider _rsaCryptoServiceProvider;
 
+        /// <summary>
+        /// The primary SQL connection
+        /// </summary>
+        private static string _primarySqlConnection = null;
+
+        /// <summary>
+        /// The primary SQL connection locker
+        /// </summary>
+        private static object _primarySqlConnectionLocker = new object();
+
         #region Public
 
         /// <summary>
-        /// Gets the primary SQL connection.
+        /// Gets the primary SQL connection. 
         /// </summary>
         /// <value>
         /// The primary SQL connection.
@@ -51,7 +63,21 @@ namespace Beyova
         {
             get
             {
-                return GetConfiguration("SqlConnection").SafeToString(GetConfiguration("PrimarySqlConnection"));
+                if (_primarySqlConnection == null)
+                {
+                    lock (_primarySqlConnectionLocker)
+                    {
+                        if (_primarySqlConnection == null)
+                        {
+                            _primarySqlConnection = GetConfiguration("SqlConnection").SafeToString(
+                                GetConfiguration("PrimarySqlConnection").SafeToString(
+                                    System.Configuration.ConfigurationManager.ConnectionStrings.HasItem() ? System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString : string.Empty
+                                ));
+                        }
+                    }
+                }
+
+                return _primarySqlConnection;
             }
         }
 
@@ -78,7 +104,6 @@ namespace Beyova
             {
                 var result = new EnvironmentInfo { AssemblyVersion = _assemblyVersion };
 
-                result.ConfigurationBelongs = ConfigurationReader == null ? new Dictionary<string, string>() : ConfigurationReader.ConfigurationBelongs;
                 result.GCMemory = SystemManagementExtension.GetGCMemory();
                 result.ServerName = EnvironmentCore.ServerName;
                 result.IpAddress = EnvironmentCore.LocalMachineIpAddress;
@@ -131,7 +156,7 @@ namespace Beyova
         /// Gets the configuration setting count.
         /// </summary>
         /// <value>The configuration setting count.</value>
-        public static int ConfigurationSettingCount { get { return ConfigurationReader.SettingsCount; } }
+        public static int ConfigurationSettingCount { get { return ConfigurationReader.Count; } }
 
         /// <summary>
         /// The API tracking
@@ -181,7 +206,7 @@ namespace Beyova
             ApiTracking?.LogMessage(string.Format("{0} is initialized.", EnvironmentCore.ProductName));
         }
 
-        #region Initializes
+        #region Initialization
 
         /// <summary>
         /// Initializes the configuration.
@@ -190,9 +215,10 @@ namespace Beyova
         {
             try
             {
-                ApiTracking = InitializeApiTracking(EnvironmentCore.AscendingAssemblyDependencyChain);
+                _configurationReaders.AddIfNotNull(GravityShell.Host?.ConfigurationReader);
+                _configurationReaders.AddIfNotNull(JsonConfigurationReader.Default as IConfigurationReader);
 
-                _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+                ApiTracking = InitializeApiTracking(EnvironmentCore.AscendingAssemblyDependencyChain);
 
                 CollectAssemblyAttributeInfo(_assemblyVersion);
                 GlobalCultureResourceCollection = GlobalCultureResourceCollection.Instance;

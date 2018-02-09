@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Beyova.Api;
 
 namespace Beyova.Api.RestApi
 {

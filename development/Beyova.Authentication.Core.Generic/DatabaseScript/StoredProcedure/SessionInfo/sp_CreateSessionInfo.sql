@@ -4,7 +4,8 @@ CREATE PROCEDURE [dbo].[sp_CreateSessionInfo](
     @Platform INT,
     @DeviceType INT,
     @IpAddress VARCHAR(64),
-    @ExpiredStamp DATETIME
+    @ExpiredStamp DATETIME,
+    @Realm VARCHAR(128)
 )
 AS
 SET NOCOUNT ON;
@@ -31,7 +32,8 @@ BEGIN
                ,[IpAddress]
                ,[CreatedStamp]
                ,[LastUpdatedStamp]
-               ,[ExpiredStamp])
+               ,[ExpiredStamp]
+			   ,[Realm])
          VALUES
                (@Token
                ,@UserKey
@@ -41,7 +43,8 @@ BEGIN
                ,@IpAddress
                ,@NowTime
                ,@NowTime
-               ,@ExpiredStamp);
+               ,@ExpiredStamp
+			   ,@Realm);
 
         SELECT TOP 1 [Token]
             ,[UserKey]
@@ -52,6 +55,7 @@ BEGIN
             ,[CreatedStamp]
             ,[LastUpdatedStamp]
             ,[ExpiredStamp]
+			,[Realm]
             FROM [dbo].[SessionInfo]
             WHERE [Token] = @Token;
     END

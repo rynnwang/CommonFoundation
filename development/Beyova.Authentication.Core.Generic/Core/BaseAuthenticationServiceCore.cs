@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beyova.CommonService.DataAccessController;
-using Beyova.CommonServiceInterface;
 using Beyova.ExceptionSystem;
 using Beyova.SaasPlatform;
 
-namespace Beyova.CommonService
+namespace Beyova.FunctionService.Generic
 {
     /// <summary>
     /// Class BaseAuthenticationServiceCore.
@@ -91,8 +89,11 @@ namespace Beyova.CommonService
         /// Gets the current session information.
         /// </summary>
         /// <param name="token">The token.</param>
-        /// <returns>SessionInfo.</returns>
-        public virtual SessionInfo GetSessionInfoByToken(string token)
+        /// <param name="realm">The realm.</param>
+        /// <returns>
+        /// SessionInfo.
+        /// </returns>
+        public virtual SessionInfo GetSessionInfoByToken(string token, string realm = null)
         {
             try
             {
@@ -100,12 +101,12 @@ namespace Beyova.CommonService
 
                 using (var controller = new SessionInfoAccessController())
                 {
-                    return controller.GetSessionInfoByToken(token);
+                    return controller.GetSessionInfoByToken(token, realm);
                 }
             }
             catch (Exception ex)
             {
-                throw ex.Handle(token);
+                throw ex.Handle(new { token, realm });
             }
         }
 
@@ -226,7 +227,11 @@ namespace Beyova.CommonService
         /// Renews the token.
         /// </summary>
         /// <param name="token">The token.</param>
-        /// <returns>TAuthenticationResult.</returns>
+        /// <param name="realm">The realm.</param>
+        /// <returns>
+        /// TAuthenticationResult.
+        /// </returns>
+        /// <exception cref="OperationForbiddenException">RenewToken - InvalidToken</exception>
         public virtual TAuthenticationResult RenewToken(string token, string realm = null)
         {
             try
@@ -254,7 +259,7 @@ namespace Beyova.CommonService
                     result.TokenExpiredStamp = sessionInfo.ExpiredStamp;
                     result.Token = sessionInfo.Token;
 
-                    controller.DisposeSessionInfo(token);
+                    controller.DisposeSessionInfo(token, realm);
                 }
 
                 return result;

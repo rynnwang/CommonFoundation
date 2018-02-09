@@ -194,7 +194,7 @@ namespace Beyova
             return null;
         }
 
-        #endregion
+        #endregion GZip
 
         /// <summary>
         /// Extracts the zip file.

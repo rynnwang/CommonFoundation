@@ -184,7 +184,7 @@ namespace Beyova.AOP
                 builder.Append(CSharpCodeGenerateUtil.CombineCode(tmpMethodCallInfo.SerializableArgNames, (x) => { return x.AsQuotedString(); }, 16));
                 builder.AppendLine("}");
 
-                builder.AppendEndBrace( ref indent);
+                builder.AppendEndBrace(ref indent);
                 builder.AppendLine(";");
             }
         }
@@ -204,7 +204,7 @@ namespace Beyova.AOP
             {
                 builder.AppendIndent(indent);
                 builder.AppendLineWithFormat("if(this._injectionDelegates.{0} != null)", injectionMethodName);
-                builder.AppendBeginBrace( ref indent);
+                builder.AppendBeginBrace(ref indent);
 
                 builder.AppendIndent(indent);
                 builder.AppendLineWithFormat("this._injectionDelegates.{0}({1});", injectionMethodName, methodCallInfoVariableName);
@@ -214,18 +214,18 @@ namespace Beyova.AOP
                     builder.AppendIndent(indent);
                     builder.AppendLine(callAfterInjection);
                 }
-                builder.AppendEndBrace( ref indent);
+                builder.AppendEndBrace(ref indent);
 
                 if (!string.IsNullOrWhiteSpace(ifNullCall))
                 {
                     builder.AppendIndent(indent);
                     builder.AppendLineWithFormat("else");
 
-                    builder.AppendBeginBrace( ref indent);
+                    builder.AppendBeginBrace(ref indent);
 
                     builder.AppendIndent(indent);
                     builder.AppendLine(ifNullCall);
-                    builder.AppendEndBrace( ref indent);
+                    builder.AppendEndBrace(ref indent);
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace Beyova.AOP
                 builder.AppendIndent(currentIndent);
                 builder.AppendLineWithFormat("public virtual {0}", methodInfo.ToDeclarationCodeLook());
 
-                builder.AppendBeginBrace( ref currentIndent);
+                builder.AppendBeginBrace(ref currentIndent);
 
                 //Invoke body
 
@@ -259,7 +259,7 @@ namespace Beyova.AOP
 
                 #region try
 
-                builder.AppendBeginBrace( ref currentIndent);
+                builder.AppendBeginBrace(ref currentIndent);
 
                 //Injection of before event
                 GenerateMethodInjectionInvoke(builder, "MethodInvokingEvent", methodCallInfoVariableName, currentIndent);
@@ -272,7 +272,7 @@ namespace Beyova.AOP
                 }
                 builder.AppendLineWithFormat("_instance.{0};", methodInfo.ToInvokeCodeLook(methodInfo.GetGenericArguments(), methodInfo.GetParameters()));
 
-                builder.AppendEndBrace( ref currentIndent);
+                builder.AppendEndBrace(ref currentIndent);
 
                 #endregion try
 
@@ -281,7 +281,7 @@ namespace Beyova.AOP
 
                 #region catch
 
-                builder.AppendBeginBrace( ref currentIndent);
+                builder.AppendBeginBrace(ref currentIndent);
 
                 builder.AppendIndent(currentIndent);
                 builder.AppendLineWithFormat("{0}.Exception = ex;", methodCallInfoVariableName);
@@ -289,7 +289,7 @@ namespace Beyova.AOP
                 // Injection of exception handle
                 GenerateMethodInjectionInvoke(builder, "ExceptionDelegate", methodCallInfoVariableName, currentIndent, string.Format("throw ex.Handle((from item in {0}.InArgs where {0}.SerializableArgNames.Contains(item.Key) select item).ToDictionary());", methodCallInfoVariableName), callAfterInjection: methodInfo.ReturnType.IsVoid(false) ? string.Empty : string.Format("return default({0});", methodInfo.ReturnType.ToCodeLook()));
 
-                builder.AppendEndBrace( ref currentIndent);
+                builder.AppendEndBrace(ref currentIndent);
 
                 #endregion catch
 
@@ -298,10 +298,10 @@ namespace Beyova.AOP
 
                 #region finally
 
-                builder.AppendBeginBrace( ref currentIndent);
+                builder.AppendBeginBrace(ref currentIndent);
                 //Injection of after event
                 GenerateMethodInjectionInvoke(builder, "MethodInvokedEvent", methodCallInfoVariableName, currentIndent);
-                builder.AppendEndBrace( ref currentIndent);
+                builder.AppendEndBrace(ref currentIndent);
 
                 #endregion finally
 
@@ -309,7 +309,7 @@ namespace Beyova.AOP
 
                 #endregion method body
 
-                builder.AppendEndBrace( ref currentIndent);
+                builder.AppendEndBrace(ref currentIndent);
 
                 builder.AppendLine();
             }

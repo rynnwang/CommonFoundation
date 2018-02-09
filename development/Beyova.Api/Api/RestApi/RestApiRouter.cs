@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Reflection;
 using Beyova.ApiTracking;
 using Beyova.Cache;
 using Beyova.ExceptionSystem;
@@ -86,170 +85,15 @@ namespace Beyova.Api.RestApi
 
         #endregion Constructor
 
-        ///// <summary>
-        ///// Adds the handler (instance and settings) into route.
-        ///// </summary>
-        ///// <param name="instance">The instance.</param>
-        ///// <param name="settings">The settings.</param>
-        //public void Add(object instance, RestApiSettings settings = null)
-        //{
-        //    InitializeRoute(instance, settings);
-        //}
-
-        ///// <summary>
-        ///// Initializes the routes.
-        ///// </summary>
-        ///// <param name="instance">The instance.</param>
-        ///// <param name="settings">The settings.</param>
-        ///// <exception cref="DataConflictException">Route</exception>
-        //private void InitializeRoute(object instance, RestApiSettings settings = null)
-        //{
-        //    lock (routeOperationLocker)
-        //    {
-        //        if (instance != null)
-        //        {
-        //            var typeName = instance.GetType().FullName;
-        //            if (!initializedTypes.Contains(typeName))
-        //            {
-        //                #region Initialize routes
-
-        //                var doneInterfaceTypes = new List<string>();
-
-        //                foreach (var interfaceType in instance.GetType().GetInterfaces())
-        //                {
-        //                    InitializeApiType(doneInterfaceTypes, routes, interfaceType, instance, settings);
-        //                }
-
-        //                #endregion Initialize routes
-
-        //                initializedTypes.Add(typeName);
-        //            }
-        //        }
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Initializes the type of the API.
-        ///// </summary>
-        ///// <param name="doneInterfaceTypes">The done interface types.</param>
-        ///// <param name="routes">The routes.</param>
-        ///// <param name="interfaceType">Type of the interface.</param>
-        ///// <param name="instance">The instance.</param>
-        ///// <param name="settings">The settings.</param>
-        ///// <param name="parentApiContractAttribute">The parent API class attribute.</param>
-        ///// <param name="parentApiModuleAttribute">The parent API module attribute.</param>
-        ///// <param name="omitApiTrackingAttribute">The omit API tracking attribute.</param>
-        ///// <exception cref="DataConflictException">routeKey</exception>
-        //private void InitializeApiType(List<string> doneInterfaceTypes, Dictionary<ApiRouteIdentifier, RuntimeRoute> routes, Type interfaceType, object instance, RestApiSettings settings = null, ApiContractAttribute parentApiContractAttribute = null, ApiModuleAttribute parentApiModuleAttribute = null, OmitApiTrackingAttribute omitApiTrackingAttribute = null)
-        //{
-        //    if (routes != null && interfaceType != null && doneInterfaceTypes != null)
-        //    {
-        //        if (doneInterfaceTypes.Contains(interfaceType.FullName))
-        //        {
-        //            return;
-        //        }
-
-        //        var apiContract = parentApiContractAttribute ?? interfaceType.GetCustomAttribute<ApiContractAttribute>(true);
-        //        var omitApiTracking = omitApiTrackingAttribute ?? interfaceType.GetCustomAttribute<ApiTracking.OmitApiTrackingAttribute>(true);
-        //        var apiModule = parentApiModuleAttribute ?? interfaceType.GetCustomAttribute<ApiModuleAttribute>(true);
-        //        var moduleName = apiModule?.ToString();
-
-        //        if (apiContract != null && !string.IsNullOrWhiteSpace(apiContract.Version))
-        //        {
-        //            if (apiContract.Version.SafeToLower().Equals(ApiConstants.BuiltInFeatureVersionKeyword))
-        //            {
-        //                throw ExceptionFactory.CreateInvalidObjectException(nameof(apiContract.Version), reason: "<builtin> cannot be used as version due to it is used internally.");
-        //            }
-
-        //            foreach (var method in interfaceType.GetMethods())
-        //            {
-        //                var apiOperationAttribute = method.GetCustomAttribute<ApiOperationAttribute>(true);
-
-        //                #region Initialize based on ApiOperation
-
-        //                if (apiOperationAttribute != null)
-        //                {
-        //                    var permissions = new Dictionary<string, ApiPermission>();
-        //                    var additionalHeaderKeys = new HashSet<string>();
-
-        //                    var apiPermissionAttributes =
-        //                        method.GetCustomAttributes<ApiPermissionAttribute>(true);
-
-        //                    var apiCacheAttribute = method.GetCustomAttribute<ApiCacheAttribute>(true);
-
-        //                    if (apiPermissionAttributes != null)
-        //                    {
-        //                        foreach (var one in apiPermissionAttributes)
-        //                        {
-        //                            permissions.Merge(one.PermissionIdentifier, one.Permission);
-        //                        }
-        //                    }
-
-        //                    var headerKeyAttributes = method.GetCustomAttributes<ApiHeaderAttribute>(true);
-        //                    if (headerKeyAttributes != null)
-        //                    {
-        //                        foreach (var one in headerKeyAttributes)
-        //                        {
-        //                            additionalHeaderKeys.Add(one.HeaderKey);
-        //                        }
-        //                    }
-
-        //                    var routeKey = ApiRouteIdentifier.FromApiObjects(apiContract, apiOperationAttribute);
-
-        //                    var tokenRequired =
-        //                        method.GetCustomAttribute<TokenRequiredAttribute>(true) ??
-        //                        interfaceType.GetCustomAttribute<TokenRequiredAttribute>(true);
-
-        //                    // If method can not support API cache, consider as no api cache.
-        //                    if (apiCacheAttribute != null && (!apiOperationAttribute.HttpMethod.Equals(HttpConstants.HttpMethod.Get, StringComparison.OrdinalIgnoreCase) || !apiCacheAttribute.InitializeParameterNames(method)))
-        //                    {
-        //                        apiCacheAttribute = null;
-        //                    }
-
-        //                    var runtimeRoute = new RuntimeRoute(routeKey, method, interfaceType, instance,
-        //                           !string.IsNullOrWhiteSpace(apiOperationAttribute.Action),
-        //                           tokenRequired != null && tokenRequired.TokenRequired, moduleName, apiOperationAttribute.ContentType, apiOperationAttribute.IsDataSensitive, settings, apiCacheAttribute, omitApiTracking ?? method.GetCustomAttribute<ApiTracking.OmitApiTrackingAttribute>(true), permissions, additionalHeaderKeys.ToList());
-
-        //                    FeatureModuleSwitch.RegisterModule(moduleName);
-
-        //                    if (routes.ContainsKey(routeKey))
-        //                    {
-        //                        throw new DataConflictException(nameof(routeKey), objectIdentity: routeKey?.ToString(), data: new
-        //                        {
-        //                            existed = routes[routeKey].SafeToString(),
-        //                            newMethod = method.GetFullName(),
-        //                            newInterface = interfaceType.FullName
-        //                        });
-        //                    }
-
-        //                    // EntitySynchronizationModeAttribute
-        //                    var entitySynchronizationModeAttribute = method.GetCustomAttribute<EntitySynchronizationModeAttribute>(true);
-        //                    if (entitySynchronizationModeAttribute != null)
-        //                    {
-        //                        if (EntitySynchronizationModeAttribute.IsReturnTypeMatched(method.ReturnType))
-        //                        {
-        //                            runtimeRoute.OperationParameters.EntitySynchronizationMode = entitySynchronizationModeAttribute;
-        //                        }
-        //                    }
-
-        //                    routes.Add(routeKey, runtimeRoute);
-        //                }
-
-        //                #endregion Initialize based on ApiOperation
-        //            }
-
-        //            foreach (var one in interfaceType.GetInterfaces())
-        //            {
-        //                InitializeApiType(doneInterfaceTypes, routes, one, instance, settings, apiContract, apiModule, omitApiTracking);
-        //            }
-
-        //            //Special NOTE:
-        //            // Move this add action in scope of if apiContract is valid.
-        //            // Reason: in complicated cases, when [A:Interface1] without ApiContract, but [Interface2: Interface] with defining ApiContract, and [B: A, Interface2], then correct contract definition might be missed.
-        //            doneInterfaceTypes.Add(interfaceType.FullName);
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// Adds the handler (instance and settings) into route.
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        /// <param name="settings">The settings.</param>
+        public void Add(object instance, RestApiSettings settings = null)
+        {
+            RestApiRoutePool.Add(instance, settings);
+        }
 
         #region Protected Methods
 

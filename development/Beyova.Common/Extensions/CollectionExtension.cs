@@ -254,7 +254,7 @@ namespace Beyova
 
         #endregion Add If Not xxx
 
-        #region IEnumerable, ICollection, IList, IDictionary, HashSet 
+        #region IEnumerable, ICollection, IList, IDictionary, HashSet
 
         /// <summary>
         /// Gets the mapping value.
@@ -959,7 +959,7 @@ namespace Beyova
             }
         }
 
-        #endregion
+        #endregion Array specialized
 
         /// <summary>
         /// Ases the covariance.

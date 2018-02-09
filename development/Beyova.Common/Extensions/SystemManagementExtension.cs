@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace Beyova
@@ -18,7 +17,6 @@ namespace Beyova
         {
             if (healthObject != null)
             {
- 
                 healthObject.ServerName = EnvironmentCore.ServerName;
                 healthObject.IpAddress = EnvironmentCore.LocalMachineIpAddress;
                 healthObject.HostName = EnvironmentCore.LocalMachineHostName;

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using Beyova.Api.RestApi;

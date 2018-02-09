@@ -13,17 +13,7 @@
             /// <summary>
             /// The remote configuration administrator
             /// </summary>
-            public const string RemoteConfigurationAdministrator = "RemoteConfigurationAdministrator";
 
-            /// <summary>
-            /// The binary storage data administrator
-            /// </summary>
-            public const string BinaryStorageDataAdministrator = "BinaryStorageDataAdministrator";
-
-            /// <summary>
-            /// The preference administrator
-            /// </summary>
-            public const string PreferenceAdministrator = "PreferenceAdministrator";
 
             /// <summary>
             /// The authentication administrator
@@ -39,27 +29,6 @@
             /// The administrator
             /// </summary>
             public const string Administrator = "Administrator";
-
-            /// <summary>
-            /// Class ProvisioningSystem.
-            /// </summary>
-            public static class ProvisioningSystem
-            {
-                /// <summary>
-                /// The application version administration
-                /// </summary>
-                public const string AppVersionAdministration = "AppVersionAdministration";
-
-                /// <summary>
-                /// The application platform administration
-                /// </summary>
-                public const string AppPlatformAdministration = "AppPlatformAdministration";
-
-                /// <summary>
-                /// The application provisioning administration
-                /// </summary>
-                public const string AppProvisioningAdministration = "AppProvisioningAdministration";
-            }
 
             /// <summary>
             /// Class AdminSystem.
@@ -107,6 +76,11 @@
             /// The query
             /// </summary>
             public const string Query = "Query";
+
+            /// <summary>
+            /// The search
+            /// </summary>
+            public const string Search = "Search";
         }
 
         /// <summary>
@@ -120,84 +94,14 @@
             public const string Product = "Product";
 
             /// <summary>
-            /// The user information
-            /// </summary>
-            public const string UserInfo = "UserInfo";
-
-            /// <summary>
-            /// The token
-            /// </summary>
-            public const string Token = "Token";
-
-            /// <summary>
-            /// The session information
-            /// </summary>
-            public const string SessionInfo = "SessionInfo";
-
-            /// <summary>
-            /// The preference
-            /// </summary>
-            public const string Preference = "Preference";
-
-            /// <summary>
-            /// The user preference
-            /// </summary>
-            public const string UserPreference = "UserPreference";
-
-            /// <summary>
-            /// The application provisioning
-            /// </summary>
-            public const string AppProvisioning = "AppProvisioning";
-
-            /// <summary>
-            /// The application platform
-            /// </summary>
-            public const string AppPlatform = "AppPlatform";
-
-            /// <summary>
-            /// The application version
-            /// </summary>
-            public const string AppVersion = "AppVersion";
-
-            /// <summary>
             /// The transaction
             /// </summary>
             public const string Transaction = "Transaction";
 
             /// <summary>
-            /// The sso token exchange
-            /// </summary>
-            public const string SSOTokenExchange = "SSOTokenExchange";
-
-            /// <summary>
-            /// The o authentication
-            /// </summary>
-            public const string OAuth = "OAuth";
-
-            /// <summary>
-            /// The sso authorization
-            /// </summary>
-            public const string SSOAuthorization = "SSOAuthorization";
-
-            /// <summary>
-            /// The binary storage credential
-            /// </summary>
-            public const string BinaryStorageCredential = "BinaryStorageCredential";
-
-            /// <summary>
-            /// The binary storage
-            /// </summary>
-            public const string BinaryStorage = "BinaryStorage";
-
-            /// <summary>
             /// The configuration
             /// </summary>
             public const string Configuration = "Configuration";
-
-            /// <summary>
-            /// The sso authorization partner
-            /// </summary>
-            public const string SSOAuthorizationPartner = "SSOAuthorizationPartner";
 
             /// <summary>
             /// The central authentication
@@ -230,11 +134,6 @@
             public const string History = "History";
 
             /// <summary>
-            /// The snapshot
-            /// </summary>
-            public const string Snapshot = "Snapshot";
-
-            /// <summary>
             /// The EULA
             /// </summary>
             public const string EULA = "EULA";
@@ -251,7 +150,7 @@
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public class ServiceName
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Beyova.ExceptionSystem;
 
 namespace Beyova.Cache
@@ -134,7 +133,7 @@ namespace Beyova.Cache
             InternalClear();
         }
 
-        #endregion
+        #endregion Public methods
 
         #region Cache implementation related methods
 
@@ -167,7 +166,7 @@ namespace Beyova.Cache
         /// <param name="hasException">if set to <c>true</c> [has exception].</param>
         protected virtual void UpdateCounter(bool isHit, bool hasException) { }
 
-        #endregion
+        #endregion Cache implementation related methods
 
         /// <summary>
         /// Gets the expired stamp.

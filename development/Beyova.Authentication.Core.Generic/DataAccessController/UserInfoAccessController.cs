@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Beyova;
 
-namespace Beyova.CommonService.DataAccessController
+namespace Beyova.FunctionService.Generic
 {
     /// <summary>
     /// Class UserInfoAccessController.
@@ -44,7 +44,7 @@ namespace Beyova.CommonService.DataAccessController
                 Gender = sqlDataReader[column_Gender].ObjectToInt32().Int32ToEnum<Gender>(),
                 Email = sqlDataReader[column_Email].ObjectToString(),
                 AvatarKey = sqlDataReader[column_AvatarKey].ObjectToGuid(),
-                FunctionalRole = sqlDataReader[column_FunctionalRole].ObjectToInt32().Int32ToEnum<TFunctionalRole>(),
+                FunctionalRole = sqlDataReader[column_FunctionalRole].ObjectToEnum<TFunctionalRole>(),
                 Language = sqlDataReader[column_Language].ObjectToString(),
                 TimeZone = sqlDataReader[column_TimeZone].ObjectToInt32()
             };
@@ -59,7 +59,10 @@ namespace Beyova.CommonService.DataAccessController
         /// Gets the user by token.
         /// </summary>
         /// <param name="token">The token.</param>
-        /// <returns>UserInfo.</returns>
+        /// <param name="realm">The realm.</param>
+        /// <returns>
+        /// UserInfo.
+        /// </returns>
         public TUserInfo GetUserByToken(string token, string realm)
         {
             const string spName = "sp_GetUserByToken";
@@ -78,7 +81,7 @@ namespace Beyova.CommonService.DataAccessController
             }
             catch (Exception ex)
             {
-                throw ex.Handle(token);
+                throw ex.Handle(new { token, realm });
             }
         }
 
@@ -128,8 +131,8 @@ namespace Beyova.CommonService.DataAccessController
 
             try
             {
-                userKey.CheckNullObject("userKey");
-                avatarKey.CheckNullObject("avatarKey");
+                userKey.CheckNullObject(nameof(userKey));
+                avatarKey.CheckNullObject(nameof(avatarKey));
 
                 var parameters = new List<SqlParameter>
                 {
@@ -157,11 +160,11 @@ namespace Beyova.CommonService.DataAccessController
 
             try
             {
-                keys.CheckNullObject("keys");
+                keys.CheckNullOrEmptyCollection(nameof(keys));
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Xml, keys.ListToXml())
+                    this.GenerateSqlSpParameter(column_Keys, keys.ToJson(false))
                 };
 
                 return this.ExecuteReader(spName, parameters);
@@ -204,7 +207,7 @@ namespace Beyova.CommonService.DataAccessController
 
             try
             {
-                userInfo.CheckNullObject("userInfo");
+                userInfo.CheckNullObject(nameof(userInfo));
 
                 var parameters = new List<SqlParameter>
                 {

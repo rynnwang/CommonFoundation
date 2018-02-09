@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Beyova.FunctionService.Generic
 {
@@ -22,9 +23,20 @@ namespace Beyova.FunctionService.Generic
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryStorageIdentifierAccessController"/> class.
         /// </summary>
-        /// <param name="sqlConnection">The SQL connection.</param>
-        public BinaryStorageIdentifierAccessController(string sqlConnection)
-         : base(sqlConnection)
+        /// <param name="primarySqlConnectionString">The primary SQL connection string.</param>
+        /// <param name="readOnlySqlConnectionString">The read only SQL connection string.</param>
+        public BinaryStorageIdentifierAccessController(string primarySqlConnectionString, string readOnlySqlConnectionString = null)
+          : base(primarySqlConnectionString, readOnlySqlConnectionString)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryStorageIdentifierAccessController"/> class.
+        /// </summary>
+        /// <param name="primarySqlConnection">The primary SQL connection.</param>
+        /// <param name="readOnlySqlConnection">The read only SQL connection.</param>
+        public BinaryStorageIdentifierAccessController(SqlConnection primarySqlConnection, SqlConnection readOnlySqlConnection = null)
+            : base(primarySqlConnection, readOnlySqlConnection)
         {
         }
 
@@ -73,7 +85,7 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                stamp.CheckNullObject("stamp");
+                stamp.CheckNullObject(nameof(stamp));
 
                 var parameters = new List<SqlParameter>
                 {
@@ -99,20 +111,11 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                identifiers.CheckNullObject("identifiers");
-
-                var root = "Storage".CreateXml();
-                foreach (var one in identifiers)
-                {
-                    var item = "Item".CreateXml();
-                    item.SetAttributeValue("Container", one.Container);
-                    item.SetValue(one.Identifier.ToGuid());
-                    root.Add(item);
-                }
+                identifiers.CheckNullOrEmptyCollection(nameof(identifiers));
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Xml, root.ToString())
+                    this.GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false))
                 };
 
                 this.ExecuteNonQuery(spName, parameters);

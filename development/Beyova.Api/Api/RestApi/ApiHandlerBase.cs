@@ -8,7 +8,6 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Web;
-using Beyova.ApiTracking;
 using Beyova.Cache;
 using Beyova.ExceptionSystem;
 using Newtonsoft.Json;

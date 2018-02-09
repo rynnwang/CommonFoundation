@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c21b259b-3e47-4090-a02a-6b5a457c751e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.BinaryStorage.Contract.Generic</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiPermissions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiResourceNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IBinaryStorageService.cs" />
+  </ItemGroup>
+</Project>

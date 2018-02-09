@@ -127,6 +127,21 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Performs an explicit conversion from <see cref="System.String"/> to <see cref="System.Nullable{Date}"/>.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator Date? (string date)
+        {
+            var dateTime = date.ToDateTime("yyyy-MM-dd", System.Globalization.DateTimeStyles.AssumeLocal)
+                ?? date.ToDateTime("yyyy/MM/dd", System.Globalization.DateTimeStyles.AssumeLocal);
+
+            return dateTime.HasValue ? new Date(dateTime.Value) as Date? : null;
+        }
+
+        /// <summary>
         /// Performs an implicit conversion from <see cref="Date"/> to <see cref="DateTime"/>.
         /// </summary>
         /// <param name="date">The date.</param>
@@ -136,6 +151,18 @@ namespace Beyova
         public static implicit operator DateTime(Date date)
         {
             return ToDateTime(date, DateTimeKind.Unspecified);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Date"/> to <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator string(Date date)
+        {
+            return date.ToString();
         }
 
         /// <summary>

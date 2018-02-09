@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryStorageMetaDataBaseAccessController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Function\sp_JsonToBinaryIdentifiers.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CommitBinaryStorage.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CommitBinaryStorageDeletion.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_ConvertPendingCommitToPendingDelete.sql" />

@@ -328,7 +328,7 @@ namespace Beyova
         #region MD5
 
         /// <summary>
-        /// To the m d5 bytes.
+        /// To the md5 bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
         /// <returns>System.Byte[].</returns>
@@ -1024,7 +1024,7 @@ namespace Beyova
             return aesProvider;
         }
 
-        #endregion
+        #endregion AES
 
         #region My encryption
 

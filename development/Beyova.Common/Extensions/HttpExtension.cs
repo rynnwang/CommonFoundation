@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static partial class HttpExtension
     {
@@ -103,7 +103,6 @@ namespace Beyova
 
             return null;
         }
-
 
         /// <summary>
         /// To the credential string. Format: {domain}\{user}:{password}

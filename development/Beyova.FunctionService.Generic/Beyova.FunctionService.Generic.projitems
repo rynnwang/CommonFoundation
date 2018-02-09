@@ -9,14 +9,9 @@
     <Import_RootNamespace>Beyova.FunctionService.Generic</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiPermissions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiResourceNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BaseGenericServiceController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IAppPlatformService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IAppVersionService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IAuthenticationProfileService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IBinaryStorageService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IProvisioningService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\ISSOAuthorizationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\ITransactionService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IUserPreferenceService.cs" />
   </ItemGroup>
 </Project>

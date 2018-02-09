@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using Beyova;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.ProvisioningService.DataAccessController
+namespace Beyova.FunctionService.Generic
 {
     internal class AppProvisioningAccessController : ProvisioningServiceBaseDataAccessController<AppProvisioningBase>
     {

@@ -17,12 +17,6 @@ namespace Beyova
         public Dictionary<string, object> AssemblyVersion { get; set; }
 
         /// <summary>
-        /// Gets or sets the configuration belongs.
-        /// </summary>
-        /// <value>The configuration belongs.</value>
-        public Dictionary<string, string> ConfigurationBelongs { get; set; }
-
-        /// <summary>
         /// Gets or sets the gc memory.
         /// </summary>
         /// <value>The gc memory.</value>

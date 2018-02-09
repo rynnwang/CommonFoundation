@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.Cache
+﻿namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class DefaultCacheSettings
     {

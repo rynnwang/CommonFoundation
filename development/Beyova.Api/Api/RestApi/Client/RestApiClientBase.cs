@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Beyova.Api;
-using Beyova.ExceptionSystem;
 using Beyova.Http;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova.Api.RestApi
 {

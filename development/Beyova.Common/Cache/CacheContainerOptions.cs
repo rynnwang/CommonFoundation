@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Beyova.ExceptionSystem;
+﻿using System.Collections.Generic;
 
 namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class MemoryCacheContainerOptions<TKey> : CacheContainerOptions
     {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-
-namespace Beyova.Api
+﻿namespace Beyova.Api
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IApiContractOptions
     {

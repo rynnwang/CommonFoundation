@@ -95,7 +95,6 @@
 //                    {
 //                        if (result.HttpMethod.Equals(HttpConstants.HttpMethod.Delete))
 //                        {
-
 //                        }
 //                    }
 

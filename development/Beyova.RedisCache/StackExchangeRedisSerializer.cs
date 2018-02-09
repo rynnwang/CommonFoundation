@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal class StackExchangeRedisSerializer : StackExchange.Redis.Extensions.Core.ISerializer
     {

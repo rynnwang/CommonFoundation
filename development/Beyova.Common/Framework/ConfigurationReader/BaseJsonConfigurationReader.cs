@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Beyova.ProgrammingIntelligence;
 using Newtonsoft.Json.Linq;
 
@@ -16,7 +17,7 @@ namespace Beyova.Configuration
         /// <summary>
         /// Class ConfigurationItem.
         /// </summary>
-        protected internal class ConfigurationItem
+        protected internal class RuntimeConfigurationItem
         {
             /// <summary>
             /// Gets or sets the value.
@@ -43,7 +44,7 @@ namespace Beyova.Configuration
             public string Environment { get; set; }
 
             /// <summary>
-            /// Gets or sets a value indicating whether this <see cref="ConfigurationItem"/> is encrypted.
+            /// Gets or sets a value indicating whether this <see cref="RuntimeConfigurationItem"/> is encrypted.
             /// </summary>
             /// <value><c>true</c> if encrypted; otherwise, <c>false</c>.</value>
             public bool Encrypted { get; set; }
@@ -79,17 +80,17 @@ namespace Beyova.Configuration
         /// <summary>
         /// The settings
         /// </summary>
-        protected Dictionary<string, ConfigurationItem> settings = null;
+        protected Dictionary<string, RuntimeConfigurationItem> _settings = null;
 
         /// <summary>
         /// Gets the settings count.
         /// </summary>
         /// <value>The settings count.</value>
-        public int SettingsCount
+        public int Count
         {
             get
             {
-                return settings == null ? 0 : settings.Count;
+                return _settings == null ? 0 : _settings.Count;
             }
         }
 
@@ -101,14 +102,22 @@ namespace Beyova.Configuration
         {
             get
             {
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (var key in settings.Keys.OrderBy(x => x))
+                if (_settings.Keys.HasItem())
                 {
-                    stringBuilder.Append(key);
-                    stringBuilder.Append(settings[key].Value.ToString());
-                }
+                    List<Byte[]> hashValues = new List<byte[]>(_settings.Count * 2);
+                    Parallel.ForEach(_settings, x =>
+                    {
+                        hashValues.Add(Encoding.UTF8.GetBytes(x.Key).ToMD5Bytes());
+                        hashValues.Add(Encoding.UTF8.GetBytes(x.Value.Value.ToString()).ToMD5Bytes());
+                    });
 
-                return stringBuilder.ToString().ToMD5String();
+                    var resultBytes = (new byte[16]).ByteWiseSumWith(hashValues.ToArray());
+                    return resultBytes.ToHex();
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
         }
 
@@ -133,31 +142,12 @@ namespace Beyova.Configuration
         }
 
         /// <summary>
-        /// Gets the configuration belongs.
-        /// </summary>
-        /// <value>The configuration belongs.</value>
-        public Dictionary<string, string> ConfigurationBelongs
-        {
-            get
-            {
-                Dictionary<string, string> result = new Dictionary<string, string>();
-
-                foreach (var one in settings)
-                {
-                    result.Add(one.Key, string.Format("Assembly: {0}, Environment: {1}, Name: {2}", one.Value.Assembly, one.Value.Environment, one.Value.Name));
-                }
-
-                return result;
-            }
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="JsonConfigurationReader" /> class.
         /// </summary>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         protected BaseJsonConfigurationReader(bool throwException = false)
         {
-            settings = Initialize(throwException);
+            _settings = Initialize(throwException);
         }
 
         #region Public method
@@ -171,9 +161,9 @@ namespace Beyova.Configuration
         /// <returns>T.</returns>
         public T GetConfiguration<T>(string key, T defaultValue = default(T))
         {
-            ConfigurationItem configuration = null;
+            RuntimeConfigurationItem configuration = null;
 
-            if (settings.SafeTryGetValue(key, out configuration) && configuration.IsActive)
+            if (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive)
             {
                 return (T)configuration.Value;
             }
@@ -189,8 +179,8 @@ namespace Beyova.Configuration
         /// <returns>Object.</returns>
         protected object GetConfigurationAsObject(string key, object defaultValue = null)
         {
-            ConfigurationItem configuration = null;
-            return (settings.SafeTryGetValue(key, out configuration) && configuration.IsActive) ? configuration.Value : defaultValue;
+            RuntimeConfigurationItem configuration = null;
+            return (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive) ? configuration.Value : defaultValue;
         }
 
         /// <summary>
@@ -213,32 +203,66 @@ namespace Beyova.Configuration
         /// </summary>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         /// <returns>Dictionary&lt;System.String, ConfigurationItem&gt;.</returns>
-        protected abstract Dictionary<string, ConfigurationItem> Initialize(bool throwException = false);
+        protected abstract Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false);
 
         /// <summary>
         /// Fills the object collection.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="componentAttribute">The component attribute.</param>
-        /// <param name="itemNode">The XML node.</param>
+        /// <param name="itemNode">The item node.</param>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <param name="configurationSourceName">Name of the configuration source.</param>
         /// <param name="environment">The environment.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
-        /// <exception cref="System.InvalidOperationException">Failed to FillObjectCollection, Data:  + xmlNode.ToString() + \n\r</exception>
-        protected static void FillObjectCollection(IDictionary<string, ConfigurationItem> container, BeyovaComponentAttribute componentAttribute, JProperty itemNode, string assemblyName, string configurationSourceName, string environment, bool throwException = false)
+        protected static void FillObjectCollection(IDictionary<string, RuntimeConfigurationItem> container, BeyovaComponentAttribute componentAttribute, JProperty itemNode, string assemblyName, string configurationSourceName, string environment, bool throwException = false)
         {
             try
             {
                 container.CheckNullObject(nameof(container));
                 itemNode.CheckNullObject(nameof(itemNode));
 
-                var key = itemNode.Name;
-                var valueNode = itemNode.Value.ToObject<ConfigurationRawItem>();
-                var typeFullName = valueNode.Type;
-                var encrypted = (valueNode.Encrypted) ?? false;
-                var minVersion = valueNode.MinComponentVersionRequire;
-                var maxVersion = valueNode.MaxComponentVersionLimited;
+                FillObjectCollection(
+                       container,
+                       componentAttribute?.UnderlyingObject.Version,
+                       itemNode.Name,
+                       itemNode.Value.ToObject<ConfigurationRawItem>(),
+                       assemblyName,
+                       configurationSourceName,
+                       environment,
+                       throwException);
+            }
+            catch (Exception ex)
+            {
+                if (throwException)
+                {
+                    throw ex.Handle(data: new { itemNode, assemblyName, configurationSourceName, environment });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fills the object collection.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="coreComponentVersion">The core component version.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="configurationRawItem">The configuration raw item.</param>
+        /// <param name="assemblyName">Name of the assembly.</param>
+        /// <param name="configurationSourceName">Name of the configuration source.</param>
+        /// <param name="environment">The environment.</param>
+        /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
+        protected static void FillObjectCollection(IDictionary<string, RuntimeConfigurationItem> container, string coreComponentVersion, string key, ConfigurationRawItem configurationRawItem, string assemblyName, string configurationSourceName, string environment, bool throwException = false)
+        {
+            try
+            {
+                container.CheckNullObject(nameof(container));
+                configurationRawItem.CheckNullObject(nameof(configurationRawItem));
+
+                var typeFullName = configurationRawItem.Type;
+                var encrypted = (configurationRawItem.Encrypted) ?? false;
+                var minVersion = configurationRawItem.MinComponentVersionRequired;
+                var maxVersion = configurationRawItem.MaxComponentVersionLimited;
 
                 if (!string.IsNullOrWhiteSpace(key) && !string.IsNullOrWhiteSpace(typeFullName))
                 {
@@ -246,12 +270,12 @@ namespace Beyova.Configuration
 
                     if (objectType != null)
                     {
-                        var valueJsonObject = encrypted ? DecryptObject(valueNode.Value.ToObject<string>()) : valueNode.Value;
+                        var valueJsonObject = encrypted ? DecryptObject(configurationRawItem.Value.ToObject<string>()) : configurationRawItem.Value;
                         var valueObject = valueJsonObject.ToObject(objectType);
-                        container.Merge(key, new ConfigurationItem
+                        container.Merge(key, new RuntimeConfigurationItem
                         {
                             Value = valueObject,
-                            IsActive = IsActive(componentAttribute?.UnderlyingObject.Version, minVersion, maxVersion),
+                            IsActive = IsActive(coreComponentVersion, minVersion, maxVersion),
                             Assembly = assemblyName,
                             MaxComponentVersionLimited = maxVersion,
                             MinComponentVersionRequired = minVersion,
@@ -266,7 +290,7 @@ namespace Beyova.Configuration
             {
                 if (throwException)
                 {
-                    throw ex.Handle(data: itemNode.ToString());
+                    throw ex.Handle(data: new { coreComponentVersion, key, configurationRawItem, assemblyName, configurationSourceName, environment });
                 }
             }
         }
@@ -279,7 +303,7 @@ namespace Beyova.Configuration
         /// <param name="configurationDetail">The configuration detail.</param>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
-        protected void InitializeSettings(IDictionary<string, ConfigurationItem> settingContainer, BeyovaComponentAttribute componentAttribute, ConfigurationDetail configurationDetail, string assemblyName, bool throwException = false)
+        protected virtual void InitializeSettings(IDictionary<string, RuntimeConfigurationItem> settingContainer, BeyovaComponentAttribute componentAttribute, ConfigurationDetail configurationDetail, string assemblyName, bool throwException = false)
         {
             settingContainer.Clear();
 
@@ -375,7 +399,7 @@ namespace Beyova.Configuration
         {
             var result = new Dictionary<string, object>();
 
-            settings.Where(result, (k, v) => { return v?.IsActive ?? false; }, x => x.Value);
+            _settings.Where(result, (k, v) => { return v?.IsActive ?? false; }, x => x.Value);
             return result;
         }
     }
