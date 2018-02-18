@@ -25,6 +25,23 @@ namespace Beyova
         string PrimarySqlConnection { get; }
 
         /// <summary>
+        /// Try to get configuration.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        bool TryGetConfiguration<T>(string key, out T result);
+
+        /// <summary>
+        /// Try to get configuration.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        bool TryGetConfiguration(string key, out object result);
+
+        /// <summary>
         /// Gets the configuration.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -39,7 +56,7 @@ namespace Beyova
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns>System.String.</returns>
-        string GetConfiguration(string key, string defaultValue = null);
+        object GetConfiguration(string key, object defaultValue = null);
 
         /// <summary>
         /// Gets the values.

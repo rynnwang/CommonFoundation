@@ -240,7 +240,7 @@ namespace Beyova.Api.RestApi
                     break;
 
                 case "configuration":
-                    result = isLocalhost ? Framework.ConfigurationReader.GetValues() : localhostTip as object;
+                    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
                     break;
 
                 case "featureswitch":

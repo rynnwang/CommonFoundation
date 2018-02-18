@@ -84,7 +84,16 @@ namespace Beyova
         /// </summary>
         static EnvironmentCore()
         {
-            DirectoryInfo baseDirectory = new DirectoryInfo(Path.GetDirectoryName(typeof(EnvironmentCore).Assembly.Location));
+            var baseDirectoryByAppDomain = AppDomain.CurrentDomain.BaseDirectory;
+            var baseDirectoryByAssemblyLocation = Path.GetDirectoryName(typeof(EnvironmentCore).Assembly.Location);
+
+            // NOTE:
+            // In IIS Express cases, baseDirectoryByAssemblyLocation would be allocated into asp.net tmp folders, by each library.
+            // In other cases, IIS or Console or Windows environments, baseDirectoryByAssemblyLocation should be correct.
+            DirectoryInfo baseDirectory = new DirectoryInfo((baseDirectoryByAssemblyLocation.StartsWith(baseDirectoryByAppDomain, StringComparison.OrdinalIgnoreCase)) ?
+                 baseDirectoryByAssemblyLocation
+                 : Path.Combine(baseDirectoryByAppDomain, "bin"));
+
             if (baseDirectory?.Exists ?? false)
             {
                 ApplicationBaseDirectory = baseDirectory.ToString();

@@ -580,37 +580,56 @@ namespace Beyova.Api.RestApi
 
                 if (!noBody)
                 {
-                    var contentType = (ex != null ? HttpConstants.ContentType.Json : operationParameters?.ContentType).SafeToString(HttpConstants.ContentType.Json);
+                    var contentType = HttpConstants.ContentType.Json;
+                    var contentWritten = false;
+                    byte[] responseBytes = null;
 
-                    bool isStreamBased = (objectToReturn != null && contentType.StartsWith("application/", StringComparison.OrdinalIgnoreCase) && objectToReturn.GetType() == typeof(byte[]));
-
-                    if (isStreamBased)
+                    if (ex == null)
                     {
-                        // return as bytes;
-                        context.WriteResponseBody(((byte[])objectToReturn).ToStream(), contentType);
+                        if (!string.IsNullOrWhiteSpace(operationParameters?.ContentType))
+                        {
+                            contentType = operationParameters.ContentType;
+
+                            if (objectToReturn != null && contentType.StartsWith("application/", StringComparison.OrdinalIgnoreCase) && objectToReturn.GetType() == typeof(byte[]))
+                            {
+                                responseBytes = (byte[])objectToReturn;
+                            }
+                        }
                     }
-                    else if (settings.EnableContentCompression)
+
+                    if (responseBytes == null)
                     {
-                        acceptEncoding = acceptEncoding.SafeToString().ToLower();
-                        var responseBytes = Framework.DefaultTextEncoding.GetBytes(contentType.Equals(HttpConstants.ContentType.Json, StringComparison.OrdinalIgnoreCase) ? objectToReturn.ToJson(true, JsonConverters) : objectToReturn.SafeToString());
+                        responseBytes = Framework.DefaultTextEncoding.GetBytes(contentType.Equals(HttpConstants.ContentType.Json, StringComparison.OrdinalIgnoreCase) ? objectToReturn.ToJson(true, JsonConverters) : objectToReturn.SafeToString());
+                    }
+
+                    context.SetResponseHeader(HttpConstants.HttpHeader.SERVEREXITTIME, DateTime.UtcNow.ToFullDateTimeTzString());
+
+                    if (settings.EnableContentCompression)
+                    {
+                        acceptEncoding = acceptEncoding.SafeToLower();
 
                         if (acceptEncoding.Contains(HttpConstants.HttpValues.GZip))
                         {
                             context.WriteResponseGzipBody(responseBytes, contentType);
+                            contentWritten = true;
                         }
                         else if (acceptEncoding.Contains(HttpConstants.HttpValues.Deflate))
                         {
                             context.WriteResponseDeflateBody(responseBytes, contentType);
-                        }
-                        else
-                        {
-                            //return  as string;
-                            context.WriteResponseBody(responseBytes, contentType);
+                            contentWritten = true;
                         }
                     }
-                }
 
-                context.SetResponseHeader(HttpConstants.HttpHeader.SERVEREXITTIME, DateTime.UtcNow.ToFullDateTimeTzString());
+                    if (!contentWritten)
+                    {
+                        //return  as string;
+                        context.WriteResponseBody(responseBytes, contentType);
+                    }
+                }
+                else
+                {
+                    context.SetResponseHeader(HttpConstants.HttpHeader.SERVEREXITTIME, DateTime.UtcNow.ToFullDateTimeTzString());
+                }
             }
         }
 

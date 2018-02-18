@@ -14,12 +14,10 @@ namespace Beyova
     /// </summary>
     public static class Framework
     {
-        internal readonly static List<IConfigurationReader> _configurationReaders = new List<IConfigurationReader>();
-
         /// <summary>
-        /// The configuration reader
+        /// The configuration readers
         /// </summary>
-        internal readonly static IConfigurationReader ConfigurationReader = (GravityShell.Host?.ConfigurationReader) ?? JsonConfigurationReader.Default as IConfigurationReader;
+        internal readonly static List<IConfigurationReader> _configurationReaders = new List<IConfigurationReader>();
 
         /// <summary>
         /// The global culture resource collection
@@ -135,10 +133,21 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">The default value.</param>
-        /// <returns>T.</returns>
+        /// <returns>
+        /// T.
+        /// </returns>
         public static T GetConfiguration<T>(string key, T defaultValue = default(T))
         {
-            return ConfigurationReader.GetConfiguration<T>(key, defaultValue);
+            T result;
+            foreach (IConfigurationReader one in _configurationReaders)
+            {
+                if (one.TryGetConfiguration(key, out result))
+                {
+                    return result;
+                }
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
@@ -147,16 +156,57 @@ namespace Beyova
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns>System.String.</returns>
-        public static string GetConfiguration(string key, string defaultValue = null)
+        public static object GetConfiguration(string key, object defaultValue = null)
         {
-            return ConfigurationReader.GetConfiguration(key, defaultValue);
+            object result;
+            foreach (IConfigurationReader one in _configurationReaders)
+            {
+                if (one.TryGetConfiguration(key, out result))
+                {
+                    return result;
+                }
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
         /// Gets the configuration setting count.
         /// </summary>
         /// <value>The configuration setting count.</value>
-        public static int ConfigurationSettingCount { get { return ConfigurationReader.Count; } }
+        public static int ConfigurationSettingCount
+        {
+            get
+            {
+                int sum = 0;
+                foreach (IConfigurationReader one in _configurationReaders)
+                {
+                    sum += one.Count;
+                }
+
+                return sum;
+            }
+        }
+
+        /// <summary>
+        /// Gets the configuration values.
+        /// </summary>
+        /// <value>
+        /// The configuration values.
+        /// </value>
+        public static Dictionary<string, object> ConfigurationValues
+        {
+            get
+            {
+                Dictionary<string, object> result = new Dictionary<string, object>(ConfigurationSettingCount);
+                foreach (IConfigurationReader one in _configurationReaders)
+                {
+                    result.Merge(one.GetValues(), false);
+                }
+
+                return result;
+            }
+        }
 
         /// <summary>
         /// The API tracking

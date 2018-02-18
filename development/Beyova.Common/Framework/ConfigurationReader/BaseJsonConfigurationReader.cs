@@ -127,7 +127,7 @@ namespace Beyova.Configuration
         /// <value>The SQL connection.</value>
         public string SqlConnection
         {
-            get { return GetConfiguration(ConfigurationKey_PrimarySqlConnection); }
+            get { return GetConfiguration<string>(ConfigurationKey_PrimarySqlConnection); }
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Beyova.Configuration
         /// </value>
         public string PrimarySqlConnection
         {
-            get { return GetConfiguration(ConfigurationKey_PrimarySqlConnection); }
+            get { return GetConfiguration<string>(ConfigurationKey_PrimarySqlConnection); }
         }
 
         /// <summary>
@@ -161,26 +161,8 @@ namespace Beyova.Configuration
         /// <returns>T.</returns>
         public T GetConfiguration<T>(string key, T defaultValue = default(T))
         {
-            RuntimeConfigurationItem configuration = null;
-
-            if (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive)
-            {
-                return (T)configuration.Value;
-            }
-
-            return defaultValue;
-        }
-
-        /// <summary>
-        /// Gets the configuration as object.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="defaultValue">The default value.</param>
-        /// <returns>Object.</returns>
-        protected object GetConfigurationAsObject(string key, object defaultValue = null)
-        {
-            RuntimeConfigurationItem configuration = null;
-            return (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive) ? configuration.Value : defaultValue;
+            T result;
+            return TryGetConfiguration(key, out result) ? result : defaultValue;
         }
 
         /// <summary>
@@ -189,9 +171,10 @@ namespace Beyova.Configuration
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns>System.String.</returns>
-        public string GetConfiguration(string key, string defaultValue = null)
+        public object GetConfiguration(string key, object defaultValue = null)
         {
-            return GetConfigurationAsObject(key, defaultValue).SafeToString();
+            object result;
+            return TryGetConfiguration(key, out result) ? result : defaultValue;
         }
 
         #endregion Public method
@@ -401,6 +384,47 @@ namespace Beyova.Configuration
 
             _settings.Where(result, (k, v) => { return v?.IsActive ?? false; }, x => x.Value);
             return result;
+        }
+
+        /// <summary>
+        /// Tries the get configuration.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        public bool TryGetConfiguration<T>(string key, out T result)
+        {
+            RuntimeConfigurationItem configuration = null;
+
+            if (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive)
+            {
+                result = (T)configuration.Value;
+                return true;
+            }
+
+            result = default(T);
+            return false;
+        }
+
+        /// <summary>
+        /// Tries the get configuration.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        public bool TryGetConfiguration(string key, out object result)
+        {
+            RuntimeConfigurationItem configuration = null;
+
+            if (_settings.SafeTryGetValue(key, out configuration) && configuration.IsActive)
+            {
+                result = configuration.Value;
+                return true;
+            }
+
+            result = default(object);
+            return false;
         }
     }
 }
