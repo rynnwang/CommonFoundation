@@ -67,7 +67,7 @@ namespace Beyova
             {
                 if (sqlTransaction == null)
                 {
-                    throw ExceptionFactory.CreateOperationException(minor: "DuplicatedTransactionCommit");
+                    throw ExceptionFactory.CreateOperationException(reason: "DuplicatedTransactionCommit");
                 }
                 sqlTransaction.Commit();
             }
@@ -93,7 +93,7 @@ namespace Beyova
             {
                 if (sqlTransaction == null)
                 {
-                    throw ExceptionFactory.CreateOperationException(minor: "DuplicatedTransactionRollback");
+                    throw ExceptionFactory.CreateOperationException(reason: "DuplicatedTransactionRollback");
                 }
 
                 sqlTransaction.Rollback();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Beyova.ExceptionSystem;
 
@@ -62,6 +61,67 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Validates the object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="targetObject">The target object.</param>
+        /// <param name="validator">The validator. Return true if passed validation.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="reason">The reason.</param>
+        /// <param name="externalDataReference">The external data reference.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="InvalidObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void ValidateObject<T>(this T targetObject, Func<T, bool> validator, string objectIdentity, string reason, object externalDataReference = null, FriendlyHint friendlyHint = null,
+            [CallerMemberName] string memberName = null,
+            [CallerFilePath] string sourceFilePath = null,
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            targetObject.CheckNullObject(objectIdentity);
+            if (!validator(targetObject))
+            {
+                throw new InvalidObjectException(objectIdentity, data: new { targetObject, externalDataReference }, reason: reason, hint: friendlyHint, scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
+        /// Checks the null object as invalid.
+        /// </summary>
+        /// <param name="targetObject">The target object.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="reason">The reason.</param>
+        /// <param name="externalDataReference">The external data reference.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="InvalidObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void CheckNullObjectAsInvalid(this object targetObject, string objectIdentity, string reason, object externalDataReference = null, FriendlyHint friendlyHint = null,
+            [CallerMemberName] string memberName = null,
+            [CallerFilePath] string sourceFilePath = null,
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (targetObject == null)
+            {
+                throw new InvalidObjectException(objectIdentity, data: new { externalDataReference }, reason: reason, hint: friendlyHint, scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Checks the null resource.
         /// </summary>
         /// <param name="anyObject">Any object.</param>
@@ -107,7 +167,7 @@ namespace Beyova
         {
             if (enumObject.EnumToInt32() == 0)
             {
-                throw new InvalidObjectException(resourceName, scene: new ExceptionScene
+                throw new InvalidObjectException(resourceName, reason: "ZeroEnumValue", scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -132,7 +192,7 @@ namespace Beyova
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            if (collection == null || !collection.Any())
+            if (!collection.HasItem())
             {
                 throw new InvalidObjectException(objectIdentity, reason: "EmptyCollection", scene: new ExceptionScene
                 {
@@ -147,20 +207,22 @@ namespace Beyova
         /// Creates the operation exception.
         /// </summary>
         /// <param name="data">The data.</param>
-        /// <param name="minor">The minor.</param>
+        /// <param name="reason">The reason.</param>
         /// <param name="hint">The hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <returns>OperationFailureException.</returns>
+        /// <returns>
+        /// OperationFailureException.
+        /// </returns>
         /// <exception cref="Beyova.ExceptionSystem.OperationFailureException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static OperationFailureException CreateOperationException(object data = null, string minor = null, FriendlyHint hint = null,
+        public static OperationFailureException CreateOperationException(object data = null, string reason = null, FriendlyHint hint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
-            return new OperationFailureException(data: data, minor: minor, hint: hint, scene: new ExceptionScene
+            return new OperationFailureException(data: data, minor: reason, hint: hint, scene: new ExceptionScene
             {
                 FilePath = sourceFilePath,
                 LineNumber = sourceLineNumber,

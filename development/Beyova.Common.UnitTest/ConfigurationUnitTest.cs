@@ -1,4 +1,5 @@
-﻿using Beyova.Configuration;
+﻿using System;
+using Beyova.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest
@@ -12,7 +13,10 @@ namespace Beyova.Common.UnitTest
             var jsonConfigurationReader = new JsonConfigurationReader();
 
             Assert.IsNotNull(jsonConfigurationReader);
-            Assert.IsTrue(jsonConfigurationReader.SettingsCount > 0);
+            Assert.IsTrue(jsonConfigurationReader.Count > 0);
+
+            var configValue3 = Framework.GetConfiguration<DateTime?>("Config3");
+            Assert.IsNotNull(configValue3);
         }
     }
 }

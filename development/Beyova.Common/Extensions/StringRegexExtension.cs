@@ -416,6 +416,131 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Finds the longest common subsequence.
+        /// <code><![CDATA[
+        /// string s1 = "human";
+        /// string s2 = "chimpanzee";
+        /// var result = FindLongestCommonSubsequence(s1, s2);
+        /// //result: hman
+        /// ]]></code><seealso cref="https://www.programmingalgorithms.com/algorithm/longest-common-subsequence" />
+        /// </summary>
+        /// <param name="string1">The string1.</param>
+        /// <param name="string2">The string2.</param>
+        /// <returns></returns>
+        public static string FindLongestCommonSubsequence(this string string1, string string2)
+        {
+            if (string1 == null || string2 == null)
+            {
+                return null;
+            }
+
+            int i, j, k, t;
+            int s1Len = string1.Length;
+            int s2Len = string2.Length;
+            int[] z = new int[(s1Len + 1) * (s2Len + 1)];
+            int[,] c = new int[(s1Len + 1), (s2Len + 1)];
+
+            for (i = 0; i <= s1Len; ++i)
+            {
+                c[i, 0] = z[i * (s2Len + 1)];
+            }
+
+            for (i = 1; i <= s1Len; ++i)
+            {
+                for (j = 1; j <= s2Len; ++j)
+                {
+                    if (string1[i - 1] == string2[j - 1])
+                        c[i, j] = c[i - 1, j - 1] + 1;
+                    else
+                        c[i, j] = c[i - 1, j].Max(c[i, j - 1]);
+                }
+            }
+
+            t = c[s1Len, s2Len];
+            char[] outputStringBuilder = new char[t];
+
+            for (i = s1Len, j = s2Len, k = t - 1; k >= 0;)
+            {
+                if (string1[i - 1] == string2[j - 1])
+                {
+                    outputStringBuilder[k] = string1[i - 1];
+                    --i;
+                    --j;
+                    --k;
+                }
+                else if (c[i, j - 1] > c[i - 1, j])
+                    --j;
+                else
+                    --i;
+            }
+
+            return new string(outputStringBuilder);
+        }
+
+        /// <summary>
+        /// Finds the longest common substring.
+        /// <code><![CDATA[
+        /// string str1 = "the quick brown fox jumps over the lazy dog";
+        /// string str2 = "ghdsgf fjsdfg ghdsfbrown fox jumpshfsdjfg 457877fsdfhb$%";
+        /// var result = FindLongestCommonSubsequence(str1, str2);
+        /// //result: brown fox jumps
+        /// ]]></code><seealso cref="https://www.programmingalgorithms.com/algorithm/longest-common-substring" />
+        /// </summary>
+        /// <param name="string1">The string1.</param>
+        /// <param name="string2">The string2.</param>
+        /// <returns></returns>
+        public static string FindLongestCommonSubstring(this string string1, string string2)
+        {
+            if (string1 == null || string2 == null)
+            {
+                return null;
+            }
+
+            int[,] num = new int[string1.Length, string2.Length];
+            int maxlen = 0;
+            int lastSubsBegin = 0;
+            StringBuilder subStrBuilder = new StringBuilder(string1.Length.Max(string2.Length));
+
+            for (int i = 0; i < string1.Length; i++)
+            {
+                for (int j = 0; j < string2.Length; j++)
+                {
+                    if (string1[i] != string2[j])
+                    {
+                        num[i, j] = 0;
+                    }
+                    else
+                    {
+                        if ((i == 0) || (j == 0))
+                            num[i, j] = 1;
+                        else
+                            num[i, j] = 1 + num[i - 1, j - 1];
+
+                        if (num[i, j] > maxlen)
+                        {
+                            maxlen = num[i, j];
+
+                            int thisSubsBegin = i - num[i, j] + 1;
+
+                            if (lastSubsBegin == thisSubsBegin)
+                            {
+                                subStrBuilder.Append(string1[i]);
+                            }
+                            else
+                            {
+                                lastSubsBegin = thisSubsBegin;
+                                subStrBuilder.Length = 0;
+                                subStrBuilder.Append(string1.Substring(lastSubsBegin, (i + 1) - lastSubsBegin));
+                            }
+                        }
+                    }
+                }
+            }
+
+            return subStrBuilder.ToString();
+        }
+
+        /// <summary>
         /// Determines whether [contains any of] [the specified items].
         /// </summary>
         /// <param name="sourceString">The source string.</param>
