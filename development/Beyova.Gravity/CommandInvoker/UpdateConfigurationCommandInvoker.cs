@@ -26,7 +26,7 @@ namespace Beyova.Gravity
                 var configurationReader = GravityShell.Host.ConfigurationReader;
                 configurationReader.CheckNullObject(nameof(configurationReader));
 
-                configurationReader.RefreshSettings();
+                configurationReader.Reload();
                 return configurationReader.Hash.ToJson(false);
             }
             catch (Exception ex)

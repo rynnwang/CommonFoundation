@@ -182,6 +182,38 @@ namespace Beyova
         #region Trim
 
         /// <summary>
+        /// Trims any.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="trimmedCharactors">The trimmed charactors.</param>
+        /// <returns></returns>
+        public static string TrimAny(this string source, char[] trimmedCharactors = null)
+        {
+            trimmedCharactors = trimmedCharactors ?? StringConstants.TrimmedCharacters;
+
+            if (!string.IsNullOrEmpty(source) && trimmedCharactors.HasItem())
+            {
+                char[] characters = new char[source.Length];
+
+                int currentIndex = 0;
+                foreach (char c in source)
+                {
+                    if (!trimmedCharactors.Contains(c))
+                    {
+                        characters[currentIndex] = c;
+                        currentIndex++;
+                    }
+                }
+
+                char[] result = new char[currentIndex];
+                Array.Copy(characters, result, currentIndex);
+                return new string(result);
+            }
+
+            return source;
+        }
+
+        /// <summary>
         /// Internals the trim.
         /// </summary>
         /// <param name="source">The source.</param>
@@ -422,7 +454,8 @@ namespace Beyova
         /// string s2 = "chimpanzee";
         /// var result = FindLongestCommonSubsequence(s1, s2);
         /// //result: hman
-        /// ]]></code><seealso cref="https://www.programmingalgorithms.com/algorithm/longest-common-subsequence" />
+        /// ]]></code>
+        /// See: https://www.programmingalgorithms.com/algorithm/longest-common-subsequence
         /// </summary>
         /// <param name="string1">The string1.</param>
         /// <param name="string2">The string2.</param>
@@ -484,7 +517,8 @@ namespace Beyova
         /// string str2 = "ghdsgf fjsdfg ghdsfbrown fox jumpshfsdjfg 457877fsdfhb$%";
         /// var result = FindLongestCommonSubsequence(str1, str2);
         /// //result: brown fox jumps
-        /// ]]></code><seealso cref="https://www.programmingalgorithms.com/algorithm/longest-common-substring" />
+        /// ]]></code>
+        /// See: https://www.programmingalgorithms.com/algorithm/longest-common-substring
         /// </summary>
         /// <param name="string1">The string1.</param>
         /// <param name="string2">The string2.</param>
@@ -1106,11 +1140,11 @@ namespace Beyova
             {
                 CharComparer charComparer = ignoreCase ? CharComparer.OrdinalIgnoreCase : CharComparer.Ordinal;
 
-                var length = string1.Length < string2.Length ? string1.Length : string2.Length;
+                var length = string1.Length.Min(string2.Length);
 
                 for (var i = 0; i < length; i++)
                 {
-                    if (charComparer.Equals(string1[i], string2[i]))
+                    if (!charComparer.Equals(string1[i], string2[i]))
                     {
                         if (i > 0)
                         {
@@ -1355,14 +1389,14 @@ namespace Beyova
         #endregion StringBuilder
 
         /// <summary>
-        /// Inners the string.
+        /// FInd substring between specific <c>start</c> and <c>end</c>.
         /// </summary>
         /// <param name="anyString">Any string.</param>
         /// <param name="start">The start.</param>
         /// <param name="end">The end.</param>
         /// <param name="comparison">The comparison.</param>
-        /// <returns>System.String.</returns>
-        public static string InnerString(this string anyString, string start, string end, StringComparison comparison = StringComparison.Ordinal)
+        /// <returns></returns>
+        public static string SubStringBetween(this string anyString, string start, string end, StringComparison comparison = StringComparison.Ordinal)
         {
             var result = anyString.SafeToString();
 

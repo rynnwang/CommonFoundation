@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{79C9610B-1DFE-4632-AF62-050073BA3E85}"
 	ProjectSection(SolutionItems) = preProject
@@ -162,6 +162,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ProvisioningService.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.StandardCloudInterface", "Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.shproj", "{058128FE-AD0D-46C6-91AB-BC3C52377431}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.SqlConfiguration.Framework4.6.2", "Beyova.SqlConfiguration.Framework4.6.2\Beyova.SqlConfiguration.Framework4.6.2.csproj", "{BCC93C80-68BB-41CD-82A9-1F946106292B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.SqlConfiguration", "Beyova.SqlConfiguration\Beyova.SqlConfiguration.shproj", "{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{058128fe-ad0d-46c6-91ab-bc3c52377431}*SharedItemsImports = 13
@@ -213,8 +217,10 @@ Global
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{a153c9de-958e-4628-a156-f4a74f93064a}*SharedItemsImports = 13
 		Beyova.Common\Beyova.Common.projitems*{b50ceaf8-c299-4ea2-9a38-2f0ff6a0354a}*SharedItemsImports = 13
 		Beyova.Reflection\Beyova.Reflection.projitems*{b52bd1bf-8679-4945-bef8-0c4d7d6fdb71}*SharedItemsImports = 13
+		Beyova.SqlConfiguration\Beyova.SqlConfiguration.projitems*{bcc93c80-68bb-41cd-82a9-1f946106292b}*SharedItemsImports = 4
 		Beyova.Common.Framework\Beyova.Common.Framework.projitems*{bdfdaf6e-a6ed-450f-a154-794ab8ddd13e}*SharedItemsImports = 13
 		Beyova.Authentication.Contract.Generic\Beyova.Authentication.Contract.Generic.projitems*{beae5294-4eba-4666-af3a-198abe753004}*SharedItemsImports = 13
+		Beyova.SqlConfiguration\Beyova.SqlConfiguration.projitems*{bedae1bf-6b96-45c3-b038-89b0fb9e9a87}*SharedItemsImports = 13
 		Beyova.BinaryStorage.Contract.Generic\Beyova.BinaryStorage.Contract.Generic.projitems*{c21b259b-3e47-4090-a02a-6b5a457c751e}*SharedItemsImports = 13
 		Beyova.BinaryStorage.Core.Generic\Beyova.BinaryStorage.Core.Generic.projitems*{c4e4603f-9750-422e-b79e-7ae7906ec5e4}*SharedItemsImports = 13
 		Beyova.StandardContract\Beyova.StandardContract.projitems*{c9507ef5-79a5-4aad-a002-f188ebbbbfef}*SharedItemsImports = 13
@@ -377,6 +383,10 @@ Global
 		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -447,6 +457,8 @@ Global
 		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{BEAE5294-4EBA-4666-AF3A-198ABE753004} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{C21B259B-3E47-4090-A02A-6B5A457C751E} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
+		{BCC93C80-68BB-41CD-82A9-1F946106292B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
+		{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87} = {12871993-A575-4CD7-83E4-B114957C1431}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}

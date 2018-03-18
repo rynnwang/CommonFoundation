@@ -9,67 +9,22 @@ namespace Beyova
     /// </summary>
     public sealed class GlobalCultureResourceCollection : II18NResourceCollection
     {
-        #region Singleton
-
-        /// <summary>
-        /// The singleton
-        /// </summary>
-        private static GlobalCultureResourceCollection singleton = new GlobalCultureResourceCollection();
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>The instance.</value>
-        public static GlobalCultureResourceCollection Instance { get { return singleton; } }
-
-        #endregion Singleton
-
         /// <summary>
         /// The culture based resources
         /// </summary>
-        private Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> cultureBasedResources;
+        internal Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> cultureBasedResources = new Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>>();
 
         /// <summary>
         /// Gets or sets the default culture information.
         /// </summary>
         /// <value>The default culture information.</value>
-        public CultureInfo DefaultCultureInfo { get; private set; }
+        public CultureInfo DefaultCultureInfo { get; internal set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="GlobalCultureResourceCollection"/> class from being created.
         /// </summary>
-        private GlobalCultureResourceCollection()
+        internal GlobalCultureResourceCollection()
         {
-            CultureInfo defaultCultureInfo;
-            cultureBasedResources = Initialize(out defaultCultureInfo);
-            DefaultCultureInfo = defaultCultureInfo ?? new CultureInfo("en-US");
-        }
-
-        /// <summary>
-        /// Initializes this instance.
-        /// </summary>
-        /// <returns>Dictionary&lt;CultureInfo, Dictionary&lt;System.String, System.Object&gt;&gt;.</returns>
-        private Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> Initialize(out CultureInfo defaultCultureInfo)
-        {
-            Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> result = new Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>>();
-
-            string defaultCultureCode = null;
-            foreach (var one in EnvironmentCore.DescendingAssemblyDependencyChain)
-            {
-                var cultureResourceAttribute = one.GetCustomAttribute<BeyovaCultureResourceAttribute>();
-                if (cultureResourceAttribute != null)
-                {
-                    if (!string.IsNullOrWhiteSpace(cultureResourceAttribute.UnderlyingObject.DefaultCultureCode))
-                    {
-                        defaultCultureCode = cultureResourceAttribute.UnderlyingObject.DefaultCultureCode;
-                    }
-
-                    cultureResourceAttribute?.UnderlyingObject.FillResources(result);
-                }
-            }
-
-            defaultCultureInfo = defaultCultureCode.AsCultureInfo();
-            return result;
         }
 
         /// <summary>
@@ -88,7 +43,9 @@ namespace Beyova
         /// <param name="resourceKey">The resource key.</param>
         /// <param name="cultureInfo">The culture information.</param>
         /// <param name="languageCompatibility">The language compatibility.</param>
-        /// <returns>System.Object.</returns>
+        /// <returns>
+        /// System.Object.
+        /// </returns>
         public string GetResourceString(string resourceKey, CultureInfo cultureInfo = null, bool languageCompatibility = true)
         {
             if (string.IsNullOrWhiteSpace(resourceKey))
@@ -141,16 +98,6 @@ namespace Beyova
             {
                 return cultureBasedResources.Keys;
             }
-        }
-
-        /// <summary>
-        /// Creates the culture resource file.
-        /// </summary>
-        /// <param name="targetDirectory">The target directory.</param>
-        /// <param name="baseName">Name of the base.</param>
-        /// <param name="cultureInfo">The culture information.</param>
-        public static void CreateCultureResourceFile(string targetDirectory, string baseName, CultureInfo cultureInfo)
-        {
         }
     }
 }

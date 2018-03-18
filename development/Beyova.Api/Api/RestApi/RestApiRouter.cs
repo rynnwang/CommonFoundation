@@ -226,7 +226,6 @@ namespace Beyova.Api.RestApi
         {
             object result = null;
             contentType = HttpConstants.ContentType.Json;
-            const string localhostTip = "This API is available at localhost machine.";
 
             switch (runtimeContext?.ResourceName.SafeToLower())
             {
@@ -239,9 +238,9 @@ namespace Beyova.Api.RestApi
                     }).ToList();
                     break;
 
-                case "configuration":
-                    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
-                    break;
+                //case "configuration":
+                //    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
+                //    break;
 
                 case "featureswitch":
                     result = FeatureModuleSwitch.GetModuleWorkStatus();

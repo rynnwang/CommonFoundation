@@ -9,19 +9,34 @@
     <Import_RootNamespace>Beyova.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AssemblyAttribute\AssemblyDataSecurityOptionsAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\LocalConfigurationRawItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\JsonFileConfigurationManifest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DataSecurityAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DataSecurityExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityOptionLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheAutoRetrievalOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainerOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheContainerOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\DefaultCacheSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\IMemoryCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheContainerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AssemblyAttribute\BeyovaConfigurationLoaderAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationHub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Interface\IConfigurationLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Interface\IConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Loader\LocalJsonConfigurationLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\ConfigurationItemBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\RuntimeConfigurationItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\ConfigurationRawItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DefaultDataSecurityProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\RijndaelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaComponentAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaConfigurationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AssemblyAttribute\BeyovaConfigurationAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\BeyovaCultureResourceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainerSummary.cs" />
@@ -87,9 +102,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ThreadExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UiExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnionExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\BaseJsonConfigurationReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\JsonConfigurationReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\ConfigurationReader\RemoteConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\BaseJsonConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\JsonConfigurationReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\GravityConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\EnvironmentCore.cs" />
@@ -102,7 +117,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\GuidConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\MappingTableConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaComponentInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaConfigurationInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\BeyovaLocalConfigurationOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\BeyovaCultureResourceInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\BooleanSearchCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\BooleanSearch\BooleanSearchExpressionReader.cs" />
@@ -126,7 +141,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DualHttpWebRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\HttpListener\HttpListenerServerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Logger\DiagnosticFileLogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\NuGetPackageAssemblyParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\NuGetPackageAssemblyParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\LoopEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\IObjectMemberClone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberClone.cs" />
@@ -142,6 +157,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SystemOperation\DiagnosticUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)AssemblyAttribute\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Configuration\AssemblyAttribute\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utility\TwoFactorAuthentication\" />
   </ItemGroup>
 </Project>

@@ -4,9 +4,9 @@ using System.IO;
 namespace Beyova
 {
     /// <summary>
-    /// Class BeyovaConfigurationInfo.
+    /// Class BeyovaLocalConfigurationOptions.
     /// </summary>
-    public class BeyovaConfigurationInfo
+    public class BeyovaLocalConfigurationOptions
     {
         /// <summary>
         /// Gets or sets the name of the configuration. Name supports wildcard, like "beyova.*.json"
@@ -26,7 +26,7 @@ namespace Beyova
         /// </summary>
         /// <param name="configurationName">Name of the configuration.</param>
         /// <param name="configurationDirectory">The configuration directory.</param>
-        public BeyovaConfigurationInfo(string configurationName, string configurationDirectory = null)
+        public BeyovaLocalConfigurationOptions(string configurationName, string configurationDirectory = null)
         {
             this.ConfigurationName = configurationName;
             this.ConfigurationDirectory = configurationDirectory;

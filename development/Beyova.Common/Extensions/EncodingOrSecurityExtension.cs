@@ -913,25 +913,17 @@ namespace Beyova
         /// <summary>
         /// Encrypts the aes.
         /// </summary>
-        /// <param name="encryptor">The encryptor.</param>
+        /// <param name="provider">The provider.</param>
         /// <param name="orignal">The orignal.</param>
         /// <returns></returns>
-        public static byte[] EncryptAes(this ICryptoTransform encryptor, byte[] orignal)
+        public static byte[] EncryptAes(this RijndaelProvider provider, byte[] orignal)
         {
             try
             {
-                encryptor.CheckNullObject(nameof(encryptor));
+                provider.CheckNullObject(nameof(provider));
                 orignal.CheckNullOrEmptyCollection(nameof(orignal));
 
-                using (MemoryStream msEncrypt = new MemoryStream())
-                {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        csEncrypt.Write(orignal, 0, orignal.Length);
-                        csEncrypt.FlushFinalBlock();
-                        return msEncrypt.ToArray();
-                    }
-                }
+                return provider.EncryptAes(orignal);
             }
             catch (Exception ex)
             {
@@ -942,25 +934,17 @@ namespace Beyova
         /// <summary>
         /// Decrypts the aes.
         /// </summary>
-        /// <param name="decryptor">The decryptor.</param>
+        /// <param name="provider">The provider.</param>
         /// <param name="bytesToDecrypt">The bytes to decrypt.</param>
         /// <returns></returns>
-        public static byte[] DecryptAes(this ICryptoTransform decryptor, byte[] bytesToDecrypt)
+        public static byte[] DecryptAes(this RijndaelProvider provider, byte[] bytesToDecrypt)
         {
             try
             {
-                decryptor.CheckNullObject(nameof(decryptor));
+                provider.CheckNullObject(nameof(provider));
                 bytesToDecrypt.CheckNullOrEmptyCollection(nameof(bytesToDecrypt));
 
-                using (MemoryStream msDecrypt = new MemoryStream(bytesToDecrypt))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Write))
-                    {
-                        csDecrypt.Write(bytesToDecrypt, 0, bytesToDecrypt.Length);
-                        csDecrypt.FlushFinalBlock();
-                        return msDecrypt.ToArray();
-                    }
-                }
+                return provider.DecryptAes(bytesToDecrypt);
             }
             catch (Exception ex)
             {
@@ -1001,27 +985,9 @@ namespace Beyova
         /// </summary>
         /// <param name="aesKeys">The aes keys.</param>
         /// <returns></returns>
-        public static ICryptoTransform CreateAesProvider(IAesKeys aesKeys)
+        public static RijndaelProvider CreateAesProvider(this IAesKeys aesKeys)
         {
-            ICryptoTransform aesProvider = null;
-            if (aesKeys != null)
-            {
-                var key = aesKeys.Key;
-                var iv = aesKeys.InitializationVector;
-                key.CheckNullOrEmpty(nameof(key));
-                iv.CheckNullOrEmpty(nameof(iv));
-
-                using (Rijndael rijAlg = Rijndael.Create())
-                {
-                    rijAlg.Key = key;
-                    rijAlg.IV = iv;
-                    rijAlg.KeySize = aesKeys.KeySize;
-
-                    aesProvider = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
-                }
-            }
-
-            return aesProvider;
+            return RijndaelProvider.CreateProvider(aesKeys);
         }
 
         #endregion AES

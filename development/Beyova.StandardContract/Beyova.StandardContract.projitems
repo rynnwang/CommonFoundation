@@ -9,6 +9,7 @@
     <Import_RootNamespace>Beyova.StandardContract</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Enum\Continent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BaseObjectExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContractModelExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ApiTracking\IApiAnalytics.cs" />
@@ -23,9 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IRelationshipOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IImplicitiveStringValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppPlatform.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBaseObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICodeIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPageable.cs" />
@@ -136,8 +135,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\CloudResourceUri.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ComparisonResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Concurrent\ConcurrentMatrixList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\ConfigurationDetail.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\ConfigurationRawItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\RemoteConfigurationCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\RemoteConfigurationInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\RemoteConfigurationObject.cs" />
@@ -150,7 +147,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\EnvironmentEndpoint\EnvironmentEndpointCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FractionObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Date.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Gender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enum\Gender.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\CountryInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\CountryInfoCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoCoordinate.cs" />
@@ -171,6 +168,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\ObjectState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ProcessCommandParameterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AesKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SingleParameterInstanceConstructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextValueCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\VisualValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Quiz\Section.cs" />

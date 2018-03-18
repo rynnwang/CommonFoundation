@@ -3,21 +3,15 @@
 namespace Beyova
 {
     /// <summary>
-    /// Class ConfigurationDetail.
+    /// Class JsonFileConfigurationManifest.
     /// </summary>
-    public class ConfigurationDetail
+    public class JsonFileConfigurationManifest
     {
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the environment.
-        /// </summary>
-        /// <value>The environment.</value>
-        public string Environment { get; set; }
 
         /// <summary>
         /// Gets or sets the version.

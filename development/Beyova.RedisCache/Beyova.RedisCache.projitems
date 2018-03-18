@@ -9,9 +9,6 @@
     <Import_RootNamespace>Beyova.RedisCache</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Default\DefaultRedisKeyGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisKeyGenerator.cs" />

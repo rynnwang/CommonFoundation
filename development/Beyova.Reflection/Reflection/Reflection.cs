@@ -36,6 +36,11 @@ namespace Beyova
         {
             try
             {
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)((object)value);
+                }
+
                 var converter = TypeDescriptor.GetConverter(typeof(T));
                 if (converter != null)
                 {
@@ -321,5 +326,92 @@ namespace Beyova
         }
 
         #endregion CreateSampleObject
+
+        /// <summary>
+        /// Gets the non parameter constructor.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static ConstructorInfo GetNonParameterConstructor(this Type type)
+        {
+            if (type != null)
+            {
+                var constructors = type.GetConstructors();
+
+                if (constructors.HasItem())
+                {
+                    foreach (var one in constructors)
+                    {
+                        if (!one.GetParameters().HasItem())
+                        {
+                            return one;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the single parameter constructor.
+        /// </summary>
+        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static ConstructorInfo GetSingleParameterConstructor<TParameter>(this Type type)
+        {
+            if (type != null)
+            {
+                var constructors = type.GetConstructors();
+
+                if (constructors.HasItem())
+                {
+                    foreach (var one in constructors)
+                    {
+                        var parameters = one.GetParameters();
+                        if ((parameters?.Length ?? 0) == 1 && parameters[0].ParameterType.IsAssignableFrom(typeof(TParameter)))
+                        {
+                            return one;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Tries the create instance via non parameter constructor.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static object TryCreateInstanceViaNonParameterConstructor(this Type type)
+        {
+            return type.GetNonParameterConstructor() != null ? CreateInstance(type) : null;
+        }
+
+        /// <summary>
+        /// Tries the create instance via single parameter constructor.
+        /// </summary>
+        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+        /// <param name="type">The type.</param>
+        /// <param name="paramter">The paramter.</param>
+        /// <returns></returns>
+        public static object TryCreateInstanceViaSingleParameterConstructor<TParameter>(this Type type, TParameter paramter)
+        {
+            return type.GetSingleParameterConstructor<TParameter>() != null ? CreateInstance(type, (paramter as object).AsArray()) : null;
+        }
+
+        /// <summary>
+        /// Tries the create instance.
+        /// </summary>
+        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+        /// <param name="constructure">The constructure.</param>
+        /// <returns></returns>
+        public static object TryCreateInstance<TParameter>(this SingleParameterInstanceConstructure<TParameter> constructure)
+        {
+            return constructure != null ? TryCreateInstanceViaSingleParameterConstructor(constructure.Type, constructure.Parameter) : null;
+        }
     }
 }

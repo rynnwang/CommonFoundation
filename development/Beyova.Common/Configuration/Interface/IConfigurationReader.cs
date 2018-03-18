@@ -9,6 +9,22 @@ namespace Beyova
     public interface IConfigurationReader
     {
         /// <summary>
+        /// Gets or sets the source assembly.
+        /// </summary>
+        /// <value>
+        /// The source assembly.
+        /// </value>
+        string SourceAssembly { get; }
+
+        /// <summary>
+        /// Gets or sets the type of the reader.
+        /// </summary>
+        /// <value>
+        /// The type of the reader.
+        /// </value>
+        string ReaderType { get; }
+
+        /// <summary>
         /// Gets the count.
         /// </summary>
         /// <value>
@@ -65,8 +81,14 @@ namespace Beyova
         IEnumerable<KeyValuePair<string, object>> GetValues();
 
         /// <summary>
-        /// Refreshes the settings.
+        /// Gets the items.
         /// </summary>
-        void RefreshSettings();
+        /// <returns></returns>
+        Dictionary<string, RuntimeConfigurationItem> GetItems();
+
+        /// <summary>
+        /// Reloads this instance.
+        /// </summary>
+        void Reload();
     }
 }

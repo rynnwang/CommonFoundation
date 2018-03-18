@@ -90,13 +90,22 @@ namespace Beyova
             // NOTE:
             // In IIS Express cases, baseDirectoryByAssemblyLocation would be allocated into asp.net tmp folders, by each library.
             // In other cases, IIS or Console or Windows environments, baseDirectoryByAssemblyLocation should be correct.
-            DirectoryInfo baseDirectory = new DirectoryInfo((baseDirectoryByAssemblyLocation.StartsWith(baseDirectoryByAppDomain, StringComparison.OrdinalIgnoreCase)) ?
+            DirectoryInfo baseDirectory = new DirectoryInfo((baseDirectoryByAppDomain.StartsWith(baseDirectoryByAssemblyLocation, StringComparison.OrdinalIgnoreCase)) ?
                  baseDirectoryByAssemblyLocation
                  : Path.Combine(baseDirectoryByAppDomain, "bin"));
 
             if (baseDirectory?.Exists ?? false)
             {
                 ApplicationBaseDirectory = baseDirectory.ToString();
+            }
+            else
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(nameof(baseDirectory), new
+                {
+                    baseDirectory = baseDirectory?.ToString(),
+                    baseDirectoryByAppDomain,
+                    baseDirectoryByAssemblyLocation
+                });
             }
 
             LogDirectory = Path.Combine(ApplicationBaseDirectory, "logs");

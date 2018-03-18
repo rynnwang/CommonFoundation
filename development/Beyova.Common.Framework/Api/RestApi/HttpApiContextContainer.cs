@@ -10,10 +10,15 @@ using Beyova.Http;
 namespace Beyova.Api.RestApi
 {
     /// <summary>
-    /// 
+    /// Class HttpApiContextContainer
     /// </summary>
     public sealed class HttpApiContextContainer : HttpApiContextContainer<HttpRequest, HttpResponse>
     {
+        /// <summary>
+        /// The cached request body byte array
+        /// </summary>
+        private byte[] _cachedRequestBodyByteArray = null;
+
         #region Abstract Properties
 
         /// <summary>
@@ -268,7 +273,13 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         public override byte[] ReadRequestBody()
         {
-            return this.Request?.InputStream.ReadStreamToBytes(true);
+            // Regarding input stream can be read only once, need to cache it in case to be re-called in difference places.
+            if (_cachedRequestBodyByteArray == null)
+            {
+                _cachedRequestBodyByteArray = this.Request?.InputStream.ReadStreamToBytes(true);
+            }
+
+            return _cachedRequestBodyByteArray;
         }
     }
 }

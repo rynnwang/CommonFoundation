@@ -27,6 +27,16 @@ namespace Beyova
         public const string Comma = ",";
 
         /// <summary>
+        /// The empty character
+        /// </summary>
+        public const char EmptyChar = '\0';
+
+        /// <summary>
+        /// The bom white space
+        /// </summary>
+        public const char BomWhiteSpace = '\xFEFF';
+
+        /// <summary>
         /// The white space character
         /// </summary>
         public const char WhiteSpaceChar = ' ';
@@ -100,5 +110,10 @@ namespace Beyova
         /// The new line charactors
         /// </summary>
         public static readonly char[] NewLineCharacters = new char[] { '\n', '\r' };
+
+        /// <summary>
+        /// The trimmed characters
+        /// </summary>
+        public static readonly char[] TrimmedCharacters = new char[] { '\n', '\t', '\r', ' ' };
     }
 }

@@ -20,6 +20,11 @@ namespace Beyova.Api.RestApi
     /// </summary>
     public abstract class ApiHandlerBase<TRequest, TResponse>
     {
+        /// <summary>
+        /// The localhost tip
+        /// </summary>
+        protected const string localhostTip = "This API is available at localhost machine.";
+
         #region Protected static fields
 
         /// <summary>
@@ -322,6 +327,10 @@ namespace Beyova.Api.RestApi
                     result = Framework.AboutService();
                     break;
 
+                case "configuration":
+                    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
+                    break;
+
                 case "machine":
                     result = SystemManagementExtension.GetMachineHealth();
                     break;
@@ -347,7 +356,7 @@ namespace Beyova.Api.RestApi
                     break;
 
                 case "i18n":
-                    result = GlobalCultureResourceCollection.Instance?.AvailableCultureInfo ?? new Collection<CultureInfo>();
+                    result = Framework.GlobalCultureResourceCollection?.AvailableCultureInfo ?? new Collection<CultureInfo>();
                     break;
 
                 case "mirror":

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using Beyova.Configuration;
 using Beyova.ProgrammingIntelligence;
 using Newtonsoft.Json.Linq;
 
@@ -40,7 +39,7 @@ namespace Beyova.Gravity
         /// Gets or sets the configuration reader.
         /// </summary>
         /// <value>The configuration reader.</value>
-        public RemoteConfigurationReader ConfigurationReader { get; protected set; }
+        public GravityConfigurationReader ConfigurationReader { get; protected set; }
 
         /// <summary>
         /// Gets or sets the component attribute.
@@ -81,10 +80,11 @@ namespace Beyova.Gravity
         /// Initializes a new instance of the <see cref="GravityShell" /> class.
         /// </summary>
         /// <param name="componentAttribute">The component attribute.</param>
+        /// <param name="sourceAssembly">The source assembly.</param>
         /// <param name="entry">The entry.</param>
         /// <param name="commandInvokers">The command invokers.</param>
         /// <param name="eventHook">The event hook.</param>
-        protected GravityShell(BeyovaComponentAttribute componentAttribute, GravityEntryObject entry, IEnumerable<IGravityCommandInvoker> commandInvokers, GravityEventHook eventHook)
+        protected GravityShell(BeyovaComponentAttribute componentAttribute, string sourceAssembly, GravityEntryObject entry, IEnumerable<IGravityCommandInvoker> commandInvokers, GravityEventHook eventHook)
         {
             this.Entry = entry;
             this.Client = new GravityClient(entry);
@@ -92,7 +92,7 @@ namespace Beyova.Gravity
             this.EventHook = eventHook;
 
             this.ComponentAttribute = componentAttribute;
-            this.ConfigurationReader = new RemoteConfigurationReader(this.Client, entry.ConfigurationName);
+            this.ConfigurationReader = new GravityConfigurationReader(this.Client, sourceAssembly, componentAttribute?.UnderlyingObject?.Version, entry.ConfigurationName);
             this.WatcherThread = new Thread(new ThreadStart(Watch))
             {
                 IsBackground = true
@@ -209,8 +209,9 @@ namespace Beyova.Gravity
             GravityEntryObject entryObject = null;
             BeyovaComponentAttribute componentAttribute = null;
             GravityEventHook gravityEventHook = null;
+            string assemblyName = null;
 
-            bool findMoreEntry = true;
+            bool toFindMoreEntry = true;
             foreach (var assembly in EnvironmentCore.AscendingAssemblyDependencyChain)
             {
                 var commandActionAttribute = assembly.GetCustomAttribute<GravityCommandActionAttribute>();
@@ -222,24 +223,25 @@ namespace Beyova.Gravity
                     }
                 }
 
-                if (findMoreEntry)
+                if (toFindMoreEntry)
                 {
                     var protocolAttribute = assembly.GetCustomAttribute<GravityProtocolAttribute>();
                     if (protocolAttribute != null)
                     {
                         entryObject = protocolAttribute.Entry;
+                        assemblyName = assembly.FullName;
                         componentAttribute = assembly.GetCustomAttribute<BeyovaComponentAttribute>();
                         gravityEventHook = (assembly.GetCustomAttribute<GravityEventHookAttribute>()?.Hook) ?? gravityEventHook;
 
                         if (protocolAttribute.IsSealed)
                         {
-                            findMoreEntry = false;
+                            toFindMoreEntry = false;
                         }
                     }
                 }
             }
 
-            return entryObject == null ? null : new GravityShell(componentAttribute, entryObject, invokers, gravityEventHook);
+            return entryObject == null ? null : new GravityShell(componentAttribute, assemblyName, entryObject, invokers, gravityEventHook);
         }
 
         #endregion Static

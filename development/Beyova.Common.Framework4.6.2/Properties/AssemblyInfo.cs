@@ -41,6 +41,11 @@ using Beyova;
 + "5e4b0e454aca2edf72412ac0c6b5cfb297f228e2e4ccde74ba12887f115d98c678047190051692"
 + "3e01eaf6b185f85647cb722af049c3e969ef276b07efef3e12ac973808c4b763f5a77e57f62780"
 + "bdbddfe8")]
+[assembly: InternalsVisibleTo("Beyova.SqlConfiguration, PublicKey=0024000004800000940000000602000000240000525341310004000001000100a1a72e76cf48bd"
++ "652a86afc10378fd0a43c66594e829717bf00b62e5eb9618b79d66d21bbf680e2bcbb9f285cd6c"
++ "8fc0cd73d6bd8e34bb971a25018e41b70032ff8eb9907081129aa16fb5d89c1341b9add4c1d23f"
++ "dc3424a070473770006f57492b3a9977d92d861b38a883c1b9ac0849884dc9750e6518ce26881a"
++ "c0c7e8b4")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

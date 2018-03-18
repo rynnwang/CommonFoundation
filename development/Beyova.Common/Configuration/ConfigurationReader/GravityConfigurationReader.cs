@@ -4,12 +4,12 @@ using System.IO;
 using System.Text;
 using Beyova.Gravity;
 
-namespace Beyova.Configuration
+namespace Beyova
 {
     /// <summary>
     /// Provides access to configuration files for client applications. Reader would try read AppConfig.JSON first, then read assembly name based JSON ({AssemblyName}.JSON) to override, based on dependency order.
     /// </summary>
-    internal class RemoteConfigurationReader : BaseJsonConfigurationReader
+    internal class GravityConfigurationReader : BaseJsonConfigurationReader
     {
         /// <summary>
         /// The _gravity client
@@ -26,10 +26,12 @@ namespace Beyova.Configuration
         /// Initializes a new instance of the <see cref="JsonConfigurationReader" /> class.
         /// </summary>
         /// <param name="gravityClient">The gravity client.</param>
+        /// <param name="sourceAssembly">The source assembly.</param>
+        /// <param name="coreComponentVersion">The core component version.</param>
         /// <param name="configurationName">Name of the configuration.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
-        internal RemoteConfigurationReader(GravityClient gravityClient, string configurationName, bool throwException = false)
-            : base(throwException)
+        internal GravityConfigurationReader(GravityClient gravityClient, string sourceAssembly, string coreComponentVersion, string configurationName, bool throwException = false)
+            : base(sourceAssembly, coreComponentVersion, nameof(GravityConfigurationReader), throwException)
         {
             _gravityClient = gravityClient;
             ConfigurationName = configurationName;
@@ -45,21 +47,26 @@ namespace Beyova.Configuration
         protected override Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false)
         {
             var componentAttribute = GravityShell.Host?.ComponentAttribute;
-            Dictionary<string, RuntimeConfigurationItem> settingContainer = null;
+            Dictionary<string, RuntimeConfigurationItem> container = null;
 
             try
             {
-                var remoteConfiguration = _gravityClient.RetrieveConfiguration(this.ConfigurationName)?.Configuration;
-                if (remoteConfiguration != null)
+                var remoteConfigurationList = _gravityClient.RetrieveConfiguration(this.ConfigurationName)?.Configuration?.ToObject<List<ConfigurationRawItem>>();
+
+                if (remoteConfigurationList.HasItem())
                 {
-                    InitializeSettings(settingContainer, componentAttribute, remoteConfiguration.ToObject<ConfigurationDetail>(), null, throwException);
-                    if (settingContainer.HasItem())
+                    foreach (var one in remoteConfigurationList)
                     {
-                        SaveConfigurationBackup(settingContainer);
+                        FillObjectCollection(container, this.CoreComponentVersion, one, this.SourceAssembly, this.ReaderType, throwException);
+                    }
+
+                    if (container.HasItem())
+                    {
+                        SaveConfigurationBackup(container);
                     }
                 }
 
-                return settingContainer;
+                return container;
             }
             catch (Exception ex)
             {
@@ -71,26 +78,24 @@ namespace Beyova.Configuration
                     });
                 }
 
-                settingContainer = RestoreBackup() ?? new Dictionary<string, RuntimeConfigurationItem>();
+                container = RestoreBackup() ?? new Dictionary<string, RuntimeConfigurationItem>();
             }
 
-            return settingContainer;
+            return container;
         }
 
         #endregion Initialization
 
-        /// <summary>
-        /// Refreshes the settings.
-        /// </summary>
-        public override void RefreshSettings()
-        {
-            _settings.Merge(Initialize(true), true);
-        }
-
         #region Backup
 
+        /// <summary>
+        /// The backup file name
+        /// </summary>
         private const string backupFileName = "config.bak";
 
+        /// <summary>
+        /// The processing backup file name
+        /// </summary>
         private const string processingBackupFileName = "config.bak.processing";
 
         /// <summary>

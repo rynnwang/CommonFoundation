@@ -7,6 +7,7 @@ namespace Beyova
     /// Class BeyovaConfigurationAttribute.
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true, Inherited = false)]
+    [Obsolete("Use BeyovaConfigurationLoaderAttribute instead. [assembly: BeyovaConfigurationLoader({configurationName})]")]
     public class BeyovaConfigurationAttribute : Attribute
     {
         /// <summary>
@@ -15,7 +16,7 @@ namespace Beyova
         /// <value>
         /// The underlying object.
         /// </value>
-        public BeyovaConfigurationInfo UnderlyingObject { get; protected set; }
+        public BeyovaLocalConfigurationOptions Options { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BeyovaConfigurationAttribute" /> class.
@@ -23,9 +24,17 @@ namespace Beyova
         /// </summary>
         /// <param name="configurationName">Name of the configuration.</param>
         /// <param name="configurationDirectory">The configuration directory.</param>
-        public BeyovaConfigurationAttribute(string configurationName, string configurationDirectory = null)
+        public BeyovaConfigurationAttribute(string configurationName, string configurationDirectory = null) : this(new BeyovaLocalConfigurationOptions(configurationName, configurationDirectory))
         {
-            UnderlyingObject = new BeyovaConfigurationInfo(configurationName, configurationDirectory);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeyovaConfigurationAttribute"/> class.
+        /// </summary>
+        /// <param name="configurationOption">The configuration option.</param>
+        public BeyovaConfigurationAttribute(BeyovaLocalConfigurationOptions configurationOption)
+        {
+            Options = configurationOption;
         }
 
         /// <summary>
@@ -34,7 +43,7 @@ namespace Beyova
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return UnderlyingObject?.GetConfigurationFullPath();
+            return Options?.GetConfigurationFullPath();
         }
     }
 }

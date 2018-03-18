@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bedae1bf-6b96-45c3-b038-89b0fb9e9a87</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.SqlConfiguration</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ConfigurationRawItemAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlConfigurationLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlConfigurationWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SqlConfigurationReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Databascripts\StoredProcedure\sp_GetSystemConfiguration.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Databascripts\StoredProcedure\sp_UpdateSystemConfiguration.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Databascripts\Table\SystemConfiguration.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Databascripts\StoredProcedure\sp_DeleteSystemConfiguration.sql" />
+  </ItemGroup>
+</Project>

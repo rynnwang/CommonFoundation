@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
-using Beyova.Configuration;
-using Beyova.Gravity;
 
 namespace Beyova
 {
@@ -15,14 +12,9 @@ namespace Beyova
     public static class Framework
     {
         /// <summary>
-        /// The configuration readers
-        /// </summary>
-        internal readonly static List<IConfigurationReader> _configurationReaders = new List<IConfigurationReader>();
-
-        /// <summary>
         /// The global culture resource collection
         /// </summary>
-        internal static GlobalCultureResourceCollection GlobalCultureResourceCollection;
+        internal static GlobalCultureResourceCollection GlobalCultureResourceCollection = new GlobalCultureResourceCollection();
 
         /// <summary>
         /// The assembly version
@@ -30,14 +22,17 @@ namespace Beyova
         private readonly static Dictionary<string, object> _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// The RSA keys
+        /// The data security provider
         /// </summary>
-        private static IRsaKeys _rsaKeys;
+        private static IDataSecurityProvider _dataSecurityProvider = null;
 
         /// <summary>
-        /// The RSA crypto service provider
+        /// Gets the data security provider.
         /// </summary>
-        private static RSACryptoServiceProvider _rsaCryptoServiceProvider;
+        /// <value>
+        /// The data security provider.
+        /// </value>
+        internal static IDataSecurityProvider DataSecurityProvider { get { return _dataSecurityProvider; } }
 
         /// <summary>
         /// The primary SQL connection
@@ -52,7 +47,7 @@ namespace Beyova
         #region Public
 
         /// <summary>
-        /// Gets the primary SQL connection. 
+        /// Gets the primary SQL connection.
         /// </summary>
         /// <value>
         /// The primary SQL connection.
@@ -138,16 +133,7 @@ namespace Beyova
         /// </returns>
         public static T GetConfiguration<T>(string key, T defaultValue = default(T))
         {
-            T result;
-            foreach (IConfigurationReader one in _configurationReaders)
-            {
-                if (one.TryGetConfiguration(key, out result))
-                {
-                    return result;
-                }
-            }
-
-            return defaultValue;
+            return ConfigurationHub.GetConfiguration<T>(key, defaultValue);
         }
 
         /// <summary>
@@ -158,16 +144,7 @@ namespace Beyova
         /// <returns>System.String.</returns>
         public static object GetConfiguration(string key, object defaultValue = null)
         {
-            object result;
-            foreach (IConfigurationReader one in _configurationReaders)
-            {
-                if (one.TryGetConfiguration(key, out result))
-                {
-                    return result;
-                }
-            }
-
-            return defaultValue;
+            return ConfigurationHub.GetConfiguration(key, defaultValue);
         }
 
         /// <summary>
@@ -178,13 +155,7 @@ namespace Beyova
         {
             get
             {
-                int sum = 0;
-                foreach (IConfigurationReader one in _configurationReaders)
-                {
-                    sum += one.Count;
-                }
-
-                return sum;
+                return ConfigurationHub.ConfigurationSettingCount;
             }
         }
 
@@ -194,17 +165,11 @@ namespace Beyova
         /// <value>
         /// The configuration values.
         /// </value>
-        public static Dictionary<string, object> ConfigurationValues
+        public static Dictionary<string, RuntimeConfigurationItem> ConfigurationValues
         {
             get
             {
-                Dictionary<string, object> result = new Dictionary<string, object>(ConfigurationSettingCount);
-                foreach (IConfigurationReader one in _configurationReaders)
-                {
-                    result.Merge(one.GetValues(), false);
-                }
-
-                return result;
+                return ConfigurationHub.ConfigurationItems;
             }
         }
 
@@ -225,26 +190,6 @@ namespace Beyova
             }
         }
 
-        /// <summary>
-        /// Encrypts the data.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static byte[] EncryptData(byte[] data)
-        {
-            return (data != null && _rsaCryptoServiceProvider != null) ? _rsaCryptoServiceProvider.Encrypt(data, true) : data;
-        }
-
-        /// <summary>
-        /// Decrypts the data.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static byte[] DecryptData(byte[] data)
-        {
-            return (data != null && _rsaCryptoServiceProvider != null) ? _rsaCryptoServiceProvider.Decrypt(data, true) : data;
-        }
-
         #endregion Public
 
         /// <summary>
@@ -252,97 +197,111 @@ namespace Beyova
         /// </summary>
         static Framework()
         {
-            Initialize();
+            InitializeByCustomAssemblyAttributes();
             ApiTracking?.LogMessage(string.Format("{0} is initialized.", EnvironmentCore.ProductName));
         }
 
         #region Initialization
 
         /// <summary>
-        /// Initializes the configuration.
+        /// Initializes the by custom assembly attributes.
         /// </summary>
-        private static void Initialize()
+        private static void InitializeByCustomAssemblyAttributes()
         {
+            string currentAssemblyName = null;
+
             try
             {
-                _configurationReaders.AddIfNotNull(GravityShell.Host?.ConfigurationReader);
-                _configurationReaders.AddIfNotNull(JsonConfigurationReader.Default as IConfigurationReader);
+                foreach (var assembly in EnvironmentCore.DescendingAssemblyDependencyChain)
+                {
+                    BeyovaComponentInfo componentInfo = null;
+                    var assemblyName = assembly.GetName();
+                    currentAssemblyName = assemblyName.Name;
 
-                ApiTracking = InitializeApiTracking(EnvironmentCore.AscendingAssemblyDependencyChain);
+                    if (!assemblyName.IsSystemAssembly())
+                    {
+                        #region BeyovaComponentAttribute
 
-                CollectAssemblyAttributeInfo(_assemblyVersion);
-                GlobalCultureResourceCollection = GlobalCultureResourceCollection.Instance;
+                        var componentAttribute = assembly.GetCustomAttribute<BeyovaComponentAttribute>();
+                        if (componentAttribute != null)
+                        {
+                            // APITRACKING
+                            if (ApiTracking == null)
+                            {
+                                ApiTracking = componentAttribute.UnderlyingObject.GetApiTrackingInstance();
+                            }
+
+                            //Version
+                            componentInfo = componentAttribute.UnderlyingObject;
+                        }
+
+                        #endregion BeyovaComponentAttribute
+
+                        #region DataSecurityAttribute
+
+                        var dataSecurty = assembly.GetCustomAttribute<DataSecurityAttribute>();
+                        if (dataSecurty != null)
+                        {
+                            if (_dataSecurityProvider == null)
+                            {
+                                _dataSecurityProvider = dataSecurty.DataSecurityProvider;
+                            }
+                        }
+
+                        #endregion DataSecurityAttribute
+
+                        #region BeyovaConfigurationLoaderAttribute
+
+                        var configurationLoaders = assembly.GetCustomAttributes<BeyovaConfigurationLoaderAttribute>();
+                        if (configurationLoaders.HasItem())
+                        {
+                            foreach (var one in configurationLoaders)
+                            {
+                                ConfigurationHub.RegisterConfigurationReader(one?.Loader?.GetReader(currentAssemblyName, componentInfo?.Version));
+                            }
+                        }
+                        else
+                        {
+                            // To be obsoleted
+                            var configurationAttribute = assembly.GetCustomAttribute<BeyovaConfigurationAttribute>();
+                            if (configurationAttribute != null)
+                            {
+                                ConfigurationHub.RegisterConfigurationReader(new JsonConfigurationReader(currentAssemblyName, componentInfo?.Version, nameof(JsonConfigurationReader), configurationAttribute.Options));
+                            }
+                        }
+
+                        #endregion BeyovaConfigurationLoaderAttribute
+
+                        #region BeyovaCultureResourceAttribute
+
+                        var cultureResourceAttribute = assembly.GetCustomAttribute<BeyovaCultureResourceAttribute>();
+                        if (cultureResourceAttribute != null)
+                        {
+                            if (!string.IsNullOrWhiteSpace(cultureResourceAttribute.UnderlyingObject.DefaultCultureCode))
+                            {
+                                GlobalCultureResourceCollection.DefaultCultureInfo = cultureResourceAttribute.UnderlyingObject.DefaultCultureCode.AsCultureInfo();
+                            }
+
+                            cultureResourceAttribute?.UnderlyingObject.FillResources(GlobalCultureResourceCollection.cultureBasedResources);
+                        }
+
+                        #endregion BeyovaCultureResourceAttribute
+                    }
+                }
+
+                // To check and ensure
+                if (_dataSecurityProvider == null)
+                {
+                    _dataSecurityProvider = DefaultDataSecurityProvider.Instance;
+                }
             }
             catch (Exception ex)
             {
-                throw ex.Handle();
+                throw ex.Handle(new { currentAssemblyName });
             }
         }
 
-        /// <summary>
-        /// Initializes the assembly version.
-        /// </summary>
-        /// <returns>System.Collections.Generic.Dictionary&lt;System.String, System.Object&gt;.</returns>
-        private static void CollectAssemblyAttributeInfo(Dictionary<string, object> versionDictionary)
-        {
-            versionDictionary.CheckNullObject(nameof(versionDictionary));
-
-            foreach (var one in EnvironmentCore.DescendingAssemblyDependencyChain)
-            {
-                var info = one.GetName();
-
-                if (!info.IsSystemAssembly())
-                {
-                    var beyovaComponent = one.GetCustomAttribute<BeyovaComponentAttribute>();
-                    var beyovaConfiguration = one.GetCustomAttribute<BeyovaConfigurationAttribute>();
-                    var dataSecurty = one.GetCustomAttribute<AssemblyDataSecurityOptionsAttribute>();
-
-                    versionDictionary.Merge(info.Name, beyovaComponent == null ? info.Version : new
-                    {
-                        Version = info.Version,
-                        Component = beyovaComponent.ToString(),
-                        Configuration = beyovaConfiguration.SafeToString()
-                    } as object);
-
-                    if (dataSecurty != null)
-                    {
-                        _rsaKeys = dataSecurty.RsaKeys;
-                    }
-                }
-            }
-
-            if (_rsaKeys != null)
-            {
-                _rsaCryptoServiceProvider = _rsaKeys.AsRSACryptoServiceProvider();
-            }
-        }
-
-        /// <summary>
-        /// Initializes the API tracking.
-        /// </summary>
-        /// <param name="list">The list.</param>
-        /// <returns>Beyova.IApiTracking.</returns>
-        private static IApiTracking InitializeApiTracking(List<Assembly> list)
-        {
-            IApiTracking result = null;
-
-            foreach (var one in list)
-            {
-                var componentAttribute = one.GetCustomAttribute<BeyovaComponentAttribute>();
-                if (componentAttribute != null)
-                {
-                    result = componentAttribute.UnderlyingObject.GetApiTrackingInstance();
-                    if (result != null)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        #endregion Initializes
+        #endregion Initialization
 
         /// <summary>
         /// Gets the default text encoding.
