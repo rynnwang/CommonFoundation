@@ -5,7 +5,7 @@ namespace Beyova
     /// <summary>
     /// Class LocalConfigurationRawItem. It maps to raw configuration values from file.
     /// </summary>
-    public class LocalConfigurationRawItem : ConfigurationRawItem
+    public class LocalConfigurationRawItem : ConfigurationItemBase<JToken>
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="ConfigurationRawItem"/> is encrypted.

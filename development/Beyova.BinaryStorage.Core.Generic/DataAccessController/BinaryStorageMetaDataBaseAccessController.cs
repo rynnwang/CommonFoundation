@@ -86,11 +86,6 @@ namespace Beyova.FunctionService.Generic
         protected const string column_MaxDuration = "MaxDuration";
 
         /// <summary>
-        /// The column_ identifiers
-        /// </summary>
-        protected const string column_Identifiers = "Identifiers";
-
-        /// <summary>
         /// The column_ commit option
         /// </summary>
         protected const string column_CommitOption = "CommitOption";

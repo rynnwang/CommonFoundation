@@ -62,10 +62,9 @@ namespace Beyova
                     localRaw.Key = one.Name;
 
                     var rawItem = new ConfigurationRawItem(localRaw);
-                    if (localRaw.Encrypted ?? false)
-                    {
-                        rawItem.Value = Framework.DataSecurityProvider.DecryptFromString<string>(localRaw.Value);
-                    }
+                    rawItem.Value = (localRaw.Encrypted ?? false) ?
+                        Framework.DataSecurityProvider.DecryptFromString<string>(localRaw.Value.ToObject<string>()) :
+                        (localRaw.Value.Type == JTokenType.String ? localRaw.Value.ToObject<string>() : localRaw.Value.ToString());
 
                     FillObjectCollection(container, this.CoreComponentVersion, rawItem, this.SourceAssembly, this.ReaderType, throwException);
                 }

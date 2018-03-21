@@ -57,6 +57,7 @@ namespace Beyova.FunctionService.Generic
         /// Disposes the session information.
         /// </summary>
         /// <param name="token">The token.</param>
+        /// <param name="realm">The realm.</param>
         public void DisposeSessionInfo(string token, string realm)
         {
             const string spName = "sp_DisposeSessionInfo";

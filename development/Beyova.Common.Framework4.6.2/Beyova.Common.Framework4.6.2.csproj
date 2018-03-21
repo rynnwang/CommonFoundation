@@ -58,8 +58,6 @@
   <ItemGroup>
     <None Include="Beyova.Common.BuildKey.pfx" />
     <None Include="packages.config" />
-    <None Include="ReactorProject.nrproj" />
-    <None Include="RunReactor.bat" />
   </ItemGroup>
   <Import Project="..\Beyova.StandardContract\Beyova.StandardContract.projitems" Label="Shared" />
   <Import Project="..\Beyova.Server\Beyova.Server.projitems" Label="Shared" />
