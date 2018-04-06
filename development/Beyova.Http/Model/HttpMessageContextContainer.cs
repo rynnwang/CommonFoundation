@@ -220,5 +220,15 @@ namespace Beyova.Http
                 this.Response.Headers.SafeSetHttpHeader(HttpConstants.HttpHeader.ContentType, contentType, true);
             }
         }
+
+        public override string GetCookieValue(string cookieKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<string> GetCookieValues(string cookieKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,10 @@
-﻿CREATE TABLE [dbo].[AccessCredential](
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccessCredential]') AND type in (N'U'))
+BEGIN
+DROP TABLE [dbo].[AccessCredential];
+END
+GO
+
+CREATE TABLE [dbo].[AccessCredential](
     [RowId] INT NOT NULL IDENTITY(1,1),
     [Key] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
     [UserKey] [UNIQUEIDENTIFIER] NOT NULL,

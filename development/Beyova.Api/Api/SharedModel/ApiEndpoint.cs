@@ -5,7 +5,7 @@ namespace Beyova.Api
     /// <summary>
     /// Class ApiEndpoint.
     /// </summary>
-    public class ApiEndpoint : UriEndpoint
+    public class ApiEndpoint : UriEndpoint, ICloneable
     {
         /// <summary>
         /// Gets or sets the account.
@@ -24,6 +24,24 @@ namespace Beyova.Api
         /// </summary>
         /// <value>The secondary token.</value>
         public string SecondaryToken { get; set; }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public override object Clone()
+        {
+            return new ApiEndpoint
+            {
+                Account = this.Account,
+                Host = this.Host,
+                Path = this.Path,
+                Port = this.Port,
+                Protocol = this.Protocol,
+                SecondaryToken = this.SecondaryToken,
+                Token = this.Token
+            };
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

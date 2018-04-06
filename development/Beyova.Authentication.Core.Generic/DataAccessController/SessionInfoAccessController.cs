@@ -46,6 +46,7 @@ namespace Beyova.FunctionService.Generic
                 Token = sqlDataReader[column_Token].ObjectToString(),
                 UserAgent = sqlDataReader[column_UserAgent].ObjectToString(),
                 IpAddress = sqlDataReader[column_IpAddress].ObjectToString(),
+                Realm = sqlDataReader[column_Realm].ObjectToString(),
                 Platform = (PlatformType)sqlDataReader[column_Platform].ObjectToInt32(),
                 DeviceType = (DeviceType)sqlDataReader[column_DeviceType].ObjectToInt32(),
                 CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime(),
@@ -69,7 +70,7 @@ namespace Beyova.FunctionService.Generic
                 var parameters = new List<SqlParameter>
                 {
                     this.GenerateSqlSpParameter(column_Token,token),
-                    this.GenerateSqlSpParameter(column_Realm,realm)
+                    this.GenerateSqlSpParameter(column_Realm,realm.SafeToString())
                 };
 
                 this.ExecuteNonQuery(spName, parameters);
@@ -91,7 +92,7 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                sessionInfo.CheckNullObject("sessionInfo");
+                sessionInfo.CheckNullObject(nameof(sessionInfo));
 
                 var parameters = new List<SqlParameter>
                 {
@@ -99,7 +100,7 @@ namespace Beyova.FunctionService.Generic
                     this.GenerateSqlSpParameter(column_UserAgent,sessionInfo.UserAgent),
                     this.GenerateSqlSpParameter(column_Platform,(int)sessionInfo.Platform),
                     this.GenerateSqlSpParameter(column_DeviceType,(int)sessionInfo.DeviceType),
-                    this.GenerateSqlSpParameter(column_Realm,sessionInfo.Realm),
+                    this.GenerateSqlSpParameter(column_Realm,sessionInfo.Realm.SafeToString()),
                     this.GenerateSqlSpParameter(column_IpAddress,sessionInfo.IpAddress),
                     this.GenerateSqlSpParameter(column_ExpiredStamp,sessionInfo.ExpiredStamp)
                 };

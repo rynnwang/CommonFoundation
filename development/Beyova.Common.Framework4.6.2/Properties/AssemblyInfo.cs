@@ -16,6 +16,7 @@ using Beyova;
 [assembly: AssemblyProduct("Beyova.Common")]
 [assembly: AssemblyCulture("")]
 [assembly: BeyovaComponent("Beyova.Common", "4.0.0")]
+
 [assembly: InternalsVisibleTo("Beyova.WebExtension, PublicKey=002400000480000094000000060200000024000052534131000400000100010043cc5930e5bede"
 + "45da5820d2c00fe5afd1018228c56bf2a5363be550010faa493fe913e64c9ec1ee68e069ae3a0d"
 + "cf188c8b65572edb15e860d53f393bc44292b3218e760ed1300c3a954dcc5140c81d54ab047c17"
@@ -46,6 +47,12 @@ using Beyova;
 + "8fc0cd73d6bd8e34bb971a25018e41b70032ff8eb9907081129aa16fb5d89c1341b9add4c1d23f"
 + "dc3424a070473770006f57492b3a9977d92d861b38a883c1b9ac0849884dc9750e6518ce26881a"
 + "c0c7e8b4")]
+
+[assembly: InternalsVisibleTo("Beyova.AspNet, PublicKey=002400000480000094000000060200000024000052534131000400000100010043cc5930e5bede"
++ "45da5820d2c00fe5afd1018228c56bf2a5363be550010faa493fe913e64c9ec1ee68e069ae3a0d"
++ "cf188c8b65572edb15e860d53f393bc44292b3218e760ed1300c3a954dcc5140c81d54ab047c17"
++ "f13169bacb5cd5590606e87ceb662d37ad3cac4675dbaab5b0462b53138e758aa16d685b90ff01"
++ "919e7cc8")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

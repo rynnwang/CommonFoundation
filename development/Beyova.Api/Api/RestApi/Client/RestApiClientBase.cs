@@ -132,9 +132,10 @@ namespace Beyova.Api.RestApi
         /// <param name="realm">The realm.</param>
         /// <param name="version">The version.</param>
         /// <returns>System.String.</returns>
-        protected internal virtual string GetRequestEndpoint(ApiEndpoint apiEndpoint, string realm, string version)
+        protected internal static string GetRequestEndpoint(UriEndpoint apiEndpoint, string realm, string version)
         {
-            return string.Format("{0}{1}/", this.Endpoint == null ? "http://localhost/api/" : ((UriEndpoint)Endpoint).ToString(), version);
+            var pathPrefix = string.IsNullOrWhiteSpace(realm) ? "/api/" : string.Format("/{0}/api/", realm.Trim());
+            return string.Format("{0}{1}{2}/", (apiEndpoint ?? new UriEndpoint()).GetBaseUri(), pathPrefix, version);
         }
 
         /// <summary>

@@ -77,6 +77,11 @@
         public static class HttpHeader
         {
             /// <summary>
+            /// The cookie
+            /// </summary>
+            public const string Cookie = "Cookie";
+
+            /// <summary>
             /// The token
             /// </summary>
             public const string TOKEN = "X-BA-TOKEN";

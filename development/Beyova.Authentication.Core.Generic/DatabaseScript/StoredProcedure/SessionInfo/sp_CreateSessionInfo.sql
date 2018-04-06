@@ -1,11 +1,15 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_CreateSessionInfo]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_CreateSessionInfo]
+GO
+
 CREATE PROCEDURE [dbo].[sp_CreateSessionInfo](
     @UserKey UNIQUEIDENTIFIER,
     @UserAgent VARCHAR(512),
     @Platform INT,
     @DeviceType INT,
+    @Realm NVARCHAR(64),
     @IpAddress VARCHAR(64),
-    @ExpiredStamp DATETIME,
-    @Realm VARCHAR(128)
+    @ExpiredStamp DATETIME
 )
 AS
 SET NOCOUNT ON;
@@ -30,10 +34,10 @@ BEGIN
                ,[Platform]
                ,[DeviceType]
                ,[IpAddress]
+               ,[Realm]
                ,[CreatedStamp]
                ,[LastUpdatedStamp]
-               ,[ExpiredStamp]
-			   ,[Realm])
+               ,[ExpiredStamp])
          VALUES
                (@Token
                ,@UserKey
@@ -41,10 +45,10 @@ BEGIN
                ,ISNULL(@Platform, 0)
                ,ISNULL(@DeviceType, 0)
                ,@IpAddress
+               ,@Realm
                ,@NowTime
                ,@NowTime
-               ,@ExpiredStamp
-			   ,@Realm);
+               ,@ExpiredStamp);
 
         SELECT TOP 1 [Token]
             ,[UserKey]
@@ -52,10 +56,10 @@ BEGIN
             ,[Platform]
             ,[DeviceType]
             ,[IpAddress]
+            ,[Realm]
             ,[CreatedStamp]
             ,[LastUpdatedStamp]
             ,[ExpiredStamp]
-			,[Realm]
             FROM [dbo].[SessionInfo]
             WHERE [Token] = @Token;
     END

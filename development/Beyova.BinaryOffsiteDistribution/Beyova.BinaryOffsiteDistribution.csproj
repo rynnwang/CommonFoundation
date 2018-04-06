@@ -70,10 +70,6 @@
       <Project>{6fb0deda-06f5-459e-a994-09fd07571ebe}</Project>
       <Name>Beyova.Common.F462</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Beyova.Common.Framework4.5\Beyova.Common.Framework4.5.csproj">
-      <Project>{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}</Project>
-      <Name>Beyova.Common.Framework4.5</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

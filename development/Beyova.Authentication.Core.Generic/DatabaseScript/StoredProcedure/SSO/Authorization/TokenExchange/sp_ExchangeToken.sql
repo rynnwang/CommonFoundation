@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_ExchangeToken]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_ExchangeToken]
+GO
+
 CREATE PROCEDURE [dbo].[sp_ExchangeToken](
     @ClientRequestId [NVARCHAR](512),
     @AuthorizationToken [NVARCHAR](512)
@@ -6,6 +10,7 @@ AS
 DECLARE @Key AS UNIQUEIDENTIFIER;
 DECLARE @UserKey AS UNIQUEIDENTIFIER;
 DECLARE @TokenExpiration AS INT;
+DECLARE @Realm AS NVARCHAR(64);
 DECLARE @NowTime AS DATETIME = GETUTCDATE();
 
 DECLARE @ErrerMessage AS NVARCHAR(MAX);
@@ -13,7 +18,7 @@ DECLARE @ErrorSeverity AS INT;
 DECLARE @ErrorState AS INT;
 DECLARE @ErrorCode AS INT;
 BEGIN
-    SELECT TOP 1 @Key = A.[Key], @UserKey = A.[UserKey], @TokenExpiration = AP.[TokenExpiration]
+    SELECT TOP 1 @Key = A.[Key], @UserKey = A.[UserKey], @TokenExpiration = AP.[TokenExpiration], @Realm = AP.[Realm]
         FROM [dbo].[SSOAuthorization] AS A
             JOIN [dbo].[SSOAuthorizationPartner] AS AP
                 ON AP.[Key] = A.[PartnerKey] AND [dbo].[fn_ObjectIsWorkable](AP.[State]) = 1
@@ -41,6 +46,7 @@ BEGIN
                    ,[Platform]
                    ,[DeviceType]
                    ,[IpAddress]
+                   ,[Realm]
                    ,[CreatedStamp]
                    ,[LastUpdatedStamp]
                    ,[ExpiredStamp])
@@ -51,6 +57,7 @@ BEGIN
                    ,0
                    ,0
                    ,NULL
+                   ,ISNULL(@Realm, '')
                    ,@NowTime
                    ,@NowTime
                    ,DATEADD(MI,ISNULL(@TokenExpiration, 30), @NowTime)
@@ -67,6 +74,7 @@ BEGIN
                 ,[Platform]
                 ,[DeviceType]
                 ,[IpAddress]
+                ,[Realm]
                 ,[CreatedStamp]
                 ,[LastUpdatedStamp]
                 ,[ExpiredStamp]

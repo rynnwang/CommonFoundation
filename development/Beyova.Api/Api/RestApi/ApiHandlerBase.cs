@@ -33,11 +33,6 @@ namespace Beyova.Api.RestApi
         protected const string BuiltInFeatureVersionKeyword = "builtin";
 
         /// <summary>
-        /// The default setting name
-        /// </summary>
-        protected const string defaultSettingName = "default";
-
-        /// <summary>
         /// The json converters
         /// </summary>
         protected static readonly HashSet<JsonConverter> jsonConverters = new HashSet<JsonConverter>();
@@ -48,20 +43,10 @@ namespace Beyova.Api.RestApi
         internal static JsonConverter[] JsonConverters = null;
 
         /// <summary>
-        /// The settings container
-        /// </summary>
-        internal static Dictionary<string, RestApiSettings> settingsContainer = new Dictionary<string, RestApiSettings>(StringComparer.OrdinalIgnoreCase);
-
-        /// <summary>
-        /// The default rest API settings
-        /// </summary>
-        protected static RestApiSettings defaultRestApiSettings = null;
-
-        /// <summary>
         /// Gets the default rest API settings.
         /// </summary>
         /// <value>The default rest API settings.</value>
-        public static RestApiSettings DefaultRestApiSettings { get { return defaultRestApiSettings; } }
+        public static RestApiSettings DefaultRestApiSettings { get { return RestApiSettingPool.DefaultRestApiSettings; } }
 
         #endregion Protected static fields
 
@@ -110,25 +95,8 @@ namespace Beyova.Api.RestApi
         /// <param name="allowOptions">if set to <c>true</c> [allow options].</param>
         protected ApiHandlerBase(RestApiSettings defaultApiSettings, bool allowOptions = false)
         {
-            // Ensure it is never null. Default values should be safe.
-            DefaultSettings = defaultApiSettings ?? new RestApiSettings
-            {
-                TokenHeaderKey = HttpConstants.HttpHeader.TOKEN,
-                ClientIdentifierHeaderKey = HttpConstants.HttpHeader.CLIENTIDENTIFIER,
-                EnableContentCompression = true
-            };
-
-            DefaultSettings.Name = DefaultSettings.Name.SafeToString(defaultSettingName);
-            DefaultSettings.ApiTracking = DefaultSettings.ApiTracking ?? Framework.ApiTracking;
-
-            settingsContainer.Merge(DefaultSettings.Name, DefaultSettings, false);
-
+            RestApiSettingPool.AddSetting(defaultApiSettings);
             this.AllowOptions = allowOptions;
-
-            if (defaultRestApiSettings == null)
-            {
-                defaultRestApiSettings = defaultApiSettings ?? new RestApiSettings();
-            }
         }
 
         /// <summary>
@@ -177,20 +145,26 @@ namespace Beyova.Api.RestApi
                 // Fill basic context info.
 
                 var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
-                var apiContext = ContextHelper.ApiContext;
-                apiContext.UserAgent = string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent);
-                apiContext.IpAddress = context.TryGetRequestHeader(context.Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress);
-                apiContext.CurrentUri = context.Url;
-                var httpAuthorizationValue = context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64();
-                if (!string.IsNullOrWhiteSpace(httpAuthorizationValue))
-                {
-                    apiContext.HttpAuthorization = HttpExtension.GetBasicAuthentication(httpAuthorizationValue);
-                }
 
-                apiContext.CultureCode = context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode();
+                ContextHelper.ConsistContext(
+                    // TOKEN
+                    context.TryGetRequestHeader(context.Settings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN)),
+                    // Settings
+                    context.Settings,
+                    // IP Address
+                    context.TryGetRequestHeader(context.Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
+                    // User Agent
+                    string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent),
+                    // Culture Code
+                    context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                     // Current Uri
+                     context.Url,
+                     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    );
+
                 if (runtimeContext.OperationParameters?.EntitySynchronizationMode != null)
                 {
-                    apiContext.LastSynchronizedStamp = context.TryGetRequestHeader(runtimeContext.OperationParameters.EntitySynchronizationMode.IfModifiedSinceKey).ObjectToDateTime();
+                    ContextHelper.ApiContext.LastSynchronizedStamp = context.TryGetRequestHeader(runtimeContext.OperationParameters.EntitySynchronizationMode.IfModifiedSinceKey).ObjectToDateTime();
                 }
 
                 // Fill finished.
@@ -323,7 +297,7 @@ namespace Beyova.Api.RestApi
                     result = Framework.AboutService();
                     break;
 
-                case "secured-key":
+                case "psk"://public secured key
                     result = Framework.AboutService();
                     break;
 
@@ -565,7 +539,7 @@ namespace Beyova.Api.RestApi
             {
                 if (settings == null)
                 {
-                    settings = defaultRestApiSettings;
+                    settings = RestApiSettingPool.DefaultRestApiSettings;
                 }
 
                 var objectToReturn = ex != null ? (settings.OmitExceptionDetail ? ex.ToSimpleExceptionInfo() : ex.ToExceptionInfo()) : data;
@@ -645,23 +619,6 @@ namespace Beyova.Api.RestApi
         #endregion PackageResponse
 
         /// <summary>
-        /// Adds the setting.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="setting">The setting.</param>
-        /// <param name="overrideIfExists">The override if exists.</param>
-        /// <returns>System.Boolean.</returns>
-        public static bool AddSetting(string name, RestApiSettings setting, bool overrideIfExists = false)
-        {
-            if (setting != null)
-            {
-                return settingsContainer.Merge(name.SafeToString(), setting, overrideIfExists);
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Deserializes the json object.
         /// </summary>
         /// <param name="value">The value.</param>
@@ -683,16 +640,6 @@ namespace Beyova.Api.RestApi
             }
         }
 
-        /// <summary>
-        /// Gets the name of the rest API setting by.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="useDefaultIfNotFound">The use default if not found.</param>
-        /// <returns>Beyova.RestApi.RestApiSettings.</returns>
-        public static RestApiSettings GetRestApiSettingByName(string name, bool useDefaultIfNotFound = true)
-        {
-            RestApiSettings setting;
-            return settingsContainer.TryGetValue(name.SafeToString(), out setting) ? setting : (useDefaultIfNotFound ? settingsContainer[defaultSettingName] : null);
-        }
+
     }
 }

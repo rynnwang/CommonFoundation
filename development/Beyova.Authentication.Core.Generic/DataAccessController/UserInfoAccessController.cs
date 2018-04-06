@@ -13,7 +13,7 @@ namespace Beyova.FunctionService.Generic
     /// <typeparam name="TUserCriteria">The type of the t user criteria.</typeparam>
     /// <typeparam name="TFunctionalRole">The type of the t functional role.</typeparam>
     public abstract class UserInfoAccessController<TUserInfo, TUserCriteria, TFunctionalRole> : BaseAuthenticationController<TUserInfo, TUserCriteria>
-        where TUserInfo : IUserInfo<TFunctionalRole>, IBaseObject, new()
+        where TUserInfo : IUserInfo<TFunctionalRole>, new()
         where TUserCriteria : IUserCriteria<TFunctionalRole>, new()
         where TFunctionalRole : struct, IConvertible
     {
@@ -44,13 +44,12 @@ namespace Beyova.FunctionService.Generic
                 Gender = sqlDataReader[column_Gender].ObjectToInt32().Int32ToEnum<Gender>(),
                 Email = sqlDataReader[column_Email].ObjectToString(),
                 AvatarKey = sqlDataReader[column_AvatarKey].ObjectToGuid(),
-                FunctionalRole = sqlDataReader[column_FunctionalRole].ObjectToEnum<TFunctionalRole>(),
+                FunctionalRole = sqlDataReader[column_FunctionalRole].ObjectToInt32().Int32ToEnum<TFunctionalRole>(),
                 Language = sqlDataReader[column_Language].ObjectToString(),
                 TimeZone = sqlDataReader[column_TimeZone].ObjectToInt32()
             };
 
             this.FillAdditionalFieldValue(result, sqlDataReader);
-            FillBaseObjectFields(result, sqlDataReader);
 
             return result;
         }
@@ -63,7 +62,7 @@ namespace Beyova.FunctionService.Generic
         /// <returns>
         /// UserInfo.
         /// </returns>
-        public TUserInfo GetUserByToken(string token, string realm)
+        public TUserInfo GetUserByToken(string token, string realm = null)
         {
             const string spName = "sp_GetUserByToken";
 
@@ -74,7 +73,7 @@ namespace Beyova.FunctionService.Generic
                 var parameters = new List<SqlParameter>
                 {
                     this.GenerateSqlSpParameter(column_Token, token),
-                    this.GenerateSqlSpParameter(column_Realm, realm)
+                    this.GenerateSqlSpParameter(column_Realm, realm.SafeToString())
                 };
 
                 return this.ExecuteReader(spName, parameters).FirstOrDefault();
@@ -96,7 +95,7 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                criteria.CheckNullObject(nameof(criteria));
+                criteria.CheckNullObject("criteria");
 
                 var parameters = new List<SqlParameter>
                 {

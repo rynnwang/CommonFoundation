@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiEventHandlers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiSettingPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRoutePool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRouter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\SharedAttribute\ApiDescriptionAttribute.cs" />

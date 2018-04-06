@@ -3,7 +3,8 @@ DROP PROCEDURE [dbo].[sp_GetUserByToken]
 GO
 
 CREATE PROCEDURE [dbo].[sp_GetUserByToken](
-    @Token VARCHAR(512)
+    @Token VARCHAR(512),
+    @Realm NVARCHAR(64)
 )
 AS
 SET NOCOUNT ON;
@@ -36,6 +37,7 @@ BEGIN
     FROM [dbo].[view_UserInfo] AS U
     JOIN [dbo].[SessionInfo] AS S
         ON S.[UserKey] = U.[Key] AND [ExpiredStamp] > GETUTCDATE()
+            AND ([Realm] IS NULL OR [Realm] = '' OR [Realm] = @Realm)
     WHERE S.[Token] = @Token AND [dbo].[fn_ObjectIsWorkable](U.[State]) = 1;
 END
 GO

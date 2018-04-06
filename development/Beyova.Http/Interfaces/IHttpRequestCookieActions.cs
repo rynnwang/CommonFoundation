@@ -14,13 +14,13 @@ namespace Beyova.Http
         /// </summary>
         /// <param name="cookieKey">The cookie key.</param>
         /// <returns></returns>
-        string GetValue(string cookieKey);
+        string GetCookieValue(string cookieKey);
 
         /// <summary>
         /// Gets the values.
         /// </summary>
         /// <param name="cookieKey">The cookie key.</param>
         /// <returns></returns>
-        IEnumerable<string> GetValues(string cookieKey);
+        IEnumerable<string> GetCookieValues(string cookieKey);
     }
 }

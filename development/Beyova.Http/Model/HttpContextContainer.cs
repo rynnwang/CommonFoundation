@@ -11,7 +11,7 @@ namespace Beyova.Http
     /// </summary>
     /// <typeparam name="TRequest">The type of the request.</typeparam>
     /// <typeparam name="TResponse">The type of the response.</typeparam>
-    public abstract class HttpContextContainer<TRequest, TResponse> : IHttpRequestActions, IHttpResponseActions
+    public abstract class HttpContextContainer<TRequest, TResponse> : IHttpRequestActions, IHttpResponseActions, IHttpRequestCookieActions
     {
         /// <summary>
         /// The options
@@ -205,5 +205,19 @@ namespace Beyova.Http
         /// <param name="stream">The stream.</param>
         /// <param name="contentType">Type of the content.</param>
         public abstract void WriteResponseBody(Stream stream, string contentType);
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
+        public abstract string GetCookieValue(string cookieKey);
+
+        /// <summary>
+        /// Gets the values.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
+        public abstract IEnumerable<string> GetCookieValues(string cookieKey);
     }
 }

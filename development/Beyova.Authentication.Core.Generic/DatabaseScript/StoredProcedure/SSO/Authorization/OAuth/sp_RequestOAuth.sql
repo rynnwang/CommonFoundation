@@ -1,3 +1,6 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_RequestOAuth]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_RequestOAuth]
+GO
 
 CREATE PROCEDURE [dbo].[sp_RequestOAuth](
     @PartnerKey [UNIQUEIDENTIFIER],

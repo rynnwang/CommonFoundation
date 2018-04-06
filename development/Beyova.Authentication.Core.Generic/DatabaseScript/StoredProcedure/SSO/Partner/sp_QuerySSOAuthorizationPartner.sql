@@ -7,7 +7,8 @@ CREATE PROCEDURE [dbo].[sp_QuerySSOAuthorizationPartner](
     @OwnerKey [UNIQUEIDENTIFIER],
     @Name [NVARCHAR](256),
     @Token [NVARCHAR](512),
-    @CallbackUrl [NVARCHAR](512)
+    @CallbackUrl [NVARCHAR](512),
+    @Realm [NVARCHAR](64)
 )
 AS
 BEGIN
@@ -19,6 +20,7 @@ BEGIN
       ,[Name]
       ,[Token]
       ,[CallbackUrl]
+      ,[Realm]
       ,[TokenExpiration]
       ,[CreatedStamp]
       ,[LastUpdatedStamp]
@@ -35,6 +37,7 @@ BEGIN
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Token','=', @Token,1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Name','LIKE',@Name,1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('CallbackUrl','=',@CallbackUrl,1);
+        SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Realm','=',@Realm,1);
     END
 
     IF(@WhereStatement <> '')

@@ -1,25 +1,23 @@
-CREATE PROCEDURE [dbo].[sp_DisposeSessionInfo]
-(
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_DisposeSessionInfo]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_DisposeSessionInfo]
+GO
+
+CREATE PROCEDURE [dbo].[sp_DisposeSessionInfo](
     @Token VARCHAR(512),
-    @Realm VARCHAR(128)
+    @Realm NVARCHAR(64)
 )
 AS
 SET NOCOUNT ON;
 BEGIN
-    DECLARE @sql NVARCHAR(MAX);
-    SET @sql= '
     DECLARE @NowTime AS DATETIME = GETUTCDATE();
-	
-    UPDATE [dbo].[SessionInfo]
-    SET [ExpiredStamp] = @NowTime,
-        [LastUpdatedStamp] = @NowTime';
-    SET @sql = @sql + ' WHERE [Token] = ''' + CONVERT(NVARCHAR(MAX), @Token) + '''  ';
-    IF @Realm IS NOT NULL AND @Realm != ''
-    BEGIN
-        SET @sql = @sql + ' AND [Realm] = ''' + CONVERT(NVARCHAR(MAX), @Realm) + '''  ';
-    END;
 
-    --PRINT @sql;
-    EXECUTE sp_executesql @sql;
-END;
+    UPDATE [dbo].[SessionInfo]
+        SET [ExpiredStamp] = @NowTime,
+            [LastUpdatedStamp] = @NowTime
+            WHERE [Token] = @Token
+                AND ([Realm] IS NULL OR [Realm] = '' OR [Realm] = @Realm);
+END
 GO
+
+

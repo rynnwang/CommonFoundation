@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_RequestTokenExchange]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_RequestTokenExchange]
+GO
+
 CREATE PROCEDURE [dbo].[sp_RequestTokenExchange](
     @PartnerKey [UNIQUEIDENTIFIER],
     @ClientRequestId [NVARCHAR](512),

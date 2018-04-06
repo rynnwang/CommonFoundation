@@ -44,7 +44,8 @@ namespace Beyova.FunctionService.Generic
                 OwnerKey = sqlDataReader[column_OwnerKey].ObjectToGuid(),
                 Name = sqlDataReader[column_Name].ObjectToString(),
                 Token = sqlDataReader[column_Token].ObjectToString(),
-                CallbackUrl = sqlDataReader[column_CallbackUrl].ObjectToString()
+                CallbackUrl = sqlDataReader[column_CallbackUrl].ObjectToString(),
+                Realm = sqlDataReader[column_Realm].ObjectToString()
             };
 
             FillSimpleBaseObjectFields(result, sqlDataReader);
@@ -56,41 +57,42 @@ namespace Beyova.FunctionService.Generic
         /// <summary>
         /// Creates the or update sso authorization Partner.
         /// </summary>
-        /// <param name="Partner">The Partner.</param>
+        /// <param name="partner">The Partner.</param>
         /// <param name="operatorKey">The operator key.</param>
         /// <returns>System.Nullable&lt;Guid&gt;.</returns>
-        public Guid? CreateOrUpdateSSOAuthorizationPartner(TSSOAuthorizationPartner Partner, Guid? operatorKey)
+        public Guid? CreateOrUpdateSSOAuthorizationPartner(TSSOAuthorizationPartner partner, Guid? operatorKey)
         {
             const string spName = "sp_CreateOrUpdateSSOAuthorizationPartner";
 
             try
             {
-                Partner.CheckNullObject(nameof(Partner));
+                partner.CheckNullObject(nameof(partner));
                 operatorKey.CheckNullObject(nameof(operatorKey));
 
-                if (!Partner.Key.HasValue && string.IsNullOrWhiteSpace(Partner.Token))
+                if (!partner.Key.HasValue && string.IsNullOrWhiteSpace(partner.Token))
                 {
-                    Partner.Token = GenerateToken();
+                    partner.Token = GenerateToken();
                 }
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Key, Partner.Key),
-                    this.GenerateSqlSpParameter(column_OwnerKey, Partner.OwnerKey),
-                    this.GenerateSqlSpParameter(column_Name, Partner.Name),
-                    this.GenerateSqlSpParameter(column_Token, Partner.Token),
-                    this.GenerateSqlSpParameter(column_CallbackUrl, Partner.CallbackUrl),
-                    this.GenerateSqlSpParameter(column_TokenExpiration, Partner.TokenExpiration ),
+                    this.GenerateSqlSpParameter(column_Key, partner.Key),
+                    this.GenerateSqlSpParameter(column_OwnerKey, partner.OwnerKey),
+                    this.GenerateSqlSpParameter(column_Name, partner.Name),
+                    this.GenerateSqlSpParameter(column_Token, partner.Token),
+                    this.GenerateSqlSpParameter(column_CallbackUrl, partner.CallbackUrl),
+                    this.GenerateSqlSpParameter(column_Realm, partner.Realm.SafeToString()),
+                    this.GenerateSqlSpParameter(column_TokenExpiration, partner.TokenExpiration ),
                     this.GenerateSqlSpParameter(column_OperatorKey, operatorKey)
                 };
 
-                FillAdditionalFieldValue(parameters, Partner);
+                FillAdditionalFieldValue(parameters, partner);
 
                 return this.ExecuteScalar(spName, parameters).ObjectToGuid();
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { Partner, operatorKey });
+                throw ex.Handle(new { partner, operatorKey });
             }
         }
 
@@ -133,7 +135,7 @@ namespace Beyova.FunctionService.Generic
 
             try
             {
-                criteria.CheckNullObject("criteria");
+                criteria.CheckNullObject(nameof(criteria));
 
                 var parameters = new List<SqlParameter>
                 {
@@ -141,7 +143,8 @@ namespace Beyova.FunctionService.Generic
                     this.GenerateSqlSpParameter(column_OwnerKey, criteria.OwnerKey),
                     this.GenerateSqlSpParameter(column_Name, criteria.Name),
                     this.GenerateSqlSpParameter(column_Token, criteria.Token),
-                    this.GenerateSqlSpParameter(column_CallbackUrl, criteria.CallbackUrl)
+                    this.GenerateSqlSpParameter(column_CallbackUrl, criteria.CallbackUrl),
+                    this.GenerateSqlSpParameter(column_Realm, criteria.Realm)
                 };
                 FillAdditionalFieldValue(parameters, criteria);
 

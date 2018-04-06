@@ -8,6 +8,7 @@ CREATE PROCEDURE [dbo].[sp_CreateOrUpdateSSOAuthorizationPartner](
     @Name [NVARCHAR](256),
     @Token [NVARCHAR](512),
     @CallbackUrl [NVARCHAR](512),
+    @Realm [NVARCHAR](64),
     @TokenExpiration INT,
     @OperatorKey [UNIQUEIDENTIFIER]
 )
@@ -27,6 +28,7 @@ BEGIN
            ,[Name]
            ,[Token]
            ,[CallbackUrl]
+           ,[Realm]
            ,[TokenExpiration]
            ,[CreatedStamp]
            ,[LastUpdatedStamp]
@@ -39,6 +41,7 @@ BEGIN
            ,@Name
            ,@Token
            ,@CallbackUrl
+           ,@Realm
            ,CASE WHEN @TokenExpiration IS NULL OR @TokenExpiration < 1 THEN 30 ELSE @TokenExpiration END
            ,@NowTime
            ,@NowTime
@@ -51,6 +54,7 @@ BEGIN
         UPDATE [dbo].[SSOAuthorizationPartner]
            SET [Name] = ISNULL(@Name, [Name])
            ,[CallbackUrl] = ISNULL(@CallbackUrl, [CallbackUrl])
+           ,[Realm] = ISNULL(@Realm, [Realm])
            ,[TokenExpiration] = ISNULL(@TokenExpiration, [TokenExpiration])
            ,[Token] = ISNULL(@Token, [Token])    
            ,[LastUpdatedStamp] = @NowTime

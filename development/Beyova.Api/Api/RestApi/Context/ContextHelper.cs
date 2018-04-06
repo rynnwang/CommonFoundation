@@ -155,7 +155,9 @@ namespace Beyova
         /// <param name="ipAddress">The ip address.</param>
         /// <param name="userAgent">The user agent.</param>
         /// <param name="cultureCode">The culture code.</param>
-        private static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode)
+        /// <param name="currentUri">The current URI.</param>
+        /// <param name="basicAuthentication">The basic authentication.</param>
+        internal static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode, Uri currentUri, AccessCredential basicAuthentication)
         {
             RestApiEventHandlers restApiEventHandlers = setting?.EventHandlers;
 
@@ -163,7 +165,9 @@ namespace Beyova
 
             apiContext.UserAgent = userAgent;
             apiContext.IpAddress = ipAddress;
-            ApiContext.CultureCode = cultureCode;
+            apiContext.CultureCode = cultureCode;
+            apiContext.CurrentUri = currentUri;
+            apiContext.HttpAuthorization = basicAuthentication;
 
             if (restApiEventHandlers != null && !string.IsNullOrWhiteSpace(token))
             {

@@ -7,9 +7,9 @@ GO
 CREATE TABLE [dbo].[UserInfo](
     [RowId] [INT] NOT NULL IDENTITY(1,1),
     [Key] [UNIQUEIDENTIFIER] NOT NULL DEFAULT NEWID(),
-    [Name] [nvarchar](64) NULL,
-    [Gender] INT NOT NULL DEFAULT 0, 
-    [Email] [varchar](128) NULL,
+    [Name] [NVARCHAR](64) NULL,
+    [Gender] [INT] NOT NULL DEFAULT 0, 
+    [Email] [NVARCHAR](128) NULL,
     [AvatarKey] [UNIQUEIDENTIFIER] NULL,
     [FunctionalRole] INT NOT NULL DEFAULT 0,
     [Language] VARCHAR(16) NULL,

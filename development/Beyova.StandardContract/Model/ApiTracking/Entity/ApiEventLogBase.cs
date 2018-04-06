@@ -65,12 +65,6 @@ namespace Beyova.ApiTracking
         public string UserAgent { get; set; }
 
         /// <summary>
-        /// Gets or sets the raw URL.
-        /// </summary>
-        /// <value>The raw URL.</value>
-        public string RawUrl { get; set; }
-
-        /// <summary>
         /// Gets or sets the referrer URL.
         /// </summary>
         /// <value>The referrer URL.</value>
@@ -125,6 +119,14 @@ namespace Beyova.ApiTracking
         public string Referrer { get; set; }
 
         /// <summary>
+        /// Gets or sets the UI element identifier.
+        /// </summary>
+        /// <value>
+        /// The UI element identifier.
+        /// </value>
+        public string UIElementId { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiEventLogBase"/> class.
         /// </summary>
         public ApiEventLogBase()
@@ -147,13 +149,14 @@ namespace Beyova.ApiTracking
                 this.ClientIdentifier = eventLogBase.ClientIdentifier;
                 this.ApiFullName = eventLogBase.ApiFullName;
                 this.IpAddress = eventLogBase.IpAddress;
-                this.RawUrl = eventLogBase.RawUrl;
                 this.UserAgent = eventLogBase.UserAgent;
                 this.ResourceName = eventLogBase.ResourceName;
                 this.ExceptionKey = eventLogBase.ExceptionKey;
                 this.Platform = eventLogBase.Platform;
                 this.DeviceType = eventLogBase.DeviceType;
                 this.OperatorCredential = eventLogBase.OperatorCredential;
+                this.Referrer = eventLogBase.Referrer;
+                this.UIElementId = eventLogBase.UIElementId;
             }
         }
     }

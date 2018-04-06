@@ -5,7 +5,7 @@ namespace Beyova
     /// <summary>
     /// Class UriEndpoint.
     /// </summary>
-    public class UriEndpoint
+    public class UriEndpoint : ICloneable
     {
         /// <summary>
         /// Gets or sets the protocol.
@@ -44,7 +44,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Gets the base URI.
+        /// Gets the base URI. Like: http://beyova.com, https://beyova.com:8088
         /// </summary>
         /// <returns>System.String.</returns>
         public string GetBaseUri()
@@ -120,6 +120,21 @@ namespace Beyova
         public override int GetHashCode()
         {
             return this.Protocol.SafeGetHashCode() + this.Host.SafeGetHashCode() + this.Port.SafeGetHashCode() + this.Path.SafeGetHashCode();
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        public virtual object Clone()
+        {
+            return new UriEndpoint
+            {
+                Host = this.Host,
+                Path = this.Path,
+                Port = this.Port,
+                Protocol = this.Protocol
+            };
         }
     }
 }

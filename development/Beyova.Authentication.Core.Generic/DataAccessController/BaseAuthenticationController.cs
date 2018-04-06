@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Beyova.FunctionService.Generic;
 
 namespace Beyova.FunctionService.Generic
 {

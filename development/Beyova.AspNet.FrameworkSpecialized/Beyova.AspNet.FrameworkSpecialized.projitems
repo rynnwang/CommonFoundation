@@ -22,7 +22,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\ProductBasedActionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\ViewExtension\ApiViewAttribute.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)MVC\Controller\" />
-  </ItemGroup>
 </Project>

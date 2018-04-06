@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_OAuthAuthorize]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_OAuthAuthorize]
+GO
+
 CREATE PROCEDURE [dbo].[sp_OAuthAuthorize](
     @PartnerKey [UNIQUEIDENTIFIER],
     @ClientRequestId [NVARCHAR](512),

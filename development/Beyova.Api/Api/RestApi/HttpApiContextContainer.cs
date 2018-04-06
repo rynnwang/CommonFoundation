@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
@@ -11,7 +12,7 @@ namespace Beyova.Api.RestApi
     /// </summary>
     /// <typeparam name="TRequest">The type of the request.</typeparam>
     /// <typeparam name="TResponse">The type of the response.</typeparam>
-    public abstract class HttpApiContextContainer<TRequest, TResponse> : HttpContextContainer<TRequest, TResponse>, IHttpResponseApiActions
+    public abstract class HttpApiContextContainer<TRequest, TResponse> : HttpContextContainer<TRequest, TResponse>, IHttpResponseApiActions, IHttpRequestCookieActions
     {
         #region Runtime Context properties
 
@@ -116,6 +117,7 @@ namespace Beyova.Api.RestApi
                     ResourceName = this.RuntimeContext.ResourceName,
                     ServerIdentifier = EnvironmentCore.ServerName,
                     ModuleName = this.RuntimeContext.OperationParameters.ModuleName,
+                    ReferrerUrl = this.TryGetRequestHeader(HttpConstants.HttpHeader.Referrer),
                     ResourceEntityKey = this.RuntimeContext.IsActionUsed ? this.RuntimeContext.Parameter2 : this.RuntimeContext.Parameter1
                 };
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Beyova;
 using Beyova.Api;
 using Beyova.Api.RestApi;
@@ -67,7 +69,7 @@ namespace Beyova.Web
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
         public RestApiContextConsistenceAttribute(string settingName = null)
-            : this(ApiHandlerBase.GetRestApiSettingByName(settingName, false))
+            : this(RestApiSettingPool.GetRestApiSettingByName(settingName, false))
         {
         }
 
@@ -160,7 +162,8 @@ namespace Beyova.Web
                 var traceSequence = request.TryGetHeader(HttpConstants.HttpHeader.TRACESEQUENCE).ObjectToNullableInt32();
                 var methodInfo = (filterContext.ActionDescriptor as ReflectedActionDescriptor)?.MethodInfo;
 
-                ContextHelper.ConsistContext(new HttpBaseApiContextContainer(request, null), this.settings?.Name);
+                var httpContextContainer = new HttpBaseApiContextContainer(request, filterContext.HttpContext.Response);
+                ContextHelper.ConsistContext(httpContextContainer, this.settings);
 
                 if (!string.IsNullOrWhiteSpace(traceId))
                 {

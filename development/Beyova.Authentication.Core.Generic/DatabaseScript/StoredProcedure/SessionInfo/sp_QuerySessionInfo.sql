@@ -1,3 +1,7 @@
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_QuerySessionInfo]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[sp_QuerySessionInfo]
+GO
+
 CREATE PROCEDURE [dbo].[sp_QuerySessionInfo](
     @UserKey UNIQUEIDENTIFIER,
     @Token VARCHAR(512),
@@ -5,8 +9,8 @@ CREATE PROCEDURE [dbo].[sp_QuerySessionInfo](
     @IpAddress VARCHAR(64),
     @Platform INT,
     @DeviceType INT,
+    @Realm NVARCHAR(64),
     @IsExpired BIT,
-	@Realm VARCHAR(128),
     @Count INT
 )
 AS
@@ -24,10 +28,10 @@ BEGIN
       ,[Platform]
       ,[DeviceType]
       ,[IpAddress]
+      ,[Realm]
       ,[CreatedStamp]
       ,[LastUpdatedStamp]
       ,[ExpiredStamp]
-	  ,[Realm]
     FROM [dbo].[SessionInfo]';
 
     IF @Token IS NOT NULL
@@ -37,7 +41,7 @@ BEGIN
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('UserKey','=',CONVERT(NVARCHAR(MAX), @UserKey),1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('UserAgent','=',@UserAgent,1);
         SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('IpAddress','=',@IpAddress,1);
-		SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Realm','=',@Realm,1);
+        SET @WhereStatement = @WhereStatement + dbo.[fn_GenerateWherePattern]('Realm','=',@Realm,1);
 
         IF @Platform IS NOT NULL
         BEGIN

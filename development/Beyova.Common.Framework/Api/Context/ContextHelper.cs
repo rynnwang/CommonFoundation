@@ -23,9 +23,11 @@ namespace Beyova
         /// <param name="ipAddress">The ip address.</param>
         /// <param name="userAgent">The user agent.</param>
         /// <param name="cultureCode">The culture code.</param>
-        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode)
+        /// <param name="currentUri">The current URI.</param>
+        /// <param name="basicAuthentication">The basic authentication.</param>
+        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode, Uri currentUri, AccessCredential basicAuthentication)
         {
-            ConsistContext(token, ApiHandlerBase.GetRestApiSettingByName(settingName, true), ipAddress, userAgent, cultureCode);
+            ConsistContext(token, RestApiSettingPool.GetRestApiSettingByName(settingName, true), ipAddress, userAgent, cultureCode, currentUri, basicAuthentication);
         }
 
         /// <summary>
@@ -34,16 +36,18 @@ namespace Beyova
         /// <typeparam name="TRequest">The type of the request.</typeparam>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
         /// <param name="context">The context.</param>
-        /// <param name="settingName">Name of the setting.</param>
-        /// <param name="cookieActions">The cookie actions.</param>
-        internal static void ConsistContext<TRequest, TResponse>(HttpContextContainer<TRequest, TResponse> context, string settingName = null, IHttpRequestCookieActions cookieActions = null)
+        /// <param name="settings">The settings.</param>
+        internal static void ConsistContext<TRequest, TResponse>(HttpContextContainer<TRequest, TResponse> context, RestApiSettings settings)
         {
             ConsistContext(
-                GetValueCompatibly(context, cookieActions, HttpConstants.HttpHeader.TOKEN),
-                settingName,
+                GetValueCompatibly(context, context, HttpConstants.HttpHeader.TOKEN),
+                settings,
                 context.ClientIpAddress,
                 context.UserAgent,
-                 context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(cookieActions?.GetValue(HttpConstants.QueryString.Language)).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode());
+                context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context?.GetCookieValue(HttpConstants.QueryString.Language)).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                context.Url,
+                HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                );
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace Beyova
         /// <returns></returns>
         private static string GetValueCompatibly<TRequest, TResponse>(HttpContextContainer<TRequest, TResponse> context, IHttpRequestCookieActions cookieActions, string key)
         {
-            return !string.IsNullOrWhiteSpace(key) ? (context?.TryGetRequestHeader(key) ?? (cookieActions?.GetValue(key))) : null;
+            return !string.IsNullOrWhiteSpace(key) ? (context?.TryGetRequestHeader(key).SafeToString(cookieActions?.GetCookieValue(key))) : null;
         }
 
         /// <summary>
@@ -74,7 +78,30 @@ namespace Beyova
                     settingName,
                     httpRequest.UserHostAddress,
                     httpRequest.UserAgent,
-                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode()
+                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                    httpRequest.Url,
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Consists the context.
+        /// </summary>
+        /// <param name="httpRequest">The HTTP request.</param>
+        /// <param name="settings">The settings.</param>
+        internal static void ConsistContext(HttpRequestBase httpRequest, RestApiSettings settings)
+        {
+            if (httpRequest != null && settings != null)
+            {
+                ConsistContext(
+                    httpRequest.Headers.Get(HttpConstants.HttpHeader.TOKEN) ?? httpRequest.Cookies.TryGetValue(HttpConstants.HttpHeader.TOKEN),
+                    settings,
+                    httpRequest.UserHostAddress,
+                    httpRequest.UserAgent,
+                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                    httpRequest.Url,
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
                     );
             }
         }
@@ -92,7 +119,9 @@ namespace Beyova
                     settingName,
                     httpRequest.UserHostAddress,
                     httpRequest.UserAgent,
-                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode()
+                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                    httpRequest.Url,
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
                     );
             }
         }
@@ -110,7 +139,9 @@ namespace Beyova
                     settingName,
                     httpRequest.UserHostAddress,
                     httpRequest.UserAgent,
-                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode()
+                    httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                    httpRequest.Url,
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
                     );
             }
         }

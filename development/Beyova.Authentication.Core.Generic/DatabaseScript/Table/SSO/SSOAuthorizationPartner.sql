@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[SSOAuthorizationPartner](
     [OwnerKey] [UNIQUEIDENTIFIER] NULL,
     [Name] [NVARCHAR](256) NOT NULL,
     [Token] [NVARCHAR](512) NOT NULL,
+    [Realm] [NVARCHAR](64) NOT NULL,
     [CallbackUrl] [NVARCHAR](512) NULL,
     [TokenExpiration] [INT] NOT NULL DEFAULT 30, -- Unit: minute.
     [CreatedStamp] [DATETIME] NOT NULL DEFAULT GETUTCDATE(),

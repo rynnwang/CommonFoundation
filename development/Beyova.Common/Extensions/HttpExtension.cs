@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
 namespace Beyova
@@ -156,5 +158,14 @@ namespace Beyova
         }
 
         #endregion Uri and Credential
+
+        //public static CookieCollection GetCookies(this HttpRequestHeaders headers)
+        //{
+        //    if (headers != null)
+        //    {
+        //        var values = headers.GetValues(HttpConstants.HttpHeader.Cookie);
+
+        //    }
+        //}
     }
 }

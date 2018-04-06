@@ -1,4 +1,10 @@
-﻿CREATE TABLE [dbo].[SessionInfo](
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SessionInfo]') AND type in (N'U'))
+BEGIN
+    DROP TABLE [dbo].[SessionInfo];
+END
+GO
+
+CREATE TABLE [dbo].[SessionInfo](
     [RowId] [INT] NOT NULL IDENTITY(1,1),
     [Token] VARCHAR(512) NOT NULL DEFAULT '' UNIQUE,
     [UserKey] [UNIQUEIDENTIFIER] NOT NULL,
@@ -6,6 +12,7 @@
     [Platform] INT NOT NULL DEFAULT 0,
     [DeviceType] INT NOT NULL DEFAULT 0,
     [IpAddress] VARCHAR(64) NULL,
+    [Realm] NVARCHAR(64) NULL,
     [CreatedStamp] DATETIME NOT NULL DEFAULT GETUTCDATE(),
     [LastUpdatedStamp] DATETIME NOT NULL DEFAULT GETUTCDATE(),
     [ExpiredStamp] DATETIME NOT NULL,

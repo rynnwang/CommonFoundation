@@ -281,5 +281,25 @@ namespace Beyova.Api.RestApi
 
             return _cachedRequestBodyByteArray;
         }
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
+        public override string GetCookieValue(string cookieKey)
+        {
+            return this.Request?.Cookies.TryGetValue(cookieKey);
+        }
+
+        /// <summary>
+        /// Gets the values.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
+        public override IEnumerable<string> GetCookieValues(string cookieKey)
+        {
+            return this.Request?.Cookies?.Get(cookieKey)?.Values as IEnumerable<string>;
+        }
     }
 }

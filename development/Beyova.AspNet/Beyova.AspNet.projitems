@@ -12,10 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\Attribute\RouteRegistrationAttribution.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\RouteFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\PortalViewNames.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\BeyovaBaseController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\BeyovaPortalController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\ErrorBaseController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PatternedController\ErrorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />
   </ItemGroup>

@@ -27,6 +27,14 @@
         public string ServerHost { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw URL.
+        /// </summary>
+        /// <value>
+        /// The raw URL.
+        /// </value>
+        public string RawUrl { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiLogBase" /> class.
         /// </summary>
         /// <param name="logBase">The log base.</param>
@@ -37,6 +45,7 @@
                 this.ServerIdentifier = logBase.ServerIdentifier;
                 this.ServiceIdentifier = logBase.ServiceIdentifier;
                 this.ServerHost = logBase.ServerHost;
+                this.RawUrl = logBase.RawUrl;
             }
         }
 

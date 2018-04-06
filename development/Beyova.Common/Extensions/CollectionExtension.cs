@@ -962,7 +962,7 @@ namespace Beyova
         #endregion Array specialized
 
         /// <summary>
-        /// Ases the covariance.
+        /// This method would try to convert each item of collection to from <c>TInput</c> to <c>TOutput</c> by keyword <c>as</c>. If by any reason to get null as result, it would not be included in result collection.
         /// </summary>
         /// <typeparam name="TInput">The type of the input.</typeparam>
         /// <typeparam name="TOutput">The type of the output.</typeparam>
@@ -988,29 +988,33 @@ namespace Beyova
         }
 
         /// <summary>
-        /// To the key value string.
+        /// Converts to dictionary.
         /// </summary>
-        /// <param name="dictionary">The dictionary.</param>
-        /// <param name="encodeHtml">if set to <c>true</c> [encode HTML].</param>
-        /// <returns>System.String.</returns>
-        public static string ToKeyValueString(this NameValueCollection dictionary, bool encodeHtml = false)
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="initializer">The initializer.</param>
+        /// <returns></returns>
+        public static Dictionary<TInput, TOutput> ConvertToDictionary<TInput, TOutput>(this IEnumerable<TInput> collection, Func<TOutput> initializer = null)
         {
-            var builder = new StringBuilder();
-
-            if (dictionary != null)
+            if (collection != null)
             {
-                foreach (string key in dictionary.Keys)
+                Dictionary<TInput, TOutput> result = new Dictionary<TInput, TOutput>(collection.Count());
+
+                if (initializer == null)
                 {
-                    builder.AppendFormat(keyValueFormat, key, encodeHtml ? dictionary[key].ToHtmlEncodedText() : dictionary[key]);
+                    initializer = () => { return default(TOutput); };
                 }
 
-                if (builder.Length > 0)
+                foreach (var one in collection)
                 {
-                    builder.Remove(0, 1);
+                    result.Add(one, initializer.Invoke());
                 }
+
+                return result;
             }
 
-            return builder.ToString();
+            return null;
         }
 
         /// <summary>

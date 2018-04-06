@@ -39,10 +39,10 @@ namespace Beyova.AOP
         /// <typeparam name="T"></typeparam>
         /// <param name="injectionDelegates">The injection delegates.</param>
         /// <returns></returns>
-        public static object CreateAopInterfaceProxy<T>(MethodInjectionDelegates injectionDelegates = null)
+        public static T CreateAopInterfaceProxy<T>(MethodInjectionDelegates injectionDelegates = null)
             where T : class, new()
         {
-            return InternalAsAopInterfaceProxy(new T(), false, injectionDelegates);
+            return InternalAsAopInterfaceProxy(new T(), false, injectionDelegates) as T;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Beyova.AOP
         public static object AsAopInterfaceProxy<T>(this T instance, MethodInjectionDelegates injectionDelegates = null)
             where T : class
         {
-            return InternalAsAopInterfaceProxy(instance, false, injectionDelegates);
+            return InternalAsAopInterfaceProxy(instance, false, injectionDelegates) as T;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Beyova.AOP
         /// <param name="reuseInstance">if set to <c>true</c> [reuse instance].</param>
         /// <param name="injectionDelegates">The injection delegates.</param>
         /// <returns></returns>
-        private static object InternalAsAopInterfaceProxy<T>(this T instance, bool reuseInstance, MethodInjectionDelegates injectionDelegates)
+        private static T InternalAsAopInterfaceProxy<T>(this T instance, bool reuseInstance, MethodInjectionDelegates injectionDelegates)
             where T : class
         {
             var type = typeof(T);
@@ -93,12 +93,12 @@ namespace Beyova.AOP
 
                             proxiedInstance = CreateInstance(proxyOptions, instance);
                             proxyInstances[type] = proxiedInstance;
-                            return proxiedInstance;
+                            return proxiedInstance as T;
                         }
                     }
                 }
 
-                return reuseInstance ? proxyInstances[type] : CreateInstance(proxyOptionsCollection[type], instance);
+                return (reuseInstance ? proxyInstances[type] : CreateInstance(proxyOptionsCollection[type], instance)) as T;
             }
             catch (Exception ex)
             {
