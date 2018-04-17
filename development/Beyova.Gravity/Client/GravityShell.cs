@@ -178,23 +178,16 @@ namespace Beyova.Gravity
                 }
                 catch { }
 
-                //5 min
-                Thread.Sleep(300000);
+                //1 min
+                Thread.Sleep(60000);
             }
         }
-
-        #region Static
-
-        /// <summary>
-        /// The host
-        /// </summary>
-        private static GravityShell host = InitializeGravityHost();
 
         /// <summary>
         /// Gets the host.
         /// </summary>
         /// <value>The host.</value>
-        internal static GravityShell Host { get { return host; } }
+        internal static GravityShell Host { get; } = InitializeGravityHost();
 
         /// <summary>
         /// Initializes the gravity host.
@@ -244,6 +237,5 @@ namespace Beyova.Gravity
             return entryObject == null ? null : new GravityShell(componentAttribute, assemblyName, entryObject, invokers, gravityEventHook);
         }
 
-        #endregion Static
     }
 }

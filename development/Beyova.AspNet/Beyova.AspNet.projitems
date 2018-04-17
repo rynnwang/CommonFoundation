@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\Attribute\RouteRegistrationAttribution.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\RouteFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extension\ControllerExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\PortalViewNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />

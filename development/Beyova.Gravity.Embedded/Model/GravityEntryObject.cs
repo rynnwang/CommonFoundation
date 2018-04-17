@@ -8,7 +8,7 @@ namespace Beyova.Gravity
     public class GravityEntryObject
     {
         /// <summary>
-        /// Gets or sets the member identifiable key. (Token)
+        /// Gets or sets the member identifiable key. (Token assigned by gravity central server)
         /// </summary>
         /// <value>The member identifiable key.</value>
         public string MemberIdentifiableKey { get; set; }

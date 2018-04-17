@@ -506,7 +506,7 @@ namespace Beyova
         /// Generates the triple DES key.
         /// </summary>
         /// <returns>System.Byte[].</returns>
-        public static byte[] GenerateTripleDESKey()
+        public static CryptoKey GenerateTripleDESKey()
         {
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
@@ -524,15 +524,6 @@ namespace Beyova
 
                 return tripleDesKey;
             }
-        }
-
-        /// <summary>
-        /// Generates the triple DES key as string.
-        /// </summary>
-        /// <returns>System.String.</returns>
-        public static string GenerateTripleDESKeyAsString()
-        {
-            return GenerateTripleDESKey().EncodeBase64();
         }
 
         /// <summary>
@@ -749,22 +740,34 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Gets the RSA keys.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <returns></returns>
+        public static RsaKeys GetRsaKeys(this RSACryptoServiceProvider provider)
+        {
+            return provider == null ? null : new RsaKeys
+            {
+                PrivateKey = provider.ExportCspBlob(true),
+                PublicKey = provider.ExportCspBlob(false),
+                DoubleWordKeySize = provider.KeySize
+            };
+        }
+
+        /// <summary>
         /// Creates the RSA keys.
         /// </summary>
         /// <param name="dwKeySize">Size of the dw key.</param>
-        /// <returns>Beyova.RsaKeys.</returns>
+        /// <returns>
+        /// Beyova.RsaKeys.
+        /// </returns>
         public static RsaKeys CreateRsaKeys(int dwKeySize = DefaultSecuritySettings.DoubleWordKeySize)
         {
             try
             {
                 using (var rsa = new RSACryptoServiceProvider(dwKeySize))
                 {
-                    return new RsaKeys
-                    {
-                        PrivateKey = rsa.ExportCspBlob(true),
-                        PublicKey = rsa.ExportCspBlob(false),
-                        DoubleWordKeySize = dwKeySize
-                    };
+                    return GetRsaKeys(rsa);
                 }
             }
             catch (Exception ex)

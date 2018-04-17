@@ -206,7 +206,7 @@ namespace Beyova
         #endregion Min
 
         /// <summary>
-        /// Bytes the wise sum with.
+        /// Do SUM(item[N], byteItems[i][N]) by each byte wise
         /// </summary>
         /// <param name="item">The item.</param>
         /// <param name="byteItems">The byte items.</param>
@@ -264,6 +264,88 @@ namespace Beyova
         {
             //https://stackoverflow.com/questions/412019/math-optimization-in-c-sharp
             return 1.0f / (1.0f + (float)Math.Exp(-value));
+        }
+
+        /// <summary>
+        /// To the bytes.
+        /// </summary>
+        /// <param name="integerValue">The integer value.</param>
+        /// <param name="fixedArrayLength">Length of the fixed array.</param>
+        /// <returns></returns>
+        public static byte[] ToBytes(this int integerValue, int fixedArrayLength)
+        {
+            try
+            {
+                return ToBytes<int>(integerValue, fixedArrayLength, BitConverter.GetBytes);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { integerValue, fixedArrayLength });
+            }
+        }
+
+        /// <summary>
+        /// To the bytes.
+        /// </summary>
+        /// <param name="longValue">The long value.</param>
+        /// <param name="fixedArrayLength">Length of the fixed array.</param>
+        /// <returns></returns>
+        public static byte[] ToBytes(this long longValue, int fixedArrayLength)
+        {
+            try
+            {
+                return ToBytes<long>(longValue, fixedArrayLength, BitConverter.GetBytes);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { longValue, fixedArrayLength });
+            }
+        }
+
+        /// <summary>
+        /// To the bytes.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="integerValue">The integer value.</param>
+        /// <param name="fixedArrayLength">Length of the fixed array.</param>
+        /// <param name="convert">The convert.</param>
+        /// <returns></returns>
+        private static byte[] ToBytes<T>(this T integerValue, int fixedArrayLength, Func<T, byte[]> convert)
+        {
+            try
+            {
+                convert.CheckNullObject(nameof(convert));
+
+                if (fixedArrayLength < 1)
+                {
+                    ExceptionFactory.CreateInvalidObjectException(nameof(fixedArrayLength), fixedArrayLength);
+                }
+
+                var actualBytes = convert(integerValue);
+                int length, sourceIndex, destinationIndex;
+
+                if (fixedArrayLength > actualBytes.Length)
+                {
+                    length = actualBytes.Length;
+                    sourceIndex = 0;
+                    destinationIndex = fixedArrayLength - actualBytes.Length;
+                }
+                else
+                {
+                    length = fixedArrayLength;
+                    destinationIndex = 0;
+                    sourceIndex = actualBytes.Length - fixedArrayLength;
+                }
+
+                var result = new byte[fixedArrayLength];
+                Array.Copy(actualBytes, sourceIndex, result, destinationIndex, length);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { integerValue, fixedArrayLength });
+            }
         }
     }
 }

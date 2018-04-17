@@ -46,12 +46,7 @@ namespace Beyova.Gravity
 
             try
             {
-                var responseMessage = GravityExtension.SecureHttpInvoke<TIn, TOut>(GetInvokeUri(module, feature), parameter, this.Entry.PublicKey, this.Entry.MemberIdentifiableKey);
-                if (responseMessage == null || !responseMessage.ValidateStamp())
-                {
-                    throw ExceptionFactory.CreateInvalidObjectException(nameof(responseMessage), reason: "Stamp invalid.");
-                }
-                return responseMessage.Data;
+                return GravityExtension.SecureHttpInvoke<TIn, TOut>(GetInvokeUri(module, feature), parameter, this.Entry.PublicKey, this.Entry.MemberIdentifiableKey);
             }
             catch (Exception ex)
             {

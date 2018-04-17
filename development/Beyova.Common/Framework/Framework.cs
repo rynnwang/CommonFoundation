@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -12,9 +13,9 @@ namespace Beyova
     public static class Framework
     {
         /// <summary>
-        /// The global culture resource collection
+        /// The resource hub
         /// </summary>
-        internal static GlobalCultureResourceCollection GlobalCultureResourceCollection = new GlobalCultureResourceCollection();
+        internal static GlobalCultureResourceHub _resourceHub = new GlobalCultureResourceHub();
 
         /// <summary>
         /// The assembly version
@@ -22,17 +23,12 @@ namespace Beyova
         private readonly static Dictionary<string, object> _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// The data security provider
-        /// </summary>
-        private static IDataSecurityProvider _dataSecurityProvider = null;
-
-        /// <summary>
         /// Gets the data security provider.
         /// </summary>
         /// <value>
         /// The data security provider.
         /// </value>
-        internal static IDataSecurityProvider DataSecurityProvider { get { return _dataSecurityProvider; } }
+        internal static IDataSecurityProvider DataSecurityProvider { get; private set; } = null;
 
         /// <summary>
         /// The primary SQL connection
@@ -111,16 +107,56 @@ namespace Beyova
             }
         }
 
+        #region GlobalCultureResourceCollection
+
         /// <summary>
         /// Gets the resource by key.
         /// </summary>
         /// <param name="resourceKey">The resource key.</param>
+        /// <param name="typeRequired">The type required.</param>
         /// <param name="languageCompatibility">The language compatibility.</param>
-        /// <returns>System.String.</returns>
-        public static string GetResourceString(string resourceKey, bool languageCompatibility = true)
+        /// <returns>
+        /// System.String.
+        /// </returns>
+        public static string GetResourceString(string resourceKey, GlobalCultureResourceType? typeRequired = null, bool languageCompatibility = true)
         {
-            return string.IsNullOrWhiteSpace(resourceKey) ? string.Empty : GlobalCultureResourceCollection.GetResourceString(resourceKey);
+            return string.IsNullOrWhiteSpace(resourceKey) ? string.Empty : _resourceHub.GetResourceString(resourceKey, typeRequired, languageCompatibility: languageCompatibility);
         }
+
+        /// <summary>
+        /// Gets the enum resource string.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="enumValue">The enum value.</param>
+        /// <param name="languageCompatibility">if set to <c>true</c> [language compatibility].</param>
+        /// <returns></returns>
+        public static string GetEnumResourceString<TEnum>(TEnum enumValue, bool languageCompatibility = true)
+           where TEnum : struct, IConvertible
+        {
+            return GetResourceString(string.Format("{0}_{1}", typeof(TEnum).Name, enumValue.ToInt64(null)), GlobalCultureResourceType.EnumValue, languageCompatibility);
+        }
+
+        /// <summary>
+        /// Gets the culture aspect json.
+        /// </summary>
+        /// <param name="cultureCode">The culture code.</param>
+        /// <param name="languageCompatibility">if set to <c>true</c> [language compatibility].</param>
+        /// <returns></returns>
+        public static JToken GetCultureAspectJson(CultureInfo cultureCode, bool languageCompatibility = true)
+        {
+            return _resourceHub.GetJson(cultureCode, languageCompatibility);
+        }
+
+        /// <summary>
+        /// Gets the global resource available culture information.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<CultureInfo> GetGlobalResourceAvailableCultureInfo()
+        {
+            return _resourceHub.AvailableCultureInfo;
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the configuration.
@@ -186,7 +222,7 @@ namespace Beyova
         {
             get
             {
-                return ContextHelper.CurrentCultureInfo ?? GlobalCultureResourceCollection?.DefaultCultureInfo;
+                return ContextHelper.CurrentCultureInfo ?? _resourceHub?.DefaultCultureInfo;
             }
         }
 
@@ -242,9 +278,9 @@ namespace Beyova
                         var dataSecurty = assembly.GetCustomAttribute<DataSecurityAttribute>();
                         if (dataSecurty != null)
                         {
-                            if (_dataSecurityProvider == null)
+                            if (DataSecurityProvider == null)
                             {
-                                _dataSecurityProvider = dataSecurty.DataSecurityProvider;
+                                DataSecurityProvider = dataSecurty.DataSecurityProvider;
                             }
                         }
 
@@ -279,10 +315,10 @@ namespace Beyova
                         {
                             if (!string.IsNullOrWhiteSpace(cultureResourceAttribute.UnderlyingObject.DefaultCultureCode))
                             {
-                                GlobalCultureResourceCollection.DefaultCultureInfo = cultureResourceAttribute.UnderlyingObject.DefaultCultureCode.AsCultureInfo();
+                                _resourceHub.DefaultCultureInfo = cultureResourceAttribute.UnderlyingObject.DefaultCultureCode.AsCultureInfo();
                             }
 
-                            cultureResourceAttribute?.UnderlyingObject.FillResources(GlobalCultureResourceCollection.cultureBasedResources);
+                            cultureResourceAttribute?.UnderlyingObject.FillResources(_resourceHub._cultureBasedResources);
                         }
 
                         #endregion BeyovaCultureResourceAttribute
@@ -290,9 +326,9 @@ namespace Beyova
                 }
 
                 // To check and ensure
-                if (_dataSecurityProvider == null)
+                if (DataSecurityProvider == null)
                 {
-                    _dataSecurityProvider = DefaultDataSecurityProvider.Instance;
+                    DataSecurityProvider = DefaultDataSecurityProvider.Instance;
                 }
             }
             catch (Exception ex)

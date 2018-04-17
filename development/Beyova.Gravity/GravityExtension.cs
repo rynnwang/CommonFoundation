@@ -2,6 +2,7 @@
 using System.Text;
 using System.Web;
 using Beyova.ExceptionSystem;
+using Beyova.VirtualSecuredTransferProtocol;
 
 namespace Beyova.Gravity
 {
@@ -10,35 +11,35 @@ namespace Beyova.Gravity
     /// </summary>
     internal static class GravityExtension
     {
-        #region Client Usages
+        //#region Client Usages
 
-        /// <summary>
-        /// Converts to secured message package.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="messageObject">The message object.</param>
-        /// <param name="publicKey">The public key.</param>
-        /// <returns>SecuredMessagePackage.</returns>
-        internal static SecuredMessagePackage ConvertToSecuredMessagePackage<T>(this SecuredMessageRequest<T> messageObject, string publicKey)
-        {
-            try
-            {
-                messageObject.CheckNullObject(nameof(messageObject));
-                publicKey.CheckEmptyString(nameof(publicKey));
+        ///// <summary>
+        ///// Converts to secured message package.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="messageObject">The message object.</param>
+        ///// <param name="publicKey">The public key.</param>
+        ///// <returns>SecuredMessagePackage.</returns>
+        //internal static VirtualSecuredMessagePackage ConvertToSecuredMessagePackage<T>(this VirtualSecuredMessageRequest<T> messageObject, string publicKey)
+        //{
+        //    try
+        //    {
+        //        messageObject.CheckNullObject(nameof(messageObject));
+        //        publicKey.CheckEmptyString(nameof(publicKey));
 
-                messageObject.EncryptionKey.CheckNullOrEmptyCollection(nameof(messageObject.EncryptionKey));
+        //        messageObject.EncryptionKey.CheckNullOrEmptyCollection(nameof(messageObject.EncryptionKey));
 
-                return new SecuredMessagePackage
-                {
-                    Security = EncodingOrSecurityExtension.RsaEncrypt(messageObject.EncryptionKey, publicKey),
-                    Data = EncodingOrSecurityExtension.EncryptTripleDES(Encoding.UTF8.GetBytes(messageObject.Message.ToJson(false)), messageObject.EncryptionKey)
-                };
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { messageObject, publicKey });
-            }
-        }
+        //        return new VirtualSecuredMessagePackage
+        //        {
+        //            Security = EncodingOrSecurityExtension.RsaEncrypt(messageObject.EncryptionKey, publicKey),
+        //            Data = EncodingOrSecurityExtension.EncryptTripleDES(Encoding.UTF8.GetBytes(messageObject.Message.ToJson(false)), messageObject.EncryptionKey)
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.Handle(new { messageObject, publicKey });
+        //    }
+        //}
 
         /// <summary>
         /// Secures HTTP invoke.
@@ -50,62 +51,40 @@ namespace Beyova.Gravity
         /// <param name="rsaPublicKey">The RSA public key.</param>
         /// <param name="token">The token.</param>
         /// <returns>System.String.</returns>
-        internal static SecuredMessageObject<TOutput> SecureHttpInvoke<TInput, TOutput>(this Uri uri, TInput data, string rsaPublicKey, string token)
+        internal static TOutput SecureHttpInvoke<TInput, TOutput>(this Uri uri, TInput data, string rsaPublicKey, string token)
         {
-            if (uri != null && data != null && !string.IsNullOrWhiteSpace(rsaPublicKey))
-            {
-                try
+            return VirtualSecuredTransferProtocolHelper.Invoke<TInput, TOutput>(
+                uri,
+                new ClassicVirtualSecuredRequestMessagePackage<TInput>
                 {
-                    var httpRequest = uri.CreateHttpWebRequest(HttpConstants.HttpMethod.Post);
-                    httpRequest.SafeSetHttpHeader(HttpConstants.HttpHeader.TOKEN, token);
-
-                    var tripleDesKey = EncodingOrSecurityExtension.GenerateTripleDESKey();
-
-                    var package = new SecuredMessageRequest<TInput>
-                    {
-                        EncryptionKey = tripleDesKey,
-                        Message = new SecuredMessageObject<TInput>
-                        {
-                            Data = data
-                        }
-                    };
-
-                    httpRequest.FillData(HttpConstants.HttpMethod.Post, package.ConvertToSecuredMessagePackage(rsaPublicKey).ToBytes());
-
-                    var responseBytes = httpRequest.ReadResponseAsBytes();
-                    return responseBytes.Body.ConvertToSecuredMessageObject<TOutput>(tripleDesKey);
-                }
-                catch (Exception ex)
-                {
-                    throw ex.Handle(new { uri, rsaPublicKey });
-                }
-            }
-
-            return null;
+                    Object = data,
+                    Token = token
+                },
+                new RsaKeys { PublicKey = rsaPublicKey }.AsRSACryptoServiceProvider());
         }
 
-        /// <summary>
-        /// Converts to secured message object.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bytes">The bytes.</param>
-        /// <param name="encryptionKey">The encryption key.</param>
-        /// <returns>SecuredMessageObject&lt;T&gt;.</returns>
-        internal static SecuredMessageObject<T> ConvertToSecuredMessageObject<T>(this byte[] bytes, byte[] encryptionKey)
-        {
-            SecuredMessageObject<T> result = null;
+        ///// <summary>
+        ///// Converts to secured message object.
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="bytes">The bytes.</param>
+        ///// <param name="encryptionKey">The encryption key.</param>
+        ///// <returns>SecuredMessageObject&lt;T&gt;.</returns>
+        //internal static VirtualSecuredMessageObject<T> ConvertToSecuredMessageObject<T>(this byte[] bytes, byte[] encryptionKey)
+        //{
+        //    VirtualSecuredMessageObject<T> result = null;
 
-            if (bytes.HasItem() && encryptionKey.HasItem())
-            {
-                result = Encoding.UTF8.GetString(bytes.DecryptTripleDES(encryptionKey)).TryConvertJsonToObject<SecuredMessageObject<T>>();
-            }
+        //    if (bytes.HasItem() && encryptionKey.HasItem())
+        //    {
+        //        result = Encoding.UTF8.GetString(bytes.DecryptTripleDES(encryptionKey)).TryConvertJsonToObject<VirtualSecuredMessageObject<T>>();
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        #endregion Client Usages
+        //#endregion Client Usages
 
-        //#region Server Usages
+        ////#region Server Usages
 
         ///// <summary>
         ///// To bytes.
@@ -114,7 +93,7 @@ namespace Beyova.Gravity
         ///// <param name="messageObject">The message object.</param>
         ///// <param name="encryptionKey">The encryption key.</param>
         ///// <returns>System.Byte[].</returns>
-        //internal static byte[] ToBytes<T>(SecuredMessageObject<T> messageObject, byte[] encryptionKey)
+        //internal static byte[] ToBytes<T>(VirtualSecuredMessageObject<T> messageObject, byte[] encryptionKey)
         //{
         //    if (messageObject != null && encryptionKey.HasItem())
         //    {
@@ -131,7 +110,7 @@ namespace Beyova.Gravity
         ///// <param name="package">The package.</param>
         ///// <param name="privateKey">The private key.</param>
         ///// <returns>SecuredMessageRequest&lt;T&gt;.</returns>
-        //internal static SecuredMessageRequest<T> ConvertToSecuredMessageRequest<T>(this SecuredMessagePackage package, string privateKey)
+        //internal static VirtualSecuredMessageRequest<T> ConvertToSecuredMessageRequest<T>(this VirtualSecuredMessagePackage package, string privateKey)
         //{
         //    try
         //    {
@@ -144,10 +123,10 @@ namespace Beyova.Gravity
         //        var encryptionKey = package.Security.RsaDecrypt(privateKey);
         //        encryptionKey.CheckNullOrEmptyCollection(nameof(encryptionKey));
 
-        //        return new SecuredMessageRequest<T>
+        //        return new VirtualSecuredMessageRequest<T>
         //        {
         //            EncryptionKey = encryptionKey,
-        //            Message = Encoding.UTF8.GetString(package.Data.DecryptTripleDES(encryptionKey)).TryConvertJsonToObject<SecuredMessageObject<T>>()
+        //            Message = Encoding.UTF8.GetString(package.Data.DecryptTripleDES(encryptionKey)).TryConvertJsonToObject<VirtualSecuredMessageObject<T>>()
         //        };
         //    }
         //    catch (Exception ex)

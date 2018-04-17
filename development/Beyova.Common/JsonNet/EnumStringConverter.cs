@@ -43,10 +43,18 @@ namespace Beyova
         public EnumStringNamingRule NamingRule { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="EnumStringConverter"/> class.
+        /// </summary>
+        public EnumStringConverter()
+            : this(EnumStringNamingRule.Default)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumStringConverter" /> class.
         /// </summary>
         /// <param name="namingRule">The naming rule.</param>
-        public EnumStringConverter(EnumStringNamingRule namingRule = EnumStringNamingRule.Default)
+        public EnumStringConverter(EnumStringNamingRule namingRule)
             : base()
         {
             this.NamingRule = namingRule;

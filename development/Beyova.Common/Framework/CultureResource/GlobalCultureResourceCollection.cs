@@ -1,103 +1,67 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
     /// <summary>
-    /// Class GlobalResourceCollection. Only resources defined via <see cref="BeyovaCultureResourceAttribute"/> would be provided here.
+    /// Class GlobalCultureResourceCollection
     /// </summary>
-    public sealed class GlobalCultureResourceCollection : II18NResourceCollection
+    public sealed class GlobalCultureResourceCollection
     {
         /// <summary>
-        /// The culture based resources
+        /// The resources
         /// </summary>
-        internal Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> cultureBasedResources = new Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>>();
+        internal Dictionary<string, GlobalCultureResource> _resources = new Dictionary<string, GlobalCultureResource>();
 
         /// <summary>
-        /// Gets or sets the default culture information.
+        /// Gets or sets the source.
         /// </summary>
-        /// <value>The default culture information.</value>
-        public CultureInfo DefaultCultureInfo { get; internal set; }
+        /// <value>
+        /// The source.
+        /// </value>
+        public string Source { get; private set; }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="GlobalCultureResourceCollection"/> class from being created.
+        /// Prevents a default instance of the <see cref="GlobalCultureResourceHub" /> class from being created.
         /// </summary>
-        internal GlobalCultureResourceCollection()
+        /// <param name="source">The source.</param>
+        internal GlobalCultureResourceCollection(string source)
         {
+            this.Source = source;
         }
 
         /// <summary>
-        /// Determines whether [has culture resource] [the specified culture information].
+        /// Gets the resource by key.
         /// </summary>
-        /// <param name="cultureInfo">The culture information.</param>
-        /// <returns><c>true</c> if [has culture resource] [the specified culture information]; otherwise, <c>false</c>.</returns>
-        public bool HasCultureResource(CultureInfo cultureInfo)
+        /// <param name="key">The key.</param>
+        /// <param name="typeRequired">The type required.</param>
+        /// <returns></returns>
+        public string GetResourceByKey(string key, GlobalCultureResourceType? typeRequired = null)
         {
-            return cultureInfo != null && cultureBasedResources.ContainsKey(cultureInfo);
-        }
-
-        /// <summary>
-        /// Gets the resource.
-        /// </summary>
-        /// <param name="resourceKey">The resource key.</param>
-        /// <param name="cultureInfo">The culture information.</param>
-        /// <param name="languageCompatibility">The language compatibility.</param>
-        /// <returns>
-        /// System.Object.
-        /// </returns>
-        public string GetResourceString(string resourceKey, CultureInfo cultureInfo = null, bool languageCompatibility = true)
-        {
-            if (string.IsNullOrWhiteSpace(resourceKey))
+            GlobalCultureResource outValue = null;
+            if (!string.IsNullOrWhiteSpace(key) && _resources.TryGetValue(key, out outValue))
             {
-                return null;
-            }
-
-            cultureInfo = cultureInfo ?? ContextHelper.CurrentCultureInfo ?? DefaultCultureInfo;
-
-            if (cultureInfo == null) return string.Empty;
-
-            Dictionary<string, GlobalCultureResource> hitDictionary = null;
-            if (!cultureBasedResources.TryGetValue(cultureInfo, out hitDictionary))
-            {
-                if (languageCompatibility)
+                if (typeRequired.HasValue)
                 {
-                    if (cultureInfo.Name.Contains("-"))
+                    if (typeRequired.Value == outValue.Type)
                     {
-                        var parentCultureInfo = cultureInfo?.Name.SubStringBeforeFirstMatch('-').AsCultureInfo();
-
-                        if (parentCultureInfo != null)
-                        {
-                            cultureBasedResources.TryGetValue(parentCultureInfo, out hitDictionary);
-                        }
+                        return outValue.Resource;
                     }
                 }
-
-                if (hitDictionary == null)
-                {
-                    cultureBasedResources.TryGetValue(DefaultCultureInfo, out hitDictionary);
-                }
-            }
-
-            if (hitDictionary != null)
-            {
-                GlobalCultureResource result;
-                return hitDictionary.TryGetValue(resourceKey, out result) ? result?.Resource : null;
             }
 
             return string.Empty;
         }
 
         /// <summary>
-        /// Gets the available culture information.
+        /// To the json.
         /// </summary>
-        /// <value>The available culture information.</value>
-        public ICollection<CultureInfo> AvailableCultureInfo
+        /// <returns></returns>
+        public JToken ToJson()
         {
-            get
-            {
-                return cultureBasedResources.Keys;
-            }
+            return _resources.ToJson(false);
         }
     }
 }

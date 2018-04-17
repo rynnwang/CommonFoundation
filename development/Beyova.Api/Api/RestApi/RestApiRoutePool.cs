@@ -123,7 +123,7 @@ namespace Beyova.Api.RestApi
 
                 if (apiContract != null && !string.IsNullOrWhiteSpace(apiContract.Version))
                 {
-                    if (apiContract.Version.SafeToLower().Equals(ApiConstants.BuiltInFeatureVersionKeyword))
+                    if (apiContract.Version.SafeEquals(ApiConstants.BuiltInFeatureVersionKeyword, StringComparison.OrdinalIgnoreCase))
                     {
                         throw ExceptionFactory.CreateInvalidObjectException(nameof(apiContract.Version), reason: "<builtin> cannot be used as version due to it is used internally.");
                     }

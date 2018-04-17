@@ -33,7 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IGeographyLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IGlobalObjectName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\II18NResourceCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\II18NResourceOperatable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMachineHealth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMappingTable.cs" />
@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProductIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProjectIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAesKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IContainerableIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRsaKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISearchTerm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISearchTermConverter.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITreeNode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IWorkflowBasedObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AuthenticationProfile\LoginRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\BinaryStorage\ContainerableIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\CryptoKey.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Dictionary\NameValueDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GlobalEntity.cs" />
@@ -60,16 +62,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementLookup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementReadMark.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementReadReceipt.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeRefundDetail.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\OfflineTradeDetail.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\FinanceAudit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeCategorizable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeInfoBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\FinanceAuditAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\OrganizationUserIdentifier.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeState.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Trade\TradeInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Admin\AdminAuthenticationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Admin\Permission\AdminPermission.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Admin\Permission\AdminPermissionBinding.cs" />
@@ -165,7 +158,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\ClientEnvironment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\DeviceType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\PlatformType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\ObjectState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enum\ObjectState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ProcessCommandParameterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AesKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SingleParameterInstanceConstructure.cs" />
@@ -184,13 +177,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\ServiceCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ServiceRunningStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SimpleBaseObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\SocialableUserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SqlDataRow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SystemEnvironment\DiskDriveInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SystemEnvironment\EnvironmentInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SystemEnvironment\MachineHealth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextValue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enum\TimeScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionCriteria.cs" />

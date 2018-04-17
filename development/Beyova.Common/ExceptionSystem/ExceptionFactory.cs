@@ -105,7 +105,7 @@ namespace Beyova
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="InvalidObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckNullObjectAsInvalid(this object targetObject, string objectIdentity, string reason, object externalDataReference = null, FriendlyHint friendlyHint = null,
+        public static void CheckNullObjectAsInvalid(this object targetObject, string objectIdentity, string reason = null, object externalDataReference = null, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)

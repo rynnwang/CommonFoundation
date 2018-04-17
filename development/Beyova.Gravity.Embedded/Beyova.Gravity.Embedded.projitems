@@ -10,9 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityProtocolAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessageObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessagePackage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Communication\SecuredMessageRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\RemoteConfigurationReceipt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\GravityConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntryFile\GravityEntryFile.cs" />
@@ -21,5 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\GravityEntryObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\Heartbeat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\HeartbeatEcho.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Communication\" />
   </ItemGroup>
 </Project>

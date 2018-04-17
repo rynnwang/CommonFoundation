@@ -44,9 +44,9 @@ namespace Beyova
         public Guid? OwnerKey { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BinaryStorageMetaData"/> class.
+        /// Initializes a new instance of the <see cref="BinaryStorageMetaData" /> class.
         /// </summary>
-        public BinaryStorageMetaData()
+        public BinaryStorageMetaData() : base()
         {
         }
 

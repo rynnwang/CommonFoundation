@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Beyova
@@ -159,13 +165,17 @@ namespace Beyova
 
         #endregion Uri and Credential
 
-        //public static CookieCollection GetCookies(this HttpRequestHeaders headers)
-        //{
-        //    if (headers != null)
-        //    {
-        //        var values = headers.GetValues(HttpConstants.HttpHeader.Cookie);
-
-        //    }
-        //}
+        /// <summary>
+        /// Determines whether this instance is ok.
+        /// </summary>
+        /// <param name="statusCode">The status code.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified status code is ok; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsOK(this HttpStatusCode statusCode)
+        {
+            var start = (((int)statusCode) / 100);
+            return !(start == 4 || start == 5);
+        }
     }
 }

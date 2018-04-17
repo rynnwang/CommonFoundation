@@ -70,7 +70,7 @@ namespace Beyova.Web
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
         public RestApiContextConsistenceAttribute(string settingName = null)
-            : this(ApiHandlerBase.GetRestApiSettingByName(settingName, false))
+            : this(RestApiSettingPool.GetRestApiSettingByName(settingName, false))
         {
         }
 
@@ -188,7 +188,8 @@ namespace Beyova.Web
                         Protocol = context.Request.Url.Scheme,
                         ReferrerUrl = context.Request.UrlReferrer?.ToString(),
                         ServerIdentifier = EnvironmentCore.ServerName,
-                        ServiceIdentifier = EnvironmentCore.ProductName
+                        ServiceIdentifier = EnvironmentCore.ProductName,
+                        Referrer = context.Request.UrlReferrer?.ToString(),
                     };
                 }
 

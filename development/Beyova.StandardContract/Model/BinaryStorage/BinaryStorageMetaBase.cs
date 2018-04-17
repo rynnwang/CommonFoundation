@@ -68,8 +68,16 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryStorageMetaBase"/> class.
         /// </summary>
+        public BinaryStorageMetaBase() : this(null)
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryStorageMetaBase"/> class.
+        /// </summary>
         /// <param name="identifier">The identifier.</param>
-        public BinaryStorageMetaBase(BinaryStorageIdentifier identifier = null)
+        public BinaryStorageMetaBase(BinaryStorageIdentifier identifier)
         {
             if (identifier != null)
             {

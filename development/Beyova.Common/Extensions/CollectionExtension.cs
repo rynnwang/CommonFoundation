@@ -491,7 +491,7 @@ namespace Beyova
                     throw ExceptionFactory.CreateInvalidObjectException("startIndex", data: new { startIndex, collectionCount = collection.Count });
                 }
 
-                if (count != null && (count.Value < 0 || (count.Value + startIndex - 1) > collection.Count))
+                if (count.HasValue && (count.Value < 0 || (count.Value + startIndex - 1) > collection.Count))
                 {
                     throw ExceptionFactory.CreateInvalidObjectException("count", data: new { count, collectionCount = collection.Count });
                 }
@@ -502,6 +502,116 @@ namespace Beyova
                     result.Add(collection[i]);
                 }
 
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Subs the array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The count.</param>
+        /// <returns></returns>
+        public static T[] SubArray<T>(this T[] array, int startIndex, int? count = null)
+        {
+            if (array != null)
+            {
+                if (startIndex < 0 || startIndex >= array.Length)
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException("startIndex", data: new { startIndex, arrayLength = array.Length });
+                }
+
+                var maxAllowedCount = array.Length - startIndex;
+
+                if (count.HasValue && (count.Value < 0 || count.Value > maxAllowedCount))
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(count), data: new { count, arrayLength = array.Length });
+                }
+
+                if (maxAllowedCount > 0)
+                {
+                    var result = new T[count ?? maxAllowedCount];
+                    Array.Copy(array, startIndex, result, 0, result.Length);
+                    return result;
+                }
+            }
+
+            return default(T[]);
+        }
+
+        /// <summary>
+        /// Subs the array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="count">The count.</param>
+        /// <returns></returns>
+        public static T[] SubArray<T>(this T[] array, long startIndex, long? count = null)
+        {
+            if (array != null)
+            {
+                if (startIndex < 0 || startIndex >= array.Length)
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException("startIndex", data: new { startIndex, collectionCount = array.LongLength });
+                }
+
+                var maxAllowedCount = array.Length - startIndex;
+
+                if (count.HasValue && (count.Value < 0 || count.Value > maxAllowedCount))
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(count), data: new { count, arrayLength = array.LongLength });
+                }
+
+                if (maxAllowedCount > 0)
+                {
+                    var result = new T[count ?? maxAllowedCount];
+                    Array.Copy(array, startIndex, result, 0, result.Length);
+                    return result;
+                }
+            }
+
+            return default(T[]);
+        }
+
+        /// <summary>
+        /// Reads the specified step count.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="stepCount">The step count.</param>
+        /// <param name="currentIndex">Index of the current.</param>
+        /// <returns></returns>
+        public static T[] Read<T>(this T[] array, int stepCount, ref int currentIndex)
+        {
+            if (array != null && stepCount > 0 && currentIndex >= 0)
+            {
+                var result = array.SubArray(currentIndex, stepCount);
+                currentIndex += result.Length;
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Reads the specified step count.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="stepCount">The step count.</param>
+        /// <param name="currentIndex">Index of the current.</param>
+        /// <returns></returns>
+        public static T[] Read<T>(this T[] array, long stepCount, ref long currentIndex)
+        {
+            if (array != null && stepCount > 1 && currentIndex >= 0)
+            {
+                var result = array.SubArray(currentIndex, stepCount);
+                currentIndex += result.Length;
                 return result;
             }
 
@@ -1609,6 +1719,28 @@ namespace Beyova
         {
             T result;
             return Find(collection, converter, comparerIdentifier, comparer, out result) ? result : defaultValue;
+        }
+
+        /// <summary>
+        /// Safes the peek.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="stack">The stack.</param>
+        /// <returns></returns>
+        public static T SafePeek<T>(this Stack<T> stack)
+        {
+            return (stack != null && stack.Count > 0) ? stack.Peek() : default(T);
+        }
+
+        /// <summary>
+        /// Safes the pop.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="stack">The stack.</param>
+        /// <returns></returns>
+        public static T SafePop<T>(this Stack<T> stack)
+        {
+            return (stack != null && stack.Count > 0) ? stack.Pop() : default(T);
         }
 
         #region Dictionary Extensions

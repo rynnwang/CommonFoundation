@@ -870,7 +870,7 @@ namespace Beyova
         /// <returns>System.String.</returns>
         public static string SafeToLower(this string anyString)
         {
-            return string.IsNullOrWhiteSpace(anyString) ? anyString : anyString.ToLowerInvariant();
+            return string.IsNullOrWhiteSpace(anyString) ? string.Empty : anyString.ToLowerInvariant();
         }
 
         /// <summary>
@@ -885,7 +885,7 @@ namespace Beyova
                 return Char.ToUpperInvariant(anyString[0]) + (anyString.Length > 1 ? anyString.Substring(1) : string.Empty);
             }
 
-            return anyString;
+            return string.Empty;
         }
 
         /// <summary>

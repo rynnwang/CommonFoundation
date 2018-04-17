@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
+using Beyova.ApiTracking;
 using Beyova.Cache;
 using Beyova.ExceptionSystem;
 using Newtonsoft.Json;
@@ -51,12 +54,6 @@ namespace Beyova.Api.RestApi
         #endregion Protected static fields
 
         #region Property
-
-        /// <summary>
-        /// Gets or sets the default settings.
-        /// </summary>
-        /// <value>The default rest settings.</value>
-        public RestApiSettings DefaultSettings { get; protected set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [allow options].
@@ -108,7 +105,7 @@ namespace Beyova.Api.RestApi
             context.EntryStamp = DateTime.UtcNow;
             context.SetResponseHeader(HttpConstants.HttpHeader.SERVERENTRYTIME, context.EntryStamp.ToFullDateTimeTzString());
 
-            var acceptEncoding = context.TryGetRequestHeader(HttpConstants.HttpHeader.AcceptEncoding).SafeToLower();
+            var acceptEncoding = context.TryGetRequestHeader(HttpConstants.HttpHeader.AcceptEncoding);
 
             try
             {
@@ -140,7 +137,7 @@ namespace Beyova.Api.RestApi
                 runtimeContext.CheckNullObject(nameof(runtimeContext));
                 context.RuntimeContext = runtimeContext;
 
-                context.Settings = runtimeContext.Settings ?? DefaultSettings;
+                context.Settings = runtimeContext.Settings ?? RestApiSettingPool.DefaultRestApiSettings;
 
                 // Fill basic context info.
 
@@ -148,11 +145,11 @@ namespace Beyova.Api.RestApi
 
                 ContextHelper.ConsistContext(
                     // TOKEN
-                    context.TryGetRequestHeader(context.Settings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN)),
+                    context.TryGetRequestHeader((context.Settings?.TokenHeaderKey).SafeToString(HttpConstants.HttpHeader.TOKEN)),
                     // Settings
                     context.Settings,
                     // IP Address
-                    context.TryGetRequestHeader(context.Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
+                    context.TryGetRequestHeader((context.Settings?.OriginalIpAddressHeaderKey).SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
                     // User Agent
                     string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent),
                     // Culture Code
@@ -330,7 +327,7 @@ namespace Beyova.Api.RestApi
                     break;
 
                 case "i18n":
-                    result = Framework.GlobalCultureResourceCollection?.AvailableCultureInfo ?? new Collection<CultureInfo>();
+                    result = Framework._resourceHub?.AvailableCultureInfo ?? new Collection<CultureInfo>();
                     break;
 
                 case "mirror":
@@ -379,6 +376,185 @@ namespace Beyova.Api.RestApi
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Initializes the runtime context.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns></returns>
+        protected virtual RuntimeContext InitializeRuntimeContext(Uri uri)
+        {
+            try
+            {
+                uri.CheckNullObject(nameof(uri));
+
+                var match = methodMatch.Match(uri.PathAndQuery);
+                return new RuntimeContext
+                {
+                    ResourceName = match.Success ? match.Result("${resource}") : string.Empty,
+                    Version = match.Success ? match.Result("${version}") : string.Empty,
+                    Realm = match.Success ? match.Result("${realm}") : string.Empty,
+                    Parameter1 = match.Success ? match.Result("${parameter1}") : string.Empty,
+                    Parameter2 = match.Success ? match.Result("${parameter2}") : string.Empty
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { Uri = uri?.ToString() });
+            }
+        }
+
+        /// <summary>
+        /// Processes the route.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="doAuthentication">if set to <c>true</c> [do authentication].</param>
+        /// <returns></returns>
+        /// <exception cref="ResourceNotFoundException">
+        /// ResourceName
+        /// or
+        /// or
+        /// </exception>
+        internal virtual RuntimeContext ProcessRoute(HttpApiContextContainer<TRequest, TResponse> context, bool doAuthentication = true)
+        {
+            try
+            {
+                context.CheckNullObject(nameof(context));
+                var httpMethod = context.HttpMethod;
+                var uri = context.Url;
+
+                var rawFullUrl = string.Format("{0}: {1}", httpMethod, context.Url);
+                var result = InitializeRuntimeContext(uri);
+
+                result.CheckNullObjectAsInvalid("URL");
+
+                if (result.Version.Equals(ApiConstants.BuiltInFeatureVersionKeyword, StringComparison.OrdinalIgnoreCase))
+                {
+                    return result;
+                }
+
+                if (string.IsNullOrWhiteSpace(result.ResourceName))
+                {
+                    throw new ResourceNotFoundException(rawFullUrl, nameof(result.ResourceName));
+                }
+
+                RuntimeRoute runtimeRoute;
+
+                if (!RestApiRoutePool.Routes.TryGetValue(new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, result.Parameter1), out runtimeRoute))
+                {
+                    RestApiRoutePool.Routes.TryGetValue(new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, null), out runtimeRoute);
+                }
+                else
+                {
+                    if (runtimeRoute != null && (!string.IsNullOrWhiteSpace(result.Parameter1) && !runtimeRoute.IsActionUsed))
+                    {
+                        throw new ResourceNotFoundException(rawFullUrl);
+                    }
+                }
+
+                if (runtimeRoute == null)
+                {
+                    throw new ResourceNotFoundException(rawFullUrl);
+                }
+
+                // Override out parameters
+                result.OperationParameters = runtimeRoute.OperationParameters ?? new RuntimeApiOperationParameters();
+
+                result.ApiMethod = runtimeRoute.ApiMethod;
+                result.ApiInstance = runtimeRoute.ApiInstance;
+                result.IsActionUsed = runtimeRoute.IsActionUsed;
+                result.IsVoid = runtimeRoute.IsVoid;
+                result.Settings = runtimeRoute.Setting;
+                result.OmitApiEvent = runtimeRoute.OmitApiTracking?.Omit(ApiTrackingType.Event) ?? false;
+
+                if (runtimeRoute.ApiCacheAttribute != null)
+                {
+                    result.ApiCacheIdentity = runtimeRoute.ApiRouteIdentifier.Clone() as ApiRouteIdentifier;
+                    if (runtimeRoute.ApiCacheAttribute.CacheParameter.CachedByParameterizedIdentity)
+                    {
+                        result.ApiCacheIdentity.SetParameterizedIdentifier(uri.ToQueryString());
+                    }
+
+                    result.ApiCacheContainer = runtimeRoute.ApiCacheContainer;
+
+                    if (result.ApiCacheContainer != null)
+                    {
+                        string cachedResponseBody;
+                        if (result.ApiCacheContainer.GetCacheResult(result.ApiCacheIdentity, out cachedResponseBody))
+                        {
+                            result.CachedResponseBody = cachedResponseBody;
+                            result.ApiCacheStatus = ApiCacheStatus.UseCache;
+                        }
+                        else
+                        {
+                            result.ApiCacheStatus = ApiCacheStatus.UpdateCache;
+                        }
+                    }
+                    else
+                    {
+                        result.ApiCacheStatus = ApiCacheStatus.NoCache;
+                    }
+                }
+
+                // Fill basic context info.
+                var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
+                var token = context.TryGetRequestHeader(context.Settings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN));
+
+                ContextHelper.ConsistContext(
+                    // TOKEN
+                    token,
+                    // Settings
+                    context.Settings,
+                    // IP Address
+                    context.TryGetRequestHeader(context.Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
+                    // User Agent
+                    string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent),
+                    // Culture Code
+                    context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                     // Current Uri
+                     context.Url,
+                     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    );
+
+                string userIdentifier = ContextHelper.ApiContext.CurrentCredential?.Name.SafeToString(token);
+
+                var authenticationException = doAuthentication ? Authenticate(runtimeRoute, ContextHelper.ApiContext) : null;
+
+                if (authenticationException != null)
+                {
+                    throw authenticationException.Handle(new { result.ApiMethod.Name, token });
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle();
+            }
+        }
+
+        /// <summary>
+        /// Authenticates the specified runtime route.
+        /// </summary>
+        /// <param name="runtimeRoute">The runtime route.</param>
+        /// <param name="apiContext">The API context.</param>
+        /// <returns></returns>
+        protected BaseException Authenticate(RuntimeRoute runtimeRoute, ApiContext apiContext)
+        {
+            if (!runtimeRoute.OperationParameters.IsTokenRequired)
+            {
+                return null;
+            }
+
+            //Check permissions
+            if (apiContext.CurrentCredential != null)
+            {
+                var userPermissions = ContextHelper.ApiContext.CurrentPermissionIdentifiers?.Permissions ?? new List<string>();
+                return userPermissions.ValidateApiPermission(runtimeRoute.OperationParameters.Permissions, apiContext.Token, runtimeRoute.ApiMethod.GetFullName());
+            }
+
+            return new UnauthorizedTokenException(new { apiContext });
         }
 
         /// <summary>
@@ -513,11 +689,9 @@ namespace Beyova.Api.RestApi
         }
 
         /// <summary>
-        /// Processes the route.
+        /// The method match
         /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns></returns>
-        protected abstract RuntimeContext ProcessRoute(HttpApiContextContainer<TRequest, TResponse> context);
+        private static Regex methodMatch = new Regex(@"(/(?<realm>([^\/\?]+)))?/api/(?<version>([0-9a-zA-Z\-_\.]+))/(?<resource>([^\/\?]+))?(/(?<parameter1>([^\/\?]+)))?(/(?<parameter2>([^\/\?]+)))?(/)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         #endregion Protected virtual methods
 
@@ -589,7 +763,7 @@ namespace Beyova.Api.RestApi
 
                     if (settings.EnableContentCompression)
                     {
-                        acceptEncoding = acceptEncoding.SafeToLower();
+                        acceptEncoding = acceptEncoding.SafeToString().ToLowerInvariant();
 
                         if (acceptEncoding.Contains(HttpConstants.HttpValues.GZip))
                         {

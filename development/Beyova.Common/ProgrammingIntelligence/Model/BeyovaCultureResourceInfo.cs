@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -54,14 +55,14 @@ namespace Beyova
             this.ResourceBaseName = resourceBaseName;
             this.DefaultCultureCode = defaultCultureCode;
             this.TryLanguageCompatibility = tryLanguageCompatibility;
-            this.Directory = cultureResourceDirectory;
+            this.Directory = cultureResourceDirectory.SafeToString("i18n");
         }
 
         /// <summary>
         /// Fills the resources.
         /// </summary>
         /// <param name="container">The container.</param>
-        internal void FillResources(Dictionary<CultureInfo, Dictionary<string, GlobalCultureResource>> container)
+        internal void FillResources(Dictionary<CultureInfo, GlobalCultureResourceCollection> container)
         {
             if (container == null)
             {
@@ -93,12 +94,15 @@ namespace Beyova
                             var resources = TryReadResourceFile(file.FullName);
                             if (resources != null)
                             {
-                                var destinationContainer = container.GetOrCreate(cultureInfo, new Dictionary<string, GlobalCultureResource>(StringComparer.OrdinalIgnoreCase));
+
                                 foreach (var item in resources)
                                 {
+                                    var destinationContainer = container.GetOrCreate(cultureInfo, new GlobalCultureResourceCollection(file.Name));
+
                                     foreach (var one in item.Value)
                                     {
-                                        destinationContainer.Merge(one.Key, new GlobalCultureResource { Resource = one.Value, Source = file.Name }, true);
+                                        one.Value.Category = item.Key;
+                                        destinationContainer._resources.Merge(one.Key, one.Value, true);
                                     }
                                 }
                             }
@@ -117,7 +121,7 @@ namespace Beyova
         /// </summary>
         /// <param name="filePath">The file path.</param>
         /// <returns>System.Collections.Generic.Dictionary&lt;System.String, System.Collections.Generic.Dictionary&lt;System.String, System.String&gt;&gt;.</returns>
-        internal static Dictionary<string, Dictionary<string, string>> TryReadResourceFile(string filePath)
+        internal static Dictionary<string, Dictionary<string, GlobalCultureResource>> TryReadResourceFile(string filePath)
         {
             string fileContent = null;
 
@@ -126,7 +130,23 @@ namespace Beyova
                 if (!string.IsNullOrWhiteSpace(filePath))
                 {
                     fileContent = File.ReadAllText(filePath, Encoding.UTF8);
-                    return JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(fileContent);
+                    var tmpResult = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, JToken>>>(fileContent);
+
+                    Dictionary<string, Dictionary<string, GlobalCultureResource>> result = new Dictionary<string, Dictionary<string, GlobalCultureResource>>();
+
+                    foreach (var t1 in tmpResult)
+                    {
+                        Dictionary<string, GlobalCultureResource> value = new Dictionary<string, GlobalCultureResource>(t1.Value.Count);
+
+                        foreach (var t2 in t1.Value)
+                        {
+                            value.Add(t2.Key, t2.Value.Type == JTokenType.Object ? t2.Value.Value<GlobalCultureResource>() : new GlobalCultureResource { Resource = t2.Value.ToString(), Type = GlobalCultureResourceType.DirectValue });
+                        }
+
+                        result.Add(t1.Key, value);
+                    }
+
+                    return result;
                 }
             }
             catch (Exception ex)

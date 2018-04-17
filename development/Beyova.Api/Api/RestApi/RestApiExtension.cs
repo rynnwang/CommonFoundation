@@ -86,36 +86,36 @@ namespace Beyova.Api.RestApi
         /// <summary>
         /// The method match
         /// </summary>
-        private static Regex methodMatch = new Regex(@"(/(?<realm>([^\/\?]+)))?/api/(?<version>([0-9a-zA-Z\-_\.]+))/(?<resource>([^\/\?]+))?(/(?<parameter1>([^\/\?]+)))?(/(?<parameter2>([^\/\?]+)))?(/)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static Regex methodMatch = new Regex(@"(/(?<realm>([^\/\?]+)))?/api/(?<version>([0-9a-zA-Z\-_\.]+))/(?<resource>([^\/\?]+))?(/(?<parameter1>([^\/\?]+)))?(/(?<parameter2>([^\/\?]+)))?(/)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        /// <summary>
-        /// Fills the route information.
-        /// </summary>
-        /// <param name="uri">The URI.</param>
-        /// <param name="context">The context.</param>
-        /// <returns><c>true</c> if succeed to match url format and fill route information, <c>false</c> otherwise.</returns>
-        internal static bool FillRouteInfo(this Uri uri, RuntimeContext context)
-        {
-            try
-            {
-                uri.CheckNullObject(nameof(uri));
-                context.CheckNullObject(nameof(context));
+        ///// <summary>
+        ///// Fills the route information.
+        ///// </summary>
+        ///// <param name="uri">The URI.</param>
+        ///// <param name="context">The context.</param>
+        ///// <returns><c>true</c> if succeed to match url format and fill route information, <c>false</c> otherwise.</returns>
+        //internal static bool FillRouteInfo(this Uri uri, RuntimeContext context)
+        //{
+        //    try
+        //    {
+        //        uri.CheckNullObject(nameof(uri));
+        //        context.CheckNullObject(nameof(context));
 
-                var match = methodMatch.Match(uri.PathAndQuery);
+        //        var match = methodMatch.Match(uri.PathAndQuery);
 
-                context.ResourceName = match.Success ? match.Result("${resource}") : string.Empty;
-                context.Version = match.Success ? match.Result("${version}") : string.Empty;
-                context.Realm = match.Success ? match.Result("${realm}") : string.Empty;
-                context.Parameter1 = match.Success ? match.Result("${parameter1}") : string.Empty;
-                context.Parameter2 = match.Success ? match.Result("${parameter2}") : string.Empty;
+        //        context.ResourceName = match.Success ? match.Result("${resource}") : string.Empty;
+        //        context.Version = match.Success ? match.Result("${version}") : string.Empty;
+        //        context.Realm = match.Success ? match.Result("${realm}") : string.Empty;
+        //        context.Parameter1 = match.Success ? match.Result("${parameter1}") : string.Empty;
+        //        context.Parameter2 = match.Success ? match.Result("${parameter2}") : string.Empty;
 
-                return match.Success;
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { Uri = uri?.ToString() });
-            }
-        }
+        //        return match.Success;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex.Handle(new { Uri = uri?.ToString() });
+        //    }
+        //}
 
         #endregion Route Url
 

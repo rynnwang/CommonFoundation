@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
@@ -8,7 +9,7 @@ namespace Beyova
     /// <summary>
     /// Class I18NResourceCollection.
     /// </summary>
-    public class I18NResourceCollection : II18NResourceCollection
+    public class I18NResourceCollection : II18NResourceOperatable
     {
         /// <summary>
         /// The resource manager
@@ -60,10 +61,13 @@ namespace Beyova
         /// Otherwise, use Thread UI culture (the default behavior by .NET) instead.
         /// </summary>
         /// <param name="resourceKey">The resource key.</param>
+        /// <param name="typeRequired">The type required.</param>
         /// <param name="cultureInfo">The culture information.</param>
         /// <param name="languageCompatibility">if set to <c>true</c> [language compatibility].</param>
-        /// <returns>System.String.</returns>
-        public string GetResourceString(string resourceKey, CultureInfo cultureInfo = null, bool languageCompatibility = true)
+        /// <returns>
+        /// System.String.
+        /// </returns>
+        public string GetResourceString(string resourceKey, GlobalCultureResourceType? typeRequired = null, CultureInfo cultureInfo = null, bool languageCompatibility = true)
         {
             return (string)GetResourceObject(resourceKey, cultureInfo, languageCompatibility);
         }

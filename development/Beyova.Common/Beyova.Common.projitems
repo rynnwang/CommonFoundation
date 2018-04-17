@@ -31,6 +31,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DefaultDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\RijndaelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\JsonConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\GravityConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\EnvironmentCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitchObject.cs" />
@@ -157,7 +159,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SystemOperation\DiagnosticUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)AssemblyAttribute\" />
     <Folder Include="$(MSBuildThisFileDirectory)Configuration\AssemblyAttribute\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utility\TwoFactorAuthentication\" />
   </ItemGroup>

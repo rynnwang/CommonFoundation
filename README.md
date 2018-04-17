@@ -10,6 +10,14 @@ Beyova.Common:
   PM> Install-Package Beyova.Common
 ```
 
+Beyova.AspNet: 
+- To replace Beyova.WebExtension.
+- Enhance RestApiContextConsistanceAttribute
+- Remove MVC view pattern controllers.
+```
+  PM> Install-Package Beyova.AspNet
+```
+
 Beyova.SqlConfiguration: 
 ```
   PM> Install-Package Beyova.SqlConfiguration
