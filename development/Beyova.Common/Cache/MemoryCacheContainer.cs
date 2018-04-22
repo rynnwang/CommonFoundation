@@ -125,8 +125,11 @@ namespace Beyova.Cache
         /// <param name="key">The key.</param>
         /// <param name="entity">The entity.</param>
         /// <param name="ifNotExistsThenInsert">if set to <c>true</c> [if not exists then insert].</param>
-        /// <returns>System.Nullable&lt;DateTime&gt;.</returns>
-        protected override DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert)
+        /// <param name="getExpiredStamp">The get expired stamp.</param>
+        /// <returns>
+        /// System.Nullable&lt;DateTime&gt;.
+        /// </returns>
+        protected override DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert, Func<DateTime?> getExpiredStamp)
         {
             DateTime? result = null;
 
@@ -149,7 +152,7 @@ namespace Beyova.Cache
                             }
                         }
 
-                        result = GetExpiredStamp();
+                        result = getExpiredStamp();
                         container.Add(key, new CacheItem<TEntity> { Value = entity, ExpiredStamp = result });
                         InternalMaintainCapacity();
                     }
@@ -173,7 +176,7 @@ namespace Beyova.Cache
         {
             lock (itemChangeLocker)
             {
-                return container.Values.Where(x => x != null && x.Value != null).Select(x => x.Value).ToArray();
+                return container.Values.Where(x => x != null && (includeNull || x.Value != null)).Select(x => x.Value).ToArray();
             }
         }
 
@@ -208,5 +211,7 @@ namespace Beyova.Cache
                 this.container.Clear();
             }
         }
+
+
     }
 }

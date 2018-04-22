@@ -43,12 +43,9 @@ namespace Beyova
             GlobalCultureResource outValue = null;
             if (!string.IsNullOrWhiteSpace(key) && _resources.TryGetValue(key, out outValue))
             {
-                if (typeRequired.HasValue)
+                if ((!typeRequired.HasValue || typeRequired.Value == outValue.Type))
                 {
-                    if (typeRequired.Value == outValue.Type)
-                    {
-                        return outValue.Resource;
-                    }
+                    return outValue.Resource;
                 }
             }
 

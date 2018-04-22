@@ -129,11 +129,16 @@ namespace Beyova
         /// <typeparam name="TEnum">The type of the enum.</typeparam>
         /// <param name="enumValue">The enum value.</param>
         /// <param name="languageCompatibility">if set to <c>true</c> [language compatibility].</param>
+        /// <param name="forceMatchType">if set to <c>true</c> [force match type].</param>
         /// <returns></returns>
-        public static string GetEnumResourceString<TEnum>(TEnum enumValue, bool languageCompatibility = true)
+        public static string GetEnumResourceString<TEnum>(TEnum enumValue, bool languageCompatibility = true, bool forceMatchType = false)
            where TEnum : struct, IConvertible
         {
-            return GetResourceString(string.Format("{0}_{1}", typeof(TEnum).Name, enumValue.ToInt64(null)), GlobalCultureResourceType.EnumValue, languageCompatibility);
+            return GetResourceString(string.Format("{0}_{1}", 
+                typeof(TEnum).Name, 
+                enumValue.ToInt64(null)), 
+                forceMatchType ? GlobalCultureResourceType.EnumValue as GlobalCultureResourceType? : null, 
+                languageCompatibility);
         }
 
         /// <summary>

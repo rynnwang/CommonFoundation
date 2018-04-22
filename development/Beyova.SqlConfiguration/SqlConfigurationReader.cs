@@ -23,11 +23,10 @@ namespace Beyova
         public string SqlConnectionString { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqlConfigurationReader" /> class.
+        /// Initializes a new instance of the <see cref="SqlConfigurationReader"/> class.
         /// </summary>
         /// <param name="sourceAssembly">The source assembly.</param>
         /// <param name="coreComponentVersion">The core component version.</param>
-        /// <param name="sqlConnectionString">The SQL connection string.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         internal SqlConfigurationReader(string sourceAssembly, string coreComponentVersion, string sqlConnectionString, bool throwException = false)
             : base(sourceAssembly, coreComponentVersion, nameof(SqlConfigurationReader), throwException)

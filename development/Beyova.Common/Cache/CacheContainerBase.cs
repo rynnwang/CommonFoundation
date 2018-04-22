@@ -14,7 +14,13 @@ namespace Beyova.Cache
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public string Name { get; protected set; }
+        public string Name
+        {
+            get
+            {
+                return ContainerOptions.Name;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the expiration in second.
@@ -22,7 +28,13 @@ namespace Beyova.Cache
         /// <value>
         /// The expiration in second.
         /// </value>
-        public long? ExpirationInSecond { get; set; }
+        public long? ExpirationInSecond
+        {
+            get
+            {
+                return ContainerOptions.ExpirationInSecond;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the automatic retrieval options.
@@ -31,6 +43,14 @@ namespace Beyova.Cache
         /// The automatic retrieval options.
         /// </value>
         public CacheAutoRetrievalOptions<TKey, TEntity> AutoRetrievalOptions { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the container options.
+        /// </summary>
+        /// <value>
+        /// The container options.
+        /// </value>
+        public CacheContainerOptions ContainerOptions { get; protected set; }
 
         #region Constructors
 
@@ -53,10 +73,14 @@ namespace Beyova.Cache
         /// <param name="retrievalOptions">The retrieval options.</param>
         public CacheContainerBase(CacheContainerOptions containerOptions, CacheAutoRetrievalOptions<TKey, TEntity> retrievalOptions = null)
         {
-            this.Name = containerOptions?.Name;
-            var expirationInSecond = containerOptions?.ExpirationInSecond;
-            this.ExpirationInSecond = (expirationInSecond.HasValue && expirationInSecond.Value > 0) ? expirationInSecond : null;
-            this.AutoRetrievalOptions = retrievalOptions;
+            containerOptions.CheckNullObject(nameof(containerOptions));
+            retrievalOptions.CheckNullObject(nameof(retrievalOptions));
+
+            this.ContainerOptions = containerOptions ?? new CacheContainerOptions();
+            this.ContainerOptions.Name = this.ContainerOptions.Name.SafeToString(typeof(TEntity).GetFullName());
+
+            var expirationInSecond = containerOptions.ExpirationInSecond;
+            this.AutoRetrievalOptions = retrievalOptions ?? new CacheAutoRetrievalOptions<TKey, TEntity>(null, BaseCacheAutoRetrievalOptions.Default);
 
             CacheRealm.RegisterCacheContainer(this);
         }
@@ -73,7 +97,7 @@ namespace Beyova.Cache
         /// <returns>System.Nullable&lt;DateTime&gt;.</returns>
         public virtual void Update(TKey key, TEntity entity)
         {
-            InternalUpdate(key, entity, true);
+            InternalUpdate(key, entity, true, this.ContainerOptions.GetExpiredStamp);
         }
 
         /// <summary>
@@ -95,7 +119,7 @@ namespace Beyova.Cache
                     try
                     {
                         entity = AutoRetrievalOptions.EntityRetrievalImplementation(key);
-                        InternalUpdate(key, entity, true);
+                        InternalUpdate(key, entity, true, this.ContainerOptions.GetExpiredStamp);
                     }
                     catch (Exception ex)
                     {
@@ -111,7 +135,7 @@ namespace Beyova.Cache
                         }
                         else
                         {
-                            InternalUpdate(key, entity, true);
+                            InternalUpdate(key, default(TEntity), true, this.AutoRetrievalOptions.GetFailureExpiredStamp);
                         }
                     }
                 }
@@ -151,8 +175,9 @@ namespace Beyova.Cache
         /// <param name="key">The key.</param>
         /// <param name="entity">The entity.</param>
         /// <param name="ifNotExistsThenInsert">if set to <c>true</c> [if not exists then insert].</param>
+        /// <param name="getExpiredStamp">The get expired stamp.</param>
         /// <returns></returns>
-        protected abstract DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert);
+        protected abstract DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert, Func<DateTime?> getExpiredStamp);
 
         /// <summary>
         /// Internals the clear.
@@ -167,14 +192,5 @@ namespace Beyova.Cache
         protected virtual void UpdateCounter(bool isHit, bool hasException) { }
 
         #endregion Cache implementation related methods
-
-        /// <summary>
-        /// Gets the expired stamp.
-        /// </summary>
-        /// <returns></returns>
-        protected DateTime? GetExpiredStamp()
-        {
-            return this.ExpirationInSecond.HasValue ? DateTime.UtcNow.AddSeconds(this.ExpirationInSecond.Value) as DateTime? : null;
-        }
     }
 }

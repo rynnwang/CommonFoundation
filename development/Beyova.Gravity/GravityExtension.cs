@@ -60,7 +60,7 @@ namespace Beyova.Gravity
                     Object = data,
                     Token = token
                 },
-                new RsaKeys { PublicKey = rsaPublicKey }.AsRSACryptoServiceProvider());
+                new RsaKeys { PublicKey = rsaPublicKey }.CreateRsaPublicProvider());
         }
 
         ///// <summary>

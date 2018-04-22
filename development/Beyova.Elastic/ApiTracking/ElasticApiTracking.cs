@@ -94,7 +94,7 @@ namespace Beyova.Elastic
         /// Initializes a new instance of the <see cref="ElasticIndexClient" /> class.
         /// This constructor would try to read configuration: <c>ElasticsearchUri</c>, <c>ElasticsearchIndex</c>, and <c>ElasticsearchGeoPath</c> (optional).
         /// </summary>
-        public ElasticApiTracking() : this(Framework.GetConfiguration("ElasticsearchUri"),
+        public ElasticApiTracking() : this(Framework.GetConfiguration<string>("ElasticsearchUri"),
             Framework.GetConfiguration("ElasticsearchIndex", "apitracking"),
             Framework.GetConfiguration("ElasticsearchGeoPath", string.Empty)
             )

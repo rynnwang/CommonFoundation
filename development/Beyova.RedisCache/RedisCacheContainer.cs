@@ -49,7 +49,9 @@ namespace Beyova.Cache
         /// <summary>
         /// Initializes a new instance of the <see cref="RedisCacheContainer{TKey, TEntity}" /> class.
         /// </summary>
-        /// <param name="options">The options.</param>
+        /// <param name="containerOptions">The container options.</param>
+        /// <param name="keyGenerator">The key generator.</param>
+        /// <param name="retrievalOptions">The retrieval options.</param>
         public RedisCacheContainer(RedisCacheOptions containerOptions = null, IRedisKeyGenerator<TKey> keyGenerator = null, CacheAutoRetrievalOptions<TKey, TEntity> retrievalOptions = null) : base(containerOptions, retrievalOptions)
         {
             if (containerOptions == null)
@@ -59,8 +61,6 @@ namespace Beyova.Cache
 
             this.EntityName = containerOptions.UseEntityFullName ? typeof(TEntity).ToCodeLook() : typeof(TEntity).Name;
             this.KeyGenerator = keyGenerator ?? new DefaultRedisKeyGenerator<TKey>(this.EntityName);
-            this.Name = containerOptions.Name.SafeToString(typeof(TEntity).GetFullName());
-            this.ExpirationInSecond = containerOptions.ExpirationInSecond;
             this.Client = GetMultiplexer(containerOptions.Endpoints, (containerOptions.DatabaseIndex));
         }
 
@@ -93,8 +93,9 @@ namespace Beyova.Cache
         /// <param name="key">The key.</param>
         /// <param name="entity">The entity.</param>
         /// <param name="ifNotExistsThenInsert">if set to <c>true</c> [if not exists then insert].</param>
+        /// <param name="getExpiredStamp">The get expired stamp.</param>
         /// <returns></returns>
-        protected override DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert)
+        protected override DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert, Func<DateTime?> getExpiredStamp)
         {
             DateTime? expiredStamp = null;
             if (this.Client != null)
@@ -105,12 +106,12 @@ namespace Beyova.Cache
 
                     if (this.Client.Exists(slotKey))
                     {
-                        expiredStamp = GetExpiredStamp();
+                        expiredStamp = getExpiredStamp();
                         this.Client.Replace(slotKey, entity, expiredStamp);
                     }
                     else if (ifNotExistsThenInsert)
                     {
-                        expiredStamp = GetExpiredStamp();
+                        expiredStamp = getExpiredStamp();
                         this.Client.Add(slotKey, entity, expiredStamp);
                     }
                 }

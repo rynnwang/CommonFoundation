@@ -777,11 +777,11 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Creates the RSA provider.
+        /// Creates the RSA provider. Providing either <c>Public Key</c> or <c>Private Key</c> is OK.
         /// </summary>
         /// <param name="rsaKeys">The RSA keys.</param>
         /// <returns></returns>
-        public static RSACryptoServiceProvider CreateRsaProvider(IRsaKeys rsaKeys)
+        public static RSACryptoServiceProvider CreateRsaProvider(this IRsaKeys rsaKeys)
         {
             RSACryptoServiceProvider rsaProvider = null;
             if (rsaKeys != null)
@@ -789,19 +789,16 @@ namespace Beyova
                 try
                 {
                     rsaProvider = new RSACryptoServiceProvider(rsaKeys.DoubleWordKeySize);
-                    byte[] privateKeyByteArray = rsaKeys.PrivateKey;
 
-                    if (privateKeyByteArray != null)
+                    if (rsaKeys.PrivateKey != null)
                     {
-                        rsaProvider.ImportCspBlob(privateKeyByteArray);
+                        rsaProvider.ImportCspBlob(rsaKeys.PrivateKey);
                     }
                     else
                     {
-                        byte[] publicKeyByteArray = rsaKeys.PublicKey;
-
-                        if (publicKeyByteArray != null)
+                        if (rsaKeys.PublicKey != null)
                         {
-                            rsaProvider.ImportCspBlob(publicKeyByteArray);
+                            rsaProvider.ImportCspBlob(rsaKeys.PublicKey);
                         }
                     }
                 }
@@ -812,6 +809,40 @@ namespace Beyova
             }
 
             return rsaProvider;
+        }
+
+        /// <summary>
+        /// Checks the null or empty.
+        /// </summary>
+        /// <param name="cryptoKey">The crypto key.</param>
+        /// <param name="cryptoKeyName">Name of the crypto key.</param>
+        public static void CheckNullOrEmpty(this CryptoKey cryptoKey, string cryptoKeyName = null)
+        {
+            cryptoKey.CheckNullObject(nameof(cryptoKey));
+            cryptoKey.ByteValue.CheckNullOrEmptyCollection(cryptoKeyName.SafeToString(nameof(CryptoKey)));
+        }
+
+        /// <summary>
+        /// Creates the RSA public provider.
+        /// </summary>
+        /// <param name="rsaKeys">The RSA keys.</param>
+        /// <returns></returns>
+        public static RSACryptoServiceProvider CreateRsaPublicProvider(this IRsaKeys rsaKeys)
+        {
+            try
+            {
+                rsaKeys.CheckNullObject(nameof(rsaKeys));
+                rsaKeys.PublicKey.CheckNullOrEmpty(nameof(rsaKeys.PublicKey));
+
+                var rsa = new RSACryptoServiceProvider(rsaKeys.DoubleWordKeySize);
+                rsa.ImportCspBlob(Convert.FromBase64String(rsaKeys.PublicKey));
+
+                return rsa;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(rsaKeys);
+            }
         }
 
         #endregion RSA

@@ -42,6 +42,19 @@ namespace Beyova.Cache
         }
 
         /// <summary>
+        /// Registers the cache container.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="cacheContainer">The cache container.</param>
+        internal static void RegisterCacheContainer<TEntity>(ICacheContainer cacheContainer)
+        {
+            if (cacheContainer != null)
+            {
+                containers.Add(typeof(TEntity), cacheContainer);
+            }
+        }
+
+        /// <summary>
         /// Gets the containers.
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Beyova.Elastic</RootNamespace>
     <AssemblyName>Beyova.Elastic</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Plugins\GeoLite\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beyova.Common.Framework4.6.2\Beyova.Common.Framework4.6.2.csproj">
+      <Project>{eca11a30-d8b6-40e1-a896-62cbfff66e36}</Project>
+      <Name>Beyova.Common.Framework4.6.2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

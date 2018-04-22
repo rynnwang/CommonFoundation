@@ -803,10 +803,6 @@
       <Project>{bdfd06da-0ce3-426b-927e-8bd99152de9f}</Project>
       <Name>Beyova.Elastic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Beyova.WebExtension\Beyova.WebExtension.csproj">
-      <Project>{7ed3c3f5-fb77-4e3f-bd02-e6c11e165a92}</Project>
-      <Name>Beyova.WebExtension</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

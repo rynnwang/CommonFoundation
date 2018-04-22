@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{79C961
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AzureExtension", "Beyova.AzureExtension\Beyova.AzureExtension.csproj", "{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.WebExtension", "Beyova.WebExtension\Beyova.WebExtension.csproj", "{7ED3C3F5-FB77-4E3F-BD02-E6C11E165A92}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Common.UnitTest", "Beyova.Common.UnitTest\Beyova.Common.UnitTest.csproj", "{0933355D-D4B6-405C-B442-C8F6E0A26D37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Elastic", "Beyova.Elastic\Beyova.Elastic.csproj", "{BDFD06DA-0CE3-426B-927E-8BD99152DE9F}"
@@ -272,10 +270,6 @@ Global
 		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7ED3C3F5-FB77-4E3F-BD02-E6C11E165A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7ED3C3F5-FB77-4E3F-BD02-E6C11E165A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7ED3C3F5-FB77-4E3F-BD02-E6C11E165A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7ED3C3F5-FB77-4E3F-BD02-E6C11E165A92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Release|Any CPU.ActiveCfg = Release|Any CPU

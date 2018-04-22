@@ -544,6 +544,31 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Values the equals.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="otherArray">The other array.</param>
+        /// <returns></returns>
+        public static bool ValueEquals<T>(this T[] array, T[] otherArray)
+        {
+            if (array == null || otherArray == null || array.Length != otherArray.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (!array[i].SafeEquals(otherArray[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Subs the array.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -963,29 +988,45 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Joins the within format.
+        /// Joins the within format. In format value, {0} would be used for index, {1} would be used as value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance">The instance.</param>
         /// <param name="format">The format. {0} would be used for index, {1} would be used as value.</param>
+        /// <param name="seperator">The seperator.</param>
         /// <returns>
         /// System.String.
         /// </returns>
-        public static string JoinWithinFormat<T>(this IEnumerable<T> instance, string format)
+        public static string JoinWithinFormat<T>(this IEnumerable<T> instance, string format, string seperator = null)
         {
-            var builder = new StringBuilder();
-
-            if (instance != null && !string.IsNullOrWhiteSpace(format))
+            if (instance.HasItem() && !string.IsNullOrEmpty(format))
             {
-                var index = 1;
-                foreach (var one in instance)
+                if (instance.Count() == 1)
                 {
-                    builder.AppendFormat(format, index, one);
-                    index++;
+                    return string.Format(format, 0, instance.First());
                 }
+
+                var builder = new StringBuilder((instance?.Count() ?? 0) * (format?.Length ?? 0) * 2);
+
+                seperator = string.IsNullOrEmpty(seperator) ? "," : seperator;
+
+                if (instance != null && !string.IsNullOrWhiteSpace(format))
+                {
+                    var index = 0;
+                    foreach (var one in instance)
+                    {
+                        builder.AppendFormat(format, index, one);
+                        builder.Append(seperator);
+                        index++;
+                    }
+                }
+
+                builder.RemoveLastIfMatch(seperator);
+
+                return builder.ToString();
             }
 
-            return builder.ToString();
+            return string.Empty;
         }
 
         /// <summary>

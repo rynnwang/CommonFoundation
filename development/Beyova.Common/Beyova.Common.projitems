@@ -9,6 +9,9 @@
     <Import_RootNamespace>Beyova.Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\BaseCacheAutoRetrievalOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\FullEntityCacheAutoRetrievalOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryFullEntityCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\LocalConfigurationRawItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\JsonFileConfigurationManifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DataSecurityAttribute.cs" />
@@ -43,7 +46,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheContainerSummary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheHourlyStatistic.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CacheRealm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheStatistic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheContainer.cs" />

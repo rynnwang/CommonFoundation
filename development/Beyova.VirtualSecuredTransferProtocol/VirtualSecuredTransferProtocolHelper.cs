@@ -7,27 +7,70 @@ using Beyova.ExceptionSystem;
 namespace Beyova.VirtualSecuredTransferProtocol
 {
     /// <summary>
-    /// 
+    /// class VirtualSecuredTransferProtocolHelper
     /// </summary>
     public static class VirtualSecuredTransferProtocolHelper
     {
-        const int _securityKeyIndicationByteLength = 2;
+        /// <summary>
+        /// The security key indication byte length
+        /// </summary>
+        const int _securityKeyIndicationByteLength = sizeof(UInt16);
 
-        const int _stampIndicationByteLength = 4;
+        /// <summary>
+        /// The stamp indication byte length
+        /// </summary>
+        const int _stampIndicationByteLength = sizeof(UInt64);
 
+        /// <summary>
+        /// The schema version indication byte length
+        /// </summary>
         const int _schemaVersionIndicationByteLength = 1;
 
+        /// <summary>
+        /// The allowed stamp deviation
+        /// </summary>
         const int allowedStampDeviation = 10 * 60; //10 mins
 
+        /// <summary>
+        /// The schema version
+        /// </summary>
         const int _schemaVersion = 1;
 
+        /// <summary>
+        /// The pack initial capacity
+        /// </summary>
         const int _packInitialCapacity = 2048;
 
+        /// <summary>
+        /// The dw key size
+        /// </summary>
         const int dwKeySize = 2048;
 
+        /// <summary>
+        /// The zero stamp
+        /// </summary>
         static readonly DateTime _zeroStamp = new DateTime(2016, 1, 1);
 
+        /// <summary>
+        /// The allowed stamp second deviation
+        /// </summary>
         static int _allowedStampSecondDeviation = 5 * 60;// 5 min
+
+        /// <summary>
+        /// Gets the schema version.
+        /// </summary>
+        /// <value>
+        /// The schema version.
+        /// </value>
+        public static int SchemaVersion { get { return _schemaVersion; } }
+
+        /// <summary>
+        /// Gets the size of the dw key.
+        /// </summary>
+        /// <value>
+        /// The size of the dw key.
+        /// </value>
+        public static int DwKeySize { get { return dwKeySize; } }
 
         /// <summary>
         /// Gets or sets the allowed stamp second deviation.
@@ -62,7 +105,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         static byte[] GetStampBytes(DateTime utcStamp)
         {
             var offset = (long)((utcStamp - _zeroStamp).TotalSeconds);
-            return offset.ToBytes(_stampIndicationByteLength);
+            return BitConverter.GetBytes(offset);
         }
 
         /// <summary>
@@ -72,7 +115,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// <returns></returns>
         static DateTime GetUtcStampFromOffsetBytes(byte[] stampOffsetBytes)
         {
-            var offset = BitConverter.ToInt64(stampOffsetBytes, 0);
+            var offset = BitConverter.ToUInt64(stampOffsetBytes, 0);
             return _zeroStamp.AddSeconds(offset);
         }
 
@@ -109,8 +152,8 @@ namespace Beyova.VirtualSecuredTransferProtocol
                 // index3: Encrypted Security Key Length Indication.
                 var encryptedSymmetricPrimaryKey = EncodingOrSecurityExtension.RsaEncrypt(requestMessage.SymmetricPrimaryKey, rsaPublicKey);
                 var encryptedSymmetricSecondaryKey = (requestMessage.SymmetricSecondaryKey?.ByteValue == null) ? null : EncodingOrSecurityExtension.RsaEncrypt(requestMessage.SymmetricSecondaryKey, rsaPublicKey);
-                result.AddRange(encryptedSymmetricPrimaryKey.Length.ToBytes(_securityKeyIndicationByteLength));
-                result.AddRange((encryptedSymmetricSecondaryKey?.Length ?? 0).ToBytes(_securityKeyIndicationByteLength));
+                result.AddRange(BitConverter.GetBytes((UInt16)encryptedSymmetricPrimaryKey.Length));
+                result.AddRange(BitConverter.GetBytes((UInt16)encryptedSymmetricSecondaryKey.Length));
 
                 // index4: Encrypted Security Key
                 result.AddRange(encryptedSymmetricPrimaryKey);
@@ -145,8 +188,6 @@ namespace Beyova.VirtualSecuredTransferProtocol
             try
             {
                 rsaProvider.CheckNullObject(nameof(rsaProvider));
-                aesProvider.CheckNullObject(nameof(aesProvider));
-
                 requestBytes.CheckNullOrEmptyCollection(nameof(requestBytes));
 
                 var result = new VirtualSecuredRequestRawMessage
@@ -164,9 +205,9 @@ namespace Beyova.VirtualSecuredTransferProtocol
 
                 // Index3
                 var primaryKeyLengthBytes = requestBytes.Read(_securityKeyIndicationByteLength, ref currentIndex);
-                var primaryKeyLength = BitConverter.ToInt32(primaryKeyLengthBytes, 0);
+                var primaryKeyLength = BitConverter.ToUInt16(primaryKeyLengthBytes, 0);
                 var secondaryKeyLengthBytes = requestBytes.Read(_securityKeyIndicationByteLength, ref currentIndex);
-                var secondaryKeyLength = BitConverter.ToInt32(secondaryKeyLengthBytes, 0);
+                var secondaryKeyLength = BitConverter.ToUInt16(secondaryKeyLengthBytes, 0);
 
                 // Index4
                 var primaryKeyBytes = requestBytes.Read(primaryKeyLength, ref currentIndex);
@@ -282,7 +323,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// <returns><c>true</c> if Validation passed, <c>false</c> otherwise.</returns>
         private static void ValidateStamp(DateTime? stamp)
         {
-            if (!stamp.HasValue || (Math.Abs((stamp.Value - DateTime.UtcNow).TotalSeconds) < _allowedStampSecondDeviation))
+            if (!stamp.HasValue || (Math.Abs((stamp.Value - DateTime.UtcNow).TotalSeconds) > _allowedStampSecondDeviation))
             {
                 throw ExceptionFactory.CreateInvalidObjectException(nameof(stamp), stamp, "OverDeviation");
             }
@@ -342,7 +383,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
                 }
                 catch (Exception ex)
                 {
-                    throw ex.Handle(new { uri });
+                    throw ex.Handle(new { uri, data });
                 }
             }
 

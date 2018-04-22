@@ -269,42 +269,6 @@ namespace Beyova
         /// <summary>
         /// To the bytes.
         /// </summary>
-        /// <param name="integerValue">The integer value.</param>
-        /// <param name="fixedArrayLength">Length of the fixed array.</param>
-        /// <returns></returns>
-        public static byte[] ToBytes(this int integerValue, int fixedArrayLength)
-        {
-            try
-            {
-                return ToBytes<int>(integerValue, fixedArrayLength, BitConverter.GetBytes);
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { integerValue, fixedArrayLength });
-            }
-        }
-
-        /// <summary>
-        /// To the bytes.
-        /// </summary>
-        /// <param name="longValue">The long value.</param>
-        /// <param name="fixedArrayLength">Length of the fixed array.</param>
-        /// <returns></returns>
-        public static byte[] ToBytes(this long longValue, int fixedArrayLength)
-        {
-            try
-            {
-                return ToBytes<long>(longValue, fixedArrayLength, BitConverter.GetBytes);
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { longValue, fixedArrayLength });
-            }
-        }
-
-        /// <summary>
-        /// To the bytes.
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="integerValue">The integer value.</param>
         /// <param name="fixedArrayLength">Length of the fixed array.</param>
@@ -322,23 +286,21 @@ namespace Beyova
                 }
 
                 var actualBytes = convert(integerValue);
-                int length, sourceIndex, destinationIndex;
+                int length, destinationIndex;
 
                 if (fixedArrayLength > actualBytes.Length)
                 {
                     length = actualBytes.Length;
-                    sourceIndex = 0;
                     destinationIndex = fixedArrayLength - actualBytes.Length;
                 }
                 else
                 {
                     length = fixedArrayLength;
                     destinationIndex = 0;
-                    sourceIndex = actualBytes.Length - fixedArrayLength;
                 }
 
                 var result = new byte[fixedArrayLength];
-                Array.Copy(actualBytes, sourceIndex, result, destinationIndex, length);
+                Array.Copy(actualBytes, 0, result, destinationIndex, length);
 
                 return result;
             }

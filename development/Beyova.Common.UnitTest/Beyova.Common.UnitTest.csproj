@@ -82,6 +82,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="RsaUnitTest.cs" />
+    <Compile Include="VirtualSecuredTransferProtocolUnitTest.cs" />
     <Compile Include="TimeBlockUnitTest.cs" />
     <Compile Include="DateUnitTest.cs" />
     <Compile Include="BooleanSearchUnitTest.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="UriUnitTest.cs" />
     <Compile Include="ZipUnitTest.cs" />
     <Compile Include="ApiTrackingRestClient.cs" />
-    <Compile Include="ConfigurationUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -137,8 +137,6 @@ namespace Beyova.Api.RestApi
                 runtimeContext.CheckNullObject(nameof(runtimeContext));
                 context.RuntimeContext = runtimeContext;
 
-                context.Settings = runtimeContext.Settings ?? RestApiSettingPool.DefaultRestApiSettings;
-
                 // Fill basic context info.
 
                 var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
@@ -465,7 +463,7 @@ namespace Beyova.Api.RestApi
                 result.ApiInstance = runtimeRoute.ApiInstance;
                 result.IsActionUsed = runtimeRoute.IsActionUsed;
                 result.IsVoid = runtimeRoute.IsVoid;
-                result.Settings = runtimeRoute.Setting;
+                context.Settings = result.Settings = runtimeRoute.Setting ?? RestApiSettingPool.DefaultRestApiSettings;
                 result.OmitApiEvent = runtimeRoute.OmitApiTracking?.Omit(ApiTrackingType.Event) ?? false;
 
                 if (runtimeRoute.ApiCacheAttribute != null)
@@ -499,7 +497,7 @@ namespace Beyova.Api.RestApi
 
                 // Fill basic context info.
                 var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
-                var token = context.TryGetRequestHeader(context.Settings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN));
+                var token = context.TryGetRequestHeader((context.Settings?.TokenHeaderKey).SafeToString(HttpConstants.HttpHeader.TOKEN));
 
                 ContextHelper.ConsistContext(
                     // TOKEN
@@ -519,7 +517,7 @@ namespace Beyova.Api.RestApi
 
                 string userIdentifier = ContextHelper.ApiContext.CurrentCredential?.Name.SafeToString(token);
 
-                var authenticationException = doAuthentication ? Authenticate(runtimeRoute, ContextHelper.ApiContext) : null;
+                var authenticationException = doAuthentication ? Authorize(runtimeRoute, ContextHelper.ApiContext) : null;
 
                 if (authenticationException != null)
                 {
@@ -540,7 +538,7 @@ namespace Beyova.Api.RestApi
         /// <param name="runtimeRoute">The runtime route.</param>
         /// <param name="apiContext">The API context.</param>
         /// <returns></returns>
-        protected BaseException Authenticate(RuntimeRoute runtimeRoute, ApiContext apiContext)
+        protected BaseException Authorize(RuntimeRoute runtimeRoute, ApiContext apiContext)
         {
             if (!runtimeRoute.OperationParameters.IsTokenRequired)
             {
