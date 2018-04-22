@@ -7,6 +7,24 @@ using Beyova.ExceptionSystem;
 namespace Beyova.Cache
 {
     /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    public class MemoryFullEntityCacheContainer<TEntity> : MemoryFullEntityCacheContainer<Guid, TEntity>
+        where TEntity : IIdentifier
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemoryFullEntityCacheContainer{TEntity}"/> class.
+        /// </summary>
+        /// <param name="containerOptions">The container options.</param>
+        /// <param name="retrievalOptions">The retrieval options.</param>
+        public MemoryFullEntityCacheContainer(MemoryCacheContainerOptions<Guid> containerOptions, FullEntityCacheAutoRetrievalOptions<TEntity> retrievalOptions)
+            : base(containerOptions, retrievalOptions)
+        {
+        }
+    }
+
+    /// <summary>
     /// Class MemoryFullEntityCacheContainer.
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
@@ -170,7 +188,7 @@ namespace Beyova.Cache
                 }
             }
 
-            return _readOnlyContainer.Values.ToArray();
+            return _readOnlyContainer?.Values.ToArray() ?? new TEntity[] { };
         }
 
         /// <summary>
@@ -192,7 +210,7 @@ namespace Beyova.Cache
             }
 
             TEntity result;
-            return key != null && this._readOnlyContainer.TryGetValue(key, out result) ? result : default(TEntity);
+            return (key != null && this._readOnlyContainer != null && this._readOnlyContainer.TryGetValue(key, out result)) ? result : default(TEntity);
         }
 
         /// <summary>
@@ -203,7 +221,7 @@ namespace Beyova.Cache
             lock (_itemChangeLocker)
             {
                 this.ExpiredStamp = DateTime.MinValue;
-                this._originContainer.Clear();                
+                this._originContainer.Clear();
             }
         }
     }

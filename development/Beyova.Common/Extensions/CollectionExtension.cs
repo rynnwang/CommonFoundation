@@ -1123,19 +1123,32 @@ namespace Beyova
             where TInput : class
             where TOutput : class, TInput
         {
-            if (collection != null)
+            return ConvertNotNullAll(collection, x => x as TOutput);
+        }
+
+        /// <summary>
+        /// Converts the not null all.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="converter">The converter.</param>
+        /// <returns></returns>
+        public static List<TOutput> ConvertNotNullAll<TInput, TOutput>(this IEnumerable<TInput> collection, Func<TInput, TOutput> converter)
+        {
+            if (collection != null && converter != null)
             {
                 List<TOutput> result = new List<TOutput>(collection.Count());
 
                 foreach (var one in collection)
                 {
-                    result.AddIfNotNull(one as TOutput);
+                    result.AddIfNotNull(converter(one));
                 }
 
                 return result;
             }
 
-            return null;
+            return new List<TOutput>();
         }
 
         /// <summary>

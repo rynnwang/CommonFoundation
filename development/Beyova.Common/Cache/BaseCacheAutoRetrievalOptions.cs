@@ -47,27 +47,17 @@ namespace Beyova.Cache
         /// <param name="exceptionProcessingImplementation">The exception processing implementation.</param>
         /// <param name="failureExpirationInSecond">The failure expiration in second.</param>
         protected BaseCacheAutoRetrievalOptions(Func<BaseException, bool> exceptionProcessingImplementation = null, long? failureExpirationInSecond = null)
-            : this(new BaseCacheAutoRetrievalOptions
-            {
-                ExceptionProcessingImplementation = exceptionProcessingImplementation ?? defaultExceptionHandler,
-                FailureExpirationInSecond = failureExpirationInSecond ?? DefaultCacheSettings.FailureExpirationInSecond
-            })
         {
+            this.ExceptionProcessingImplementation = exceptionProcessingImplementation ?? defaultExceptionHandler;
+            this.FailureExpirationInSecond = (failureExpirationInSecond.HasValue && failureExpirationInSecond.Value > 0) ? failureExpirationInSecond.Value : DefaultCacheSettings.FailureExpirationInSecond;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseCacheAutoRetrievalOptions" /> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        protected BaseCacheAutoRetrievalOptions(BaseCacheAutoRetrievalOptions options)
+        protected BaseCacheAutoRetrievalOptions(BaseCacheAutoRetrievalOptions options) : this(options?.ExceptionProcessingImplementation, options?.FailureExpirationInSecond)
         {
-            if (options == null)
-            {
-                options = BaseCacheAutoRetrievalOptions.Default;
-            }
-
-            this.ExceptionProcessingImplementation = options.ExceptionProcessingImplementation;
-            this.FailureExpirationInSecond = options.FailureExpirationInSecond > 0 ? options.FailureExpirationInSecond : DefaultCacheSettings.FailureExpirationInSecond;
         }
 
 
