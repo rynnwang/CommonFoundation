@@ -28,36 +28,12 @@ namespace Beyova
         public NuGetPackageAssemblyParameter NuGetParameter { get; protected set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute"/> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        public BeyovaComponentAttribute(string id, string version, DateTime retiredStamp)
-            : this(id, version, retiredStamp, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute"/> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        /// <param name="nugetParameter">The nuget parameter.</param>
-        public BeyovaComponentAttribute(string id, string version, DateTime retiredStamp, NuGetPackageAssemblyParameter nugetParameter)
-        {
-            this.UnderlyingObject = new BeyovaComponentInfo(id, version, null, retiredStamp);
-            this.NuGetParameter = nugetParameter;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute"/> class.
+        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="version">The version.</param>
         public BeyovaComponentAttribute(string id, string version)
-            : this(id, version, null)
+            : this(id, version, null, null)
         {
         }
 
@@ -68,22 +44,8 @@ namespace Beyova
         /// <param name="version">The version.</param>
         /// <param name="nugetParameter">The nuget parameter.</param>
         public BeyovaComponentAttribute(string id, string version, NuGetPackageAssemblyParameter nugetParameter)
+                 : this(id, version, null, nugetParameter)
         {
-            this.UnderlyingObject = new BeyovaComponentInfo(id, version, null, null);
-            this.NuGetParameter = nugetParameter;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute"/> class.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="apiTrackingType">Type of the API tracking.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        public BeyovaComponentAttribute(string id, string version, Type apiTrackingType, DateTime retiredStamp)
-            : this(id, version, apiTrackingType, retiredStamp, null)
-        {
-
         }
 
         /// <summary>
@@ -92,11 +54,21 @@ namespace Beyova
         /// <param name="id">The identifier.</param>
         /// <param name="version">The version.</param>
         /// <param name="apiTrackingType">Type of the API tracking.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        /// <param name="nugetParameter">The nuget parameter.</param>
-        public BeyovaComponentAttribute(string id, string version, Type apiTrackingType, DateTime retiredStamp, NuGetPackageAssemblyParameter nugetParameter = null)
+        public BeyovaComponentAttribute(string id, string version, Type apiTrackingType)
+            : this(id, version, apiTrackingType, null)
         {
-            this.UnderlyingObject = new BeyovaComponentInfo(id, version, apiTrackingType, retiredStamp);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute" /> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="version">The version.</param>
+        /// <param name="apiTrackingType">Type of the API tracking.</param>
+        /// <param name="nugetParameter">The nuget parameter.</param>
+        public BeyovaComponentAttribute(string id, string version, Type apiTrackingType, NuGetPackageAssemblyParameter nugetParameter)
+        {
+            this.UnderlyingObject = new BeyovaComponentInfo(id, version, apiTrackingType);
             this.NuGetParameter = nugetParameter;
         }
 

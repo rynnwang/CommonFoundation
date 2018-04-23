@@ -119,10 +119,10 @@ namespace Beyova
             {
                 var currentComponent = one.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
 
-                if (currentComponent?.RetiredStamp < DateTime.UtcNow)
-                {
-                    throw new NotSupportedException("Retired component cannot be supported.");
-                }
+                //if (currentComponent?.RetiredStamp < DateTime.UtcNow)
+                //{
+                //    throw new NotSupportedException("Retired component cannot be supported.");
+                //}
 
                 if (ProductComponentInfo == null && currentComponent != null)
                 {

@@ -15,9 +15,10 @@ namespace Beyova.ExceptionSystem
         /// </summary>
         /// <param name="resourceName">Name of the resource.</param>
         /// <param name="resourceIdentifier">The resource identifier.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="scene">The scene.</param>
-        public ResourceNotFoundException(string resourceName, string resourceIdentifier, ExceptionScene scene = null)
-            : base(string.Format("Resource [{0}] of [{1}] is not found.", resourceIdentifier, resourceName), new ExceptionCode { Major = ExceptionCode.MajorCode.ResourceNotFound, Minor = resourceName }, scene: scene)
+        public ResourceNotFoundException(string resourceName, string resourceIdentifier, FriendlyHint friendlyHint = null, ExceptionScene scene = null)
+            : base(string.Format("Resource [{0}] of [{1}] is not found.", resourceIdentifier, resourceName), new ExceptionCode { Major = ExceptionCode.MajorCode.ResourceNotFound, Minor = resourceName }, hint: friendlyHint, scene: scene)
         {
         }
 
@@ -25,8 +26,10 @@ namespace Beyova.ExceptionSystem
         /// Initializes a new instance of the <see cref="ResourceNotFoundException" /> class.
         /// </summary>
         /// <param name="resourceName">Name of the resource.</param>
-        public ResourceNotFoundException(string resourceName)
-            : base(string.Format("Resource [{0}] is not found.", resourceName), new ExceptionCode { Major = ExceptionCode.MajorCode.ResourceNotFound })
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="scene">The scene.</param>
+        public ResourceNotFoundException(string resourceName, FriendlyHint friendlyHint = null, ExceptionScene scene = null)
+            : base(string.Format("Resource [{0}] is not found.", resourceName), new ExceptionCode { Major = ExceptionCode.MajorCode.ResourceNotFound }, hint: friendlyHint, scene: scene)
         {
         }
 

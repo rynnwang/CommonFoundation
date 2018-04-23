@@ -15,18 +15,21 @@ namespace Beyova
         /// </summary>
         /// <param name="anyString">Any string.</param>
         /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="Beyova.ExceptionSystem.NullObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
         /// <exception cref="NullObjectException"></exception>
-        public static void CheckEmptyString(this string anyString, string objectIdentity,
+        public static void CheckEmptyString(this string anyString, string objectIdentity, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (string.IsNullOrWhiteSpace(anyString))
             {
-                throw new NullObjectException(objectIdentity, new ExceptionScene
+                throw new NullObjectException(objectIdentity, friendlyHint, new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -40,18 +43,21 @@ namespace Beyova
         /// </summary>
         /// <param name="anyObject">Any object.</param>
         /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="Beyova.ExceptionSystem.NullObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
         /// <exception cref="NullObjectException"></exception>
-        public static void CheckNullObject(this object anyObject, string objectIdentity,
+        public static void CheckNullObject(this object anyObject, string objectIdentity, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (anyObject == null)
             {
-                throw new NullObjectException(objectIdentity, new ExceptionScene
+                throw new NullObjectException(objectIdentity, friendlyHint, new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -127,19 +133,20 @@ namespace Beyova
         /// <param name="anyObject">Any object.</param>
         /// <param name="resourceName">Name of the resource.</param>
         /// <param name="resourceIdentity">The resource identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="Beyova.ExceptionSystem.ResourceNotFoundException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckNullResource(this object anyObject, string resourceName, string resourceIdentity,
+        public static void CheckNullResource(this object anyObject, string resourceName, string resourceIdentity, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (anyObject == null)
             {
-                throw new ResourceNotFoundException(resourceName, resourceIdentity, new ExceptionScene
+                throw new ResourceNotFoundException(resourceName, resourceIdentity, friendlyHint, new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -154,12 +161,13 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="enumObject">The enum object.</param>
         /// <param name="resourceName">Name of the resource.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="InvalidObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckZeroEnum<T>(this T enumObject, string resourceName,
+        public static void CheckZeroEnum<T>(this T enumObject, string resourceName, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -167,7 +175,7 @@ namespace Beyova
         {
             if (enumObject.EnumToInt32() == 0)
             {
-                throw new InvalidObjectException(resourceName, reason: "ZeroEnumValue", scene: new ExceptionScene
+                throw new InvalidObjectException(resourceName, reason: "ZeroEnumValue", hint: friendlyHint, scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -182,19 +190,20 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="InvalidObjectException">Null or empty collection</exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckNullOrEmptyCollection<T>(this IEnumerable<T> collection, string objectIdentity,
+        public static void CheckNullOrEmptyCollection<T>(this IEnumerable<T> collection, string objectIdentity, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (!collection.HasItem())
             {
-                throw new InvalidObjectException(objectIdentity, reason: "EmptyCollection", scene: new ExceptionScene
+                throw new InvalidObjectException(objectIdentity, reason: "EmptyCollection", hint: friendlyHint, scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,

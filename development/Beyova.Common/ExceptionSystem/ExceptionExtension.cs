@@ -58,11 +58,15 @@ namespace Beyova
         /// </summary>
         /// <param name="exception">The exception.</param>
         /// <param name="data">The data.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <returns>BaseException.</returns>
-        public static BaseException ConvertExceptionToBaseException(this Exception exception, object data = null, [CallerMemberName] string memberName = null,
+        /// <returns>
+        /// BaseException.
+        /// </returns>
+        public static BaseException ConvertExceptionToBaseException(this Exception exception, object data = null, FriendlyHint friendlyHint = null,
+            [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
@@ -71,7 +75,7 @@ namespace Beyova
                 FilePath = sourceFilePath,
                 LineNumber = sourceLineNumber,
                 MethodName = memberName
-            }, data));
+            }, data, hint: friendlyHint));
         }
 
         /// <summary>
@@ -526,7 +530,7 @@ namespace Beyova
         {
             return httpRequest == null ? null : new ExceptionScene
             {
-                MethodName = string.Format("{0}: {1}", httpRequest.Method.SafeToString(), httpRequest.RequestUri.SafeToString()),
+                MethodName = string.Format("{0}: {1}", httpRequest.Method, httpRequest.RequestUri),
                 FilePath = controllerOrServiceName
             };
         }

@@ -36,6 +36,7 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+*.DS_store
 *_i.c
 *_p.c
 *_i.h
@@ -60,6 +61,7 @@ dlldata.c
 *.pidb
 *.svclog
 *.scc
+*.jfm
 
 # Chutzpah Test files
 _Chutzpah*

@@ -39,22 +39,19 @@ namespace Beyova
         /// <param name="id">The identifier.</param>
         /// <param name="version">The version.</param>
         /// <param name="apiTrackingType">Type of the API tracking, which should implement <see cref="IApiTracking" /> with 0 parameter constructor.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        public BeyovaComponentInfo(string id, string version, Type apiTrackingType = null, DateTime? retiredStamp = null)
+        public BeyovaComponentInfo(string id, string version, Type apiTrackingType = null)
         {
             this.Version = version;
             this.Id = id;
             this.ApiTrackingType = apiTrackingType;
-            this.RetiredStamp = retiredStamp;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute"/> class.
+        /// Initializes a new instance of the <see cref="BeyovaComponentAttribute" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="version">The version.</param>
-        /// <param name="retiredStamp">The retired stamp.</param>
-        public BeyovaComponentInfo(string id, string version, DateTime retiredStamp) : this(id, version, null, retiredStamp)
+        public BeyovaComponentInfo(string id, string version) : this(id, version, null)
         {
         }
 

@@ -120,6 +120,8 @@ namespace Beyova.Cache
             this.AutoRetrievalOptions = retrievalOptions ?? new FullEntityCacheAutoRetrievalOptions<TKey, TEntity>(null, null, BaseCacheAutoRetrievalOptions.Default);
 
             CacheRealm.RegisterCacheContainer<TEntity>(this);
+
+            this.ExpiredStamp = InternalUpdate();
         }
 
         #endregion Constructors

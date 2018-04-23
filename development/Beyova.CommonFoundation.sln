@@ -164,6 +164,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.SqlConfiguration.Fra
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.SqlConfiguration", "Beyova.SqlConfiguration\Beyova.SqlConfiguration.shproj", "{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.VirtualSecuredTransferProtocol", "Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.shproj", "{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{058128fe-ad0d-46c6-91ab-bc3c52377431}*SharedItemsImports = 13
@@ -203,6 +205,7 @@ Global
 		Beyova.FunctionService.Generic\Beyova.FunctionService.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
 		Beyova.ProvisioningService.Core.Generic\Beyova.ProvisioningService.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
 		Beyova.UserPreference.Core.Generic\Beyova.UserPreference.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
+		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{7be4fa48-62e5-4af2-a2f9-ea5cf26f9b9c}*SharedItemsImports = 13
 		Beyova.SchedulingService.Core.Generic\Beyova.SchedulingService.Core.Generic.projitems*{8c97e526-c5b3-4bd7-bb8d-25d57015d341}*SharedItemsImports = 13
 		Beyova.WebApplicationExtension\Beyova.WebApplicationExtension.projitems*{8f2e5ae6-3098-4af7-af98-d9402f2909dc}*SharedItemsImports = 13
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{9c62d919-9235-4e90-ba1f-708726bb01de}*SharedItemsImports = 13
@@ -242,6 +245,7 @@ Global
 		Beyova.Server\Beyova.Server.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
 		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
 		Beyova.StandardContract\Beyova.StandardContract.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
+		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
 		Beyova.Quiz.Core.Generic\Beyova.Quiz.Core.Generic.projitems*{e36856c6-8678-455c-bdf5-c4931598e7b2}*SharedItemsImports = 13
 		Beyova.AspNet.CoreSpecialized\Beyova.AspNet.CoreSpecialized.projitems*{e71237cd-9dc1-46c0-8bea-c41c7f9abbe7}*SharedItemsImports = 13
 		Beyova.Aop\Beyova.Aop.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
@@ -454,6 +458,7 @@ Global
 		{C21B259B-3E47-4090-A02A-6B5A457C751E} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{BCC93C80-68BB-41CD-82A9-1F946106292B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C} = {12871993-A575-4CD7-83E4-B114957C1431}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}
