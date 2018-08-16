@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRedisKeyGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedisCacheOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RedisCacheHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedisCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RedisDefaultSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StackExchangeRedisExtension.cs" />

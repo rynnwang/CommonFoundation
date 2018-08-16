@@ -31,22 +31,12 @@ namespace Beyova
         public Guid? AvatarKey { get; set; }
 
         /// <summary>
-        /// Gets or sets the avatar URL.
+        /// Gets or sets the culture code.
         /// </summary>
-        /// <value>The avatar URL.</value>
-        public string AvatarUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        public string Language { get; set; }
-
-        /// <summary>
-        /// Gets or sets the time zone. Unit: minute
-        /// </summary>
-        /// <value>The time zone.</value>
-        public int? TimeZone { get; set; }
+        /// <value>
+        /// The culture code.
+        /// </value>
+        public string CultureCode { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -77,5 +67,21 @@ namespace Beyova
         /// </summary>
         /// <value>The gender.</value>
         public Gender Gender { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nation code.
+        /// </summary>
+        /// <value>
+        /// The nation code.
+        /// </value>
+        public string NationCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the time zone standard.
+        /// </summary>
+        /// <value>
+        /// The name of the time zone standard.
+        /// </value>
+        public string TimeZoneStandardName { get; set; }
     }
 }

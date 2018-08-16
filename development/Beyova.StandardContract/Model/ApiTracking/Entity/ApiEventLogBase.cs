@@ -113,12 +113,6 @@ namespace Beyova.ApiTracking
         public bool HitApiCache { get; set; }
 
         /// <summary>
-        /// Gets or sets the referrer.
-        /// </summary>
-        /// <value>The referrer.</value>
-        public string Referrer { get; set; }
-
-        /// <summary>
         /// Gets or sets the UI element identifier.
         /// </summary>
         /// <value>
@@ -155,7 +149,7 @@ namespace Beyova.ApiTracking
                 this.Platform = eventLogBase.Platform;
                 this.DeviceType = eventLogBase.DeviceType;
                 this.OperatorCredential = eventLogBase.OperatorCredential;
-                this.Referrer = eventLogBase.Referrer;
+                this.ReferrerUrl = eventLogBase.ReferrerUrl;
                 this.UIElementId = eventLogBase.UIElementId;
             }
         }

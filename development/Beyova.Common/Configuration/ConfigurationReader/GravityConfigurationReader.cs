@@ -46,7 +46,7 @@ namespace Beyova
         /// <returns>Dictionary&lt;System.String, ConfigurationItem&gt;.</returns>
         protected override Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false)
         {
-            var componentAttribute = GravityShell.Host?.ComponentAttribute;
+            var componentAttribute = GravityShell.Current?.ComponentAttribute;
             Dictionary<string, RuntimeConfigurationItem> container = null;
 
             try

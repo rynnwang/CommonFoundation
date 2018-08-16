@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using Beyova.ExceptionSystem;
 using Beyova.SaasPlatform;
 
-namespace Beyova.FunctionService.Generic
+namespace Beyova.Function.Generic
 {
+    /// <summary>
+    /// 
+    /// </summary>
     partial class ApiResourceNames
     {
         /// <summary>

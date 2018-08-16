@@ -12,7 +12,7 @@ namespace Beyova.Api.RestApi
     /// <summary>
     /// 
     /// </summary>
-    public sealed class HttpBaseApiContextContainer : HttpApiContextContainer<HttpRequestBase, HttpResponseBase>
+    public class HttpBaseApiContextContainer : HttpApiContextContainer<HttpRequestBase, HttpResponseBase>
     {
         #region Abstract Properties
 
@@ -193,7 +193,7 @@ namespace Beyova.Api.RestApi
         {
             if (this.Response != null && stream != null)
             {
-                stream.CopyStream(this.Response.OutputStream);
+                stream.CopyTo(this.Response.OutputStream);
 
                 if (!string.IsNullOrWhiteSpace(contentType))
                 {

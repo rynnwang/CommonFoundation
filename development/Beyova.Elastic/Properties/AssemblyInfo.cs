@@ -11,7 +11,7 @@ using Beyova.ProgrammingIntelligence;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Elastic")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Elastic", "0.19.0")]
+[assembly: BeyovaComponent("Beyova.Elastic", "0.21.0")]
 
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]

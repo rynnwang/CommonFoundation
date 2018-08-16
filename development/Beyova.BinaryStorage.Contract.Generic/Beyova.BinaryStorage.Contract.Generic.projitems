@@ -9,7 +9,6 @@
     <Import_RootNamespace>Beyova.BinaryStorage.Contract.Generic</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiPermissions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constant\ApiResourceNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IBinaryStorageService.cs" />
   </ItemGroup>

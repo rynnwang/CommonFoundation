@@ -254,12 +254,7 @@ namespace Beyova.Elastic
         {
             if (string.IsNullOrWhiteSpace(message)) return;
 
-            WorkItem(new ElasticWorkObject<ElasticMessage>
-            {
-                RawData = new ElasticMessage { Message = message },
-                Type = messageType,
-                Timeout = this.RequestTimeout
-            });
+            LogApiMessage(new ApiMessage { Message = message });
         }
 
         #endregion
@@ -816,6 +811,24 @@ namespace Beyova.Elastic
                 TraceSequence = traceLog.TraceSequence,
                 InnerTraces = JsonConvert.SerializeObject(traceLog.InnerTraces)
             };
+        }
+
+        /// <summary>
+        /// Logs the API message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void LogApiMessage(ApiMessage message)
+        {
+            if (message != null)
+            {
+
+                WorkItem(new ElasticWorkObject<ApiMessage>
+                {
+                    RawData = message,
+                    Type = messageType,
+                    Timeout = this.RequestTimeout
+                });
+            }
         }
     }
 }

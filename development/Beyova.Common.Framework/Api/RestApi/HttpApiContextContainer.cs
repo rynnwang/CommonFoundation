@@ -139,7 +139,7 @@ namespace Beyova.Api.RestApi
         /// <param name="request">The request.</param>
         /// <param name="response">The response.</param>
         /// <param name="options">The options.</param>
-        public HttpApiContextContainer(HttpRequest request, HttpResponse response, HttpContextOptions<HttpRequest> options)
+        public HttpApiContextContainer(HttpRequest request, HttpResponse response, HttpContextOptions<HttpRequest> options = null)
                 : base(request, response, options)
         {
         }
@@ -198,7 +198,7 @@ namespace Beyova.Api.RestApi
         {
             if (this.Response != null && stream != null)
             {
-                stream.CopyStream(this.Response.OutputStream);
+                stream.CopyTo(this.Response.OutputStream);
 
                 if (!string.IsNullOrWhiteSpace(contentType))
                 {

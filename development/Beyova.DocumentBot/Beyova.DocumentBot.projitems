@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>936d9664-0d54-41a9-807e-000ad33ade4d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.DocumentBot</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiDocument\ApiDocumentGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Legacy\DocumentGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ApiHttpStatusDescription.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ApiDocumentDescriptionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\DocumentDescriptionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ApiExceptionDescriptionAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Legacy\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ApiDocument\" />
+  </ItemGroup>
+</Project>

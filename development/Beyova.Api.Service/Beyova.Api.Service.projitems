@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1a9fec4e-fba6-4583-8f3c-5ad2bb279e4c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Api.Service</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiCache\ApiCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiCache\ApiCacheStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiHandlerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiRouteResolver\ApiRouteResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiRouteResolver\RouteMapResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Attribute\StrickContractOutputAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiAsyncClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiClientBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Context\ApiContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Context\ContextHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\HttpApiContextContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RestApiSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeApiOperationParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeRoute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiEventHandlers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRoutePool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRouter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiSettingPool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\SharedModel\ApiSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Trace\ApiTraceContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Trace\ApiTraceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpExtension.cs" />
+  </ItemGroup>
+</Project>

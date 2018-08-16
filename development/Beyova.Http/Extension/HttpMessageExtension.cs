@@ -251,7 +251,59 @@ namespace Beyova.Http
 
         #region HttpResponseMessage
 
+        /// <summary>
+        /// Writes the response gzip body.
+        /// </summary>
+        /// <param name="response">The response.</param>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public static void WriteResponseGzipBody(this HttpResponseMessage response, byte[] bytes, string contentType)
+        {
+            if (response != null && bytes != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
+                    {
+                        gzip.Write(bytes, 0, bytes.Length);
+                    }
+                    ms.Position = 0;
+                    response.Content = new StreamContent(ms);
+                    if (!string.IsNullOrWhiteSpace(contentType))
+                    {
+                        response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    }
+                    response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.GZip);
+                }
+            }
+        }
 
+        /// <summary>
+        /// Writes the response deflate body.
+        /// </summary>
+        /// <param name="response">The response.</param>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public static void WriteResponseDeflateBody(this HttpResponseMessage response, byte[] bytes, string contentType)
+        {
+            if (response != null && bytes != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    using (var gzip = new DeflateStream(ms, CompressionMode.Compress, true))
+                    {
+                        gzip.Write(bytes, 0, bytes.Length);
+                    }
+                    ms.Position = 0;
+                    response.Content = new StreamContent(ms);
+                    if (!string.IsNullOrWhiteSpace(contentType))
+                    {
+                        response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    }
+                    response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.Deflate);
+                }
+            }
+        }
 
         #endregion
 
@@ -586,7 +638,7 @@ namespace Beyova.Http
                     {
                         using (var gZipStream = new GZipStream(t.Result, CompressionMode.Decompress))
                         {
-                            return (encoding ?? Encoding.UTF8).GetString(gZipStream.ToBytes());
+                            return (encoding ?? Encoding.UTF8).GetString(gZipStream.ReadStreamToBytes(true));
                         }
                     }
                 }
@@ -614,7 +666,7 @@ namespace Beyova.Http
                 {
                     using (Stream responseStream = webResponse.GetResponseStream())
                     {
-                        result = responseStream.ToBytes();
+                        result = responseStream.ReadStreamToBytes(true);
                     }
                 }
                 catch (Exception ex)

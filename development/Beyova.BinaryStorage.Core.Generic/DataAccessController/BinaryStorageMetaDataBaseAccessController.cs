@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Beyova;
 
-namespace Beyova.FunctionService.Generic
+namespace Beyova.Function.Generic
 {
     /// <summary>
     /// Class BinaryStorageMetaDataBaseAccessController.

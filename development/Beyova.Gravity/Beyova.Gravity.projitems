@@ -10,25 +10,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityCommandActionAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityEventHookAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GravityAgent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GravityClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Client\GravityShell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommandInvoker\FeatureModuleSwitch\FeatureModuleSwitchCommandInvoker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommandInvoker\ProcessCommand\ProcessCommandParameter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommandInvoker\UpdateConfigurationCommandInvoker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Command\GravityCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InstructionInvoker\GravityDynamicMethodInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InstructionInvoker\GravityMethodInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InstructionInvoker\UpdateConfigurationCommandInvoker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GravityContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GravityExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interface\IGravityCommandInvoker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandRequestBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandRequestCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandResultBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Command\GravityCommandResultCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\GravityEventHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\ProductCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\ProductInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IGravityInstructionInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\IGravityMember.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstructionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstruction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstructionCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstructionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstructionResultBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Instruction\GravityInstructionResultCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GravityMemberCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GravityMemberInfo.cs" />
   </ItemGroup>
 </Project>

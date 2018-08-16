@@ -137,7 +137,6 @@ namespace Beyova
             namespaces.Add(typeof(Beyova.ExceptionSystem.BaseException).Namespace);
             namespaces.Add(typeof(Beyova.IBaseObject).Namespace);
             namespaces.Add(typeof(Beyova.Api.ApiEndpoint).Namespace);
-            namespaces.Add(typeof(Beyova.Api.RestApi.ApiContext).Namespace);
             namespaces.Add(typeof(Newtonsoft.Json.JsonConvert).Namespace);
             namespaces.Add(typeof(Newtonsoft.Json.Linq.JToken).Namespace);
 

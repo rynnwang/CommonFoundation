@@ -135,29 +135,6 @@ namespace Beyova
                     stringBuilder.AppendLineWithFormat(level, "Exception Code: {0}({1})", baseException.Code.ToString(), (int)baseException.Code);
                 }
 
-                SqlException sqlException = exception as SqlException;
-                if (sqlException != null)
-                {
-                    int i = 0;
-
-                    stringBuilder.AppendLineWithFormat(level, "SQL error. Count = {0}", sqlException.Errors.Count);
-
-                    foreach (SqlError sqlError in sqlException.Errors)
-                    {
-                        i++;
-                        int tempLevel = level + 1;
-                        stringBuilder.AppendLineWithFormat(tempLevel, "---------- Error #{0} ----------", i);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Class: {0}", sqlError.Class);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Number: {0}", sqlError.Number);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Server: {0}", sqlError.Server);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Source: {0}", sqlError.Source);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Procedure: {0}", sqlError.Procedure);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->LineNumber: {0}", sqlError.LineNumber);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->State: {0}", sqlError.State);
-                        stringBuilder.AppendLineWithFormat(tempLevel, "->Message: {0}", sqlError.Message);
-                    }
-                }
-
                 stringBuilder.AppendLineWithFormat(level, "Exception Message: {0}", exception.Message);
                 stringBuilder.AppendLineWithFormat(level, "Source: {0}", exception.Source);
                 stringBuilder.AppendLineWithFormat(level, "Site: {0}", exception.TargetSite);
@@ -229,11 +206,14 @@ namespace Beyova
         /// <param name="exception">The exception.</param>
         /// <param name="data">The data.</param>
         /// <param name="hint">The hint.</param>
+        /// <param name="minorCode">The minor code.</param>
         /// <param name="operationName">Name of the operation.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <returns>Beyova.ExceptionSystem.BaseException.</returns>
-        public static BaseException Handle(this Exception exception, object data = null, FriendlyHint hint = null,
+        /// <returns>
+        /// Beyova.ExceptionSystem.BaseException.
+        /// </returns>
+        public static BaseException Handle(this Exception exception, object data = null, FriendlyHint hint = null, string minorCode = null,
                     [CallerMemberName] string operationName = null,
                     [CallerFilePath] string sourceFilePath = null,
                     [CallerLineNumber] int sourceLineNumber = 0)
@@ -243,7 +223,7 @@ namespace Beyova
                 MethodName = operationName,
                 FilePath = sourceFilePath,
                 LineNumber = sourceLineNumber
-            }, data, hint);
+            }, data, hint, minorCode);
         }
 
         /// <summary>
@@ -253,14 +233,17 @@ namespace Beyova
         /// <param name="scene">The scene.</param>
         /// <param name="data">The data.</param>
         /// <param name="hint">The hint.</param>
-        /// <returns>BaseServiceException.</returns>
-        public static BaseException Handle(this Exception exception, ExceptionScene scene, object data = null, FriendlyHint hint = null)
+        /// <param name="minorCode">The minor code.</param>
+        /// <returns>
+        /// BaseServiceException.
+        /// </returns>
+        internal static BaseException Handle(this Exception exception, ExceptionScene scene, object data = null, FriendlyHint hint = null, string minorCode = null)
         {
             TargetInvocationException targetInvocationException = exception as TargetInvocationException;
 
             if (targetInvocationException != null)
             {
-                return targetInvocationException.InnerException.Handle(scene, data, hint);
+                return targetInvocationException.InnerException.Handle(scene, data, hint, minorCode);
             }
             else
             {
@@ -278,10 +261,10 @@ namespace Beyova
                         switch (baseException.Code.Major)
                         {
                             case ExceptionCode.MajorCode.UnauthorizedOperation:
-                                return new UnauthorizedOperationException(baseException, baseException.Code.Minor, data, scene: scene) as BaseException;
+                                return new UnauthorizedOperationException(baseException, minorCode.SafeToString(baseException.Code.Minor), data, scene: scene) as BaseException;
 
                             case ExceptionCode.MajorCode.OperationForbidden:
-                                return new OperationForbiddenException(operationName, baseException.Code?.Minor, baseException, data, scene: scene) as BaseException;
+                                return new OperationForbiddenException(operationName, minorCode.SafeToString(baseException.Code?.Minor), baseException, data, scene: scene) as BaseException;
 
                             case ExceptionCode.MajorCode.NullOrInvalidValue:
                             case ExceptionCode.MajorCode.DataConflict:
@@ -302,7 +285,7 @@ namespace Beyova
 
                     if (sqlException != null)
                     {
-                        return new OperationFailureException(exception, data, hint: hint, scene: scene) as BaseException;
+                        return new OperationFailureException(exception, data, hint: hint, scene: scene, minor: minorCode) as BaseException;
                     }
                     else
                     {
@@ -315,7 +298,7 @@ namespace Beyova
                     }
                 }
 
-                return new OperationFailureException(exception, data, scene: scene) as BaseException;
+                return new OperationFailureException(exception, data, scene: scene, minor: minorCode) as BaseException;
             }
         }
 
@@ -342,7 +325,7 @@ namespace Beyova
                     key = baseException?.Key ?? Guid.NewGuid();
                 }
 
-                operatorIdentifier = operatorIdentifier.SafeToString(ContextHelper.CurrentCredential?.Key?.ToString());
+                operatorIdentifier = operatorIdentifier.SafeToString(Framework.GetCurrentOperatorCredential?.Invoke()?.Key?.ToString());
 
                 var exceptionInfo = new ExceptionInfo
                 {
@@ -361,7 +344,8 @@ namespace Beyova
                     Scene = baseException?.Scene,
                     OperatorCredential = baseException?.OperatorCredential ?? (ContextHelper.CurrentCredential),
                     Hint = baseException?.Hint,
-                    EventKey = eventKey
+                    EventKey = eventKey,
+                    RawUrl = ContextHelper.ApiContext.CurrentUri?.ToString()
                 };
 
                 if (exception.InnerException != null)

@@ -8,7 +8,7 @@ namespace Beyova.Gravity
     public static class GravityContext
     {
         [ThreadStatic]
-        private static ProductInfo _currentProductInfo = null;
+        private static GravityMemberInfo _currentProductInfo = null;
 
         /// <summary>
         /// The product key
@@ -27,10 +27,12 @@ namespace Beyova.Gravity
         }
 
         /// <summary>
-        /// Gets the product information.
+        /// Gets the gravity member information.
         /// </summary>
-        /// <value>The product information.</value>
-        public static ProductInfo ProductInfo
+        /// <value>
+        /// The gravity member information.
+        /// </value>
+        public static GravityMemberInfo GravityMemberInfo
         {
             get { return _currentProductInfo; }
             internal set { _currentProductInfo = value; }

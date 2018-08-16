@@ -6,7 +6,7 @@ namespace Beyova
     /// <summary>
     /// Class AdminUserInfo
     /// </summary>
-    public class AdminUserInfo : BaseCredential, IUserInfo, IIdentifier, ICredential, IProductIdentifier, IThirdPartyIdentifier
+    public class AdminUserInfo : BaseCredential, IUserEssential, IIdentifier, ICredential, IProductIdentifier, IThirdPartyIdentifier
     {
         /// <summary>
         /// Gets or sets the name of the login.
@@ -47,28 +47,34 @@ namespace Beyova
         public Guid? AvatarKey { get; set; }
 
         /// <summary>
-        /// Gets or sets the avatar URL.
+        /// Gets or sets the culture code.
         /// </summary>
-        /// <value>The avatar URL.</value>
-        public string AvatarUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        public string Language { get; set; }
-
-        /// <summary>
-        /// Gets or sets the time zone. Unit: minute
-        /// </summary>
-        /// <value>The time zone.</value>
-        public int? TimeZone { get; set; }
+        /// <value>
+        /// The culture code.
+        /// </value>
+        public string CultureCode { get; set; }
 
         /// <summary>
         /// Gets or sets the product key.
         /// </summary>
         /// <value>The product key.</value>
         public Guid? ProductKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nation code.
+        /// </summary>
+        /// <value>
+        /// The nation code.
+        /// </value>
+        public string NationCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the time zone standard.
+        /// </summary>
+        /// <value>
+        /// The name of the time zone standard.
+        /// </value>
+        public string TimeZoneStandardName { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminUserInfo"/> class.

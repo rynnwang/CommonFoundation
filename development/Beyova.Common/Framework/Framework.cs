@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using Beyova.ApiTracking;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
@@ -43,7 +45,7 @@ namespace Beyova
         #region Public
 
         /// <summary>
-        /// Gets the primary SQL connection.
+        /// Gets the primary SQL connection. It would try get configuration by name <c>SqlConnection</c> and <c>PrimarySqlConnection</c>.
         /// </summary>
         /// <value>
         /// The primary SQL connection.
@@ -58,10 +60,7 @@ namespace Beyova
                     {
                         if (_primarySqlConnection == null)
                         {
-                            _primarySqlConnection = GetConfiguration("SqlConnection").SafeToString(
-                                GetConfiguration("PrimarySqlConnection").SafeToString(
-                                    System.Configuration.ConfigurationManager.ConnectionStrings.HasItem() ? System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString : string.Empty
-                                ));
+                            _primarySqlConnection = GetConfiguration("SqlConnection").SafeToString(GetConfiguration("PrimarySqlConnection").SafeToString());
                         }
                     }
                 }
@@ -94,7 +93,7 @@ namespace Beyova
                 var result = new EnvironmentInfo { AssemblyVersion = _assemblyVersion };
 
                 result.GCMemory = SystemManagementExtension.GetGCMemory();
-                result.ServerName = EnvironmentCore.ServerName;
+                result.MachineName = EnvironmentCore.ServerName;
                 result.IpAddress = EnvironmentCore.LocalMachineIpAddress;
                 result.HostName = EnvironmentCore.LocalMachineHostName;
                 result.AssemblyHash = EnvironmentCore.GetAssemblyHash();
@@ -134,10 +133,10 @@ namespace Beyova
         public static string GetEnumResourceString<TEnum>(TEnum enumValue, bool languageCompatibility = true, bool forceMatchType = false)
            where TEnum : struct, IConvertible
         {
-            return GetResourceString(string.Format("{0}_{1}", 
-                typeof(TEnum).Name, 
-                enumValue.ToInt64(null)), 
-                forceMatchType ? GlobalCultureResourceType.EnumValue as GlobalCultureResourceType? : null, 
+            return GetResourceString(string.Format("{0}_{1}",
+                typeof(TEnum).Name,
+                enumValue.ToInt64(null)),
+                forceMatchType ? GlobalCultureResourceType.EnumValue as GlobalCultureResourceType? : null,
                 languageCompatibility);
         }
 
@@ -219,18 +218,6 @@ namespace Beyova
         /// </summary>
         public static IApiTracking ApiTracking { get; private set; }
 
-        /// <summary>
-        /// Gets the current culture information.
-        /// </summary>
-        /// <value>The current culture information.</value>
-        public static CultureInfo CurrentCultureInfo
-        {
-            get
-            {
-                return ContextHelper.CurrentCultureInfo ?? _resourceHub?.DefaultCultureInfo;
-            }
-        }
-
         #endregion Public
 
         /// <summary>
@@ -239,7 +226,11 @@ namespace Beyova
         static Framework()
         {
             InitializeByCustomAssemblyAttributes();
-            ApiTracking?.LogMessage(string.Format("{0} is initialized.", EnvironmentCore.ProductName));
+            ApiTracking?.LogApiMessage(new ApiMessage
+            {
+                Category = "Initialization",
+                Message = string.Format("{0} is initialized.", EnvironmentCore.ProductName)
+            });
         }
 
         #region Initialization
@@ -250,6 +241,9 @@ namespace Beyova
         private static void InitializeByCustomAssemblyAttributes()
         {
             string currentAssemblyName = null;
+
+            //Api track type need to stay on top and out of this. It is set in loop and be used after loop, to ensure required parameter from configuration is initialized.
+            List<Type> apiTrackTypes = new List<Type>();
 
             try
             {
@@ -266,14 +260,13 @@ namespace Beyova
                         var componentAttribute = assembly.GetCustomAttribute<BeyovaComponentAttribute>();
                         if (componentAttribute != null)
                         {
+                            componentInfo = componentAttribute.UnderlyingObject;
+
                             // APITRACKING
                             if (ApiTracking == null)
                             {
-                                ApiTracking = componentAttribute.UnderlyingObject.GetApiTrackingInstance();
+                                apiTrackTypes.Add(componentInfo?.ApiTrackingType);
                             }
-
-                            //Version
-                            componentInfo = componentAttribute.UnderlyingObject;
                         }
 
                         #endregion BeyovaComponentAttribute
@@ -330,6 +323,19 @@ namespace Beyova
                     }
                 }
 
+                if (ApiTracking == null && apiTrackTypes.HasItem())
+                {
+                    foreach (var one in apiTrackTypes)
+                    {
+                        var instance = one.CreateInstance() as IApiTracking;
+                        if (instance != null)
+                        {
+                            ApiTracking = instance;
+                            break;
+                        }
+                    }
+                }
+
                 // To check and ensure
                 if (DataSecurityProvider == null)
                 {
@@ -338,7 +344,10 @@ namespace Beyova
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { currentAssemblyName });
+                throw ex.Handle(new
+                {
+                    currentAssemblyName
+                });
             }
         }
 
@@ -351,5 +360,92 @@ namespace Beyova
         /// The default text encoding.
         /// </value>
         public static Encoding DefaultTextEncoding { get { return Encoding.UTF8; } }
+
+        /// <summary>
+        /// Initializes the default function injection.
+        /// </summary>
+        private static void InitializeDefaultFunctionInjection()
+        {
+            FunctionInjection<CultureInfo> injection = delegate ()
+            {
+                return _resourceHub?.DefaultCultureInfo;
+            };
+
+            CurrentCultureInfo = new PrioritizedFunctionInjection<CultureInfo>(injection);
+        }
+
+        /// <summary>
+        /// Gets the get current operator credential.
+        /// </summary>
+        /// <value>
+        /// The get current operator credential.
+        /// </value>
+        public static FunctionInjection<BaseCredential> GetCurrentOperatorCredential { get; private set; }
+
+        /// <summary>
+        /// Gets the current operator credential.
+        /// </summary>
+        /// <value>
+        /// The current operator credential.
+        /// </value>
+        public static BaseCredential CurrentOperatorCredential
+        {
+            get
+            {
+                return GetCurrentOperatorCredential?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Gets the get current culture information.
+        /// </summary>
+        /// <value>
+        /// The get current culture information.
+        /// </value>
+        public static FunctionInjection<CultureInfo> GetCurrentCultureInfo { get; private set; }
+
+        /// <summary>
+        /// Gets the current culture information.
+        /// </summary>
+        /// <value>
+        /// The current culture information.
+        /// </value>
+        public static PrioritizedFunctionInjection<CultureInfo> CurrentCultureInfo { get; private set; } = new PrioritizedFunctionInjection<CultureInfo>();
+
+        #region ApplyInjection
+
+        /// <summary>
+        /// Applies the injection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name">The name.</param>
+        /// <param name="injectionCandidate">The injection candidate.</param>
+        internal static void ApplyInjection<T>(string name, FunctionInjection<T> injectionCandidate)
+        {
+            if (!string.IsNullOrWhiteSpace(name) && injectionCandidate != null)
+            {
+                var hitProperty = typeof(Framework).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty).FirstOrDefault(x => x.Name == name);
+                if (hitProperty != null)
+                {
+                    if (typeof(PrioritizedFunctionInjection<T>).IsAssignableFrom(hitProperty.PropertyType))
+                    {
+                        PrioritizedFunctionInjection<T> existed = hitProperty.GetValue(null) as PrioritizedFunctionInjection<T>;
+                        if (existed == null)
+                        {
+                            existed = new PrioritizedFunctionInjection<T>();
+                            hitProperty.SetValue(null, existed);
+                        }
+
+                        existed.Prepend(injectionCandidate);
+                    }
+                    if (hitProperty.PropertyType == typeof(FunctionInjection<>).MakeGenericType(typeof(T)))
+                    {
+                        hitProperty.SetValue(null, injectionCandidate);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

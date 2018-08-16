@@ -1,4 +1,5 @@
-﻿using Beyova.ApiTracking;
+﻿using System;
+using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
 
 namespace Beyova
@@ -30,6 +31,13 @@ namespace Beyova
         /// Logs the message asynchronous.
         /// </summary>
         /// <param name="message">The message.</param>
+        [Obsolete("Use LogApiMessage.")]
         void LogMessage(string message);
+
+        /// <summary>
+        /// Logs the API message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        void LogApiMessage(ApiMessage message);
     }
 }

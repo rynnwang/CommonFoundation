@@ -124,7 +124,7 @@
             /// <summary>
             /// The secured key. It is used for secure encryption key for response. Value itself is encrypted by RSA Publish Key
             /// </summary>
-            public const string SECUREDKEY= "X-BA-SECURED-KEY";
+            public const string SECUREDKEY = "X-BA-SECURED-KEY";
 
             /// <summary>
             /// The client identifier
@@ -161,6 +161,16 @@
             public const string DEBUG = "X-BA-DEBUG-ID";
 
             /// <summary>
+            /// The poweredby
+            /// </summary>
+            public const string POWEREDBY = "X-Powered-By";
+
+            /// <summary>
+            /// The beyova api version
+            /// </summary>
+            public const string BEYOVAAPIVERSION = "X-Beyova-Version";
+
+            /// <summary>
             /// The trace sequence
             /// </summary>
             public const string TRACESEQUENCE = "X-BA-TRACE-SEQ";
@@ -179,6 +189,11 @@
             /// The accept
             /// </summary>
             public const string Accept = "Accept";
+
+            /// <summary>
+            /// The host
+            /// </summary>
+            public const string Host = "Host";
 
             /// <summary>
             /// The authorization
@@ -291,6 +306,11 @@
             /// The localhost ip v6
             /// </summary>
             public const string LocalhostIpV6 = "::1";
+
+            /// <summary>
+            /// The powered by beyova
+            /// </summary>
+            public const string PoweredByBeyova = "Beyova";
         }
 
         /// <summary>

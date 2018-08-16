@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Beyova.SaasPlatform
+namespace Beyova
 {
     /// <summary>
     /// Interface IUserInfo
     /// </summary>
-    public interface IUserInfo<TFunctionalRole> : IIdentifier, ICredential, ISimpleUserInfo
+    public interface IUserInfo<TFunctionalRole> : IIdentifier, IServiceUserCredential, IUserEssential
         where TFunctionalRole : struct, IConvertible
     {
         /// <summary>

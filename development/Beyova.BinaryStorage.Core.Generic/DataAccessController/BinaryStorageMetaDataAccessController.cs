@@ -1,4 +1,4 @@
-﻿namespace Beyova.FunctionService.Generic
+﻿namespace Beyova.Function.Generic
 {
     /// <summary>
     /// Class BinaryStorageMetaDataAccessController.

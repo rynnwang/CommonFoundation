@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Beyova.ExceptionSystem;
 using Beyova.Gravity;
 using Newtonsoft.Json;
 
@@ -9,7 +10,7 @@ namespace Beyova
     /// <summary>
     /// Class GravityEntryFile.
     /// </summary>
-    internal class GravityEntryFile : GravityEntryObject
+    public class GravityEntryFile : GravityEntryObject
     {
         /// <summary>
         /// Gets or sets the issued stamp.
@@ -26,7 +27,7 @@ namespace Beyova
         public string IssuedTo { get; set; }
 
         /// <summary>
-        /// Loads the specified path.
+        /// Loads the specified path. If path is not specified, use default: /{applicationRoot}/gravity.gef
         /// </summary>
         /// <param name="path">The path. If path is null or empty, use {application base directory}/gravity.gef as default.</param>
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
@@ -39,7 +40,7 @@ namespace Beyova
 
                 if (!File.Exists(path))
                 {
-                    throw new FileNotFoundException(string.Format("{0} is not found.", path));
+                    throw new ResourceNotFoundException(path);
                 }
 
                 return JsonConvert.DeserializeObject<GravityEntryFile>(Encoding.UTF8.GetString(File.ReadAllBytes(path)).DecryptR3DES());

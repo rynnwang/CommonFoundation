@@ -9,10 +9,12 @@ namespace Beyova.Gravity
     public class HeartbeatEcho
     {
         /// <summary>
-        /// Gets or sets the command requests.
+        /// Gets or sets the instructions.
         /// </summary>
-        /// <value>The command requests.</value>
-        public List<GravityCommandRequest> CommandRequests { get; set; }
+        /// <value>
+        /// The instructions.
+        /// </value>
+        public List<GravityInstruction> Instructions { get; set; }
 
         /// <summary>
         /// Gets or sets the client key.

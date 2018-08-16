@@ -25,5 +25,13 @@ namespace Beyova
         /// </summary>
         /// <value>The credential expired stamp.</value>
         public DateTime? CredentialExpiredStamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the original.
+        /// </summary>
+        /// <value>
+        /// The name of the original.
+        /// </value>
+        public string OriginalName { get; set; }
     }
 }

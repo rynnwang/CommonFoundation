@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Beyova.SaasPlatform
+namespace Beyova
 {
     /// <summary>
     /// Interface IUserCriteria
     /// </summary>
-    public interface IUserCriteria<TFunctionalRole> : ISimpleUserCriteria
+    public interface IUserCriteria<TFunctionalRole> : IUserEssentialCriteria
           where TFunctionalRole : struct, IConvertible
     {
         /// <summary>

@@ -119,14 +119,18 @@ namespace Beyova
         #region Extensions for all objects
 
         /// <summary>
-        /// Safes the dispose.
+        /// Safe dispose object. It would catch all exception and not throw out.
         /// </summary>
         /// <param name="disposableObject">The disposable object.</param>
         public static void SafeDispose(this IDisposable disposableObject)
         {
             if (disposableObject != null)
             {
-                disposableObject.Dispose();
+                try
+                {
+                    disposableObject.Dispose();
+                }
+                catch { }
             }
         }
 
@@ -156,7 +160,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Meaningful equals. Return true if both of them are null/empty, or neither is null/empty + text equals.
+        /// Meaningful equals. Return true if both of them are null/empty, or neither is null/empty AND text equals.
         /// </summary>
         /// <param name="stringA">The string a.</param>
         /// <param name="stringB">The string b.</param>
@@ -579,6 +583,27 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Objects to date.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static Date? ObjectToDate(this object data)
+        {
+            return (Date?)data.ObjectToString();
+        }
+
+        /// <summary>
+        /// Objects to date.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
+        public static Date ObjectToDate(this object data, Date defaultValue)
+        {
+            return ObjectToDate(data) ?? defaultValue;
+        }
+
+        /// <summary>
         /// To the date time.
         /// </summary>
         /// <param name="data">The data.</param>
@@ -919,6 +944,16 @@ namespace Beyova
         #region DateTime Extensions
 
         /// <summary>
+        /// To the date time.
+        /// </summary>
+        /// <param name="dateTimeOffset">The date time offset.</param>
+        /// <returns></returns>
+        public static DateTime? ToDateTime(this DateTimeOffset? dateTimeOffset)
+        {
+            return dateTimeOffset.HasValue ? dateTimeOffset.Value.DateTime : default(DateTime?);
+        }
+
+        /// <summary>
         /// Adjusts the minute.
         /// </summary>
         /// <param name="dateTime">The date time.</param>
@@ -935,6 +970,22 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Adjusts the minute.
+        /// </summary>
+        /// <param name="dateTimeOffset">The date time offset.</param>
+        /// <param name="minute">The minute.</param>
+        /// <returns></returns>
+        public static DateTimeOffset AdjustMinute(this DateTimeOffset dateTimeOffset, int minute)
+        {
+            if (minute < 0 || minute > 59)
+            {
+                ExceptionFactory.CreateInvalidObjectException(nameof(minute), minute);
+            }
+
+            return dateTimeOffset.AddMinutes(minute - dateTimeOffset.Minute);
+        }
+
+        /// <summary>
         /// Resets the minute.
         /// </summary>
         /// <param name="dateTime">The date time.</param>
@@ -942,6 +993,16 @@ namespace Beyova
         public static DateTime ResetMinute(this DateTime dateTime)
         {
             return dateTime.AdjustMinute(0);
+        }
+
+        /// <summary>
+        /// Resets the minute.
+        /// </summary>
+        /// <param name="dateTimeOffset">The date time offset.</param>
+        /// <returns></returns>
+        public static DateTimeOffset ResetMinute(this DateTimeOffset dateTimeOffset)
+        {
+            return dateTimeOffset.AdjustMinute(0);
         }
 
         /// <summary>
@@ -1076,10 +1137,30 @@ namespace Beyova
         /// To the unix milliseconds date time.
         /// </summary>
         /// <param name="dateTimeObject">The date time object.</param>
+        /// <returns></returns>
+        public static long? ToUnixMillisecondsDateTime(this DateTimeOffset? dateTimeObject)
+        {
+            return dateTimeObject.HasValue ? (long?)ToUnixMillisecondsDateTime(dateTimeObject.Value) : null;
+        }
+
+        /// <summary>
+        /// To the unix milliseconds date time.
+        /// </summary>
+        /// <param name="dateTimeObject">The date time object.</param>
         /// <returns>System.Int64.</returns>
         public static long ToUnixMillisecondsDateTime(this DateTime dateTimeObject)
         {
             return (long)((dateTimeObject - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+        }
+
+        /// <summary>
+        /// To the unix milliseconds date time.
+        /// </summary>
+        /// <param name="dateTimeObject">The date time object.</param>
+        /// <returns></returns>
+        public static long ToUnixMillisecondsDateTime(this DateTimeOffset dateTimeObject)
+        {
+            return (long)((dateTimeObject - new DateTimeOffset(1970, 1, 1, 0, 0, 0, new TimeSpan())).TotalMilliseconds);
         }
 
         /// <summary>

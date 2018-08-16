@@ -1,6 +1,6 @@
 ﻿using Amazon;
 
-namespace Beyova.AwsExtension
+namespace Beyova.Aws
 {
     /// <summary>
     /// Class AwsBlobEndpoint.

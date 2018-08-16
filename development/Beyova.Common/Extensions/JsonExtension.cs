@@ -242,18 +242,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Tries to get value.
-        /// If jObject is null, return default value of T.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="jObject">The j object.</param>
-        /// <returns>T.</returns>
-        public static T TryGetValue<T>(this JToken jObject)
-        {
-            return jObject == null ? default(T) : jObject.Value<T>();
-        }
-
-        /// <summary>
         /// Tries the parse to JTOKEN.
         /// </summary>
         /// <param name="jsonString">The json string.</param>

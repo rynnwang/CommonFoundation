@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -8,10 +9,6 @@ namespace Beyova
     [JsonConverter(typeof(CryptoKeyConverter))]
     public sealed class CryptoKey : IImplicitiveStringValueObject
     {
-        /// <summary>
-        /// The value
-        /// </summary>
-        private byte[] _value;
 
         /// <summary>
         /// Gets the byte value.
@@ -19,7 +16,7 @@ namespace Beyova
         /// <value>
         /// The byte value.
         /// </value>
-        public byte[] ByteValue { get { return _value; } }
+        public byte[] ByteValue { get; private set; }
 
         /// <summary>
         /// Gets the string value.
@@ -27,7 +24,7 @@ namespace Beyova
         /// <value>
         /// The string value.
         /// </value>
-        public string StringValue { get { return _value.EncodeBase64(); } }
+        public string StringValue { get { return ByteValue.EncodeBase64(); } }
 
         #region Constructor
 
@@ -42,7 +39,7 @@ namespace Beyova
         /// <param name="value">The value.</param>
         public CryptoKey(byte[] value)
         {
-            this._value = value;
+            this.ByteValue = value;
         }
 
         /// <summary>
@@ -51,7 +48,7 @@ namespace Beyova
         /// <param name="value">The value.</param>
         public CryptoKey(string value)
         {
-            this._value = value.DecodeBase64ToByteArray();
+            this.ByteValue = value.DecodeBase64ToByteArray();
         }
 
         #endregion Constructor
@@ -120,12 +117,26 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Checks the null or empty.
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
         /// </summary>
-        /// <param name="variableName">Name of the variable.</param>
-        public void CheckNullOrEmpty(string variableName = null)
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
         {
-            _value.CheckNullOrEmptyCollection(variableName.SafeToString(nameof(CryptoKey)));
+            return this.ByteValue.ValueEquals((obj as CryptoKey)?.ByteValue);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return ByteValue?.GetHashCode() ?? 0;
         }
     }
 }

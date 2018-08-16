@@ -21,7 +21,7 @@ namespace Beyova
         /// </summary>
         static ConfigurationHub()
         {
-            _configurationReaders.AddIfNotNull(GravityShell.Host?.ConfigurationReader);
+            _configurationReaders.AddIfNotNull(GravityShell.Current?.ConfigurationReader);
         }
 
         /// <summary>

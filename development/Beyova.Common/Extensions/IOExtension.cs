@@ -7,10 +7,62 @@ using System.Threading.Tasks;
 namespace Beyova
 {
     /// <summary>
-    /// Extensions forIOExtension
+    /// Extensions for IOExtension
     /// </summary>
     public static class IOExtension
     {
+        #region  Stream
+
+        /// <summary>
+        /// Determines whether [is relative path] [the specified path].
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns><c>true</c> if [is relative path] [the specified path]; otherwise, <c>false</c>.</returns>
+        public static bool IsRelativePath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return false;
+            }
+
+            var root = Path.GetPathRoot(path);
+            return root.IsInString("", "\\", "/");
+        }
+
+        /// <summary>
+        /// Saves to.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="absoluteFullPath">The absolute full path.</param>
+        /// <param name="overwriteIfExists">if set to <c>true</c> [overwrite if exists].</param>
+        /// <param name="bufferSize">Size of the buffer.</param>
+        /// <param name="fileOptions">The file options.</param>
+        public static void SaveTo(this Stream stream, string absoluteFullPath, bool overwriteIfExists = false, int bufferSize = 512, FileOptions fileOptions = FileOptions.None)
+        {
+            if (stream != null && !string.IsNullOrWhiteSpace(absoluteFullPath))
+            {
+                try
+                {
+                    if (File.Exists(absoluteFullPath) && overwriteIfExists)
+                    {
+                        File.Delete(absoluteFullPath);
+                    }
+
+                    using (var fileStream = File.Create(absoluteFullPath, bufferSize < 512 ? 512 : bufferSize, fileOptions))
+                    {
+                        stream.CopyTo(fileStream);
+                        fileStream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex.Handle(new { absoluteFullPath, bufferSize, fileOptions });
+                }
+            }
+        }
+
+        #endregion
+
         #region IO
 
         /// <summary>
@@ -180,7 +232,7 @@ namespace Beyova
             {
                 using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    return stream.ToBytes();
+                    return stream.ReadStreamToBytes(true);
                 }
             }
             catch (Exception ex)
@@ -291,6 +343,28 @@ namespace Beyova
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Ensures the file directory existence.
+        /// </summary>
+        /// <param name="fileFullPath">The file full path.</param>
+        public static void EnsureFileDirectoryExistence(this string fileFullPath)
+        {
+            try
+            {
+                fileFullPath.CheckEmptyString(nameof(fileFullPath));
+
+                var directory = Path.GetDirectoryName(fileFullPath);
+                if (!string.IsNullOrWhiteSpace(directory))
+                {
+                    new DirectoryInfo(directory).EnsureExistence();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { fileFullPath });
+            }
         }
 
         #endregion IO
@@ -452,6 +526,7 @@ namespace Beyova
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <returns>The <see cref="Byte" />  array of stream.</returns>
+        [Obsolete("Use ReadStreamToBytes directly")]
         public static byte[] ToBytes(this Stream stream)
         {
             return ReadStreamToBytes(stream, true);
@@ -478,36 +553,7 @@ namespace Beyova
 
         #endregion Bytes
 
-        #region Directory
-
-        /// <summary>
-        /// Determines whether [is relative path] [the specified path].
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns><c>true</c> if [is relative path] [the specified path]; otherwise, <c>false</c>.</returns>
-        public static bool IsRelativePath(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return false;
-            }
-
-            var root = Path.GetPathRoot(path);
-            return root.IsInString("", "\\", "/");
-        }
-
-        /// <summary>
-        /// Copies the stream.
-        /// </summary>
-        /// <param name="sourceStream">The source stream.</param>
-        /// <param name="destinationStream">The destination stream.</param>
-        public static void CopyStream(this Stream sourceStream, Stream destinationStream)
-        {
-            if (sourceStream != null && destinationStream != null)
-            {
-                sourceStream.CopyTo(destinationStream);
-            }
-        }
+        #region Directory       
 
         /// <summary>
         /// Ensures the existence.
@@ -515,12 +561,9 @@ namespace Beyova
         /// <param name="directoryInfo">The directory information.</param>
         public static void EnsureExistence(this DirectoryInfo directoryInfo)
         {
-            if (directoryInfo != null)
+            if (directoryInfo != null && !directoryInfo.Exists)
             {
-                if (!directoryInfo.Exists)
-                {
-                    directoryInfo.Create();
-                }
+                directoryInfo.Create();
             }
         }
 

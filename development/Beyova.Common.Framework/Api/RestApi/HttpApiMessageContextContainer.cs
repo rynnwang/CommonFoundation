@@ -210,23 +210,7 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseGzipBody(byte[] bytes, string contentType)
         {
-            if (this.Response != null && bytes != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (var gzip = new GZipStream(ms, CompressionMode.Compress, true))
-                    {
-                        gzip.Write(bytes, 0, bytes.Length);
-                    }
-                    ms.Position = 0;
-                    this.Response.Content = new StreamContent(ms);
-                    if (!string.IsNullOrWhiteSpace(contentType))
-                    {
-                        this.Response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                    }
-                    this.Response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.GZip);
-                }
-            }
+            this.Response.WriteResponseGzipBody(bytes, contentType);
         }
 
         /// <summary>
@@ -236,7 +220,7 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseGzipBody(Stream stream, string contentType)
         {
-            WriteResponseGzipBody(stream.ToBytes(), contentType);
+            WriteResponseGzipBody(stream.ReadStreamToBytes(true), contentType);
         }
 
 
@@ -256,23 +240,7 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseDeflateBody(byte[] bytes, string contentType)
         {
-            if (this.Response != null && bytes != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (var gzip = new DeflateStream(ms, CompressionMode.Compress, true))
-                    {
-                        gzip.Write(bytes, 0, bytes.Length);
-                    }
-                    ms.Position = 0;
-                    this.Response.Content = new StreamContent(ms);
-                    if (!string.IsNullOrWhiteSpace(contentType))
-                    {
-                        this.Response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                    }
-                    this.Response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.Deflate);
-                }
-            }
+            this.Response.WriteResponseDeflateBody(bytes, contentType);
         }
 
         /// <summary>
@@ -282,17 +250,25 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseDeflateBody(Stream stream, string contentType)
         {
-            WriteResponseDeflateBody(stream.ToBytes(), contentType);
+            WriteResponseDeflateBody(stream.ReadStreamToBytes(true), contentType);
         }
 
-        public override string GetCookieValue(string cookieKey)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Gets the cookie values.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
         public override IEnumerable<string> GetCookieValues(string cookieKey)
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(cookieKey))
+            {
+                var cookieString = this.Request.Headers.GetValue(HttpConstants.HttpHeader.Cookie);
+                var cookieMatrix = HttpExtension.ConvertCookieStringToMatrix(cookieString);
+                cookieMatrix.TryGetValue(cookieKey, out result);
+            }
+
+            return result;
         }
     }
 

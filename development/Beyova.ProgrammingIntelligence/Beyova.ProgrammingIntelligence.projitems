@@ -13,8 +13,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)CodeGeneratorUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSharpCodeGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSharpCodeGeneratorUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeKindFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecificTypeDiscover.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CSharpCodeUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicCompiling\SandboxMarshalObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicCompiling\TempAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DynamicCompiling\TempAssemblyProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicMethod\DynamicStaticMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicMethod\DynamicStaticMethodOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInvoker\MethodInvokeRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInvoker\MethodInvokeParameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInvoker\MethodInvokeResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInvoker\MethodInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgramCode\CSharpCodeFragmentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgramCode\CSharpCodeFragmentChainRecognization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgramCode\CSharpCodeFragmentChain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgramCode\CSharpCodeFragment.cs" />
   </ItemGroup>
 </Project>

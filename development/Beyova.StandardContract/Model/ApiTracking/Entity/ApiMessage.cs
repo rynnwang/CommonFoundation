@@ -14,6 +14,14 @@ namespace Beyova.ApiTracking
         public string Message { get; set; }
 
         /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
+        public string Category { get; set; }
+
+        /// <summary>
         /// Gets or sets the key.
         /// </summary>
         /// <value>The key.</value>

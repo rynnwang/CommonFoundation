@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace Beyova.FunctionService.Generic
+namespace Beyova.Function.Generic
 {
     /// <summary>
     /// Access controller for <see cref="BinaryStorageIdentifier" /> class instance.

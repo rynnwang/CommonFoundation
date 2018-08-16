@@ -12,7 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extension\HttpExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extension\HttpMessageExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpRequestCookieActions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpResponseApiActions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IIncomingHttpRequestExtensible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpResponseActions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHttpRequestActions.cs" />

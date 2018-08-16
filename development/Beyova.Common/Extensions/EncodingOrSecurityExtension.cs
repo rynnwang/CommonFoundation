@@ -1217,7 +1217,7 @@ namespace Beyova
                 {
                     using (var gZipStream = new GZipStream(stream, CompressionMode.Decompress))
                     {
-                        return (encoding ?? Encoding.UTF8).GetString(gZipStream.ToBytes());
+                        return (encoding ?? Encoding.UTF8).GetString(gZipStream.ReadStreamToBytes(true));
                     }
                 }
                 catch (Exception ex)

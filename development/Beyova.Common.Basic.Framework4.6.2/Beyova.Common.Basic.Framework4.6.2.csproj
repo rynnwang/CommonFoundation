@@ -37,6 +37,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,5 +56,11 @@
   <Import Project="..\Beyova.Reflection\Beyova.Reflection.projitems" Label="Shared" />
   <Import Project="..\Beyova.StandardContract\Beyova.StandardContract.projitems" Label="Shared" />
   <Import Project="..\Beyova.Http\Beyova.Http.projitems" Label="Shared" />
+  <Import Project="..\Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Gravity\Beyova.Gravity.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems" Label="Shared" />
+  <Import Project="..\Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Api\Beyova.Api.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Aop\Beyova.Aop.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

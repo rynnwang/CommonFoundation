@@ -11,7 +11,7 @@ using Amazon.S3.Model;
 using Beyova;
 using Beyova.Api;
 
-namespace Beyova.AwsExtension
+namespace Beyova.Aws
 {
     /// <summary>
     /// Class AwsStorageOperator.

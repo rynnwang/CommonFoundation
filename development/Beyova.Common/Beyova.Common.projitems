@@ -34,9 +34,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DefaultDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\RijndaelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileContainer\ZipFileContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileContainer\StorageContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileContainer\FileContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\BeyovaVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />
@@ -112,8 +118,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\EnvironmentCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\FeatureSwitch\FeatureModuleSwitchObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\Framework.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\I18NResourceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\AdaptableEnumConverter.cs" />
@@ -143,7 +147,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\DiffResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\ValueDiffResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DualHttpWebRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\HttpListener\HttpListenerServerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Logger\DiagnosticFileLogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\NuGetPackageAssemblyParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\LoopEnumerator.cs" />
@@ -162,6 +165,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Configuration\AssemblyAttribute\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utility\TwoFactorAuthentication\" />
   </ItemGroup>
 </Project>

@@ -9,17 +9,20 @@
     <Import_RootNamespace>Beyova.Gravity.Embedded</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityApiOperationAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\GravityProtocolAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\RemoteConfigurationReceipt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\GravityBuiltInInstructionTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\GravityConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\GravityBuiltInResources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntryFile\GravityEntryFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Http\GravityHttpContextContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IGravityServiceProtocol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\GravityEntryObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\Heartbeat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Heartbeat\HeartbeatEcho.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Communication\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Registration\RegistrationToken.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Registration\GravityOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Registration\MemberRegistration.cs" />
   </ItemGroup>
 </Project>

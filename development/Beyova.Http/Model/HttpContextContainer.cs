@@ -211,7 +211,10 @@ namespace Beyova.Http
         /// </summary>
         /// <param name="cookieKey">The cookie key.</param>
         /// <returns></returns>
-        public abstract string GetCookieValue(string cookieKey);
+        public virtual string GetCookieValue(string cookieKey)
+        {
+            return GetCookieValues(cookieKey).SafeFirstOrDefault();
+        }
 
         /// <summary>
         /// Gets the values.
@@ -219,5 +222,33 @@ namespace Beyova.Http
         /// <param name="cookieKey">The cookie key.</param>
         /// <returns></returns>
         public abstract IEnumerable<string> GetCookieValues(string cookieKey);
+
+        /// <summary>
+        /// Writes the response gzip body.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public abstract void WriteResponseGzipBody(byte[] bytes, string contentType);
+
+        /// <summary>
+        /// Writes the response deflate body.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public abstract void WriteResponseDeflateBody(byte[] bytes, string contentType);
+
+        /// <summary>
+        /// Writes the response gzip body.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public abstract void WriteResponseGzipBody(Stream stream, string contentType);
+
+        /// <summary>
+        /// Writes the response deflate body.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public abstract void WriteResponseDeflateBody(Stream stream, string contentType);
     }
 }

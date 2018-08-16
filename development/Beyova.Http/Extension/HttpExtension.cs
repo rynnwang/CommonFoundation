@@ -65,12 +65,13 @@ namespace Beyova
         /// <param name="referrer">The referrer.</param>
         /// <param name="userAgent">The user agent.</param>
         /// <param name="cookieContainer">The cookie container.</param>
-        /// <param name="cookieString">The cookie string.</param>
         /// <param name="accept">The accept.</param>
         /// <param name="acceptGZip">The accept g zip.</param>
         /// <param name="omitServerCertificateValidation">The omit server certificate validation.</param>
-        /// <returns>HttpWebRequest.</returns>
-        public static HttpWebRequest CreateHttpWebRequest(this string destinationUrl, string httpMethod = HttpConstants.HttpMethod.Get, string referrer = null, string userAgent = null, CookieContainer cookieContainer = null, string cookieString = null, string accept = null, bool acceptGZip = true, bool omitServerCertificateValidation = false)
+        /// <returns>
+        /// HttpWebRequest.
+        /// </returns>
+        public static HttpWebRequest CreateHttpWebRequest(this string destinationUrl, string httpMethod = HttpConstants.HttpMethod.Get, string referrer = null, string userAgent = null, CookieContainer cookieContainer = null, string accept = null, bool acceptGZip = true, bool omitServerCertificateValidation = false)
         {
             try
             {
@@ -101,13 +102,6 @@ namespace Beyova
                 }
 
                 httpWebRequest.CookieContainer = cookieContainer ?? new CookieContainer();
-                if (!string.IsNullOrWhiteSpace(cookieString))
-                {
-                    var collection = new CookieCollection();
-                    collection.SetCookieByString(cookieString, httpWebRequest.RequestUri.Host);
-                    httpWebRequest.CookieContainer.Add(httpWebRequest.RequestUri, collection);
-                }
-
                 httpWebRequest.Method = httpMethod.SafeToString(HttpConstants.HttpMethod.Get);
 
                 return httpWebRequest;
@@ -1214,7 +1208,7 @@ namespace Beyova
                     {
                         using (var gZipStream = new GZipStream(responseStream, CompressionMode.Decompress))
                         {
-                            return (encoding ?? Encoding.UTF8).GetString(gZipStream.ToBytes());
+                            return (encoding ?? Encoding.UTF8).GetString(gZipStream.ReadStreamToBytes(true));
                         }
                     }
                 }
@@ -1251,7 +1245,7 @@ namespace Beyova
                 {
                     using (Stream responseStream = webResponse.GetResponseStream())
                     {
-                        result = responseStream.ToBytes();
+                        result = responseStream.ReadStreamToBytes(true);
                     }
                 }
                 catch (Exception ex)
@@ -1273,6 +1267,31 @@ namespace Beyova
         #endregion WebResponse Extension
 
         #endregion Read response
+
+        /// <summary>
+        /// Converts the cookie string to matrix.
+        /// </summary>
+        /// <param name="cookieString">The cookie string.</param>
+        /// <returns></returns>
+        public static MatrixList<string> ConvertCookieStringToMatrix(string cookieString)
+        {
+            MatrixList<string> result = new MatrixList<string>();
+
+            if (!string.IsNullOrWhiteSpace(cookieString))
+            {
+                string[] cookieProperties = cookieString.Split(new char[] { ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var property in cookieProperties)
+                {
+                    string[] keyValue = property.Split(new char[] { '=' }, 2);
+                    if (keyValue.Length >= 2)
+                    {
+                        result.Add(keyValue[0], keyValue[1]);
+                    }
+                }
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Sets the cookie by string.

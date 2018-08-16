@@ -63,7 +63,6 @@
     <Compile Include="Model\ElasticApiEventWorkObject.cs" />
     <Compile Include="Model\ElasticCriteriaObjectSerializer.cs" />
     <Compile Include="Model\ElasticCriteriaObject.cs" />
-    <Compile Include="Model\ElasticMessage.cs" />
     <Compile Include="Model\ElasticWorkObject.cs" />
     <Compile Include="Model\ElasticTraceLog.cs" />
     <Compile Include="Model\ElasticExceptionInfo.cs" />

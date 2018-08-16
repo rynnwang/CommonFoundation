@@ -69,7 +69,7 @@ namespace Beyova.ExceptionSystem
             : base(message, innerException)
         {
             this.Code = code;
-            this.OperatorCredential = ContextHelper.CurrentCredential;
+            this.OperatorCredential = Framework.GetCurrentOperatorCredential?.Invoke();
             this.ReferenceData = data == null ? null : JToken.FromObject(data);
             this.Scene = scene;
             this.CreatedStamp = DateTime.UtcNow;

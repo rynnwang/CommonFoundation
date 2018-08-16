@@ -1028,6 +1028,30 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Subs the string before last match.
+        /// </summary>
+        /// <param name="original">The original.</param>
+        /// <param name="lastMatch">The last match.</param>
+        /// <returns></returns>
+        public static string SubStringBeforeLastMatch(this string original, char lastMatch)
+        {
+            if (!string.IsNullOrWhiteSpace(original))
+            {
+                var index = original.LastIndexOf(lastMatch);
+                if (index == 0)
+                {
+                    return string.Empty;
+                }
+                else if (index > 0)
+                {
+                    return original.Substring(0, index);
+                }
+            }
+
+            return original;
+        }
+
+        /// <summary>
         /// Subs the string after first match.
         /// </summary>
         /// <param name="original">The original.</param>

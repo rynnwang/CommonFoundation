@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using Beyova.ExceptionSystem;
+using Beyova.ProgrammingIntelligence;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Beyova
 {
@@ -328,11 +332,21 @@ namespace Beyova
         #endregion CreateSampleObject
 
         /// <summary>
-        /// Gets the non parameter constructor.
+        /// Gets the default value.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public static ConstructorInfo GetNonParameterConstructor(this Type type)
+        public static object GetDefaultValue(this Type type)
+        {
+            return (type != null && type.IsValueType) ? Activator.CreateInstance(type) : null;
+        }
+
+        /// <summary>
+        /// Gets the parameterless constructor.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public static ConstructorInfo GetParameterlessConstructor(this Type type)
         {
             if (type != null)
             {
@@ -342,7 +356,23 @@ namespace Beyova
                 {
                     foreach (var one in constructors)
                     {
-                        if (!one.GetParameters().HasItem())
+                        var constructorParameters = one.GetParameters();
+                        if (!constructorParameters.HasItem())
+                        {
+                            return one;
+                        }
+
+                        bool hasNonDefault = false;
+                        foreach (var p in constructorParameters)
+                        {
+                            if (!p.HasDefaultValue)
+                            {
+                                hasNonDefault = true;
+                                break;
+                            }
+                        }
+
+                        if (!hasNonDefault)
                         {
                             return one;
                         }
@@ -386,9 +416,9 @@ namespace Beyova
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public static object TryCreateInstanceViaNonParameterConstructor(this Type type)
+        public static object TryCreateInstanceViaParameterlessConstructor(this Type type)
         {
-            return type.GetNonParameterConstructor() != null ? CreateInstance(type) : null;
+            return type.GetParameterlessConstructor().CreateInstance();
         }
 
         /// <summary>
@@ -413,5 +443,234 @@ namespace Beyova
         {
             return constructure != null ? TryCreateInstanceViaSingleParameterConstructor(constructure.Type, constructure.Parameter) : null;
         }
+
+        /// <summary>
+        /// Creates the instance.
+        /// </summary>
+        /// <param name="constructor">The constructor.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static object CreateInstance(this ConstructorInfo constructor, Dictionary<string, object> parameters = null)
+        {
+            if (constructor != null)
+            {
+                var constructorParameters = constructor.GetParameters();
+                var parameterValues = constructorParameters.Length > 0 ? new object[constructorParameters.Length] : null;
+
+                int i = 0;
+                foreach (var one in constructorParameters)
+                {
+                    if (parameters?.ContainsKey(one.Name) ?? false)
+                    {
+                        parameterValues[i] = parameters[one.Name];
+                    }
+                    else if (one.HasDefaultValue)
+                    {
+                        parameterValues[i] = one.DefaultValue;
+                    }
+                    else
+                    {
+                        throw ExceptionFactory.CreateInvalidObjectException(nameof(one.Name));
+                    }
+
+                    i++;
+                }
+
+                return constructor.Invoke(parameterValues);
+            }
+
+            return null;
+        }
+
+        #region Method Invoke
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TParameters">The type of the parameters.</typeparam>
+        /// <param name="methodParameterInfo">The method parameter information.</param>
+        /// <param name="seq">The seq.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        private delegate object GetParameterValueDelegate<TParameters>(ParameterInfo methodParameterInfo, int seq, TParameters parameters);
+
+        /// <summary>
+        /// Gets the parameter value by parameter array.
+        /// </summary>
+        /// <param name="methodParameterInfo">The method parameter information.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        private static object GetParameterValueByParameterArray(ParameterInfo methodParameterInfo, int sequence, object[] parameters)
+        {
+            object result = null;
+
+            if (methodParameterInfo?.IsIn ?? false)
+            {
+                result = (parameters.Length > sequence && parameters[sequence] != null) ?
+                           parameters[sequence] :
+                           ((methodParameterInfo.IsOptional && methodParameterInfo.HasDefaultValue) ?
+                               methodParameterInfo.DefaultValue :
+                               methodParameterInfo.ParameterType.GetDefaultValue());
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the parameter value by json.
+        /// </summary>
+        /// <param name="methodParameterInfo">The method parameter information.</param>
+        /// <param name="sequence">The sequence.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        private static object GetParameterValueByJson(ParameterInfo methodParameterInfo, int sequence, JObject parameters)
+        {
+            object result = null;
+
+            if (methodParameterInfo?.IsIn ?? false)
+            {
+                result = parameters.SafeGetValue<object>(methodParameterInfo.Name, false);
+
+                if (result == null)
+                {
+                    result = (methodParameterInfo.IsOptional && methodParameterInfo.HasDefaultValue) ? methodParameterInfo.DefaultValue : methodParameterInfo.ParameterType.GetDefaultValue();
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the parameter requirements.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static List<MethodInvokeParameter> GetInvokeParameters(this MethodInfo method, params object[] parameters)
+        {
+            return GetInvokeParameters(method, parameters, GetParameterValueByParameterArray);
+        }
+
+        /// <summary>
+        /// Gets the invoke parameters.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static List<MethodInvokeParameter> GetInvokeParameters(this MethodInfo method, JObject parameters)
+        {
+            return GetInvokeParameters(method, parameters, GetParameterValueByJson);
+        }
+
+        /// <summary>
+        /// Gets the invoke parameters.
+        /// </summary>
+        /// <typeparam name="TParameters">The type of the parameters.</typeparam>
+        /// <param name="method">The method.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="getParameterValue">The get parameter value.</param>
+        /// <returns></returns>
+        private static List<MethodInvokeParameter> GetInvokeParameters<TParameters>(this MethodInfo method, TParameters parameters, GetParameterValueDelegate<TParameters> getParameterValue)
+        {
+            List<MethodInvokeParameter> result = new List<MethodInvokeParameter>();
+
+            if (method != null)
+            {
+                var methodParameters = method.GetParameters();
+                int sequence = 0;
+                foreach (var one in methodParameters)
+                {
+                    result.Add(new MethodInvokeParameter
+                    {
+                        IsOptional = one.IsOptional,
+                        Name = one.Name,
+                        Type = one.ParameterType,
+                        Sequence = sequence,
+                        IsOut = one.IsOut,
+                        IsIn = one.IsIn,
+                        Value = getParameterValue(one, sequence, parameters)
+                    });
+
+                    sequence++;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Invokes the static method.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static MethodInvokeResult InvokeStaticMethod(this MethodInfo method, List<MethodInvokeParameter> parameters)
+        {
+            return InvokeMethod(method, null, parameters);
+        }
+
+        /// <summary>
+        /// Invokes the method.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="instance">The instance.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static MethodInvokeResult InvokeMethod(this MethodInfo method, object instance, List<MethodInvokeParameter> parameters)
+        {
+            MethodInvokeResult result = null;
+
+            if (method != null)
+            {
+                result = new MethodInvokeResult();
+                var methodParameters = parameters?.OrderBy(x => x.Sequence)?.ToArray() ?? new object[] { };
+
+                try
+                {
+                    result.ReturnObject = method.Invoke(instance, methodParameters);
+
+                    result.OutObjects = new Dictionary<string, object>();
+                    foreach (var one in parameters.Where(x => x.IsOut))
+                    {
+                        result.OutObjects.Add(one.Name, methodParameters[one.Sequence]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.Exception = ex.Handle(new { method = method?.GetFullName(), parameters });
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Invokes the method.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="instance">The instance.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static MethodInvokeResult InvokeMethod(this MethodInfo method, object instance, params object[] parameters)
+        {
+            var invokeParameters = GetInvokeParameters(method, parameters);
+            return InvokeMethod(method, instance, invokeParameters);
+        }
+
+        /// <summary>
+        /// Invokes the method.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <param name="instance">The instance.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public static MethodInvokeResult InvokeMethod(this MethodInfo method, object instance, JObject parameters)
+        {
+            var invokeParameters = GetInvokeParameters(method, parameters);
+            return InvokeMethod(method, instance, invokeParameters);
+        }
+
+        #endregion Method Invoke
     }
 }

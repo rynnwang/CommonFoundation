@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using Beyova.Api.RestApi;
+using Beyova.Api;
 using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
 
@@ -96,10 +96,10 @@ namespace Beyova
         /// <summary>
         /// Logs the message.
         /// </summary>
-        /// <param name="content">The content.</param>
-        private void InternalLogMessage(string content)
+        /// <param name="message">The message.</param>
+        private void InternalLogMessage(ApiMessage message)
         {
-            InternalWriteContent(content.SafeToString());
+            InternalWriteContent(message.ApiMessageToString());
         }
 
         /// <summary>
@@ -208,7 +208,22 @@ namespace Beyova
         /// <param name="message">The message.</param>
         public void LogMessage(string message)
         {
-            Task.Factory.StartNew(() => InternalLogMessage(message));
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                LogApiMessage(new ApiMessage { Message = message });
+            }
+        }
+
+        /// <summary>
+        /// Logs the API message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public void LogApiMessage(ApiMessage message)
+        {
+            if (message != null)
+            {
+                Task.Factory.StartNew(() => InternalLogMessage(message));
+            }
         }
     }
 }

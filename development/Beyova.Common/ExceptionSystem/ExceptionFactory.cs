@@ -39,6 +39,33 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Checks the empty string as invalid exception.
+        /// </summary>
+        /// <param name="anyString">Any string.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="InvalidObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void CheckEmptyStringAsInvalidException(this string anyString, string objectIdentity, FriendlyHint friendlyHint = null,
+           [CallerMemberName] string memberName = null,
+           [CallerFilePath] string sourceFilePath = null,
+           [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (string.IsNullOrWhiteSpace(anyString))
+            {
+                throw new InvalidObjectException(objectIdentity, hint: friendlyHint, scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Checks null object.
         /// </summary>
         /// <param name="anyObject">Any object.</param>
@@ -175,7 +202,7 @@ namespace Beyova
         {
             if (enumObject.EnumToInt32() == 0)
             {
-                throw new InvalidObjectException(resourceName, reason: "ZeroEnumValue", hint: friendlyHint, scene: new ExceptionScene
+                throw new InvalidObjectException(resourceName, data: new { type = typeof(T).FullName }, reason: "ZeroEnumValue", hint: friendlyHint, scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,

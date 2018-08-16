@@ -6,27 +6,27 @@ namespace Beyova
     /// </summary>
     public static class UiExtension
     {
-        /// <summary>
-        /// To the UI date time.
-        /// </summary>
-        /// <param name="utcDateTime">The UTC date time.</param>
-        /// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
-        /// <returns>System.Nullable&lt;DateTime&gt;.</returns>
-        public static DateTime? ToUiDateTime(this DateTime? utcDateTime, int defaultTimeZoneInMinute = 480)
-        {
-            return utcDateTime.HasValue ? ToUiDateTime(utcDateTime.Value, defaultTimeZoneInMinute) as DateTime? : null;
-        }
+        ///// <summary>
+        ///// To the UI date time.
+        ///// </summary>
+        ///// <param name="utcDateTime">The UTC date time.</param>
+        ///// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
+        ///// <returns>System.Nullable&lt;DateTime&gt;.</returns>
+        //public static DateTime? ToUiDateTime(this DateTime? utcDateTime, int defaultTimeZoneInMinute = 480)
+        //{
+        //    return utcDateTime.HasValue ? ToUiDateTime(utcDateTime.Value, defaultTimeZoneInMinute) as DateTime? : null;
+        //}
 
-        /// <summary>
-        /// To the UI date time.
-        /// </summary>
-        /// <param name="utcDateTime">The UTC date time.</param>
-        /// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
-        /// <returns>System.DateTime.</returns>
-        public static DateTime ToUiDateTime(this DateTime utcDateTime, int defaultTimeZoneInMinute = 480)
-        {
-            return utcDateTime.ToDifferentTimeZone((ContextHelper.CurrentUserInfo?.TimeZone) ?? 480);
-        }
+        ///// <summary>
+        ///// To the UI date time.
+        ///// </summary>
+        ///// <param name="utcDateTime">The UTC date time.</param>
+        ///// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
+        ///// <returns>System.DateTime.</returns>
+        //public static DateTime ToUiDateTime(this DateTime utcDateTime, int defaultTimeZoneInMinute = 480)
+        //{
+        //    return utcDateTime.ToDifferentTimeZone((ContextHelper.CurrentUserInfo?.TimeZone) ?? 480);
+        //}
 
         /// <summary>
         /// To the friendly date time display.

@@ -1,5 +1,5 @@
-﻿using System;
-using Beyova.ExceptionSystem;
+﻿using Beyova.ExceptionSystem;
+using System;
 
 namespace Beyova.Cache
 {
@@ -60,7 +60,6 @@ namespace Beyova.Cache
         {
         }
 
-
         /// <summary>
         /// Gets the failure expired stamp.
         /// </summary>
@@ -80,6 +79,6 @@ namespace Beyova.Cache
         /// </value>
         public static BaseCacheAutoRetrievalOptions Default { get; } = new BaseCacheAutoRetrievalOptions();
 
-        #endregion
+        #endregion Default
     }
 }

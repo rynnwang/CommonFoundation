@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.IO.Compression;
 
 namespace Beyova.Http
 {
@@ -221,14 +222,62 @@ namespace Beyova.Http
             }
         }
 
-        public override string GetCookieValue(string cookieKey)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Gets the cookie values.
+        /// </summary>
+        /// <param name="cookieKey">The cookie key.</param>
+        /// <returns></returns>
         public override IEnumerable<string> GetCookieValues(string cookieKey)
         {
-            throw new NotImplementedException();
+            List<string> result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(cookieKey))
+            {
+                var cookieString = this.Request.Headers.GetValue(HttpConstants.HttpHeader.Cookie);
+                var cookieMatrix = HttpExtension.ConvertCookieStringToMatrix(cookieString);
+                cookieMatrix.TryGetValue(cookieKey, out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Writes the response gzip body.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public override void WriteResponseGzipBody(byte[] bytes, string contentType)
+        {
+            this.Response.WriteResponseGzipBody(bytes, contentType);
+        }
+
+        /// <summary>
+        /// Writes the response deflate body.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public override void WriteResponseDeflateBody(byte[] bytes, string contentType)
+        {
+            this.Response.WriteResponseDeflateBody(bytes, contentType);
+        }
+
+        /// <summary>
+        /// Writes the response gzip body.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public override void WriteResponseGzipBody(Stream stream, string contentType)
+        {
+            this.Response.WriteResponseGzipBody(stream.ReadStreamToBytes(), contentType);
+        }
+
+        /// <summary>
+        /// Writes the response deflate body.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="contentType">Type of the content.</param>
+        public override void WriteResponseDeflateBody(Stream stream, string contentType)
+        {
+            this.Response.WriteResponseDeflateBody(stream.ReadStreamToBytes(), contentType);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Beyova.Gravity
 {
     /// <summary>
-    /// Class GravityCommandActionAttribute.
+    /// Class GravityCommandActionAttribute. It is used in client side to define what action(s) is supported to execute locally.
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = true)]
     public class GravityCommandActionAttribute : Attribute
@@ -13,15 +13,15 @@ namespace Beyova.Gravity
         /// Gets or sets the invoker.
         /// </summary>
         /// <value>The invoker.</value>
-        public HashSet<IGravityCommandInvoker> Invokers { get; protected set; }
+        public HashSet<IGravityInstructionInvoker> Invokers { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GravityCommandActionAttribute"/> class.
         /// </summary>
         /// <param name="invokers">The invokers.</param>
-        public GravityCommandActionAttribute(params IGravityCommandInvoker[] invokers)
+        public GravityCommandActionAttribute(params IGravityInstructionInvoker[] invokers)
         {
-            this.Invokers = new HashSet<IGravityCommandInvoker>(invokers, new GenericEqualityComparer<IGravityCommandInvoker, string>((x) => x.Action, StringComparer.OrdinalIgnoreCase));
+            this.Invokers = new HashSet<IGravityInstructionInvoker>(invokers, new GenericEqualityComparer<IGravityInstructionInvoker, string>((x) => x.Type, StringComparer.OrdinalIgnoreCase));
         }
     }
 }

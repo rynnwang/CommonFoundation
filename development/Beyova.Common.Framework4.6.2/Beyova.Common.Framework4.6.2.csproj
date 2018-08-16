@@ -72,9 +72,11 @@
   <Import Project="..\Beyova.Aop\Beyova.Aop.projitems" Label="Shared" />
   <Import Project="..\Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems" Label="Shared" />
   <Import Project="..\Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems" Label="Shared" />
-  <Import Project="..\Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems" Label="Shared" />
   <Import Project="..\Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems" Label="Shared" />
   <Import Project="..\Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Function.Generic\Beyova.Function.Generic.projitems" Label="Shared" />
+  <Import Project="..\Beyova.Api.Service\Beyova.Api.Service.projitems" Label="Shared" />
+  <Import Project="..\Beyova.DocumentBot\Beyova.DocumentBot.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -213,7 +213,7 @@ namespace Beyova.BooleanSearch
 
             while (position < input.Length)
             {
-                if (!relationshipOperatorInterruptChars.Contains(input[position]))
+                if (!relationshipOperatorInterruptChars.HasItem(input[position]))
                 {
                     position++;
                 }
@@ -250,13 +250,13 @@ namespace Beyova.BooleanSearch
 
             TrimStartSpaces(input, ref position);
             var startPosition = position;
-            bool isSymbol = position < input.Length && computeOperatorSymbolChars.Contains(input[position]);
+            bool isSymbol = position < input.Length && computeOperatorSymbolChars.HasItem(input[position]);
 
             while (position < input.Length)
             {
                 if (isSymbol)
                 {
-                    if (computeOperatorSymbolChars.Contains(input[position]))
+                    if (computeOperatorSymbolChars.HasItem(input[position]))
                     {
                         position++;
                     }
@@ -267,7 +267,7 @@ namespace Beyova.BooleanSearch
                 }
                 else
                 {
-                    if (!relationshipOperatorInterruptChars.Contains(input[position]))
+                    if (!relationshipOperatorInterruptChars.HasItem(input[position]))
                     {
                         position++;
                     }
@@ -398,7 +398,7 @@ namespace Beyova.BooleanSearch
                 }
                 else
                 {
-                    if (interruptChars.Contains(input[position]))
+                    if (interruptChars.HasItem(input[position]))
                     {
                         result = input.Substring(startPosition, position - startPosition);
                         break;

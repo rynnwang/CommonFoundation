@@ -6,6 +6,12 @@ namespace Beyova
     /// </summary>
     public static class StringConstants
     {
+
+        /// <summary>
+        /// The na
+        /// </summary>
+        public const string NA = "NA";
+
         /// <summary>
         /// The equal operator
         /// </summary>
@@ -102,17 +108,17 @@ namespace Beyova
         public const char Backspace = (char)8;
 
         /// <summary>
-        /// The path signals
+        /// The path signals.  '/', '\\'
         /// </summary>
         public static readonly char[] PathSignals = new char[] { '/', '\\' };
 
         /// <summary>
-        /// The new line charactors
+        /// The new line charactors.  '\n', '\r'
         /// </summary>
         public static readonly char[] NewLineCharacters = new char[] { '\n', '\r' };
 
         /// <summary>
-        /// The trimmed characters
+        /// The trimmed characters.  '\n', '\t', '\r', ' ' 
         /// </summary>
         public static readonly char[] TrimmedCharacters = new char[] { '\n', '\t', '\r', ' ' };
     }

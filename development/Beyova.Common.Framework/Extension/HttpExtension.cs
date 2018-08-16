@@ -637,7 +637,7 @@ namespace Beyova
                 if (httpRequest.HttpMethod == HttpConstants.HttpMethod.Put ||
                     httpRequest.HttpMethod == HttpConstants.HttpMethod.Post)
                 {
-                    var bytes = httpRequest.InputStream.ToBytes();
+                    var bytes = httpRequest.InputStream.ReadStreamToBytes(true);
                     request.FillData(httpRequest.HttpMethod, bytes, httpRequest.ContentType);
                 }
             }

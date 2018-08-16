@@ -15,7 +15,7 @@ using Beyova;
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
 [assembly: AssemblyProduct("Beyova.Common")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Common", "4.0.0")]
+[assembly: BeyovaComponent("Beyova.Common", "4.2.0-preview02")]
 
 [assembly: InternalsVisibleTo("Beyova.WebExtension, PublicKey=002400000480000094000000060200000024000052534131000400000100010043cc5930e5bede"
 + "45da5820d2c00fe5afd1018228c56bf2a5363be550010faa493fe913e64c9ec1ee68e069ae3a0d"
@@ -27,7 +27,7 @@ using Beyova;
 + "6d5500e680aaf480c6e0ec864fa41d80e4bf1f390d5fae8da8774651cdc99ed79f82362ce27d4c"
 + "5946aee724910bf5eab2177e653d10fc7381dc81f2e0b34292d852aa843c1032385df7f6c70539"
 + "6971cdc4")]
-[assembly: InternalsVisibleTo("Beyova.Gravity, PublicKey=0024000004800000940000000602000000240000525341310004000001000100b5a7b57833610e"
+[assembly: InternalsVisibleTo("Beyova.Gravity.Server, PublicKey=0024000004800000940000000602000000240000525341310004000001000100b5a7b57833610e"
 + "eab205d44273760e6ca067f3e4526cf11ec5b568dd47df2a4ba82cb0fc4d8a8b9fc0c931a28d93"
 + "6a840be60562353d653aaca3d4482afb9fdc0070830a4ccec1e32af364ba1b3db3b14d66984b03"
 + "daaefd551229b93bc87abcd6552e63f714109c6f71be906d27b0796510f6ac63b43fef03b6e67e"

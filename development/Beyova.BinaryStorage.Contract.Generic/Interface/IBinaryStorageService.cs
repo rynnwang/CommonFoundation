@@ -2,7 +2,7 @@
 using Beyova.Api;
 using Beyova.Api.RestApi;
 
-namespace Beyova.FunctionService.Generic
+namespace Beyova.Function.Generic
 {
     /// <summary>
     /// Interface IBinaryStorageService
@@ -46,7 +46,7 @@ namespace Beyova.FunctionService.Generic
         /// <returns>List&lt;TBinaryStorageObject&gt;.</returns>
         [ApiOperation(ApiResourceNames.BinaryStorage, HttpConstants.HttpMethod.Post)]
         [TokenRequired(true)]
-        [ApiPermission(ApiPermissions.BinaryStorageDataAdministrator, ApiPermission.Required)]
+        [ApiPermission("BinaryStorageDataAdministrator", ApiPermission.Required)]
         List<TBinaryStorageObject> QueryBinaryStorage(TBinaryStorageCriteria criteria);
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Beyova.FunctionService.Generic
         /// </summary>
         /// <param name="keys">The keys.</param>
         /// <returns>List&lt;TBinaryStorageObject&gt;.</returns>
-        [ApiOperation(ApiResourceNames.BinaryStorage, HttpConstants.HttpMethod.Post, "GetByBatch")]
+        [ApiOperation(ApiResourceNames.BinaryStorage, HttpConstants.HttpMethod.Post, "ByBatch")]
         List<TBinaryStorageObject> GetBinaryStorageByKeys(List<string> keys);
 
         /// <summary>

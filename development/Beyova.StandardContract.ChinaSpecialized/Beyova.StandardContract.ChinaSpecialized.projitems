@@ -9,10 +9,23 @@
     <Import_RootNamespace>Beyova.StandardContract.ChinaSpecialized</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Finance\FinanceExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Finance\FinancialItemDetail.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Finance\FinancialItemSummary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Finance\Invoice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Knowledge\Province.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extension\ChineseCellphoneNumberValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extension\CharactorStandardization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\FinanceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\FinancialItemDetail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\FinancialItemSummary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Invoice\Invoice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Invoice\InvoiceTitle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Finance\Invoice\InvoiceRowItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FTA\HarmonizationSystemCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FTA\HarmonizationSystemCodeCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FTA\HarmonizationSystemCodeEssential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FTA\HarmonizationSystemCodeEssentialTreeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\InvoiceTitle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Knowledge\Province.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\Finance\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Interface\" />
   </ItemGroup>
 </Project>

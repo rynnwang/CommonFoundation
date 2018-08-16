@@ -6,7 +6,7 @@ namespace Beyova
     /// <summary>
     /// Class EnvironmentInfo.
     /// </summary>
-    public class EnvironmentInfo : MachineHealth, IMachineHealth
+    public class EnvironmentInfo : MachineIdentifier, IMachineIdentifier
     {
         private static DateTime _systemStartupTime = DateTime.UtcNow;
 

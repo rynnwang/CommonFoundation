@@ -7,6 +7,9 @@ namespace Beyova
     /// </summary>
     public struct Date
     {
+        private const string dateFormat2 = "yyyy/MM/dd";
+        private const string dateFormat1 = "yyyy-MM-dd";
+
         /// <summary>
         /// Gets or sets the year.
         /// </summary>
@@ -135,8 +138,8 @@ namespace Beyova
         /// </returns>
         public static explicit operator Date? (string date)
         {
-            var dateTime = date.ToDateTime("yyyy-MM-dd", System.Globalization.DateTimeStyles.AssumeLocal)
-                ?? date.ToDateTime("yyyy/MM/dd", System.Globalization.DateTimeStyles.AssumeLocal);
+            var dateTime = date.ToDateTime(dateFormat1, System.Globalization.DateTimeStyles.AssumeLocal)
+                ?? date.ToDateTime(dateFormat2, System.Globalization.DateTimeStyles.AssumeLocal);
 
             return dateTime.HasValue ? new Date(dateTime.Value) as Date? : null;
         }
@@ -207,7 +210,7 @@ namespace Beyova
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}-{1}-{2}", this.Year, this.Month, this.Day);
+            return string.Format("{0}-{1}-{2}", this.Year.ToString("0000"), this.Month.ToString("00"), this.Day.ToString("00"));
         }
     }
 }

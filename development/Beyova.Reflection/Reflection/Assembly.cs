@@ -1441,5 +1441,18 @@ namespace Beyova
         {
             return fieldInfo?.IsPublic ?? false;
         }
+
+        /// <summary>
+        /// Gets the custom attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="assembly">The assembly.</param>
+        /// <param name="inherit">if set to <c>true</c> [inherit].</param>
+        /// <returns></returns>
+        public static T GetCustomAttribute<T>(this Assembly assembly, bool inherit = true)
+            where T : Attribute
+        {
+            return assembly?.GetCustomAttributes(typeof(T), inherit).SafeFirstOrDefault() as T;
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Beyova.Gravity
             : this(new GravityEntryObject
             {
                 GravityServiceUri = serviceUri,
-                MemberIdentifiableKey = memberIdentifiableKey
+                MemberKey = memberIdentifiableKey
             }, isSealed)
         {
         }

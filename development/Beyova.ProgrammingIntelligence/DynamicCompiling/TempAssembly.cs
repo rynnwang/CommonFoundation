@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Beyova
 {
     /// <summary>
-    /// Class TempAssembly.
+    /// Class TempAssembly. Use <see cref="TempAssemblyProvider"/> to initialize <see cref="TempAssembly"/> instance.
     /// </summary>
     [Serializable]
     public class TempAssembly

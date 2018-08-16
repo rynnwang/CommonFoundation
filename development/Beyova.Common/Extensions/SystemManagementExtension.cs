@@ -13,11 +13,11 @@ namespace Beyova
         /// Fills the health data.
         /// </summary>
         /// <param name="healthObject">The health object.</param>
-        internal static void FillHealthData(this IMachineHealth healthObject)
+        internal static void FillHealthData(this IMachineIdentifier healthObject)
         {
             if (healthObject != null)
             {
-                healthObject.ServerName = EnvironmentCore.ServerName;
+                healthObject.MachineName = EnvironmentCore.ServerName;
                 healthObject.IpAddress = EnvironmentCore.LocalMachineIpAddress;
                 healthObject.HostName = EnvironmentCore.LocalMachineHostName;
             };
@@ -27,11 +27,11 @@ namespace Beyova
         /// Gets the machine health.
         /// </summary>
         /// <returns>MachineHealth.</returns>
-        public static MachineHealth GetMachineHealth()
+        public static MachineIdentifier GetMachineHealth()
         {
-            return new MachineHealth
+            return new MachineIdentifier
             {
-                ServerName = EnvironmentCore.ServerName
+                MachineName = EnvironmentCore.ServerName
             };
         }
 

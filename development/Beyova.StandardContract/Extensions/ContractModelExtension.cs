@@ -235,40 +235,5 @@ namespace Beyova
         }
 
         #endregion ICodeIdentifier
-
-        #region IRsaKeys
-
-        /// <summary>
-        /// Validates this instance.
-        /// </summary>
-        /// <param name="rsaKeys">The RSA keys.</param>
-        public static void Validate(this IRsaKeys rsaKeys)
-        {
-            rsaKeys.CheckNullObject(nameof(rsaKeys));
-            rsaKeys.PrivateKey.CheckNullOrEmpty(nameof(rsaKeys.PrivateKey));
-            rsaKeys.PublicKey.CheckNullOrEmpty(nameof(rsaKeys.PublicKey));
-        }
-
-        /// <summary>
-        /// As the RSA crypto service provider.
-        /// </summary>
-        /// <returns></returns>
-        public static RSACryptoServiceProvider AsRSACryptoServiceProvider(this IRsaKeys rsaKeys)
-        {
-            try
-            {
-                rsaKeys.Validate();
-                var rsa = new RSACryptoServiceProvider(rsaKeys.DoubleWordKeySize);
-                rsa.ImportCspBlob(Convert.FromBase64String(rsaKeys.PublicKey));
-
-                return rsa;
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(rsaKeys);
-            }
-        }
-
-        #endregion
     }
 }

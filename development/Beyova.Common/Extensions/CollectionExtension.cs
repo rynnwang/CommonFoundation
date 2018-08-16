@@ -1209,7 +1209,7 @@ namespace Beyova
         /// <returns>System.Boolean.</returns>
         public static bool Contains(this string anyString, char value, bool ignoreCase = false)
         {
-            return Contains<char>(anyString.ToCharArray(), value, ignoreCase ? CharComparer.OrdinalIgnoreCase : CharComparer.Ordinal);
+            return anyString.ToCharArray().Contains(value, ignoreCase ? CharComparer.OrdinalIgnoreCase : CharComparer.Ordinal);
         }
 
         /// <summary>
@@ -1223,39 +1223,39 @@ namespace Beyova
         /// </returns>
         public static bool Contains(this IEnumerable<string> stringCollection, string value, bool ignoreCase)
         {
-            return Contains(stringCollection, value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+            return stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
         }
 
-        /// <summary>
-        /// Determines whether [contains] [the specified value].
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection">The array.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="equalityComparer">The equality comparer.</param>
-        /// <returns>
-        /// System.Boolean.
-        /// </returns>
-        public static bool Contains<T>(this IEnumerable<T> collection, T value, IEqualityComparer<T> equalityComparer = null)
-        {
-            if (collection != null && value != null)
-            {
-                if (equalityComparer == null)
-                {
-                    equalityComparer = EqualityComparer<T>.Default;
-                }
+        ///// <summary>
+        ///// Determines whether [contains] [the specified value].
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="collection">The array.</param>
+        ///// <param name="value">The value.</param>
+        ///// <param name="equalityComparer">The equality comparer.</param>
+        ///// <returns>
+        ///// System.Boolean.
+        ///// </returns>
+        //public static bool Contains<T>(this IEnumerable<T> collection, T value, IEqualityComparer<T> equalityComparer = null)
+        //{
+        //    if (collection != null && value != null)
+        //    {
+        //        if (equalityComparer == null)
+        //        {
+        //            equalityComparer = EqualityComparer<T>.Default;
+        //        }
 
-                foreach (var one in collection)
-                {
-                    if (equalityComparer.Equals(one, value))
-                    {
-                        return true;
-                    }
-                }
-            }
+        //        foreach (var one in collection)
+        //        {
+        //            if (equalityComparer.Equals(one, value))
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         /// <summary>
         /// Determines whether the specified predicate has item.
@@ -1614,6 +1614,26 @@ namespace Beyova
             container.AddRange(item2);
 
             return container;
+        }
+
+        /// <summary>
+        /// Unions the specified items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item">The item.</param>
+        /// <param name="items">The items.</param>
+        /// <returns></returns>
+        public static T[] Union<T>(this T[] item, params T[] items)
+        {
+            T[] result = new T[item?.Length ?? 0 + items?.Length ?? 0];
+
+            if (item.HasItem())
+            {
+                Array.Copy(item, 0, result, 0, item.Length);
+            }
+
+            Array.Copy(items, 0, result, item?.Length ?? 0, items.Length);
+            return result;
         }
 
         /// <summary>

@@ -32,6 +32,7 @@ namespace Beyova
             if (baseObjects.HasItem())
             {
                 SimpleBaseObject<T> maxObject = null;
+                Guid? lastKey = null;
 
                 foreach (var one in baseObjects)
                 {
@@ -47,11 +48,16 @@ namespace Beyova
                         result.Upserts.Add(one.Object);
                     }
 
-                    maxObject.Max(one, x => x.LastUpdatedStamp, out maxObject);
+                    if (maxObject.Max(one, x => x.LastUpdatedStamp, out maxObject))
+                    {
+                        // Only when maxObject.LastUpdatedStamp == one.LastUpdatedStamp, maxObject would not be updated, but key needs to update.
+                        // In other case, Key would always follow maxObject's key.
+                        lastKey = maxObject.LastUpdatedStamp == one.LastUpdatedStamp ? one.Key : maxObject.Key;
+                    }
                 }
 
                 result.LastStamp = maxObject.LastUpdatedStamp;
-                result.LastKey = maxObject.Key;
+                result.LastKey = lastKey;
             }
 
             return result;
@@ -72,6 +78,7 @@ namespace Beyova
             if (baseObjects.HasItem())
             {
                 T maxObject = null;
+                Guid? lastKey = null;
 
                 foreach (var one in baseObjects)
                 {
@@ -87,11 +94,16 @@ namespace Beyova
                         result.Upserts.Add(one);
                     }
 
-                    maxObject.Max(one, x => x.LastUpdatedStamp as DateTime?, out maxObject);
+                    if (maxObject.Max(one, x => x.LastUpdatedStamp as DateTime?, out maxObject))
+                    {
+                        // Only when maxObject.LastUpdatedStamp == one.LastUpdatedStamp, maxObject would not be updated, but key needs to update.
+                        // In other case, Key would always follow maxObject's key.
+                        lastKey = maxObject.LastUpdatedStamp == one.LastUpdatedStamp ? one.Key : maxObject.Key;
+                    }
                 }
 
                 result.LastStamp = maxObject.LastUpdatedStamp;
-                result.LastKey = maxObject.Key;
+                result.LastKey = lastKey;
             }
 
             return result;

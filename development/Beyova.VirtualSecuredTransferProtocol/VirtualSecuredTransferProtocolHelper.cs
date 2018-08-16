@@ -251,7 +251,8 @@ namespace Beyova.VirtualSecuredTransferProtocol
                 aesProvider.CheckNullObject(nameof(aesProvider));
 
                 responseMessage.CheckNullObject(nameof(responseMessage));
-                responseMessage.Stamp.CheckNullObject(nameof(responseMessage.Stamp));
+
+                responseMessage.SchemaVersion = _schemaVersion;
 
                 List<byte> result = new List<byte>(_packInitialCapacity);
 
@@ -337,14 +338,21 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// <param name="uri">The URI.</param>
         /// <param name="data">The data.</param>
         /// <param name="rsaProvider">The RSA provider.</param>
+        /// <param name="clientId">The client identifier.</param>
         /// <returns></returns>
-        internal static TOutput Invoke<TInput, TOutput>(this Uri uri, ClassicVirtualSecuredRequestMessagePackage<TInput> data, RSACryptoServiceProvider rsaProvider)
+        internal static TOutput Invoke<TInput, TOutput>(this Uri uri, ClassicVirtualSecuredRequestMessagePackage<TInput> data, RSACryptoServiceProvider rsaProvider, string clientId = null)
         {
             if (uri != null && data != null && rsaProvider != null)
             {
                 try
                 {
                     var httpRequest = uri.CreateHttpWebRequest(HttpConstants.HttpMethod.Post);
+
+                    if (!string.IsNullOrWhiteSpace(clientId))
+                    {
+                        httpRequest.SafeSetHttpHeader(VirtualSecuredTransferProtocolConstants.headerKey_ClientId, clientId);
+                    }
+
                     var aesKeys = AesKeys.Create();
                     var aesProvider = aesKeys.CreateAesProvider();
 

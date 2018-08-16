@@ -286,7 +286,7 @@ namespace Beyova
                     {
                         using (var stream = archiveEntry.Open())
                         {
-                            return stream.ToBytes();
+                            return stream.ReadStreamToBytes(true);
                         }
                     }
                 }
@@ -333,7 +333,7 @@ namespace Beyova
                         }
                     }
 
-                    return memoryStream.ToBytes();
+                    return memoryStream.ReadStreamToBytes(true);
                 }
             }
             catch (Exception ex)

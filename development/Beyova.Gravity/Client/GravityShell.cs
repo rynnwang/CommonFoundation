@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using Beyova.ProgrammingIntelligence;
+using Beyova.ExceptionSystem;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova.Gravity
@@ -30,10 +30,12 @@ namespace Beyova.Gravity
         public GravityEntryObject Entry { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the command invokers.
+        /// Gets or sets the instruction invokers.
         /// </summary>
-        /// <value>The command invokers.</value>
-        public Dictionary<string, IGravityCommandInvoker> CommandInvokers { get; protected set; }
+        /// <value>
+        /// The instruction invokers.
+        /// </value>
+        public Dictionary<string, IGravityInstructionInvoker> InstructionInvokers { get; protected set; }
 
         /// <summary>
         /// Gets or sets the configuration reader.
@@ -54,12 +56,6 @@ namespace Beyova.Gravity
         public Thread WatcherThread { get; internal protected set; }
 
         /// <summary>
-        /// Gets or sets the event hook.
-        /// </summary>
-        /// <value>The event hook.</value>
-        internal GravityEventHook EventHook { get; private set; }
-
-        /// <summary>
         /// Gets the information.
         /// </summary>
         /// <value>The information.</value>
@@ -71,7 +67,7 @@ namespace Beyova.Gravity
                 {
                     Uri = this.Client.Entry.GravityServiceUri,
                     ConfigurationName = this.Client.Entry.ConfigurationName,
-                    Actions = this.CommandInvokers.Keys
+                    Actions = this.InstructionInvokers.Keys
                 };
             }
         }
@@ -83,13 +79,11 @@ namespace Beyova.Gravity
         /// <param name="sourceAssembly">The source assembly.</param>
         /// <param name="entry">The entry.</param>
         /// <param name="commandInvokers">The command invokers.</param>
-        /// <param name="eventHook">The event hook.</param>
-        protected GravityShell(BeyovaComponentAttribute componentAttribute, string sourceAssembly, GravityEntryObject entry, IEnumerable<IGravityCommandInvoker> commandInvokers, GravityEventHook eventHook)
+        protected GravityShell(BeyovaComponentAttribute componentAttribute, string sourceAssembly, GravityEntryObject entry, IEnumerable<IGravityInstructionInvoker> commandInvokers)
         {
             this.Entry = entry;
             this.Client = new GravityClient(entry);
-            this.CommandInvokers = commandInvokers.AsDictionary((x) => x?.Action, StringComparer.OrdinalIgnoreCase);
-            this.EventHook = eventHook;
+            this.InstructionInvokers = commandInvokers.AsDictionary((x) => x?.Type, StringComparer.OrdinalIgnoreCase);
 
             this.ComponentAttribute = componentAttribute;
             this.ConfigurationReader = new GravityConfigurationReader(this.Client, sourceAssembly, componentAttribute?.UnderlyingObject?.Version, entry.ConfigurationName);
@@ -102,54 +96,53 @@ namespace Beyova.Gravity
         }
 
         /// <summary>
-        /// Invokes the command.
+        /// Invokes the instruction.
         /// </summary>
         /// <param name="invoker">The invoker.</param>
-        /// <param name="command">The command.</param>
-        /// <returns>GravityCommandResult.</returns>
-        protected void InvokeCommand(IGravityCommandInvoker invoker, GravityCommandRequest command)
+        /// <param name="request">The instruction.</param>
+        protected void InvokeInstruction(IGravityInstructionInvoker invoker, GravityInstruction request)
         {
             JToken result = null;
+            BaseException exception = null;
 
-            if (invoker != null && command != null && command.Key.HasValue)
+            if (invoker != null && request != null && request.Key.HasValue)
             {
-                EventHook.OnProcessingCommand(invoker, command);
-
                 try
                 {
-                    result = invoker.Invoke(command.Parameters);
+                    result = invoker.Invoke(request.Action, request.Parameters);
                 }
                 catch (Exception ex)
                 {
-                    result = ex.Handle(command).ToExceptionInfo().ToJson();
+                    exception = ex.Handle(new { request });
                 }
 
-                Client.CommitCommandResult(new GravityCommandResult
+                Client.SubmitInstructionResult(new GravityInstructionResult
                 {
-                    Key = command.Key,
-                    Content = result,
+                    Key = Guid.NewGuid(),
+                    Detail = result,
                     ClientKey = _clientKey,
-                    RequestKey = command.Key
+                    InstructionKey = request.Key,
+                    Exception = exception?.ToExceptionInfo()
                 });
             }
         }
 
         /// <summary>
-        /// Processes the commands.
+        /// Processes the instructions.
         /// </summary>
-        /// <param name="commands">The commands.</param>
-        protected void ProcessCommands(List<GravityCommandRequest> commands)
+        /// <param name="instructionRequest">The instruction request.</param>
+        protected void ProcessInstructions(List<GravityInstruction> instructionRequest)
         {
-            if (commands.HasItem())
+            if (instructionRequest.HasItem())
             {
-                foreach (var command in commands)
+                foreach (var item in instructionRequest)
                 {
-                    if (command != null && !string.IsNullOrWhiteSpace(command.Action))
+                    if (item != null && !string.IsNullOrWhiteSpace(item.Action))
                     {
-                        IGravityCommandInvoker invoker;
-                        if (CommandInvokers.TryGetValue(command.Action, out invoker))
+                        IGravityInstructionInvoker invoker;
+                        if (InstructionInvokers.TryGetValue(item.Type, out invoker))
                         {
-                            InvokeCommand(invoker, command);
+                            InvokeInstruction(invoker, item);
                             break;
                         }
                     }
@@ -174,7 +167,7 @@ namespace Beyova.Gravity
                     var echo = Client.Heartbeat(machineHealth);
 
                     _clientKey = echo.ClientKey;
-                    ProcessCommands(echo.CommandRequests);
+                    ProcessInstructions(echo.Instructions);
                 }
                 catch { }
 
@@ -184,10 +177,12 @@ namespace Beyova.Gravity
         }
 
         /// <summary>
-        /// Gets the host.
+        /// Gets the current.
         /// </summary>
-        /// <value>The host.</value>
-        internal static GravityShell Host { get; } = InitializeGravityHost();
+        /// <value>
+        /// The current.
+        /// </value>
+        internal static GravityShell Current { get; } = InitializeGravityHost();
 
         /// <summary>
         /// Initializes the gravity host.
@@ -195,13 +190,13 @@ namespace Beyova.Gravity
         /// <returns>Beyova.Gravity.GravityHost.</returns>
         private static GravityShell InitializeGravityHost()
         {
-            HashSet<IGravityCommandInvoker> invokers = new HashSet<Gravity.IGravityCommandInvoker>();
+            HashSet<IGravityInstructionInvoker> invokers = new HashSet<IGravityInstructionInvoker>();
             invokers.Add(new UpdateConfigurationCommandInvoker());
-            invokers.Add(new FeatureModuleSwitchCommandInvoker());
+            invokers.Add(new GravityMethodInvoker());
+            invokers.Add(new GravityDynamicMethodInvoker());
 
             GravityEntryObject entryObject = null;
             BeyovaComponentAttribute componentAttribute = null;
-            GravityEventHook gravityEventHook = null;
             string assemblyName = null;
 
             bool toFindMoreEntry = true;
@@ -224,7 +219,6 @@ namespace Beyova.Gravity
                         entryObject = protocolAttribute.Entry;
                         assemblyName = assembly.FullName;
                         componentAttribute = assembly.GetCustomAttribute<BeyovaComponentAttribute>();
-                        gravityEventHook = (assembly.GetCustomAttribute<GravityEventHookAttribute>()?.Hook) ?? gravityEventHook;
 
                         if (protocolAttribute.IsSealed)
                         {
@@ -234,8 +228,28 @@ namespace Beyova.Gravity
                 }
             }
 
-            return entryObject == null ? null : new GravityShell(componentAttribute, assemblyName, entryObject, invokers, gravityEventHook);
+            return entryObject == null ? null : new GravityShell(componentAttribute, assemblyName, entryObject, invokers);
         }
 
+        /// <summary>
+        /// Reloads the configuration.
+        /// </summary>
+        /// <returns></returns>
+        internal static JToken ReloadConfiguration()
+        {
+            try
+            {
+                var configurationReader = Current.ConfigurationReader;
+
+                configurationReader.CheckNullObject(nameof(configurationReader));
+                configurationReader.Reload();
+
+                return configurationReader.Hash.ToJson(false);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { localTime = DateTime.Now });
+            }
+        }
     }
 }

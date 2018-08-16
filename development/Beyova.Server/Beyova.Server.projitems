@@ -22,4 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\AuthenticationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\UserInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)HttpListener\" />
+  </ItemGroup>
 </Project>

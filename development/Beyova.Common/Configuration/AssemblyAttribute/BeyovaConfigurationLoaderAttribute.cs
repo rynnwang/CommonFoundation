@@ -26,7 +26,7 @@ namespace Beyova
         {
             if (loaderType != null && loaderType.HasInterface(typeof(IConfigurationLoader)))
             {
-                this.Loader = (loaderType.TryCreateInstanceViaNonParameterConstructor() as IConfigurationLoader) ?? (loaderType.TryCreateInstanceViaSingleParameterConstructor(loaderParameter) as IConfigurationLoader);
+                this.Loader = (loaderType.TryCreateInstanceViaParameterlessConstructor() as IConfigurationLoader) ?? (loaderType.TryCreateInstanceViaSingleParameterConstructor(loaderParameter) as IConfigurationLoader);
             }
         }
 

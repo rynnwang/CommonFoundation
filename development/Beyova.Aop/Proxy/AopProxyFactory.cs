@@ -39,10 +39,11 @@ namespace Beyova.AOP
         /// <typeparam name="T"></typeparam>
         /// <param name="injectionDelegates">The injection delegates.</param>
         /// <returns></returns>
-        public static T CreateAopInterfaceProxy<T>(MethodInjectionDelegates injectionDelegates = null)
+        public static object CreateAopInterfaceProxy<T>(MethodInjectionDelegates injectionDelegates = null)
             where T : class, new()
         {
-            return InternalAsAopInterfaceProxy(new T(), false, injectionDelegates) as T;
+            return InternalAsAopInterfaceProxy(new T(), false, injectionDelegates);
+            // Cannot return AS T. Because in this case, T would be class not interface, As T would always be failed so that only null can be returned.
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Beyova.AOP
         /// <param name="reuseInstance">if set to <c>true</c> [reuse instance].</param>
         /// <param name="injectionDelegates">The injection delegates.</param>
         /// <returns></returns>
-        private static T InternalAsAopInterfaceProxy<T>(this T instance, bool reuseInstance, MethodInjectionDelegates injectionDelegates)
+        private static object InternalAsAopInterfaceProxy<T>(this T instance, bool reuseInstance, MethodInjectionDelegates injectionDelegates)
             where T : class
         {
             var type = typeof(T);
@@ -93,7 +94,7 @@ namespace Beyova.AOP
 
                             proxiedInstance = CreateInstance(proxyOptions, instance);
                             proxyInstances[type] = proxiedInstance;
-                            return proxiedInstance as T;
+                            return type.IsInterface ? proxiedInstance as T : proxiedInstance;
                         }
                     }
                 }

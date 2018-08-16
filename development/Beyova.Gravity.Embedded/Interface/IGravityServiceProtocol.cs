@@ -8,10 +8,19 @@ namespace Beyova.Gravity
     public interface IGravityServiceProtocol
     {
         /// <summary>
+        /// Registers the specified member registration.
+        /// </summary>
+        /// <param name="memberRegistration">The member registration.</param>
+        /// <returns></returns>
+        [GravityApiOperation(GravityBuiltInResources.Member, "Register")]
+        RegistrationToken Register(MemberRegistration memberRegistration);
+
+        /// <summary>
         /// Heartbeats the specified heartbeat.
         /// </summary>
         /// <param name="heartbeat">The heartbeat.</param>
         /// <returns>HeartbeatEcho.</returns>
+        [GravityApiOperation(GravityBuiltInResources.Member, "Heartbeat")]
         HeartbeatEcho Heartbeat(Heartbeat heartbeat);
 
         /// <summary>
@@ -19,13 +28,15 @@ namespace Beyova.Gravity
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>RemoteConfigurationObject.</returns>
+        [GravityApiOperation(GravityBuiltInResources.CentralManagement, "RetrieveConfiguration")]
         RemoteConfigurationObject RetrieveConfiguration(string name = null);
 
         /// <summary>
-        /// Commits the command result.
+        /// Submits the instruction result.
         /// </summary>
         /// <param name="result">The result.</param>
-        /// <returns>System.Nullable&lt;Guid&gt;.</returns>
-        Guid? CommitCommandResult(GravityCommandResult result);
+        /// <returns></returns>
+        [GravityApiOperation(GravityBuiltInResources.Instruction, "Submit")]
+        Guid? SubmitInstructionResult(GravityInstructionResult result);
     }
 }
