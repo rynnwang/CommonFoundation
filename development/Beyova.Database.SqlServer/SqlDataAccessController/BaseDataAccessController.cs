@@ -52,9 +52,19 @@ namespace Beyova
         protected const string column_Key = "Key";
 
         /// <summary>
+        /// The column keyword
+        /// </summary>
+        protected const string column_Keyword = "Keyword";
+
+        /// <summary>
         /// The column_ user key
         /// </summary>
         protected const string column_UserKey = "UserKey";
+
+        /// <summary>
+        /// The column channel
+        /// </summary>
+        protected const string column_Channel = "Channel";
 
         /// <summary>
         /// The column_ owner key
@@ -162,6 +172,11 @@ namespace Beyova
         protected const string column_Realm = "Realm";
 
         /// <summary>
+        /// The column tenant
+        /// </summary>
+        protected const string column_Tenant = "Tenant";
+
+        /// <summary>
         /// The column_ ip address
         /// </summary>
         protected const string column_IpAddress = "IpAddress";
@@ -220,6 +235,11 @@ namespace Beyova
         /// The column_ time zone
         /// </summary>
         protected const string column_TimeZone = "TimeZone";
+
+        /// <summary>
+        /// The column time zone standard name
+        /// </summary>
+        protected const string column_TimeZoneStandardName = "TimeZoneStandardName";
 
         /// <summary>
         /// The column_ language
@@ -324,6 +344,14 @@ namespace Beyova
         #endregion Constants
 
         #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseDataAccessController{T}"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        protected BaseDataAccessController(SqlDataAccessOptions options) : base(options)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseDataAccessController{T}"/> class.

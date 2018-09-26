@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>19d980b0-2b84-4160-9471-84a9f711cbef</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.Azure.Storage</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AzureStorageExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Blob\AzureBlobOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AzureBlobEndpoint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AzureServiceProviderRegion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Queue\AzureQueueOperator.cs" />
+  </ItemGroup>
+</Project>

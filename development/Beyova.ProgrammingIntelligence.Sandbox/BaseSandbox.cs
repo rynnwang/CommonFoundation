@@ -59,6 +59,20 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Creates the application domain.
+        /// </summary>
+        /// <param name="applicationDirectory">The application directory.</param>
+        /// <returns></returns>
+        protected AppDomain CreateAppDomain(string applicationDirectory)
+        {
+            return AppDomain.CreateDomain(this.Key.ToString(), AppDomain.CurrentDomain.Evidence, new AppDomainSetup
+            {
+                ApplicationBase = applicationDirectory,
+                PrivateBinPath = applicationDirectory
+            });
+        }
+
+        /// <summary>
         /// Initializes the specified name.
         /// </summary>
         /// <param name="setting">The setting.</param>

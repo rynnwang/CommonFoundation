@@ -11,5 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Assembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SpecificTypeDiscover.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeKindFilter.cs" />
   </ItemGroup>
 </Project>

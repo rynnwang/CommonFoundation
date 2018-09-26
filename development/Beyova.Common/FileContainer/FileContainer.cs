@@ -47,7 +47,7 @@ namespace Beyova
             {
                 foreach (var current in this._data)
                 {
-                    currentPath = current.Key;
+                    currentPath = current.Key.Replace('/', '\\').TrimStart('\\');
 
                     var fullPath = Path.Combine(this.BaseDirectory.FullName, currentPath);
                     var folder = Path.GetDirectoryName(fullPath);

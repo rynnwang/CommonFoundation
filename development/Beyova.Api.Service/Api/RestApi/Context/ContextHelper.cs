@@ -8,6 +8,7 @@ namespace Beyova
     /// <summary>
     /// Class ContextHelper.
     /// </summary>
+    [FunctionInjectionHostTypeMap(typeof(Framework))]
     public static partial class ContextHelper
     {
         /// <summary>
@@ -25,8 +26,11 @@ namespace Beyova
         /// </summary>
         static ContextHelper()
         {
-            Framework.ApplyInjection("GetCurrentOperatorCredential", GetCurrentCredential);
-            Framework.ApplyInjection("CurrentCultureInfo", GetCurrentCultureInfo);
+            FunctionInjectionController.AutoDiscoverFunctionInjection();
+            //FunctionInjectionController.ApplyInjection(typeof(Framework), nameof(Framework.GetCurrentOperatorCredential), GetCurrentCredential);
+            //FunctionInjectionController.ApplyInjection(typeof(Framework), nameof(Framework.CurrentCultureInfo), GetCurrentCredential);
+            //Framework.ApplyInjection("GetCurrentOperatorCredential", GetCurrentCredential);
+            //Framework.ApplyInjection("CurrentCultureInfo", GetCurrentCultureInfo);
         }
 
         /// <summary>
@@ -69,6 +73,7 @@ namespace Beyova
         /// Gets the current culture information.
         /// </summary>
         /// <returns></returns>
+        [FunctionInjectionMap(nameof(Framework.GetCurrentCultureInfo))]
         public static CultureInfo GetCurrentCultureInfo()
         {
             return CurrentCultureInfo;
@@ -90,6 +95,7 @@ namespace Beyova
         /// Gets the current credential.
         /// </summary>
         /// <returns></returns>
+        [FunctionInjectionMap(nameof(Framework.GetCurrentOperatorCredential))]
         public static BaseCredential GetCurrentCredential()
         {
             return CurrentCredential;

@@ -128,9 +128,14 @@ namespace Beyova.Api.RestApi
 
                 case "doc":
                 case "doc.zip":
-                    DocumentGenerator generator = new DocumentGenerator(RestApiSettingPool.DefaultRestApiSettings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN));
-                    result = generator.WriteHtmlDocumentToZipByRoutes((from item in RestApiRoutePool.Routes select item.Value).Distinct().ToArray());
-                    contentType = HttpConstants.ContentType.ZipFile;
+                    result = ApiRouterExtensionFeature.DocumentatGeneration;
+
+                    //DocumentGenerator generator = new DocumentGenerator(RestApiSettingPool.DefaultRestApiSettings?.TokenHeaderKey.SafeToString(HttpConstants.HttpHeader.TOKEN));
+                    //result = generator.WriteHtmlDocumentToZipByRoutes((from item in RestApiRoutePool.Routes select item.Value).Distinct().ToArray());
+                    if (result != null)
+                    {
+                        contentType = HttpConstants.ContentType.ZipFile;
+                    }
                     break;
 
                 default: break;

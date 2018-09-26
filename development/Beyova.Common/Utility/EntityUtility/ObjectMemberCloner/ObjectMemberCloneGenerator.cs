@@ -41,7 +41,7 @@ namespace Beyova
                 {
                     if (!clonerInstances.TryGetValue(type, out instance))
                     {
-                        var typeName = CodeGeneratorUtil.GenerateUniqueTypeName(type);
+                        var typeName = type.GenerateUniqueTypeName();
                         var codes = CreateMemberCloneClassCode(type, typeName);
 
                         TempAssemblyProvider provider = new TempAssemblyProvider();

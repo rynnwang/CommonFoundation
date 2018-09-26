@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryFullEntityCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\LocalConfigurationRawItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\JsonFileConfigurationManifest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\StandardFormats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DataSecurityAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DataSecurityExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityOptionLoader.cs" />
@@ -34,13 +35,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\DefaultDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\RijndaelProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbObjectConvertionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\ZipFileContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\StorageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\FileContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\BeyovaVersion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\Attribute\FunctionInjectionMapAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\Attribute\FunctionInjectionHostTypeMapAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\FunctionInjectionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\ParameterlessPrioritizedFunctionInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />

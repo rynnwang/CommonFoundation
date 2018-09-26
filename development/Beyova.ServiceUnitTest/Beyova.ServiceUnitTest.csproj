@@ -59,10 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Beyova.AzureExtension\Beyova.AzureExtension.csproj">
-      <Project>{17d71314-f555-4cbb-9c42-4c54fa5eb0dd}</Project>
-      <Name>Beyova.AzureExtension</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Beyova.CommonService\Beyova.CommonService.csproj">
       <Project>{d5d5a086-8848-4785-b35f-c44518a6888b}</Project>
       <Name>Beyova.CommonService</Name>

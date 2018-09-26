@@ -10,15 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{79C961
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AzureExtension", "Beyova.AzureExtension\Beyova.AzureExtension.csproj", "{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Common.UnitTest", "Beyova.Common.UnitTest\Beyova.Common.UnitTest.csproj", "{0933355D-D4B6-405C-B442-C8F6E0A26D37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Elastic", "Beyova.Elastic\Beyova.Elastic.csproj", "{BDFD06DA-0CE3-426B-927E-8BD99152DE9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonService", "Beyova.CommonService\Beyova.CommonService.csproj", "{D5D5A086-8848-4785-B35F-C44518A6888B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AwsExtension", "Beyova.AwsExtension\Beyova.AwsExtension.csproj", "{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.UnitTestKit", "Beyova.UnitTestKit\Beyova.UnitTestKit.csproj", "{F20B00B3-770E-4D45-B366-E35F985EB8B8}"
 EndProject
@@ -44,17 +40,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.BinaryStorage.Core.G
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ProvisioningService.Core.Generic", "Beyova.ProvisioningService.Core.Generic\Beyova.ProvisioningService.Core.Generic.shproj", "{4C69230B-716D-4DD7-9202-75BC440BF525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.ServicePortal", "Beyova.ServicePortal\Beyova.ServicePortal.csproj", "{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.ServicePortal.Core", "Beyova.ServicePortal.Core\Beyova.ServicePortal.Core.csproj", "{4C9F8C86-593D-4DC4-A36A-835C62AE2401}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Common.LegacyReserved", "Beyova.Common.LegacyReserved\Beyova.Common.LegacyReserved.shproj", "{5D6E3F46-0EBF-44F1-94C3-CA778CDE8854}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.DynamicCompileUnitTest", "Beyova.DynamicCompileUnitTest\Beyova.DynamicCompileUnitTest.csproj", "{567D1DC1-AEA3-49C0-931E-9BD2B4278A44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{F8736670-82A8-440F-B9B3-C2EA4FFF5463}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portal", "Portal", "{DEF93DCB-E007-49EC-AD2C-918B0BD7ED0D}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Common.Framework", "Beyova.Common.Framework\Beyova.Common.Framework.shproj", "{BDFDAF6E-A6ED-450F-A154-794AB8DDD13E}"
 EndProject
@@ -102,8 +92,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Gravity.Embedded", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.FunctionService.Generic", "Beyova.FunctionService.Generic\Beyova.FunctionService.Generic.shproj", "{4B433056-032F-4EEC-A7CF-3461299F3B30}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.WebApplicationExtension", "Beyova.WebApplicationExtension\Beyova.WebApplicationExtension.shproj", "{8F2E5AE6-3098-4AF7-AF98-D9402F2909DC}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Common.StandardSpecialized", "Beyova.Common.StandardSpecialized\Beyova.Common.StandardSpecialized.shproj", "{222250F3-4A63-4E91-A662-A77A9DD37B6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionServices", "FunctionServices", "{3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}"
@@ -118,21 +106,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AspNet.Framework4.6.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ProgrammingIntelligence.Sandbox", "Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.shproj", "{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework4.5", "Framework4.5", "{E5A9E9E8-D6E8-4D5C-B401-C6B7A66F61BA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AspNet.Framework4.5", "Beyova.AspNet.Framework4.5\Beyova.AspNet.Framework4.5.csproj", "{0CDC203B-3899-403B-B7FD-8CACA0D7CD43}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Common.Framework4.5", "Beyova.Common.Framework4.5\Beyova.Common.Framework4.5.csproj", "{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFunctionService.Framework4.5", "Beyova.CommonFunctionService.Framework4.5\Beyova.CommonFunctionService.Framework4.5.csproj", "{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFunctionService.Framework4.6.2", "Beyova.CommonFunctionService.Framework4.6.2\Beyova.CommonFunctionService.Framework4.6.2.csproj", "{36CDCB07-4F83-4808-8210-498D972C6E2B}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.StandardContract.ChinaSpecialized", "Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.shproj", "{63B9D4D4-FF67-45C3-8A9E-80D2CF31A7B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.StandardContract.ChinaSpecialized.Framework4.6.2", "Beyova.StandardContract.ChinaSpecialized.Framework4.6.2\Beyova.StandardContract.ChinaSpecialized.Framework4.6.2.csproj", "{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Common.Basic.Framework4.6.2", "Beyova.Common.Basic.Framework4.6.2\Beyova.Common.Basic.Framework4.6.2.csproj", "{6554C458-B74A-4EB8-A488-B90333FF754E}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Quiz.Core.Generic", "Beyova.Quiz.Core.Generic\Beyova.Quiz.Core.Generic.shproj", "{E36856C6-8678-455C-BDF5-C4931598E7B2}"
 EndProject
@@ -166,16 +144,34 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.SqlConfiguration", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.VirtualSecuredTransferProtocol", "Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.shproj", "{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Azure.Storage", "Beyova.Azure.Storage\Beyova.Azure.Storage.shproj", "{19D980B0-2B84-4160-9471-84A9F711CBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aws.S3", "Beyova.Aws.S3\Beyova.Aws.S3.csproj", "{56E3B961-757D-4595-AE7D-F26807B396B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Azure.Storage.Framework4.6.2", "Beyova.Azure.Storage.Framework4.6.2\Beyova.Azure.Storage.Framework4.6.2.csproj", "{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Api.Server", "Beyova.Api.Server\Beyova.Api.Server.shproj", "{9CE45F52-9E79-42E5-8567-2049A1E09181}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Api.Service", "Beyova.Api.Service\Beyova.Api.Service.shproj", "{1A9FEC4E-FBA6-4583-8F3C-5AD2BB279E4C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.DocumentBot", "Beyova.DocumentBot\Beyova.DocumentBot.shproj", "{936D9664-0D54-41A9-807E-000AD33ADE4D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.DynamicCompile", "Beyova.DynamicCompile\Beyova.DynamicCompile.shproj", "{1BDAB175-DEC5-4C69-B8E2-F2C54A57EA7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aop.Framework4.6.2", "Beyova.Aop.Framework4.6.2\Beyova.Aop.Framework4.6.2.csproj", "{81F89C6E-328C-49E2-BBAE-D3E5A9F22674}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{058128fe-ad0d-46c6-91ab-bc3c52377431}*SharedItemsImports = 13
 		Beyova.RedisCache\Beyova.RedisCache.projitems*{05f16f23-1213-48b2-a774-e4f078685d7b}*SharedItemsImports = 13
-		Beyova.AspNet.FrameworkSpecialized\Beyova.AspNet.FrameworkSpecialized.projitems*{0cdc203b-3899-403b-b7fd-8caca0d7cd43}*SharedItemsImports = 4
-		Beyova.AspNet\Beyova.AspNet.projitems*{0cdc203b-3899-403b-b7fd-8caca0d7cd43}*SharedItemsImports = 4
 		Beyova.Aop\Beyova.Aop.projitems*{114d620a-06b3-44a1-b7b2-e810024fdc90}*SharedItemsImports = 13
 		Beyova.Http\Beyova.Http.projitems*{137c4411-60ca-497a-a2be-b41e9fea7406}*SharedItemsImports = 13
+		Beyova.Azure.Storage\Beyova.Azure.Storage.projitems*{17d71314-f555-4cbb-9c42-4c54fa5eb0dd}*SharedItemsImports = 4
 		Beyova.DynamicFlexibleEntity\Beyova.DynamicFlexibleEntity.projitems*{1887283a-3d28-43cd-8e16-d2cc274cf4f0}*SharedItemsImports = 13
+		Beyova.Azure.Storage\Beyova.Azure.Storage.projitems*{19d980b0-2b84-4160-9471-84a9f711cbef}*SharedItemsImports = 13
+		Beyova.Api.Service\Beyova.Api.Service.projitems*{1a9fec4e-fba6-4583-8f3c-5ad2bb279e4c}*SharedItemsImports = 13
 		Beyova.UserPreference.Core.Generic\Beyova.UserPreference.Core.Generic.projitems*{1ab81357-b23b-45cc-8431-46e78328b5c8}*SharedItemsImports = 13
+		Beyova.DynamicCompile\Beyova.DynamicCompile.projitems*{1bdab175-dec5-4c69-b8e2-f2c54a57ea7b}*SharedItemsImports = 13
 		Beyova.TwoFactorAuthentication\Beyova.TwoFactorAuthentication.projitems*{213fd8ca-6837-4d76-a55c-de8ee17f32c8}*SharedItemsImports = 13
 		Beyova.Common.StandardSpecialized\Beyova.Common.StandardSpecialized.projitems*{222250f3-4a63-4e91-a662-a77a9dd37b6f}*SharedItemsImports = 13
 		Beyova.Server\Beyova.Server.projitems*{2a945e49-ccd9-423d-b13c-ddcf0b62d76b}*SharedItemsImports = 13
@@ -194,28 +190,15 @@ Global
 		Beyova.Api\Beyova.Api.projitems*{5b25b255-aa8c-4696-9874-b7a4c693a74a}*SharedItemsImports = 13
 		Beyova.Common.LegacyReserved\Beyova.Common.LegacyReserved.projitems*{5d6e3f46-0ebf-44f1-94c3-ca778cde8854}*SharedItemsImports = 13
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{63b9d4d4-ff67-45c3-8a9e-80d2cf31a7b1}*SharedItemsImports = 13
-		Beyova.Aop\Beyova.Aop.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Api\Beyova.Api.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Common\Beyova.Common.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Gravity\Beyova.Gravity.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Http\Beyova.Http.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.Reflection\Beyova.Reflection.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.StandardContract\Beyova.StandardContract.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
-		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{6554c458-b74a-4eb8-a488-b90333ff754e}*SharedItemsImports = 4
 		Beyova.DesktopApplication\Beyova.DesktopApplication.projitems*{67bdca2e-4931-4463-8665-7b7a2813e3ff}*SharedItemsImports = 13
 		Beyova.Authentication.Core.Generic\Beyova.Authentication.Core.Generic.projitems*{69f3a082-b749-4de1-9efc-a5b74e6d2574}*SharedItemsImports = 13
-		Beyova.Authentication.Core.Generic\Beyova.Authentication.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
-		Beyova.BinaryStorage.Core.Generic\Beyova.BinaryStorage.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
-		Beyova.FunctionService.Generic\Beyova.FunctionService.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
-		Beyova.ProvisioningService.Core.Generic\Beyova.ProvisioningService.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
-		Beyova.UserPreference.Core.Generic\Beyova.UserPreference.Core.Generic.projitems*{6bcda72e-bd7e-4a3c-baaf-6e359e8a094d}*SharedItemsImports = 4
 		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{7be4fa48-62e5-4af2-a2f9-ea5cf26f9b9c}*SharedItemsImports = 13
+		Beyova.Aop\Beyova.Aop.projitems*{81f89c6e-328c-49e2-bbae-d3e5a9f22674}*SharedItemsImports = 4
 		Beyova.SchedulingService.Core.Generic\Beyova.SchedulingService.Core.Generic.projitems*{8c97e526-c5b3-4bd7-bb8d-25d57015d341}*SharedItemsImports = 13
-		Beyova.WebApplicationExtension\Beyova.WebApplicationExtension.projitems*{8f2e5ae6-3098-4af7-af98-d9402f2909dc}*SharedItemsImports = 13
+		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{936d9664-0d54-41a9-807e-000ad33ade4d}*SharedItemsImports = 13
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{9c62d919-9235-4e90-ba1f-708726bb01de}*SharedItemsImports = 13
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{9cafb893-cef7-4438-9d26-e959141951cf}*SharedItemsImports = 13
+		Beyova.Api.Server\Beyova.Api.Server.projitems*{9ce45f52-9e79-42e5-8567-2049a1e09181}*SharedItemsImports = 13
 		Beyova.MachineLearning.Kit\Beyova.MachineLearning.Kit.projitems*{9d4a1c9c-f343-46ed-ba95-cf66a78d71a7}*SharedItemsImports = 13
 		Beyova.Authentication.Contract.Generic\Beyova.Authentication.Contract.Generic.projitems*{9dec3ebd-6350-4d77-a8a8-193d4c538f70}*SharedItemsImports = 4
 		Beyova.BinaryStorage.Contract.Generic\Beyova.BinaryStorage.Contract.Generic.projitems*{9dec3ebd-6350-4d77-a8a8-193d4c538f70}*SharedItemsImports = 4
@@ -236,38 +219,23 @@ Global
 		Beyova.Gravity\Beyova.Gravity.projitems*{dbe37515-c6db-4879-a9e6-2b01bfa1acdd}*SharedItemsImports = 13
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{dd80c11f-30d2-4d7e-995e-3f541bb2ce20}*SharedItemsImports = 4
 		Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems*{e20bb273-9a79-42f8-b4d1-3ef8c94eec90}*SharedItemsImports = 13
-		Beyova.Aop\Beyova.Aop.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Api\Beyova.Api.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Common.Framework\Beyova.Common.Framework.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Common\Beyova.Common.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Gravity\Beyova.Gravity.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Http\Beyova.Http.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Reflection\Beyova.Reflection.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.Server\Beyova.Server.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.StandardContract\Beyova.StandardContract.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
-		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{e26d3a5e-5499-4a7b-9158-e5833fc7aaf1}*SharedItemsImports = 4
 		Beyova.Quiz.Core.Generic\Beyova.Quiz.Core.Generic.projitems*{e36856c6-8678-455c-bdf5-c4931598e7b2}*SharedItemsImports = 13
 		Beyova.AspNet.CoreSpecialized\Beyova.AspNet.CoreSpecialized.projitems*{e71237cd-9dc1-46c0-8bea-c41c7f9abbe7}*SharedItemsImports = 13
-		Beyova.Aop\Beyova.Aop.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
+		Beyova.Api.Server\Beyova.Api.Server.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Api.Service\Beyova.Api.Service.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Api\Beyova.Api.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Common.Framework\Beyova.Common.Framework.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Common\Beyova.Common.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
+		Beyova.DynamicCompile\Beyova.DynamicCompile.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Function.Generic\Beyova.Function.Generic.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Gravity\Beyova.Gravity.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Http\Beyova.Http.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
-		Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Reflection\Beyova.Reflection.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
+		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Server\Beyova.Server.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.StandardCloudInterface\Beyova.StandardCloudInterface.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.StandardContract\Beyova.StandardContract.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
@@ -278,10 +246,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -294,10 +258,6 @@ Global
 		{D5D5A086-8848-4785-B35F-C44518A6888B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5D5A086-8848-4785-B35F-C44518A6888B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5D5A086-8848-4785-B35F-C44518A6888B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F20B00B3-770E-4D45-B366-E35F985EB8B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F20B00B3-770E-4D45-B366-E35F985EB8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F20B00B3-770E-4D45-B366-E35F985EB8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -326,14 +286,6 @@ Global
 		{AB8B7E8D-8E97-4586-9753-16A3AE43CD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB8B7E8D-8E97-4586-9753-16A3AE43CD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB8B7E8D-8E97-4586-9753-16A3AE43CD51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C9F8C86-593D-4DC4-A36A-835C62AE2401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C9F8C86-593D-4DC4-A36A-835C62AE2401}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C9F8C86-593D-4DC4-A36A-835C62AE2401}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C9F8C86-593D-4DC4-A36A-835C62AE2401}.Release|Any CPU.Build.0 = Release|Any CPU
 		{567D1DC1-AEA3-49C0-931E-9BD2B4278A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{567D1DC1-AEA3-49C0-931E-9BD2B4278A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{567D1DC1-AEA3-49C0-931E-9BD2B4278A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -354,18 +306,6 @@ Global
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CDC203B-3899-403B-B7FD-8CACA0D7CD43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CDC203B-3899-403B-B7FD-8CACA0D7CD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CDC203B-3899-403B-B7FD-8CACA0D7CD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CDC203B-3899-403B-B7FD-8CACA0D7CD43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -374,10 +314,6 @@ Global
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6554C458-B74A-4EB8-A488-B90333FF754E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6554C458-B74A-4EB8-A488-B90333FF754E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6554C458-B74A-4EB8-A488-B90333FF754E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6554C458-B74A-4EB8-A488-B90333FF754E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DAD3B9E8-48C9-4DEF-AC19-603F8AB4CE0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAD3B9E8-48C9-4DEF-AC19-603F8AB4CE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD3B9E8-48C9-4DEF-AC19-603F8AB4CE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -394,14 +330,24 @@ Global
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56E3B961-757D-4595-AE7D-F26807B396B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56E3B961-757D-4595-AE7D-F26807B396B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56E3B961-757D-4595-AE7D-F26807B396B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56E3B961-757D-4595-AE7D-F26807B396B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
 		{0933355D-D4B6-405C-B442-C8F6E0A26D37} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
 		{B9BF99B8-B225-44C2-B4A9-9FF15033F53C} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
 		{35E34A07-4549-496D-A8F4-E5A5BD719C14} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
 		{10A6DA58-1C85-4738-877A-6F8FBF5D2F1D} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
@@ -411,8 +357,6 @@ Global
 		{1AB81357-B23B-45CC-8431-46E78328B5C8} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{C4E4603F-9750-422E-B79E-7AE7906EC5E4} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{4C69230B-716D-4DD7-9202-75BC440BF525} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
-		{8CA37D0F-C4A3-44B2-8518-43C6778DCD8A} = {DEF93DCB-E007-49EC-AD2C-918B0BD7ED0D}
-		{4C9F8C86-593D-4DC4-A36A-835C62AE2401} = {DEF93DCB-E007-49EC-AD2C-918B0BD7ED0D}
 		{5D6E3F46-0EBF-44F1-94C3-CA778CDE8854} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{567D1DC1-AEA3-49C0-931E-9BD2B4278A44} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
 		{BDFDAF6E-A6ED-450F-A154-794AB8DDD13E} = {12871993-A575-4CD7-83E4-B114957C1431}
@@ -437,7 +381,6 @@ Global
 		{5255CD87-6E0F-4EB4-905D-2C94D4BCDF09} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{D17689EB-EB64-4FE1-8D08-9A62779B528D} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{4B433056-032F-4EEC-A7CF-3461299F3B30} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
-		{8F2E5AE6-3098-4AF7-AF98-D9402F2909DC} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{222250F3-4A63-4E91-A662-A77A9DD37B6F} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{3AC53A29-2C74-4C33-AD6F-9FF16828A6D4} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{A0BBBEAB-9A29-45D8-9E83-7924DF6BEB72} = {12871993-A575-4CD7-83E4-B114957C1431}
@@ -445,14 +388,9 @@ Global
 		{E71237CD-9DC1-46C0-8BEA-C41C7F9ABBE7} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90} = {12871993-A575-4CD7-83E4-B114957C1431}
-		{E5A9E9E8-D6E8-4D5C-B401-C6B7A66F61BA} = {F6E47CFC-093A-43FE-A6FC-9DD6882CFA5D}
-		{0CDC203B-3899-403B-B7FD-8CACA0D7CD43} = {E5A9E9E8-D6E8-4D5C-B401-C6B7A66F61BA}
-		{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1} = {E5A9E9E8-D6E8-4D5C-B401-C6B7A66F61BA}
-		{6BCDA72E-BD7E-4A3C-BAAF-6E359E8A094D} = {E5A9E9E8-D6E8-4D5C-B401-C6B7A66F61BA}
 		{36CDCB07-4F83-4808-8210-498D972C6E2B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{63B9D4D4-FF67-45C3-8A9E-80D2CF31A7B1} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
-		{6554C458-B74A-4EB8-A488-B90333FF754E} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{E36856C6-8678-455C-BDF5-C4931598E7B2} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{9CAFB893-CEF7-4438-9D26-E959141951CF} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{8C97E526-C5B3-4BD7-BB8D-25D57015D341} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
@@ -464,9 +402,18 @@ Global
 		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{BEAE5294-4EBA-4666-AF3A-198ABE753004} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{C21B259B-3E47-4090-A02A-6B5A457C751E} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
+		{058128FE-AD0D-46C6-91AB-BC3C52377431} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{BCC93C80-68BB-41CD-82A9-1F946106292B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{19D980B0-2B84-4160-9471-84A9F711CBEF} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
+		{56E3B961-757D-4595-AE7D-F26807B396B4} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
+		{17D71314-F555-4CBB-9C42-4C54FA5EB0DD} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
+		{9CE45F52-9E79-42E5-8567-2049A1E09181} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{1A9FEC4E-FBA6-4583-8F3C-5AD2BB279E4C} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{936D9664-0D54-41A9-807E-000AD33ADE4D} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{1BDAB175-DEC5-4C69-B8E2-F2C54A57EA7B} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}

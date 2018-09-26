@@ -9,10 +9,12 @@
     <Import_RootNamespace>Beyova.BinaryStorage.Core.Generic</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryStorageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryCapacitySummaryDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryStorageIdentifierAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryStorageMetaDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryStorageMetaDataBaseAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IBinaryStorageHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Function\sp_JsonToBinaryIdentifiers.sql" />
@@ -20,7 +22,6 @@
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CommitBinaryStorageDeletion.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_ConvertPendingCommitToPendingDelete.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CreateBinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CreateOrUpdateBinaryStorageMetaData.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_DeleteBinaryStorage.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_GetBinaryCapacitySummary.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_GetBinaryStorageMetaDataByIdentifiers.sql" />

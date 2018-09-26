@@ -8,7 +8,7 @@
         /// <summary>
         /// The copyright
         /// </summary>
-        public const string Copyright = "Copyright © 2013 - 2017";
+        public const string Copyright = "Copyright © 2013 - 2019";
 
         /// <summary>
         /// The company

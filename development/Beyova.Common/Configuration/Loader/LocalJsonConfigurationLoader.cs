@@ -5,7 +5,7 @@ using System.Text;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    /// It would load configuration by {bin folder/base folder}/Configurations/{configurationName}
     /// </summary>
     public class LocalJsonConfigurationLoader : IConfigurationLoader
     {

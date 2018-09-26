@@ -101,7 +101,7 @@ namespace Beyova.ProgrammingIntelligence
             if (builder != null)
             {
                 builder.AppendIndent(2);
-                builder.AppendLineWithFormat("public {0}():base()", className);
+                builder.AppendLineWithFormat("public {0}() : base()", className);
                 builder.AppendIndent(2);
                 builder.AppendLine("{");
                 builder.AppendIndent(2);
@@ -248,31 +248,6 @@ namespace Beyova.ProgrammingIntelligence
 
             return result;
         }
-
-        ///// <summary>
-        ///// Finds the matched generic constraints.
-        ///// </summary>
-        ///// <param name="methodInfo">The method information.</param>
-        ///// <param name="genericParameterConstraints">The generic parameter constraints.</param>
-        ///// <returns>Dictionary&lt;System.String, Type[]&gt;.</returns>
-        //protected static Dictionary<string, Type[]> FindMatchedGenericConstraints(MethodInfo methodInfo, Dictionary<string, Type[]> genericParameterConstraints)
-        //{
-        //    Dictionary<string, Type[]> result = null;
-
-        //    if (methodInfo.IsGenericMethod && genericParameterConstraints != null)
-        //    {
-        //        result = new Dictionary<string, Type[]>();
-        //        foreach (var one in methodInfo.GetParameters())
-        //        {
-        //            if (one.ParameterType.IsGenericParameter && genericParameterConstraints.ContainsKey(one.ParameterType.Name))
-        //            {
-        //                result.Add(one.Name, genericParameterConstraints[one.ParameterType.Name]);
-        //            }
-        //        }
-        //    }
-
-        //    return result;
-        //}
 
         #endregion Util
     }

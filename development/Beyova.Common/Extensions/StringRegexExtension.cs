@@ -187,7 +187,7 @@ namespace Beyova
         /// <param name="source">The source.</param>
         /// <param name="trimmedCharactors">The trimmed charactors.</param>
         /// <returns></returns>
-        public static string TrimAny(this string source, char[] trimmedCharactors = null)
+        public static string TrimAny(this string source, params char[] trimmedCharactors)
         {
             trimmedCharactors = trimmedCharactors ?? StringConstants.TrimmedCharacters;
 
@@ -1105,13 +1105,15 @@ namespace Beyova
         /// Subs the string before first match.
         /// </summary>
         /// <param name="original">The original.</param>
-        /// <param name="firstMatch">The first match.</param>
-        /// <returns>System.String.</returns>
-        public static string SubStringBeforeFirstMatch(this string original, char firstMatch)
+        /// <param name="firstMatchs">The first matchs.</param>
+        /// <returns>
+        /// System.String.
+        /// </returns>
+        public static string SubStringBeforeFirstMatch(this string original, params char[] firstMatchs)
         {
             if (!string.IsNullOrWhiteSpace(original))
             {
-                var index = original.IndexOf(firstMatch);
+                var index = original.IndexOf(firstMatchs);
                 if (index == 0)
                 {
                     return string.Empty;

@@ -106,7 +106,7 @@ namespace Beyova
             if (!string.IsNullOrWhiteSpace(placeKey))
             {
                 string additionalParameters = (additionalParameterArray == null || additionalParameterArray.Length == 0) ?
-                    string.Empty : additionalParameterArray.Join(",");
+                    string.Empty : additionalParameterArray.Join(seperator: StringConstants.Comma);
 
                 if (!string.IsNullOrWhiteSpace(additionalParameters))
                 {

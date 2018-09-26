@@ -9,6 +9,7 @@
     <Import_RootNamespace>Beyova.Api.Service</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiRouterExtensionFeature.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\ApiCache\ApiCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\ApiCache\ApiCacheStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiHandlerBase.cs" />

@@ -50,10 +50,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Beyova.Common.Framework4.5\Beyova.Common.Framework4.5.csproj">
-      <Project>{E26D3A5E-5499-4A7B-9158-E5833FC7AAF1}</Project>
-      <Name>Beyova.Common.Framework4.5</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Beyova.Elastic\Beyova.Elastic.csproj">
       <Project>{bdfd06da-0ce3-426b-927e-8bd99152de9f}</Project>
       <Name>Beyova.Elastic</Name>

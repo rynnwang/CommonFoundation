@@ -366,12 +366,12 @@ namespace Beyova
         /// </summary>
         private static void InitializeDefaultFunctionInjection()
         {
-            FunctionInjection<CultureInfo> injection = delegate ()
+            ParameterlessFunctionInjection<CultureInfo> injection = delegate ()
             {
                 return _resourceHub?.DefaultCultureInfo;
             };
 
-            CurrentCultureInfo = new PrioritizedFunctionInjection<CultureInfo>(injection);
+            CurrentCultureInfo = new ParameterlessPrioritizedFunctionInjection<CultureInfo>(injection);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Beyova
         /// <value>
         /// The get current operator credential.
         /// </value>
-        public static FunctionInjection<BaseCredential> GetCurrentOperatorCredential { get; private set; }
+        public static ParameterlessFunctionInjection<BaseCredential> GetCurrentOperatorCredential { get; private set; }
 
         /// <summary>
         /// Gets the current operator credential.
@@ -402,7 +402,7 @@ namespace Beyova
         /// <value>
         /// The get current culture information.
         /// </value>
-        public static FunctionInjection<CultureInfo> GetCurrentCultureInfo { get; private set; }
+        public static ParameterlessFunctionInjection<CultureInfo> GetCurrentCultureInfo { get; private set; }
 
         /// <summary>
         /// Gets the current culture information.
@@ -410,42 +410,6 @@ namespace Beyova
         /// <value>
         /// The current culture information.
         /// </value>
-        public static PrioritizedFunctionInjection<CultureInfo> CurrentCultureInfo { get; private set; } = new PrioritizedFunctionInjection<CultureInfo>();
-
-        #region ApplyInjection
-
-        /// <summary>
-        /// Applies the injection.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name">The name.</param>
-        /// <param name="injectionCandidate">The injection candidate.</param>
-        internal static void ApplyInjection<T>(string name, FunctionInjection<T> injectionCandidate)
-        {
-            if (!string.IsNullOrWhiteSpace(name) && injectionCandidate != null)
-            {
-                var hitProperty = typeof(Framework).GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty).FirstOrDefault(x => x.Name == name);
-                if (hitProperty != null)
-                {
-                    if (typeof(PrioritizedFunctionInjection<T>).IsAssignableFrom(hitProperty.PropertyType))
-                    {
-                        PrioritizedFunctionInjection<T> existed = hitProperty.GetValue(null) as PrioritizedFunctionInjection<T>;
-                        if (existed == null)
-                        {
-                            existed = new PrioritizedFunctionInjection<T>();
-                            hitProperty.SetValue(null, existed);
-                        }
-
-                        existed.Prepend(injectionCandidate);
-                    }
-                    if (hitProperty.PropertyType == typeof(FunctionInjection<>).MakeGenericType(typeof(T)))
-                    {
-                        hitProperty.SetValue(null, injectionCandidate);
-                    }
-                }
-            }
-        }
-
-        #endregion
+        public static ParameterlessPrioritizedFunctionInjection<CultureInfo> CurrentCultureInfo { get; private set; } = new ParameterlessPrioritizedFunctionInjection<CultureInfo>();
     }
 }

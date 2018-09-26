@@ -62,7 +62,7 @@ namespace Beyova.Api
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRouteIdentifier"/> class.
         /// </summary>
-        internal ApiRouteIdentifier()
+        public ApiRouteIdentifier()
         {
         }
 
@@ -103,7 +103,7 @@ namespace Beyova.Api
         {
             return
                 ParameterizedIdentifiers.HasItem() ?
-                string.Format("{0}:{1}/{2}/{3}/{4}/?{5}", HttpMethod, Realm, Version, Resource, Action, ParameterizedIdentifiers.Join("&")) :
+                string.Format("{0}:{1}/{2}/{3}/{4}/?{5}", HttpMethod, Realm, Version, Resource, Action, ParameterizedIdentifiers.Join(seperator: "&")) :
                 string.Format("{0}:{1}/{2}/{3}/{4}/", HttpMethod, Realm, Version, Resource, Action);
         }
 

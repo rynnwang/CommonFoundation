@@ -257,6 +257,18 @@ namespace Beyova
         #region IEnumerable, ICollection, IList, IDictionary, HashSet
 
         /// <summary>
+        /// Safes the contains.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static bool SafeContains<T>(this IEnumerable<T> collection, T value)
+        {
+            return collection.HasItem() ? collection.Contains(value) : false;
+        }
+
+        /// <summary>
         /// Gets the mapping value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -376,23 +388,25 @@ namespace Beyova
 
                 foreach (var one in source)
                 {
+                    var hasMatch = false;
+
                     for (var i = 0; i < destination.Count; i++)
                     {
                         if (equalityComparer.Equals(destination[i], one))
                         {
+                            hasMatch = true;
                             if (overrideIfExists)
                             {
                                 destination[i] = one;
                             }
-                            else
-                            {
-                                break;
-                            }
+
+                            break;
                         }
-                        else
-                        {
-                            destination.Add(one);
-                        }
+                    }
+
+                    if (!hasMatch)
+                    {
+                        destination.Add(one);
                     }
                 }
             }
@@ -715,6 +729,43 @@ namespace Beyova
         /// <summary>
         /// Indexes the of.
         /// </summary>
+        /// <param name="stringToFind">The string to find.</param>
+        /// <param name="charComparer">The character comparer.</param>
+        /// <param name="charactors">The charactors.</param>
+        /// <returns></returns>
+        public static int IndexOf(this string stringToFind, CharComparer charComparer, params char[] charactors)
+        {
+            if (stringToFind != null && charactors.HasItem())
+            {
+                int index = 0;
+                foreach (var one in stringToFind)
+                {
+                    if (charactors.Contains(one, charComparer))
+                    {
+                        return index;
+                    }
+
+                    index++;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Indexes the of.
+        /// </summary>
+        /// <param name="stringToFind">The string to find.</param>
+        /// <param name="charactors">The charactors.</param>
+        /// <returns></returns>
+        public static int IndexOf(this string stringToFind, params char[] charactors)
+        {
+            return IndexOf(stringToFind, CharComparer.OrdinalIgnoreCase, charactors);
+        }
+
+        /// <summary>
+        /// Indexes the of.
+        /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <typeparam name="TFactor">The type of the factor.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -999,23 +1050,59 @@ namespace Beyova
         /// </returns>
         public static string JoinWithinFormat<T>(this IEnumerable<T> instance, string format, string seperator = null)
         {
-            if (instance.HasItem() && !string.IsNullOrEmpty(format))
+            return (instance.HasItem() && !string.IsNullOrWhiteSpace(format)) ? InternalJoin(instance, (item, index) => { return string.Format(format, index, item); }, seperator) : string.Empty; ;
+        }
+
+        /// <summary>
+        /// Joins the specified item predict.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance">The instance.</param>
+        /// <param name="itemPredict">The item predict.</param>
+        /// <param name="seperator">The seperator.</param>
+        /// <returns></returns>
+        public static string Join<T>(this IEnumerable<T> instance, Func<T, string> itemPredict = null, string seperator = null)
+        {
+            if (itemPredict == null)
+            {
+                itemPredict = DefaultJoinLambda;
+            }
+
+            return InternalJoin(instance, (item, index) => { return itemPredict(item); }, seperator);
+        }
+
+        private static string DefaultJoinLambda<T>(T item)
+        {
+            return item?.ToString();
+        }
+
+        /// <summary>
+        /// Internals the join.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance">The instance.</param>
+        /// <param name="itemPredict">The item predict.</param>
+        /// <param name="seperator">The seperator.</param>
+        /// <returns></returns>
+        private static string InternalJoin<T>(this IEnumerable<T> instance, Func<T, int, string> itemPredict, string seperator = null)
+        {
+            if (instance.HasItem() && itemPredict != null)
             {
                 if (instance.Count() == 1)
                 {
-                    return string.Format(format, 0, instance.First());
+                    return itemPredict(instance.First(), 0);
                 }
 
-                var builder = new StringBuilder((instance?.Count() ?? 0) * (format?.Length ?? 0) * 2);
+                var builder = new StringBuilder((instance?.Count() ?? 0) * 64);
 
-                seperator = string.IsNullOrEmpty(seperator) ? "," : seperator;
+                seperator = string.IsNullOrEmpty(seperator) ? StringConstants.Comma : seperator;
 
-                if (instance != null && !string.IsNullOrWhiteSpace(format))
+                if (instance != null)
                 {
-                    var index = 0;
+                    int index = 0;
                     foreach (var one in instance)
                     {
-                        builder.AppendFormat(format, index, one);
+                        builder.Append(itemPredict(one, index));
                         builder.Append(seperator);
                         index++;
                     }
@@ -1052,35 +1139,6 @@ namespace Beyova
         public static bool HasItem<T>(this IList<T> instance, T objToMatch)
         {
             return instance != null && instance.IndexOf(objToMatch) > -1;
-        }
-
-        /// <summary>
-        /// Joins the specified instance.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="instance">The instance.</param>
-        /// <param name="separator">The separator.</param>
-        /// <param name="valueSelector">The value selector.</param>
-        /// <returns>System.String.</returns>
-        public static string Join<T>(this IEnumerable<T> instance, string separator, Func<T, string> valueSelector = null)
-        {
-            if (valueSelector == null)
-            {
-                return instance == null ? string.Empty : string.Join<T>(separator, instance);
-            }
-            else
-            {
-                var builder = new StringBuilder();
-                foreach (var one in instance)
-                {
-                    builder.Append(valueSelector(one));
-                    builder.Append(separator);
-                }
-
-                builder.RemoveLast(separator.Length);
-
-                return builder.ToString();
-            }
         }
 
         #endregion IEnumerable, ICollection, IList, IDictionary, HashSet
@@ -1213,6 +1271,18 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Safes the contains.
+        /// </summary>
+        /// <param name="anyString">Any string.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <returns></returns>
+        public static bool SafeContains(this string anyString, char value, bool ignoreCase = false)
+        {
+            return anyString.HasItem() ? anyString.ToCharArray().Contains(value, ignoreCase ? CharComparer.OrdinalIgnoreCase : CharComparer.Ordinal) : false;
+        }
+
+        /// <summary>
         /// Determines whether [contains] [the specified string array].
         /// </summary>
         /// <param name="stringCollection">The string array.</param>
@@ -1224,6 +1294,18 @@ namespace Beyova
         public static bool Contains(this IEnumerable<string> stringCollection, string value, bool ignoreCase)
         {
             return stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
+        }
+
+        /// <summary>
+        /// Safes the contains.
+        /// </summary>
+        /// <param name="stringCollection">The string collection.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
+        /// <returns></returns>
+        public static bool SafeContains(this IEnumerable<string> stringCollection, string value, bool ignoreCase)
+        {
+            return stringCollection.HasItem() ? stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal) : false;
         }
 
         ///// <summary>
@@ -1625,7 +1707,7 @@ namespace Beyova
         /// <returns></returns>
         public static T[] Union<T>(this T[] item, params T[] items)
         {
-            T[] result = new T[item?.Length ?? 0 + items?.Length ?? 0];
+            T[] result = new T[(item?.Length ?? 0) + (items?.Length ?? 0)];
 
             if (item.HasItem())
             {
@@ -1653,6 +1735,32 @@ namespace Beyova
                 for (var i = 0; i < collection.Count; i++)
                 {
                     if (comparer(collection[i], comparerIdentifier))
+                    {
+                        var tmp = collection[i];
+                        collection.RemoveAt(i);
+                        return tmp;
+                    }
+                }
+            }
+
+            return default(T);
+        }
+
+        /// <summary>
+        /// Finds the and remove.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="predict">The predict.</param>
+        /// <returns></returns>
+        public static T FindAndRemove<T>(this List<T> collection, Func<T, bool> predict)
+        {
+            // Can NOT use IList<T>, because Array is IList<T> too, but it does not support remove at.
+            if (collection != null && predict != null)
+            {
+                for (var i = 0; i < collection.Count; i++)
+                {
+                    if (predict(collection[i]))
                     {
                         var tmp = collection[i];
                         collection.RemoveAt(i);
@@ -2134,5 +2242,29 @@ namespace Beyova
         }
 
         #endregion Dictionary Extensions
+
+        /// <summary>
+        /// Holds flat items into specified container. NOTE: <c>container</c> would add <c>source</c> in this method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="container">The container. It can be List or HashSet, based on case.</param>
+        /// <param name="source">The source.</param>
+        /// <param name="getChildren">The get children.</param>
+        public static void HoldFlatItems<T>(this ICollection<T> container, T source, Func<T, IEnumerable<T>> getChildren)
+        {
+            if (container != null && source != null && getChildren != null)
+            {
+                container.Add(source);
+
+                var children = getChildren(source);
+                if (children.HasItem())
+                {
+                    foreach (var item in children)
+                    {
+                        HoldFlatItems(container, item, getChildren);
+                    }
+                }
+            }
+        }
     }
 }

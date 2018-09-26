@@ -27,11 +27,11 @@ namespace Beyova
         /// <param name="relativePath">The relative path.</param>
         /// <param name="bytes">The bytes.</param>
         /// <param name="overwriteIfExsits">if set to <c>true</c> [overwrite if exsits].</param>
-        public void Attach(string relativePath, byte[] bytes, bool overwriteIfExsits = false)
+        public void PutItem(string relativePath, byte[] bytes, bool overwriteIfExsits = false)
         {
             if (!string.IsNullOrWhiteSpace(relativePath) && bytes.HasItem())
             {
-                _data.Merge(relativePath, bytes.ToStream(), overwriteIfExsits);
+                _data.Merge(StandardizePath(relativePath), bytes.ToStream(), overwriteIfExsits);
             }
         }
 
@@ -41,11 +41,11 @@ namespace Beyova
         /// <param name="relativePath">The relative path.</param>
         /// <param name="stream">The stream.</param>
         /// <param name="overwriteIfExsits">if set to <c>true</c> [overwrite if exsits].</param>
-        public void Attach(string relativePath, Stream stream, bool overwriteIfExsits = false)
+        public void PutItem(string relativePath, Stream stream, bool overwriteIfExsits = false)
         {
             if (!string.IsNullOrWhiteSpace(relativePath) && stream != null)
             {
-                _data.Merge(relativePath, stream, overwriteIfExsits);
+                _data.Merge(StandardizePath(relativePath), stream, overwriteIfExsits);
             }
         }
 
@@ -101,6 +101,34 @@ namespace Beyova
                     one.Value.SafeDispose();
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the item.
+        /// </summary>
+        /// <param name="relativePath">The relative path.</param>
+        /// <returns></returns>
+        public Stream GetItem(string relativePath)
+        {
+            Stream found = null;
+            if (!string.IsNullOrWhiteSpace(relativePath) && _data.TryGetValue(relativePath, out found))
+            {
+                var result = new MemoryStream();
+                found.CopyTo(result);
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Standardizes the path.
+        /// </summary>
+        /// <param name="originalPath">The original path.</param>
+        /// <returns></returns>
+        protected virtual string StandardizePath(string originalPath)
+        {
+            return originalPath;
         }
     }
 }

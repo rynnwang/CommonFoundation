@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Beyova;
+using Beyova.Function.Generic;
 
 namespace Beyova.Function.Generic
 {

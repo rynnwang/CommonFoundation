@@ -52,6 +52,12 @@ namespace Beyova.Web
         [ThreadStatic]
         internal static int Depth = 0;
 
+        /// <summary>
+        /// The is options
+        /// </summary>
+        [ThreadStatic]
+        internal static bool IsOptions = false;
+
         #region Constructor
 
         /// <summary>
@@ -83,64 +89,67 @@ namespace Beyova.Web
         {
             base.OnResultExecuted(filterContext);
 
-            // If using BeyovaBaseController, exception should be logger there, and in this method, no exception should appear.
-            var baseException = filterContext.Exception?.Handle(new ExceptionScene
+            if (!IsOptions)
             {
-                MethodName = string.Format("{0}: {1}", filterContext.HttpContext.Request.HttpMethod, filterContext.HttpContext.Request.RawUrl)
-            }, data: (filterContext.Exception as BaseException)?.ReferenceData);
-
-            if (baseException != null)
-            {
-                filterContext.Exception = baseException;
-            }
-
-            if (Depth < 2)
-            {
-                if (ApiTracking != null)
+                // If using BeyovaBaseController, exception should be logger there, and in this method, no exception should appear.
+                var baseException = filterContext.Exception?.Handle(new ExceptionScene
                 {
-                    DateTime exitStamp = DateTime.UtcNow;
+                    MethodName = string.Format("{0}: {1}", filterContext.HttpContext.Request.HttpMethod, filterContext.HttpContext.Request.RawUrl)
+                }, data: (filterContext.Exception as BaseException)?.ReferenceData);
 
-                    // API EXCEPTION
-                    if (baseException != null)
-                    {
-                        try
-                        {
-                            ApiTracking.LogException(baseException.ToExceptionInfo());
-                        }
-                        catch { }
-                    }
-
-                    // API EVENT
-                    if (ApiEvent != null)
-                    {
-                        try
-                        {
-                            ApiEvent.ExitStamp = exitStamp;
-                            ApiEvent.ExceptionKey = baseException?.Key;
-
-                            ApiTracking.LogApiEvent(ApiEvent);
-                        }
-                        catch { }
-                    }
-
-                    // API TRACE
-                    try
-                    {
-                        ApiTraceContext.Exit((ApiEvent?.ExceptionKey) ?? (baseException?.Key), exitStamp);
-                        var traceLog = ApiTraceContext.GetCurrentTraceLog(true);
-
-                        if (traceLog != null)
-                        {
-                            ApiTracking.LogApiTraceLog(traceLog);
-                        }
-                    }
-                    catch { }
+                if (baseException != null)
+                {
+                    filterContext.Exception = baseException;
                 }
 
-                ThreadExtension.Clear();
-            }
+                if (Depth < 2)
+                {
+                    if (ApiTracking != null)
+                    {
+                        DateTime exitStamp = DateTime.UtcNow;
 
-            Depth--;
+                        // API EXCEPTION
+                        if (baseException != null)
+                        {
+                            try
+                            {
+                                ApiTracking.LogException(baseException.ToExceptionInfo());
+                            }
+                            catch { }
+                        }
+
+                        // API EVENT
+                        if (ApiEvent != null)
+                        {
+                            try
+                            {
+                                ApiEvent.ExitStamp = exitStamp;
+                                ApiEvent.ExceptionKey = baseException?.Key;
+
+                                ApiTracking.LogApiEvent(ApiEvent);
+                            }
+                            catch { }
+                        }
+
+                        // API TRACE
+                        try
+                        {
+                            ApiTraceContext.Exit((ApiEvent?.ExceptionKey) ?? (baseException?.Key), exitStamp);
+                            var traceLog = ApiTraceContext.GetCurrentTraceLog(true);
+
+                            if (traceLog != null)
+                            {
+                                ApiTracking.LogApiTraceLog(traceLog);
+                            }
+                        }
+                        catch { }
+                    }
+
+                    ThreadExtension.Clear();
+                }
+
+                Depth--;
+            }
         }
 
         /// <summary>
@@ -150,6 +159,8 @@ namespace Beyova.Web
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
+
+            IsOptions = HandleOptionsRequests(filterContext);
 
             if (Depth < 1)
             {
@@ -249,6 +260,22 @@ namespace Beyova.Web
                     {"message", baseException.Message}
                 });
             }
+        }
+
+        /// <summary>
+        /// Handles the options requests.
+        /// </summary>
+        /// <param name="filterContext">The filter context.</param>
+        /// <returns></returns>
+        protected bool HandleOptionsRequests(ActionExecutingContext filterContext)
+        {
+            if (filterContext.HttpContext.Request.HttpMethod.Equals(HttpConstants.HttpMethod.Options, StringComparison.OrdinalIgnoreCase))
+            {
+                filterContext.Result = new EmptyResult();
+                return true;
+            }
+
+            return false;
         }
     }
 }

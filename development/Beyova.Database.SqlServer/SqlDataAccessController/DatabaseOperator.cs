@@ -30,7 +30,7 @@ namespace Beyova
         /// </summary>
         /// <param name="databaseConnectionString">The database connection string.</param>
         public DatabaseOperator(string databaseConnectionString)
-            : this(new SqlConnection(databaseConnectionString))
+            : this(string.IsNullOrWhiteSpace(databaseConnectionString) ? null : new SqlConnection(databaseConnectionString))
         {
         }
 
@@ -42,6 +42,8 @@ namespace Beyova
         {
             try
             {
+                sqlConnection.CheckNullObject(nameof(sqlConnection));
+
                 if (SqlTransactionScope.SqlCommand != null)
                 {
                     this.sqlCommand = SqlTransactionScope.SqlCommand;
@@ -57,7 +59,7 @@ namespace Beyova
             }
             catch (Exception ex)
             {
-                throw ex.Handle(sqlConnection == null ? null : sqlConnection.ConnectionString);
+                throw ex.Handle(new { sqlConnection = sqlConnection == null ? null : sqlConnection.ConnectionString });
             }
         }
 

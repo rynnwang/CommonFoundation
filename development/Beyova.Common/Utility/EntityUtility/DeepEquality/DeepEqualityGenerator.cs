@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using Beyova.ProgrammingIntelligence;
 
 namespace Beyova
 {
@@ -41,7 +40,7 @@ namespace Beyova
                 {
                     if (!equalityInstances.TryGetValue(type, out instance))
                     {
-                        var typeName = CodeGeneratorUtil.GenerateUniqueTypeName(type);
+                        var typeName = type.GenerateUniqueTypeName();
                         var codes = CreateDeepEqualityClassCode(type, typeName, stringComparison);
 
                         TempAssemblyProvider provider = new TempAssemblyProvider();
@@ -110,7 +109,7 @@ namespace Beyova
                 var deepEqualityType = typeof(IDeepEquality<>);
 
                 builder.AppendLineWithFormat("public class {0}: {1}", typeName, deepEqualityType.MakeGenericType(type).ToCodeLook());
-                CSharpCodeGenerateUtil.AppendBeginBrace(builder);
+                builder.AppendBeginBrace();
 
                 // Constructor
                 builder.AppendLineWithFormat("public {0}()", typeName);

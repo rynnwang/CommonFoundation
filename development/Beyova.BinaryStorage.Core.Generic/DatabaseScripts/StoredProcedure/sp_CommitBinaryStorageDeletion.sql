@@ -5,12 +5,12 @@ GO
 /* -----------------------------------
 @Identifiers SAMPLE:
 [{
-    "Container": ¡°xxx",
+    "Container": "xxx",
     "Identifier": "xxx"
 }]
 ----------------------------------- */
 CREATE PROCEDURE [dbo].[sp_CommitBinaryStorageDeletion](
-    @Identifiers XML
+    @Identifiers NVARCHAR(MAX)
 )
 AS
 SET NOCOUNT ON;

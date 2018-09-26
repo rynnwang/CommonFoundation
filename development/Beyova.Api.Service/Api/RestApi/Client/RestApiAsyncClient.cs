@@ -149,7 +149,7 @@ namespace Beyova.Api.RestApi
 
                 var httpRequestRaw = CreateHttpRequestRaw(realm, version, httpMethod, resourceName, resourceAction, key, queryString);
 
-                if (httpMethod.IsInString(new string[] { HttpConstants.HttpMethod.Post, HttpConstants.HttpMethod.Put }, true))
+                if (httpMethod.IsInString(StringComparison.OrdinalIgnoreCase, new string[] { HttpConstants.HttpMethod.Post, HttpConstants.HttpMethod.Put }))
                 {
                     httpRequestRaw.Body = Framework.DefaultTextEncoding.GetBytes(bodyJson.SafeToString());
                 }

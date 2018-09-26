@@ -11,20 +11,27 @@ namespace Beyova
     public interface IStorageContainer : IDisposable
     {
         /// <summary>
-        /// Attaches the specified relative path.
+        /// Puts the item.
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
         /// <param name="bytes">The bytes.</param>
         /// <param name="overwriteIfExsits">if set to <c>true</c> [overwrite if exsits].</param>
-        void Attach(string relativePath, byte[] bytes, bool overwriteIfExsits = false);
+        void PutItem(string relativePath, byte[] bytes, bool overwriteIfExsits = false);
 
         /// <summary>
-        /// Attaches the specified relative path.
+        /// Puts the item.
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
         /// <param name="stream">The stream.</param>
         /// <param name="overwriteIfExsits">if set to <c>true</c> [overwrite if exsits].</param>
-        void Attach(string relativePath, Stream stream, bool overwriteIfExsits = false);
+        void PutItem(string relativePath, Stream stream, bool overwriteIfExsits = false);
+
+        /// <summary>
+        /// Gets the item.
+        /// </summary>
+        /// <param name="relativePath">The relative.</param>
+        /// <returns></returns>
+        Stream GetItem(string relativePath);
 
         /// <summary>
         /// Gets the item paths.

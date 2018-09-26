@@ -92,5 +92,15 @@ namespace Beyova
                 throw ex.Handle(new { currentPath });
             }
         }
+
+        /// <summary>
+        /// Standardizes the path.
+        /// </summary>
+        /// <param name="originalPath">The original path.</param>
+        /// <returns></returns>
+        protected override string StandardizePath(string originalPath)
+        {
+            return originalPath.TrimStart('/', '\\');
+        }
     }
 }

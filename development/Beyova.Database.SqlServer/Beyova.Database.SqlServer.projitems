@@ -9,9 +9,11 @@
     <Import_RootNamespace>Beyova.Database.SqlServer</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)EntityConverter\SqlEntityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SqlDataAccessOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\SqlReaderConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessController\BaseDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessController\DatabaseOperator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessController\ExtensibleDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessController\SqlDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlDataAccessController\SqlTransactionScope.cs" />
   </ItemGroup>

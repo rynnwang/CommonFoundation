@@ -453,6 +453,81 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Gets all interfaces.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="includingItself">if set to <c>true</c> [including itself].</param>
+        /// <returns></returns>
+        public static Type[] GetAllInterfaces(this Type type, bool includingItself = false)
+        {
+            HashSet<Type> result = new HashSet<Type>();
+
+            if (type != null)
+            {
+                if (includingItself && type.IsInterface)
+                {
+                    result.Add(type);
+                }
+
+                result.HoldFlatItems(type, x => x.GetInterfaces());
+            }
+
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Fills the interfaces requires attribute.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="attribute">The attribute.</param>
+        private static void FillInterfacesRequiresAttribute<TAttribute>(Dictionary<Type, TAttribute> container, Type type, TAttribute attribute)
+            where TAttribute : Attribute
+        {
+            if (container != null && type != null)
+            {
+                foreach (var item in type.GetInterfaces())
+                {
+                    var inheritAttribute = attribute ?? item.GetCustomAttribute<TAttribute>(true);
+
+                    if (attribute != null)
+                    {
+                        container.Add(item, attribute);
+                        FillInterfacesRequiresAttribute(container, item, inheritAttribute);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all interfaces requires attribute.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="type">The type.</param>
+        /// <param name="includingItself">if set to <c>true</c> [including itself].</param>
+        /// <param name="inheritAttribute">if set to <c>true</c> [inherit attribute]. If true, then in inherit chain, only top level needs attribute.</param>
+        /// <returns></returns>
+        public static Dictionary<Type, TAttribute> GetAllInterfacesRequiresAttribute<TAttribute>(this Type type, bool includingItself = false, bool inheritAttribute = false)
+            where TAttribute : Attribute
+        {
+            var result = new Dictionary<Type, TAttribute>();
+
+            if (type != null)
+            {
+                var attribute = type.GetCustomAttribute<TAttribute>(true);
+
+                if (includingItself && type.IsInterface && attribute != null)
+                {
+                    result.Merge(type, attribute, false);
+                }
+
+                FillInterfacesRequiresAttribute(result, type, inheritAttribute ? attribute : null);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets the type smartly. It would find type in all related assemblies. And even if type name is generic based, it can still give right result.
         /// e.g.: System.Collections.Generic.List`1[Beyova.ServiceCredential]
         /// </summary>
@@ -809,19 +884,6 @@ namespace Beyova
         #endregion Nullable
 
         /// <summary>
-        /// Inheritses from.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="inheritedType">Type of the inherited.</param>
-        /// <returns><c>true</c> if inherits from specific type, <c>false</c> otherwise.</returns>
-        public static bool InheritsFrom(this Type type, Type inheritedType)
-        {
-            return type != null && inheritedType != null && (inheritedType.IsAssignableFrom(type) || (
-                type.IsGenericType && type.GetGenericTypeDefinition() == inheritedType
-                ));
-        }
-
-        /// <summary>
         /// Determines whether [is simple type] [the specified type]. Like: Guid, string, int32, int64, etc.
         /// If it is Nullable&lt;T&gt;, it would detect T directly.
         /// </summary>
@@ -1017,22 +1079,6 @@ namespace Beyova
         }
 
         #endregion Extensions
-
-        #region StackTrace
-
-        /// <summary>
-        /// Gets the current executing method.
-        /// </summary>
-        /// <returns>MethodBase.</returns>
-        public static MethodBase GetCurrentExecutingMethod()
-        {
-            StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(1);
-
-            return sf.GetMethod();
-        }
-
-        #endregion StackTrace
 
         /// <summary>
         /// Gets the method information within attribute. As MSDN said, you have to assign either <see cref="BindingFlags.Instance"/> or <see cref="BindingFlags.Static"/> for bindingFlags, so that you can get right result.

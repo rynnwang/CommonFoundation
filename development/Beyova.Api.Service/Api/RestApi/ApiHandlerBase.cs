@@ -32,11 +32,6 @@ namespace Beyova.Api.RestApi
         #region Protected static fields
 
         /// <summary>
-        /// The built-in feature version keyword
-        /// </summary>
-        protected const string BuiltInFeatureVersionKeyword = "builtin";
-
-        /// <summary>
         /// The json converters
         /// </summary>
         protected static readonly HashSet<JsonConverter> jsonConverters = new HashSet<JsonConverter>();

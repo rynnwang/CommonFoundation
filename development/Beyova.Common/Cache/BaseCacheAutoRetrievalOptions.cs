@@ -1,5 +1,5 @@
-﻿using Beyova.ExceptionSystem;
-using System;
+﻿using System;
+using Beyova.ExceptionSystem;
 
 namespace Beyova.Cache
 {

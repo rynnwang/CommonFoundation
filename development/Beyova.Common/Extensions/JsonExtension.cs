@@ -17,7 +17,7 @@ namespace Beyova
         /// </summary>
         public static readonly IsoDateTimeConverter IsoDateTimeConverter = new IsoDateTimeConverter
         {
-            DateTimeFormat = CommonExtension.fullDateTimeTZFormat,
+            DateTimeFormat = StandardFormats.FullDateTimeTZFormat,
             DateTimeStyles = DateTimeStyles.AdjustToUniversal,
             Culture = CultureInfo.InvariantCulture
         };
@@ -412,7 +412,7 @@ namespace Beyova
             {
                 JsonToken tokenType = reader.TokenType;
 
-                while (tokenType.IsInValues(new JsonToken[] { JsonToken.Comment, JsonToken.None }) && reader.Read())
+                while (tokenType.IsInValues(JsonToken.Comment, JsonToken.None) && reader.Read())
                 {
                     //do nothing.
                 }

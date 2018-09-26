@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0279b826-a639-42fa-8429-01840deef360</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Beyova.ApiTracking.SqlServer</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogException.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiEvent.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ExceptionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ApiEvent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiTrackingSqlClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiMessageAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiEventLogAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ExceptionInfoAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiLogBaseAccessController.cs" />
+  </ItemGroup>
+</Project>

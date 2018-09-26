@@ -38,6 +38,11 @@ namespace Beyova
         public const char EmptyChar = '\0';
 
         /// <summary>
+        /// The empty string
+        /// </summary>
+        public const string EmptyString = "";
+
+        /// <summary>
         /// The bom white space
         /// </summary>
         public const char BomWhiteSpace = '\xFEFF';
@@ -66,6 +71,11 @@ namespace Beyova
         /// The new line character
         /// </summary>
         public const char NewLineChar = '\n';
+
+        /// <summary>
+        /// The new line
+        /// </summary>
+        public const string NewLine = "\r\n";
 
         /// <summary>
         /// The double quote character

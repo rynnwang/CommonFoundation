@@ -10,7 +10,7 @@ using Beyova.ProgrammingIntelligence;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Aws.S3")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Aws.S3", "1.2.3")]
+[assembly: BeyovaComponent("Beyova.Aws.S3", "1.3.1")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

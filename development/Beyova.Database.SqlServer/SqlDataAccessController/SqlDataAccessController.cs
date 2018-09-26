@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using Beyova.ExceptionSystem;
 using Newtonsoft.Json.Linq;
 
@@ -15,6 +16,14 @@ namespace Beyova
     public abstract class SqlDataAccessController<T> : SqlDataAccessController
     {
         #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlDataAccessController{T}"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        protected SqlDataAccessController(SqlDataAccessOptions options) : base(options)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlDataAccessController{T}" /> class.
@@ -181,10 +190,8 @@ namespace Beyova
         /// <param name="primarySqlConnectionString">The primary SQL connection string.</param>
         /// <param name="readOnlySqlConnectionString">The read only SQL connection string.</param>
         protected SqlDataAccessController(string primarySqlConnectionString, string readOnlySqlConnectionString = null)
-            : base()
+            : this(new SqlDataAccessOptions(primarySqlConnectionString, readOnlySqlConnectionString))
         {
-            this._primaryDatabaseOperator = new DatabaseOperator(primarySqlConnectionString);
-            this._readOnlyDatabaseOperator = string.IsNullOrWhiteSpace(readOnlySqlConnectionString) ? null : new DatabaseOperator(readOnlySqlConnectionString);
         }
 
         /// <summary>
@@ -193,10 +200,20 @@ namespace Beyova
         /// <param name="primarySqlConnection">The SQL connection.</param>
         /// <param name="readOnlySqlConnection">The read only SQL connection.</param>
         protected SqlDataAccessController(SqlConnection primarySqlConnection, SqlConnection readOnlySqlConnection = null)
-            : base()
+            : this(new SqlDataAccessOptions(primarySqlConnection, readOnlySqlConnection))
         {
-            this._primaryDatabaseOperator = new DatabaseOperator(primarySqlConnection);
-            this._readOnlyDatabaseOperator = readOnlySqlConnection == null ? null : new DatabaseOperator(readOnlySqlConnection);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlDataAccessController"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        protected SqlDataAccessController(SqlDataAccessOptions options)
+        {
+            options.CheckNullObject(nameof(options));
+
+            this._primaryDatabaseOperator = new DatabaseOperator(options.PrimarySqlConnection);
+            this._readOnlyDatabaseOperator = options.ReadOnlySqlConnection == null ? null : new DatabaseOperator(options.ReadOnlySqlConnection);
         }
 
         #endregion Constructor
@@ -451,6 +468,51 @@ namespace Beyova
         {
             this._primaryDatabaseOperator?.Dispose();
             this._readOnlyDatabaseOperator?.Dispose();
+        }
+
+        /// <summary>
+        /// Detects the SQL injection.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <param name="termName">Name of the term.</param>
+        /// <exception cref="InvalidObjectException"></exception>
+        protected static void DetectSqlInjection(string term, string termName)
+        {
+            if (!string.IsNullOrWhiteSpace(term)
+                && (term.Contains("/*")
+                || term.Contains("*/")
+                || term.Contains("--")))
+            {
+                throw new InvalidObjectException(termName.SafeToString(nameof(term)), data: new { term }, reason: "SqlServerInjectionRiskTerm");
+            }
+        }
+
+        /// <summary>
+        /// Creates the order by statement.
+        /// </summary>
+        /// <param name="orderOptions">The order options.</param>
+        /// <returns></returns>
+        public static string CreateOrderByStatement(List<DataOrderOption> orderOptions)
+        {
+            if (orderOptions.HasItem())
+            {
+                StringBuilder builder = new StringBuilder(orderOptions.Count * 30);
+
+                foreach (var one in orderOptions)
+                {
+                    if (!string.IsNullOrWhiteSpace(one.By))
+                    {
+                        DetectSqlInjection(one.By, nameof(one.By));
+
+                        builder.AppendFormat("{0}{1},", one.By, one.Method == DataOrderOption.OrderMethod.Descending ? " DESC" : string.Empty);
+                    }
+                }
+
+                builder.RemoveLastIfMatch(StringConstants.CommaChar);
+                return builder.ToString();
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -24,6 +24,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IBooleanComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\ICriteriaOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IRelationshipOperatorComputable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FlexibleSelectOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Queue\QueueItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Queue\MemoryQueueOperator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Queue\IQueueOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICellphoneNumberValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INational.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IServiceUserCredential.cs" />

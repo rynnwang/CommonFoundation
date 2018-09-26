@@ -61,7 +61,7 @@ namespace Beyova.Http
             {
                 foreach (var one in headers)
                 {
-                    result.Add(one.Key, one.Value.Join(StringConstants.SemicolonString));
+                    result.Add(one.Key, one.Value.Join(seperator: StringConstants.SemicolonString));
                 }
             }
 

@@ -13,7 +13,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interface\ICloudBinaryStorageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\IntrastructureHealthStatus.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Interface\" />
-  </ItemGroup>
 </Project>

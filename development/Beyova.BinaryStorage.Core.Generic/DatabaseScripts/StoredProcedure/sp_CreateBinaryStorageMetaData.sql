@@ -5,7 +5,7 @@ GO
 CREATE PROCEDURE [dbo].[sp_CreateBinaryStorageMetaData](
     @Container NVARCHAR(128),
     @Identifier UNIQUEIDENTIFIER,
-    @Name [NVARCHAR](512),
+    @Name NVARCHAR(512),
     @Mime VARCHAR(64),
     @Height INT,
     @Width INT,

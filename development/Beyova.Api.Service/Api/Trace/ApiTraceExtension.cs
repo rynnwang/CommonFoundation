@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Beyova.AOP;
 using Beyova.Api.RestApi;
 using Beyova.ApiTracking;
 
@@ -36,17 +35,17 @@ namespace Beyova.Api
             return methodInfo != null ? new ApiTraceLogPiece(parent, methodInfo.GetFullName(), entryStamp) : null;
         }
 
-        /// <summary>
-        /// To the trace log.
-        /// </summary>
-        /// <param name="methodCallMessage">The method call message.</param>
-        /// <param name="parent">The parent.</param>
-        /// <param name="entryStamp">The entry stamp.</param>
-        /// <returns></returns>
-        internal static ApiTraceLogPiece ToTraceLog(this MethodCallInfo methodCallMessage, ApiTraceLogPiece parent, DateTime? entryStamp = null)
-        {
-            return methodCallMessage != null ? new ApiTraceLogPiece(parent, methodCallMessage.MethodFullName) : null;
-        }
+        ///// <summary>
+        ///// To the trace log.
+        ///// </summary>
+        ///// <param name="methodCallMessage">The method call message.</param>
+        ///// <param name="parent">The parent.</param>
+        ///// <param name="entryStamp">The entry stamp.</param>
+        ///// <returns></returns>
+        //internal static ApiTraceLogPiece ToTraceLog(this MethodCallInfo methodCallMessage, ApiTraceLogPiece parent, DateTime? entryStamp = null)
+        //{
+        //    return methodCallMessage != null ? new ApiTraceLogPiece(parent, methodCallMessage.MethodFullName) : null;
+        //}
 
         /// <summary>
         /// To the flat.

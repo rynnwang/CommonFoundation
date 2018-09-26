@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\DefaultApiEventTrackingOptionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\Interface\IApiEventTrackingOptionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ApiTracking\OmitApiTrackingAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpListener\HttpListenerServerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\CloudBinaryStorageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\IBinaryStorageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\CentralManagementContext.cs" />
@@ -21,8 +22,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\Interface\ICentralAuthenticationProcotol.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\AuthenticationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\UserInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)HttpListener\" />
   </ItemGroup>
 </Project>

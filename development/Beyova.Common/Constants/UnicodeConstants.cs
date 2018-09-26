@@ -6,6 +6,11 @@
     public static class UnicodeConstants
     {
         /// <summary>
+        /// The registed sign
+        /// </summary>
+        public const char RegistedSign = '®';
+
+        /// <summary>
         /// The smile face: ♥
         /// </summary>
         public const char Love = '♥';
