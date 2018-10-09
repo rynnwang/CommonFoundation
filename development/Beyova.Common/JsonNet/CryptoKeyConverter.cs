@@ -40,7 +40,7 @@ namespace Beyova
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var stringValue = reader.Value.SafeToString();
-            return string.IsNullOrWhiteSpace(stringValue) ? null : new CryptoKey(stringValue);
+            return new CryptoKey(stringValue);
         }
 
         /// <summary>
@@ -51,14 +51,14 @@ namespace Beyova
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var keyValue = value as CryptoKey;
-            if (keyValue != null)
+            var keyValue = (CryptoKey)value;
+            if (keyValue.IsEmpty())
             {
-                writer.WriteValue(keyValue.StringValue);
+                writer.WriteNull();
             }
             else
             {
-                writer.WriteNull();
+                writer.WriteValue(keyValue.StringValue);
             }
         }
     }

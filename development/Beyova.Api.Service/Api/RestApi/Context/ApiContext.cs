@@ -50,7 +50,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The HTTP authorization.
         /// </value>
-        public AccessCredential HttpAuthorization { get; set; }
+        public HttpCredential HttpAuthorization { get; set; }
 
         /// <summary>
         /// Gets or sets the secure encryption key.

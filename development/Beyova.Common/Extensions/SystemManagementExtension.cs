@@ -17,7 +17,7 @@ namespace Beyova
         {
             if (healthObject != null)
             {
-                healthObject.MachineName = EnvironmentCore.ServerName;
+                healthObject.MachineName = EnvironmentCore.MachineName;
                 healthObject.IpAddress = EnvironmentCore.LocalMachineIpAddress;
                 healthObject.HostName = EnvironmentCore.LocalMachineHostName;
             };
@@ -31,7 +31,7 @@ namespace Beyova
         {
             return new MachineIdentifier
             {
-                MachineName = EnvironmentCore.ServerName
+                MachineName = EnvironmentCore.MachineName
             };
         }
 

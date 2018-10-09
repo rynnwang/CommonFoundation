@@ -7,16 +7,15 @@ namespace Beyova
     /// Class CryptoKey.
     /// </summary>
     [JsonConverter(typeof(CryptoKeyConverter))]
-    public sealed class CryptoKey : IImplicitiveStringValueObject
+    public struct CryptoKey : IStringifiable
     {
-
         /// <summary>
         /// Gets the byte value.
         /// </summary>
         /// <value>
         /// The byte value.
         /// </value>
-        public byte[] ByteValue { get; private set; }
+        public byte[] ByteValue { get; set; }
 
         /// <summary>
         /// Gets the string value.
@@ -27,11 +26,6 @@ namespace Beyova
         public string StringValue { get { return ByteValue.EncodeBase64(); } }
 
         #region Constructor
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="CryptoKey"/> class from being created.
-        /// </summary>
-        private CryptoKey() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoKey"/> class.
@@ -48,7 +42,7 @@ namespace Beyova
         /// <param name="value">The value.</param>
         public CryptoKey(string value)
         {
-            this.ByteValue = value.DecodeBase64ToByteArray();
+            this.ByteValue = string.IsNullOrWhiteSpace(value) ? null : value.DecodeBase64ToByteArray();
         }
 
         #endregion Constructor
@@ -88,7 +82,7 @@ namespace Beyova
         /// </returns>
         public static implicit operator byte[] (CryptoKey value)
         {
-            return value?.ByteValue;
+            return value.ByteValue;
         }
 
         /// <summary>
@@ -100,10 +94,21 @@ namespace Beyova
         /// </returns>
         public static implicit operator string(CryptoKey value)
         {
-            return value?.StringValue;
+            return value.StringValue;
         }
 
         #endregion implicit methods
+
+        /// <summary>
+        /// Determines whether this instance is empty.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is empty; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsEmpty()
+        {
+            return this.ByteValue == null || this.ByteValue.Length == 0;
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -125,7 +130,7 @@ namespace Beyova
         /// </returns>
         public override bool Equals(object obj)
         {
-            return this.ByteValue.ValueEquals((obj as CryptoKey)?.ByteValue);
+            return this.ByteValue.ValueEquals(((CryptoKey)obj).ByteValue);
         }
 
         /// <summary>
@@ -138,5 +143,39 @@ namespace Beyova
         {
             return ByteValue?.GetHashCode() ?? 0;
         }
+
+        /// <summary>
+        /// Randoms the specified byte length.
+        /// </summary>
+        /// <param name="byteLength">Length of the byte.</param>
+        /// <returns></returns>
+        public static CryptoKey Random(int byteLength)
+        {
+            try
+            {
+                if (byteLength < 1)
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(byteLength));
+                }
+
+                Random rnd = new Random();
+                Byte[] b = new Byte[byteLength];
+                rnd.NextBytes(b);
+
+                return new CryptoKey(b);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { byteLength });
+            }
+        }
+
+        /// <summary>
+        /// Gets the empty.
+        /// </summary>
+        /// <value>
+        /// The empty.
+        /// </value>
+        public static CryptoKey Empty { get; private set; } = new CryptoKey(null as byte[]);
     }
 }

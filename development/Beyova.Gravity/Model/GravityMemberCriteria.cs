@@ -3,7 +3,7 @@
     /// <summary>
     /// Class GravityMemberCriteria.
     /// </summary>
-    public class GravityMemberCriteria : SaasPlatform.RealmCriteria
+    public class GravityMemberCriteria : SaasPlatform.TenantCriteria
     {
     }
 }

@@ -706,7 +706,7 @@ namespace Beyova.Api.RestApi
 
                 var objectToReturn = ex != null ? (settings.OmitExceptionDetail ? ex.ToSimpleExceptionInfo() : ex.ToExceptionInfo()) : data;
 
-                context.SetResponseHeader(HttpConstants.HttpHeader.SERVERNAME, EnvironmentCore.ServerName);
+                context.SetResponseHeader(HttpConstants.HttpHeader.SERVERNAME, EnvironmentCore.MachineName);
                 context.SetResponseHeader(HttpConstants.HttpHeader.TRACEID, ApiTraceContext.TraceId);
                 context.SetResponseHeader(HttpConstants.HttpHeader.POWEREDBY, HttpConstants.HttpValues.PoweredByBeyova);
                 context.SetResponseHeader(HttpConstants.HttpHeader.BEYOVAAPIVERSION, BeyovaVersion.CommonVesion);

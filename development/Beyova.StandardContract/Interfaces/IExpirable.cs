@@ -13,6 +13,6 @@ namespace Beyova
         /// <value>
         /// The expired stamp.
         /// </value>
-        DateTime? ExpiredStamp { get; }
+        DateTime? ExpiredStamp { get; set; }
     }
 }

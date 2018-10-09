@@ -31,12 +31,12 @@ namespace Beyova
         /// <summary>
         /// The domain credential regex
         /// </summary>
-        private static Regex domainCredentialRegex = new Regex(@"^((?<Domain>([0-9a-zA-Z_-]+))\\)?(?<AccessIdentifier>([0-9a-zA-Z\._-]+))(:(?<Token>(.+)))?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex domainCredentialRegex = new Regex(@"^((?<Domain>([0-9a-zA-Z_-]+))\\)?(?<AccountName>([0-9a-zA-Z\._-]+))(:(?<Token>(.+)))?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// The URI credential regex
         /// </summary>
-        private static Regex uriCredentialRegex = new Regex(@"^((?<AccessIdentifier>([0-9a-zA-Z\._-]+))(:(?<Token>(.+)))?@(?<Domain>([0-9a-zA-Z_\.-]+)))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex uriCredentialRegex = new Regex(@"^((?<AccountName>([0-9a-zA-Z\._-]+))(:(?<Token>(.+)))?@(?<Domain>([0-9a-zA-Z_\.-]+)))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Gets the primary URI. Get primary part like: http://google.com/, ignore the rest.
@@ -56,8 +56,8 @@ namespace Beyova
         /// Parses to access credential. Acceptable string samples: cnsh\rynn.wang:12345, cnsh\rynn.wang, rynn.wang:12345, rynn.wang, rynn.wang@cnsh, rynn.wang:12345@cnsh
         /// </summary>
         /// <param name="accountString">The account string.</param>
-        /// <returns>AccessCredential.</returns>
-        public static AccessCredential ParseToAccessCredential(this string accountString)
+        /// <returns>HttpCredential.</returns>
+        public static HttpCredential ParseToAccessCredential(this string accountString)
         {
             return string.IsNullOrWhiteSpace(accountString) ?
                     null
@@ -69,17 +69,17 @@ namespace Beyova
         /// </summary>
         /// <param name="urlCredential">The URL credential.</param>
         /// <returns></returns>
-        public static AccessCredential ParseUrlCredentialToAccessCredential(this string urlCredential)
+        public static HttpCredential ParseUrlCredentialToAccessCredential(this string urlCredential)
         {
             if (!string.IsNullOrWhiteSpace(urlCredential))
             {
                 var match = uriCredentialRegex.Match(urlCredential);
                 if (match.Success)
                 {
-                    return new AccessCredential
+                    return new HttpCredential
                     {
                         Token = match.Result("${Token}").ToUrlDecodedText(),
-                        AccessIdentifier = match.Result("${AccessIdentifier}"),
+                        Account = match.Result("${AccountName}"),
                         Domain = match.Result("${Domain}")
                     };
                 }
@@ -93,17 +93,17 @@ namespace Beyova
         /// </summary>
         /// <param name="urlCredential">The URL credential.</param>
         /// <returns></returns>
-        public static AccessCredential ParseDomainCredentialToAccessCredential(this string urlCredential)
+        public static HttpCredential ParseDomainCredentialToAccessCredential(this string urlCredential)
         {
             if (!string.IsNullOrWhiteSpace(urlCredential))
             {
                 var match = domainCredentialRegex.Match(urlCredential);
                 if (match.Success)
                 {
-                    return new AccessCredential
+                    return new HttpCredential
                     {
                         Token = match.Result("${Token}"),
-                        AccessIdentifier = match.Result("${AccessIdentifier}"),
+                        Account = match.Result("${AccountName}"),
                         Domain = match.Result("${Domain}")
                     };
                 }
@@ -117,7 +117,7 @@ namespace Beyova
         /// </summary>
         /// <param name="credential">The credential.</param>
         /// <returns></returns>
-        public static string ToCredentialString(this AccessCredential credential)
+        public static string ToCredentialString(this HttpCredential credential)
         {
             return credential == null ?
                 null :
@@ -132,7 +132,7 @@ namespace Beyova
         /// <param name="credential">The credential.</param>
         /// <param name="protocol">The protocol.</param>
         /// <returns></returns>
-        public static string ToUrl(this AccessCredential credential, string protocol = null)
+        public static string ToUrl(this HttpCredential credential, string protocol = null)
         {
             credential.Domain.CheckEmptyString(nameof(credential.Domain));
             var userPassword = ToUserPassword(credential, EncodingOrSecurityExtension.ToUrlEncodedText);
@@ -149,12 +149,12 @@ namespace Beyova
         /// <param name="credential">The credential.</param>
         /// <param name="tokenPrepareAction">The token prepare action.</param>
         /// <returns></returns>
-        private static string ToUserPassword(this AccessCredential credential, Func<string, string> tokenPrepareAction = null)
+        private static string ToUserPassword(this HttpCredential credential, Func<string, string> tokenPrepareAction = null)
         {
             string result = null;
             if (credential != null)
             {
-                result = string.Format(HttpConstants.UserPasswordFormat, credential.AccessIdentifier, tokenPrepareAction == null ? credential.Token : tokenPrepareAction(credential.Token));
+                result = string.Format(HttpConstants.UserPasswordFormat, credential.Account, tokenPrepareAction == null ? credential.Token : tokenPrepareAction(credential.Token));
                 if (result[0] == ':')
                 {
                     result = result.Substring(1);

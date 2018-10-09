@@ -17,10 +17,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)HttpListener\HttpListenerServerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\CloudBinaryStorageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\IBinaryStorageHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\CentralManagementContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\Interface\ICentralAuthenticationManagementService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\CentralAuthentication\Interface\ICentralAuthenticationProcotol.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\AuthenticationResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\ServiceGeneric\UserInfo.cs" />
   </ItemGroup>
 </Project>

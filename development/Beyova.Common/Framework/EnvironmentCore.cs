@@ -32,9 +32,9 @@ namespace Beyova
         public static readonly int ApplicationId;
 
         /// <summary>
-        /// The server name
+        /// The machine name
         /// </summary>
-        public static readonly string ServerName;
+        public static readonly string MachineName;
 
         /// <summary>
         /// The local machine host name
@@ -45,6 +45,20 @@ namespace Beyova
         /// The local machine ip address
         /// </summary>
         public static readonly string LocalMachineIpAddress = string.Empty;
+
+        /// <summary>
+        /// Gets the machine identifier.
+        /// </summary>
+        /// <returns></returns>
+        public static MachineIdentifier GetMachineIdentifier()
+        {
+            return new MachineIdentifier
+            {
+                HostName = LocalMachineHostName,
+                IpAddress = LocalMachineIpAddress,
+                MachineName = MachineName
+            };
+        }
 
         /// <summary>
         /// Gets the name of the product.
@@ -132,9 +146,9 @@ namespace Beyova
 
             try
             {
-                ServerName = Environment.MachineName;
+                MachineName = Environment.MachineName;
             }
-            catch { ServerName = string.Empty; }
+            catch { MachineName = string.Empty; }
 
             try
             {

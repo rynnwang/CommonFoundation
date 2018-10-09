@@ -24,7 +24,7 @@ namespace Beyova
         /// <param name="loaderParameter">The loader parameter.</param>
         public BeyovaConfigurationLoaderAttribute(Type loaderType, string loaderParameter)
         {
-            if (loaderType != null && loaderType.HasInterface(typeof(IConfigurationLoader)))
+            if (loaderType != null && typeof(IConfigurationLoader).IsAssignableFrom(loaderType))
             {
                 this.Loader = (loaderType.TryCreateInstanceViaParameterlessConstructor() as IConfigurationLoader) ?? (loaderType.TryCreateInstanceViaSingleParameterConstructor(loaderParameter) as IConfigurationLoader);
             }

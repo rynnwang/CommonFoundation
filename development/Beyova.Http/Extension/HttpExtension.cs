@@ -355,9 +355,9 @@ namespace Beyova
         /// </summary>
         /// <param name="basicAuthorizationValue">The basic authorization value. E.g.: Basic iiwjke=</param>
         /// <returns></returns>
-        public static AccessCredential GetBasicAuthentication(string basicAuthorizationValue)
+        public static HttpCredential GetBasicAuthentication(string basicAuthorizationValue)
         {
-            AccessCredential result = null;
+            HttpCredential result = null;
             if (!string.IsNullOrWhiteSpace(basicAuthorizationValue))
             {
                 if (basicAuthorizationValue.StartsWith(basicAuthorizationPrefix))

@@ -324,6 +324,26 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Objects to bytes.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static byte[] ObjectToBytes(this object data)
+        {
+            return (data == null || data == DBNull.Value) ? null : (byte[])data;
+        }
+
+        /// <summary>
+        /// Objects to crypto key.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static CryptoKey ObjectToCryptoKey(this object data)
+        {
+            return new CryptoKey(ObjectToBytes(data));
+        }
+
+        /// <summary>
         /// To string.
         /// </summary>
         /// <param name="data">The data.</param>
@@ -332,6 +352,47 @@ namespace Beyova
         public static string ObjectToString(this object data, string defaultValue = StringConstants.EmptyString)
         {
             return (data == null || data == DBNull.Value) ? defaultValue : data.ToString();
+        }
+
+        /// <summary>
+        /// Objects to json token.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns>
+        /// JToken.
+        /// </returns>
+        public static JToken ObjectToJToken(this object obj)
+        {
+            return obj.ObjectToString().ParseToJToken();
+        }
+
+        /// <summary>
+        /// Objects to json object.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
+        public static JObject ObjectToJObject(this object obj)
+        {
+            return obj.ObjectToString().ParseToJObject();
+        }
+
+        /// <summary>
+        /// Objects to json object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
+        public static T ObjectToJsonObject<T>(this object obj)
+        {
+            var json = obj.ObjectToJToken();
+            if (json == null || json.Type == JTokenType.Null)
+            {
+                return default(T);
+            }
+            else
+            {
+                return json.ToObject<T>();
+            }
         }
 
         #endregion Object To XXX

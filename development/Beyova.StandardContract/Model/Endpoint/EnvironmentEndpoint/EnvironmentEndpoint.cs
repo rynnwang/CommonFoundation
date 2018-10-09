@@ -6,7 +6,7 @@ namespace Beyova
     /// <summary>
     /// Class EnvironmentEndpoint.
     /// </summary>
-    public class EnvironmentEndpoint : ApiEndpoint, IIdentifier, IProductIdentifier
+    public class EnvironmentEndpoint : ApiEndpoint, IIdentifier,IRealmable
     {
         /// <summary>
         /// Gets or sets the name.
@@ -33,9 +33,11 @@ namespace Beyova
         public Guid? Key { get; set; }
 
         /// <summary>
-        /// Gets or sets the product key.
+        /// Gets or sets the realm.
         /// </summary>
-        /// <value>The product key.</value>
-        public Guid? ProductKey { get; set; }
+        /// <value>
+        /// The realm.
+        /// </value>
+        public string Realm { get; set; }
     }
 }

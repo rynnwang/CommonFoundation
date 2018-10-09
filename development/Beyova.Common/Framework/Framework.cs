@@ -93,7 +93,7 @@ namespace Beyova
                 var result = new EnvironmentInfo { AssemblyVersion = _assemblyVersion };
 
                 result.GCMemory = SystemManagementExtension.GetGCMemory();
-                result.MachineName = EnvironmentCore.ServerName;
+                result.MachineName = EnvironmentCore.MachineName;
                 result.IpAddress = EnvironmentCore.LocalMachineIpAddress;
                 result.HostName = EnvironmentCore.LocalMachineHostName;
                 result.AssemblyHash = EnvironmentCore.GetAssemblyHash();

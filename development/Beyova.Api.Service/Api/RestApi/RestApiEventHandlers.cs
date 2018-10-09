@@ -3,7 +3,8 @@
     /// <summary>
     /// Class RestApiEventHandlers. This class is to save sensitive event handlers for <see cref="ApiHandlerBase"/> or <see cref="RestApiRouter"/>. Such as initialize thread user info by token.
     /// </summary>
-    public abstract class RestApiEventHandlers
+    [System.Obsolete("Use IRestApiEventHandlers")]
+    public abstract class RestApiEventHandlers : IRestApiEventHandlers
     {
         /// <summary>
         /// Gets the credential by token.

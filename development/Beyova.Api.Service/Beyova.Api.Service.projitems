@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiHandlerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiRouteResolver\ApiRouteResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\ApiRouteResolver\RouteMapResult.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Attribute\StrickContractOutputAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiAsyncClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Client\RestApiClientBase.cs" />
@@ -26,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeApiOperationParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeRoute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\IRestApiEventHandlers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiEventHandlers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRoutePool.cs" />

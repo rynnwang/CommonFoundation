@@ -151,7 +151,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
 
                 // index3: Encrypted Security Key Length Indication.
                 var encryptedSymmetricPrimaryKey = EncodingOrSecurityExtension.RsaEncrypt(requestMessage.SymmetricPrimaryKey, rsaPublicKey);
-                var encryptedSymmetricSecondaryKey = (requestMessage.SymmetricSecondaryKey?.ByteValue == null) ? null : EncodingOrSecurityExtension.RsaEncrypt(requestMessage.SymmetricSecondaryKey, rsaPublicKey);
+                var encryptedSymmetricSecondaryKey = (requestMessage.SymmetricSecondaryKey.ByteValue == null) ? null : EncodingOrSecurityExtension.RsaEncrypt(requestMessage.SymmetricSecondaryKey, rsaPublicKey);
                 result.AddRange(BitConverter.GetBytes((UInt16)encryptedSymmetricPrimaryKey.Length));
                 result.AddRange(BitConverter.GetBytes((UInt16)encryptedSymmetricSecondaryKey.Length));
 

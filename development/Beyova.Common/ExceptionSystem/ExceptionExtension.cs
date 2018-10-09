@@ -331,7 +331,7 @@ namespace Beyova
                 {
                     ExceptionType = exception.GetType()?.GetFullName(),
                     Level = level,
-                    ServerIdentifier = EnvironmentCore.ServerName,
+                    ServerIdentifier = EnvironmentCore.MachineName,
                     ServiceIdentifier = EnvironmentCore.ProductName,
                     ServerHost = string.Format("{0} {1}", EnvironmentCore.LocalMachineHostName, EnvironmentCore.LocalMachineIpAddress),
                     Message = exception.Message,

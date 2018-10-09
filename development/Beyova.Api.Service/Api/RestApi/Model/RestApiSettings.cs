@@ -23,7 +23,7 @@ namespace Beyova.Api.RestApi
         /// Gets or sets the event handlers.
         /// </summary>
         /// <value>The event handlers.</value>
-        public RestApiEventHandlers EventHandlers { get; set; }
+        public IRestApiEventHandlers EventHandlers { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [omit exception detail].

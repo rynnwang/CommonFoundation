@@ -32,7 +32,7 @@ namespace Beyova
         /// <param name="validator">The validator.</param>
         public void Validate(ICellphoneNumberValidator validator)
         {
-            validator?.Validate(this);
+            (validator ?? RegionalOptions.DefaultCellphoneNumberValidator)?.Validate(this);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Beyova
         /// <returns></returns>
         protected string ToFullCellphoneNumber()
         {
-            return string.IsNullOrWhiteSpace(this.NationCode) ? this.Number : (string.IsNullOrWhiteSpace(this.Number) ? StringConstants.NA : string.Format("+{0} {1}", this.NationCode, this.Number));
+            return string.IsNullOrWhiteSpace(this.Number) ? StringConstants.NA : string.Format("+{0} {1}", this.NationCode.SafeToString(RegionalOptions.DefaultCellphoneNationCode), this.Number);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Beyova
 
         #region static
 
-        static Regex regex = new Regex(@"^(?<NationCode>(\+[0-9]+)([\s\t\-])+(?<Number>([0-9\-\s]+)))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static Regex regex = new Regex(@"^(\+(?<NationCode>([0-9]+))([\s\t\-]))?(?<Number>([0-9\-\s]+))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Froms the string.
@@ -92,14 +92,17 @@ namespace Beyova
         {
             try
             {
-                fullCellphoneNumber.CheckEmptyString(nameof(fullCellphoneNumber));
+                if (string.IsNullOrWhiteSpace(fullCellphoneNumber))
+                {
+                    return null;
+                }
 
                 var match = regex.Match(fullCellphoneNumber);
                 if (match.Success)
                 {
                     return new CellphoneNumber
                     {
-                        NationCode = match.Result("${NationCode}").SafeToString(defaultNationCode),
+                        NationCode = match.Result("${NationCode}").SafeToString(defaultNationCode).Trim(),
                         Number = match.Result("${Number}").Replace(new char[] { '-', ' ', '\t' }, StringConstants.EmptyChar)
                     };
                 }
@@ -110,6 +113,30 @@ namespace Beyova
             {
                 throw ex.Handle(new { fullCellphoneNumber });
             }
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="CellphoneNumber"/>.
+        /// </summary>
+        /// <param name="cellphoneNumber">The cellphone number.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator CellphoneNumber(string cellphoneNumber)
+        {
+            return FromString(cellphoneNumber);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="CellphoneNumber"/> to <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="cellphoneNumber">The cellphone number.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator string(CellphoneNumber cellphoneNumber)
+        {
+            return cellphoneNumber.ToFullCellphoneNumber();
         }
 
         #endregion

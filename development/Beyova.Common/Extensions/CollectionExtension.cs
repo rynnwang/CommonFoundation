@@ -413,7 +413,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Matches any.
+        /// Matches any. If any item of <c>source</c> matches any item of <c>hitSubjects</c>, return true.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
@@ -468,12 +468,9 @@ namespace Beyova
 
                 foreach (var one in source)
                 {
-                    foreach (var item in hitSubjects)
+                    if (!hitSubjects.Contains(one, equalityComparer))
                     {
-                        if (!equalityComparer.Equals(one, item))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
 
@@ -1180,6 +1177,20 @@ namespace Beyova
         public static ICollection<TOutput> AsCovariance<TInput, TOutput>(this IEnumerable<TInput> collection)
             where TInput : class
             where TOutput : class, TInput
+        {
+            return ConvertNotNullAll(collection, x => x as TOutput);
+        }
+
+        /// <summary>
+        /// Ases all.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <returns></returns>
+        public static ICollection<TOutput> AsAll<TInput, TOutput>(this IEnumerable<TInput> collection)
+            where TInput : class, TOutput
+            where TOutput : class
         {
             return ConvertNotNullAll(collection, x => x as TOutput);
         }

@@ -281,28 +281,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Objects to json token.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        /// <returns>
-        /// JToken.
-        /// </returns>
-        public static JToken ObjectToJToken(this object obj)
-        {
-            return obj.SafeToString().ParseToJToken();
-        }
-
-        /// <summary>
-        /// Objects to json object.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        /// <returns></returns>
-        public static JObject ObjectToJObject(this object obj)
-        {
-            return obj.SafeToString().ParseToJObject();
-        }
-
-        /// <summary>
         /// Finds the object.
         /// </summary>
         /// <param name="jObject">The j object.</param>

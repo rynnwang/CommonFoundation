@@ -102,6 +102,17 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Gets the current credential.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T GetCurrentCredential<T>()
+            where T : class, ICredential
+        {
+            return ApiContext.CurrentCredential as T;
+        }
+
+        /// <summary>
         /// Gets the current permissions.
         /// </summary>
         /// <value>The current permissions.</value>
@@ -190,9 +201,9 @@ namespace Beyova
         /// <param name="cultureCode">The culture code.</param>
         /// <param name="currentUri">The current URI.</param>
         /// <param name="basicAuthentication">The basic authentication.</param>
-        internal static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode, Uri currentUri, AccessCredential basicAuthentication)
+        internal static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication)
         {
-            RestApiEventHandlers restApiEventHandlers = setting?.EventHandlers;
+            IRestApiEventHandlers restApiEventHandlers = setting?.EventHandlers;
 
             var apiContext = ContextHelper.ApiContext;
 

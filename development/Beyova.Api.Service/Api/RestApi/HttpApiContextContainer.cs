@@ -115,7 +115,7 @@ namespace Beyova.Api.RestApi
                     ServiceIdentifier = RuntimeContext.ApiInstance?.GetType()?.Name,
                     ApiFullName = this.RuntimeContext.ApiMethod?.Name,
                     ResourceName = this.RuntimeContext.ResourceName,
-                    ServerIdentifier = EnvironmentCore.ServerName,
+                    ServerIdentifier = EnvironmentCore.MachineName,
                     ModuleName = this.RuntimeContext.OperationParameters.ModuleName,
                     ReferrerUrl = this.TryGetRequestHeader(HttpConstants.HttpHeader.Referrer),
                     ResourceEntityKey = this.RuntimeContext.IsActionUsed ? this.RuntimeContext.Parameter2 : this.RuntimeContext.Parameter1

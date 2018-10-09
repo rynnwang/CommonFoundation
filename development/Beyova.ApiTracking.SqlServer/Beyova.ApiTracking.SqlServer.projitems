@@ -22,5 +22,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiEventLogAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ExceptionInfoAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiLogBaseAccessController.cs" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Setup.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

@@ -426,13 +426,17 @@ namespace Beyova
                 {
                     parameterObject = (int)parameterObject;
                 }
+                else if (parameterObject is CryptoKey)
+                {
+                    parameterObject = (byte[])((CryptoKey)parameterObject);
+                }
                 else if (parameterObject is JToken)
                 {
                     parameterObject = parameterObject.ToString();
                 }
-                else if (parameterObject is IImplicitiveStringValueObject)
+                else if (parameterObject is IStringifiable)
                 {
-                    parameterObject = (parameterObject as IImplicitiveStringValueObject)?.StringValue;
+                    parameterObject = parameterObject == null ? Convert.DBNull : (string)parameterObject as object;
                 }
                 else
                 {

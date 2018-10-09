@@ -3,7 +3,7 @@
     /// <summary>
     /// Class GravityMemberInfo.
     /// </summary>
-    public class GravityMemberInfo : SaasPlatform.RealmBase
+    public class GravityMemberInfo : SaasPlatform.TenantBase
     {
     }
 }

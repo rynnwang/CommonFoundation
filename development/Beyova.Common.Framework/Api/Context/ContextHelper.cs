@@ -25,7 +25,7 @@ namespace Beyova
         /// <param name="cultureCode">The culture code.</param>
         /// <param name="currentUri">The current URI.</param>
         /// <param name="basicAuthentication">The basic authentication.</param>
-        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode, Uri currentUri, AccessCredential basicAuthentication)
+        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication)
         {
             ConsistContext(token, RestApiSettingPool.GetRestApiSettingByName(settingName, true), ipAddress, userAgent, cultureCode, currentUri, basicAuthentication);
         }

@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\Attribute\FunctionInjectionHostTypeMapAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\FunctionInjectionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\ParameterlessPrioritizedFunctionInjection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Framework\RegionalSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />

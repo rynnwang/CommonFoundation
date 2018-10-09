@@ -839,7 +839,7 @@ namespace Beyova
         /// <returns><c>true</c> if the specified type is dictionary; otherwise, <c>false</c>.</returns>
         public static bool IsDictionary(this Type type)
         {
-            return type != null && type.HasInterface(typeof(IDictionary<,>));
+            return type != null && typeof(IDictionary<,>).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -850,7 +850,7 @@ namespace Beyova
         ///   <c>true</c> if the specified type is collection; otherwise, <c>false</c>.</returns>
         public static bool IsCollection(this Type type)
         {
-            return type != null && (type.IsArray || type.HasInterface(typeof(ICollection<>)));
+            return type != null && (type.IsArray || typeof(ICollection<>).IsAssignableFrom(type));
         }
 
         #region Nullable
@@ -1020,17 +1020,6 @@ namespace Beyova
         public static bool HasAttribute(this Type type, Attribute attribute, bool inherit = true)
         {
             return type?.GetCustomAttribute(attribute.GetType(), inherit) != null;
-        }
-
-        /// <summary>
-        /// Determines whether the specified type has interface.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="interfaceType">Type of the interface.</param>
-        /// <returns>System.Boolean.</returns>
-        public static bool HasInterface(this Type type, Type interfaceType)
-        {
-            return type != null && interfaceType != null && type.GetInterface(interfaceType.Name) != null;
         }
 
         /// <summary>
