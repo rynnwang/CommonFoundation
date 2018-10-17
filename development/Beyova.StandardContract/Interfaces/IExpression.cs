@@ -9,20 +9,20 @@
     public interface IExpression<TItem1, TItem2, TOperator>
     {
         /// <summary>
-        /// Gets or sets the item1.
+        /// Gets or sets the item left.
         /// </summary>
         /// <value>
-        /// The item1.
+        /// The item left.
         /// </value>
-        TItem1 Item1 { get; set; }
+        TItem1 ItemLeft { get; set; }
 
         /// <summary>
-        /// Gets or sets the item2.
+        /// Gets or sets the item right.
         /// </summary>
         /// <value>
-        /// The item2.
+        /// The item right.
         /// </value>
-        TItem2 Item2 { get; set; }
+        TItem2 ItemRight { get; set; }
 
         /// <summary>
         /// Gets or sets the operator.

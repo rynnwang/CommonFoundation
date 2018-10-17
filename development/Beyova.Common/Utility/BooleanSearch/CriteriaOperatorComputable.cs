@@ -13,7 +13,7 @@ namespace Beyova.BooleanSearch
         /// <value>
         /// The item1.
         /// </value>
-        public string Item1 { get; set; }
+        public string ItemLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the item2.
@@ -21,7 +21,7 @@ namespace Beyova.BooleanSearch
         /// <value>
         /// The item2.
         /// </value>
-        public string Item2 { get; set; }
+        public string ItemRight { get; set; }
 
         /// <summary>
         /// Gets or sets the operator.
@@ -56,8 +56,8 @@ namespace Beyova.BooleanSearch
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return (!string.IsNullOrWhiteSpace(Item1) && !string.IsNullOrWhiteSpace(Item2))
-                ? string.Format(BooleanSearchCore.expressionFormat, BooleanSearchCore.StringFieldToExpressionString(Item1), Operator.ToString(), BooleanSearchCore.StringFieldToExpressionString(Item2))
+            return (!string.IsNullOrWhiteSpace(ItemLeft) && !string.IsNullOrWhiteSpace(ItemRight))
+                ? string.Format(BooleanSearchCore.expressionFormat, BooleanSearchCore.StringFieldToExpressionString(ItemLeft), Operator.ToString(), BooleanSearchCore.StringFieldToExpressionString(ItemRight))
                 : string.Empty;
         }
     }

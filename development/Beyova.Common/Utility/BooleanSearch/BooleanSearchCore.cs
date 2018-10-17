@@ -33,7 +33,7 @@ namespace Beyova.BooleanSearch
         /// </returns>
         public static bool IsKeyValid(this ICriteriaOperatorComputable operatorComputable)
         {
-            return operatorComputable != null && criteriaKeyRegex.IsMatch(operatorComputable.Item1);
+            return operatorComputable != null && criteriaKeyRegex.IsMatch(operatorComputable.ItemLeft);
         }
 
         /// <summary>
@@ -48,42 +48,42 @@ namespace Beyova.BooleanSearch
 
             if (criteriaOperatorComputable != null && criteriaOperatorComputable.IsKeyValid() && json != null)
             {
-                var jToken = json.XPath(criteriaOperatorComputable.Item1);
+                var jToken = json.XPath(criteriaOperatorComputable.ItemLeft);
                 if (jToken != null)
                 {
                     switch (jToken.Type)
                     {
                         case JTokenType.Array:
-                            result = ComputeAsArray((JArray)jToken, criteriaOperatorComputable.Item2, criteriaOperatorComputable.Operator);
+                            result = ComputeAsArray((JArray)jToken, criteriaOperatorComputable.ItemRight, criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Date:
-                            result = Compute(jToken.ToObject<DateTime>(), Convert.ToDateTime(criteriaOperatorComputable.Item2), criteriaOperatorComputable.Operator);
+                            result = Compute(jToken.ToObject<DateTime>(), Convert.ToDateTime(criteriaOperatorComputable.ItemRight), criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Uri:
                         case JTokenType.String:
-                            result = ComputeAsString(jToken.ToObject<string>(), criteriaOperatorComputable.Item2, criteriaOperatorComputable.Operator);
+                            result = ComputeAsString(jToken.ToObject<string>(), criteriaOperatorComputable.ItemRight, criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Integer:
-                            result = Compute(jToken.ToObject<long>(), criteriaOperatorComputable.Item2.ToInt64(), criteriaOperatorComputable.Operator);
+                            result = Compute(jToken.ToObject<long>(), criteriaOperatorComputable.ItemRight.ToInt64(), criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Guid:
-                            result = Compute(jToken.ToObject<Guid>(), criteriaOperatorComputable.Item2.ToGuid().Value, criteriaOperatorComputable.Operator);
+                            result = Compute(jToken.ToObject<Guid>(), criteriaOperatorComputable.ItemRight.ToGuid().Value, criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Float:
-                            result = Compute(jToken.ToObject<double>(), criteriaOperatorComputable.Item2.ToDouble(), criteriaOperatorComputable.Operator);
+                            result = Compute(jToken.ToObject<double>(), criteriaOperatorComputable.ItemRight.ToDouble(), criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Boolean:
-                            result = ComputeAsBoolean(jToken.ToObject<bool>(), criteriaOperatorComputable.Item2.ToBoolean(), criteriaOperatorComputable.Operator);
+                            result = ComputeAsBoolean(jToken.ToObject<bool>(), criteriaOperatorComputable.ItemRight.ToBoolean(), criteriaOperatorComputable.Operator);
                             break;
 
                         case JTokenType.Object:
-                            result = ComputeAsObject((JObject)jToken, criteriaOperatorComputable.Item2, criteriaOperatorComputable.Operator);
+                            result = ComputeAsObject((JObject)jToken, criteriaOperatorComputable.ItemRight, criteriaOperatorComputable.Operator);
                             break;
 
                         default:
@@ -257,16 +257,16 @@ namespace Beyova.BooleanSearch
         {
             bool result = false;
 
-            if (operatorComputable != null && operatorComputable.Item1 != null && operatorComputable.Item2 != null)
+            if (operatorComputable != null && operatorComputable.ItemLeft != null && operatorComputable.ItemRight != null)
             {
                 switch (operatorComputable.Operator)
                 {
                     case RelationshipOperator.And:
-                        result = operatorComputable.Item1.Compute(json) && operatorComputable.Item2.Compute(json);
+                        result = operatorComputable.ItemLeft.Compute(json) && operatorComputable.ItemRight.Compute(json);
                         break;
 
                     case RelationshipOperator.Or:
-                        result = operatorComputable.Item1.Compute(json) || operatorComputable.Item2.Compute(json);
+                        result = operatorComputable.ItemLeft.Compute(json) || operatorComputable.ItemRight.Compute(json);
                         break;
 
                     default:

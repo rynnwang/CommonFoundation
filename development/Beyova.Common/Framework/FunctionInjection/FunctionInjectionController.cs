@@ -25,14 +25,27 @@ namespace Beyova
             {
                 foreach (var ass in EnvironmentCore.AscendingAssemblyDependencyChain)
                 {
-                    foreach (var item in ass.GetTypes())
+                    try
                     {
-                        // Funny, .NET use IsAbstract + IsSealed to indicates IsStatic
-                        if (item.IsClass && item.IsAbstract && item.IsSealed)
+                        var assemblyName = ass.GetName().Name;
+
+                        if (assemblyName.StartsWith("system.", StringComparison.OrdinalIgnoreCase)
+                                || assemblyName.StartsWith("microsoft.", StringComparison.OrdinalIgnoreCase)
+                                || assemblyName.StartsWith("newtonsoft.", StringComparison.OrdinalIgnoreCase))
                         {
-                            ApplyInjectionByAttribute(item);
+                            continue;
+                        }
+
+                        foreach (var item in ass.GetTypes())
+                        {
+                            // Funny, .NET use IsAbstract + IsSealed to indicates IsStatic
+                            if (item.IsClass && item.IsAbstract && item.IsSealed)
+                            {
+                                ApplyInjectionByAttribute(item);
+                            }
                         }
                     }
+                    catch { }
                 }
 
                 isDiscovered = true;

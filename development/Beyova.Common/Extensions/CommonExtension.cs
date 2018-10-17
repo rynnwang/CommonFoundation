@@ -13,8 +13,31 @@ namespace Beyova
     /// </summary>
     public static class CommonExtension
     {
+        /// <summary>
+        /// To the hexadecimal string.
+        /// </summary>
+        /// <param name="byteArray">The byte array.</param>
+        /// <returns></returns>
+        public static string ToHexString(this byte[] byteArray)
+        {
+            if (byteArray.HasItem())
+            {
+                if (byteArray.Length == 1)
+                {
+                    return byteArray[0].ToString("x2");
+                }
 
+                StringBuilder hex = new StringBuilder(byteArray.Length * 2 + 2);
+                hex.Append("0x");
+                foreach (byte b in byteArray)
+                {
+                    hex.AppendFormat("{0:x2}", b);
+                }
+                return hex.ToString();
+            }
 
+            return string.Empty;
+        }
 
         #region Or + And
 

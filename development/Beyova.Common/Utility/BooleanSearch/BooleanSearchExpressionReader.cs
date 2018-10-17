@@ -90,8 +90,8 @@ namespace Beyova.BooleanSearch
                                 position++;
                                 pendingExpression = new RelationshipOperatorComputable
                                 {
-                                    Item1 = pendingExpression,
-                                    Item2 = ExpectExpression(input, ref parenthesesDepth, ref position),
+                                    ItemLeft = pendingExpression,
+                                    ItemRight = ExpectExpression(input, ref parenthesesDepth, ref position),
                                     Operator = pendingRelationshipOperator.Value
                                 };
 
@@ -137,8 +137,8 @@ namespace Beyova.BooleanSearch
                             {
                                 pendingExpression = new RelationshipOperatorComputable
                                 {
-                                    Item1 = pendingExpression,
-                                    Item2 = ExpectExpression(input, ref parenthesesDepth, ref position),
+                                    ItemLeft = pendingExpression,
+                                    ItemRight = ExpectExpression(input, ref parenthesesDepth, ref position),
                                     Operator = pendingRelationshipOperator.Value
                                 };
 
@@ -190,9 +190,9 @@ namespace Beyova.BooleanSearch
             var valueString = GetNextValidSection(input, ref position, true, valuerInterruptChars);
             return new CriteriaOperatorComputable
             {
-                Item1 = key,
+                ItemLeft = key,
                 Operator = computeOperator.Value,
-                Item2 = valueString
+                ItemRight = valueString
             };
         }
 

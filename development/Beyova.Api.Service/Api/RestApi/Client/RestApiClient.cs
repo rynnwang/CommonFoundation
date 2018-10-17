@@ -155,7 +155,7 @@ namespace Beyova.Api.RestApi
                     httpRequest.Timeout = timeout.Value;
                 }
 
-                var response = httpRequest.ReadResponseAsText(Encoding.UTF8);
+                var response = httpRequest.ReadResponseAsObject<JToken>();
 
                 if (response.HttpStatusCode == HttpStatusCode.NoContent)
                 {

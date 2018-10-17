@@ -28,60 +28,60 @@ namespace Beyova.Common.UnitTest
         {
             var intCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "IntValue",
+                ItemLeft = "IntValue",
                 Operator = ComputeOperator.Equals,
-                Item2 = "13"
+                ItemRight = "13"
             };
 
             Assert.IsTrue(intCriteria.Compute(basicObject));
 
             intCriteria.Operator = ComputeOperator.GreatThan;
-            intCriteria.Item2 = "14";
+            intCriteria.ItemRight = "14";
             Assert.IsFalse(intCriteria.Compute(basicObject));
 
-            intCriteria.Item2 = "12";
+            intCriteria.ItemRight = "12";
             Assert.IsTrue(intCriteria.Compute(basicObject));
 
             //double
             var doubleCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "DoubleValue",
+                ItemLeft = "DoubleValue",
                 Operator = ComputeOperator.Equals,
-                Item2 = "11.24"
+                ItemRight = "11.24"
             };
 
             Assert.IsTrue(doubleCriteria.Compute(basicObject));
 
             doubleCriteria.Operator = ComputeOperator.GreatThan;
-            doubleCriteria.Item2 = "12";
+            doubleCriteria.ItemRight = "12";
             Assert.IsFalse(doubleCriteria.Compute(basicObject));
 
-            doubleCriteria.Item2 = "11";
+            doubleCriteria.ItemRight = "11";
             Assert.IsTrue(doubleCriteria.Compute(basicObject));
 
             //datetime
             var dateTimeCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "DateValue",
+                ItemLeft = "DateValue",
                 Operator = ComputeOperator.Equals,
-                Item2 = "2016-01-01 0:00:00"
+                ItemRight = "2016-01-01 0:00:00"
             };
 
             Assert.IsTrue(dateTimeCriteria.Compute(basicObject));
 
             dateTimeCriteria.Operator = ComputeOperator.GreatThan;
-            dateTimeCriteria.Item2 = "2016-1-1 1:00";
+            dateTimeCriteria.ItemRight = "2016-1-1 1:00";
             Assert.IsFalse(dateTimeCriteria.Compute(basicObject));
 
-            dateTimeCriteria.Item2 = "2015-12-1";
+            dateTimeCriteria.ItemRight = "2015-12-1";
             Assert.IsTrue(dateTimeCriteria.Compute(basicObject));
 
             //StringArray
             var stringArrayCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "StringArrayValue",
+                ItemLeft = "StringArrayValue",
                 Operator = ComputeOperator.Contains,
-                Item2 = "a"
+                ItemRight = "a"
             };
 
             Assert.IsTrue(stringArrayCriteria.Compute(basicObject));
@@ -89,9 +89,9 @@ namespace Beyova.Common.UnitTest
             //int array
             var intArrayCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "IntArrayValue",
+                ItemLeft = "IntArrayValue",
                 Operator = ComputeOperator.Contains,
-                Item2 = "2"
+                ItemRight = "2"
             };
 
             Assert.IsTrue(intArrayCriteria.Compute(basicObject));
@@ -99,32 +99,32 @@ namespace Beyova.Common.UnitTest
             //string
             var stringCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "StringValue",
+                ItemLeft = "StringValue",
                 Operator = ComputeOperator.Contains,
-                Item2 = "llo"
+                ItemRight = "llo"
             };
 
             Assert.IsTrue(stringCriteria.Compute(basicObject));
 
             stringCriteria.Operator = ComputeOperator.StartWith;
-            stringCriteria.Item2 = "#";
+            stringCriteria.ItemRight = "#";
             Assert.IsTrue(stringCriteria.Compute(basicObject));
 
             stringCriteria.Operator = ComputeOperator.EndWith;
-            stringCriteria.Item2 = "!";
+            stringCriteria.ItemRight = "!";
             Assert.IsTrue(stringCriteria.Compute(basicObject));
 
             //object
             var objectCriteria = new CriteriaOperatorComputable
             {
-                Item1 = "ObjectValue",
+                ItemLeft = "ObjectValue",
                 Operator = ComputeOperator.Exists,
-                Item2 = "PropertyA"
+                ItemRight = "PropertyA"
             };
 
             Assert.IsTrue(objectCriteria.Compute(basicObject));
 
-            objectCriteria.Item2 = "PropertyC";
+            objectCriteria.ItemRight = "PropertyC";
             Assert.IsFalse(objectCriteria.Compute(basicObject));
         }
 

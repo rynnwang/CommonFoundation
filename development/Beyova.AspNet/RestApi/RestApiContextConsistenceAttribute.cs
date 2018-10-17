@@ -198,7 +198,7 @@ namespace Beyova.Web
                         OperatorCredential = ContextHelper.CurrentCredential as BaseCredential,
                         Protocol = context.Request.Url.Scheme,
                         ReferrerUrl = context.Request.UrlReferrer?.ToString(),
-                        ServerIdentifier = EnvironmentCore.ServerName,
+                        ServerIdentifier = EnvironmentCore.MachineName,
                         ServiceIdentifier = EnvironmentCore.ProductName
                     };
                 }

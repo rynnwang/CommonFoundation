@@ -14,7 +14,7 @@ namespace Beyova.BooleanSearch
         /// <value>
         /// The item1.
         /// </value>
-        public IBooleanComputable Item1 { get; set; }
+        public IBooleanComputable ItemLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the item2.
@@ -22,7 +22,7 @@ namespace Beyova.BooleanSearch
         /// <value>
         /// The item2.
         /// </value>
-        public IBooleanComputable Item2 { get; set; }
+        public IBooleanComputable ItemRight { get; set; }
 
         /// <summary>
         /// Gets or sets the operator.
@@ -48,7 +48,7 @@ namespace Beyova.BooleanSearch
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return (Item1 != null && Item2 != null) ? string.Format(BooleanSearchCore.expressionFormat, Item1.ToString(), Operator.ToString(), Item2.ToString()) : string.Empty;
+            return (ItemLeft != null && ItemRight != null) ? string.Format(BooleanSearchCore.expressionFormat, ItemLeft.ToString(), Operator.ToString(), ItemRight.ToString()) : string.Empty;
         }
 
         /// <summary>
