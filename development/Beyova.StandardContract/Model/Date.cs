@@ -5,10 +5,11 @@ namespace Beyova
     /// <summary>
     /// 
     /// </summary>
-    public struct Date
+    public struct Date : IComparable, IStringConvertable
     {
         private const string dateFormat2 = "yyyy/MM/dd";
         private const string dateFormat1 = "yyyy-MM-dd";
+        private const DateTimeKind kind = DateTimeKind.Unspecified;
 
         /// <summary>
         /// Gets or sets the year.
@@ -51,7 +52,7 @@ namespace Beyova
         /// <param name="year">The year.</param>
         /// <param name="month">The month.</param>
         /// <param name="day">The day.</param>
-        public Date(int year, int month, int day) : this(new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Unspecified))
+        public Date(int year, int month, int day) : this(new DateTime(year, month, day, 0, 0, 0, kind))
         {
         }
 
@@ -88,7 +89,7 @@ namespace Beyova
         /// </returns>
         public static int operator -(Date dateA, Date dateB)
         {
-            return dateA == dateB ? 0 : (int)((ToDateTime(dateA, DateTimeKind.Utc) - ToDateTime(dateB, DateTimeKind.Utc)).TotalSeconds / (24 * 60 * 60));
+            return dateA == dateB ? 0 : (int)((ToDateTime(dateA, kind) - ToDateTime(dateB, kind)).TotalSeconds / (24 * 60 * 60));
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace Beyova
         /// </returns>
         public static Date operator +(Date date, int addDays)
         {
-            return addDays == 0 ? date : new Date(ToDateTime(date, DateTimeKind.Unspecified).AddDays(addDays));
+            return addDays == 0 ? date : new Date(ToDateTime(date, kind).AddDays(addDays));
         }
 
         /// <summary>
@@ -153,7 +154,7 @@ namespace Beyova
         /// </returns>
         public static implicit operator DateTime(Date date)
         {
-            return ToDateTime(date, DateTimeKind.Unspecified);
+            return ToDateTime(date, kind);
         }
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace Beyova
         /// <param name="date">The date.</param>
         /// <param name="kind">The kind.</param>
         /// <returns></returns>
-        private static DateTime ToDateTime(Date date, DateTimeKind kind)
+        private static DateTime ToDateTime(Date date, DateTimeKind kind = kind)
         {
             return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, kind);
         }
@@ -211,6 +212,25 @@ namespace Beyova
         public override string ToString()
         {
             return string.Format("{0}-{1}-{2}", this.Year.ToString("0000"), this.Month.ToString("00"), this.Day.ToString("00"));
+        }
+
+        /// <summary>
+        /// To the date time.
+        /// </summary>
+        /// <returns></returns>
+        public DateTime ToDateTime()
+        {
+            return ToDateTime(this, DateTimeKind.Unspecified);
+        }
+
+        /// <summary>
+        /// Compares to.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
+        public int CompareTo(object obj)
+        {
+            return this.ToDateTime().CompareTo(((Date)obj).ToDateTime());
         }
     }
 }

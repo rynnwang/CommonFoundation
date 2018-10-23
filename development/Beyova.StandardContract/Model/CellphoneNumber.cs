@@ -8,7 +8,7 @@ namespace Beyova
     /// <summary>
     /// 
     /// </summary>
-    public class CellphoneNumber : INational
+    public class CellphoneNumber : INational, IStringConvertable
     {
         /// <summary>
         /// Gets or sets the nation code.

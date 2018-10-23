@@ -118,7 +118,7 @@ namespace Beyova
         /// <value>The current permissions.</value>
         public static List<string> CurrentPermissions
         {
-            get { return ApiContext.CurrentUserInfo?.Permissions ?? new System.Collections.Generic.List<string>(); }
+            get { return (ApiContext.CurrentPermissionIdentifiers?.Permissions) ?? new System.Collections.Generic.List<string>(); }
         }
 
         /// <summary>

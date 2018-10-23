@@ -87,8 +87,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AspNet.Framework4.6.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ProgrammingIntelligence.Sandbox", "Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.shproj", "{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFunctionService.Framework4.6.2", "Beyova.CommonFunctionService.Framework4.6.2\Beyova.CommonFunctionService.Framework4.6.2.csproj", "{36CDCB07-4F83-4808-8210-498D972C6E2B}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.StandardContract.ChinaSpecialized", "Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.shproj", "{63B9D4D4-FF67-45C3-8A9E-80D2CF31A7B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.StandardContract.ChinaSpecialized.Framework4.6.2", "Beyova.StandardContract.ChinaSpecialized.Framework4.6.2\Beyova.StandardContract.ChinaSpecialized.Framework4.6.2.csproj", "{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}"
@@ -106,8 +104,6 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.DynamicFlexibleEntity", "Beyova.DynamicFlexibleEntity\Beyova.DynamicFlexibleEntity.shproj", "{1887283A-3D28-43CD-8E16-D2CC274CF4F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.RedisCache.UnitTest", "Beyova.RedisCache.UnitTest\Beyova.RedisCache.UnitTest.csproj", "{71FD3426-02E2-4571-8077-50E49C9BAA51}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFunctionService.Contract.Framework4.6.2", "Beyova.CommonFunctionService.Contract.Framework4.6.2\Beyova.CommonFunctionService.Contract.Framework4.6.2.csproj", "{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Authentication.Contract.Generic", "Beyova.Authentication.Contract.Generic\Beyova.Authentication.Contract.Generic.shproj", "{BEAE5294-4EBA-4666-AF3A-198ABE753004}"
 EndProject
@@ -182,11 +178,6 @@ Global
 		Beyova.Common.StandardSpecialized\Beyova.Common.StandardSpecialized.projitems*{222250f3-4a63-4e91-a662-a77a9dd37b6f}*SharedItemsImports = 13
 		Beyova.Server\Beyova.Server.projitems*{2a945e49-ccd9-423d-b13c-ddcf0b62d76b}*SharedItemsImports = 13
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{2b847946-26d0-46b6-9620-aa6f45ac7724}*SharedItemsImports = 4
-		Beyova.Authentication.Core.Generic\Beyova.Authentication.Core.Generic.projitems*{36cdcb07-4f83-4808-8210-498d972c6e2b}*SharedItemsImports = 4
-		Beyova.BinaryStorage.Core.Generic\Beyova.BinaryStorage.Core.Generic.projitems*{36cdcb07-4f83-4808-8210-498d972c6e2b}*SharedItemsImports = 4
-		Beyova.FunctionService.Generic\Beyova.FunctionService.Generic.projitems*{36cdcb07-4f83-4808-8210-498d972c6e2b}*SharedItemsImports = 4
-		Beyova.ProvisioningService.Core.Generic\Beyova.ProvisioningService.Core.Generic.projitems*{36cdcb07-4f83-4808-8210-498d972c6e2b}*SharedItemsImports = 4
-		Beyova.UserPreference.Core.Generic\Beyova.UserPreference.Core.Generic.projitems*{36cdcb07-4f83-4808-8210-498d972c6e2b}*SharedItemsImports = 4
 		Beyova.AspNet.FrameworkSpecialized\Beyova.AspNet.FrameworkSpecialized.projitems*{46226655-162b-4261-b158-52f7e6d2ae75}*SharedItemsImports = 13
 		Beyova.AspNet.FrameworkSpecialized\Beyova.AspNet.FrameworkSpecialized.projitems*{46c0f765-d2f1-443d-be24-ad2b481ae23e}*SharedItemsImports = 4
 		Beyova.AspNet\Beyova.AspNet.projitems*{46c0f765-d2f1-443d-be24-ad2b481ae23e}*SharedItemsImports = 4
@@ -205,14 +196,10 @@ Global
 		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{7be4fa48-62e5-4af2-a2f9-ea5cf26f9b9c}*SharedItemsImports = 13
 		Beyova.Aop\Beyova.Aop.projitems*{81f89c6e-328c-49e2-bbae-d3e5a9f22674}*SharedItemsImports = 4
 		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{936d9664-0d54-41a9-807e-000ad33ade4d}*SharedItemsImports = 13
-		Beyova.BinaryStorage.Core.Generic\Beyova.BinaryStorage.Core.Generic.projitems*{93d25c54-75e9-40b2-ae07-4a047a5114ad}*SharedItemsImports = 4
 		Beyova.CommandLine.Windows\Beyova.CommandLine.Windows.projitems*{959412a5-161e-45fb-8c5f-4b6d037bc1f2}*SharedItemsImports = 13
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{9c62d919-9235-4e90-ba1f-708726bb01de}*SharedItemsImports = 13
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{9cafb893-cef7-4438-9d26-e959141951cf}*SharedItemsImports = 13
 		Beyova.MachineLearning.Kit\Beyova.MachineLearning.Kit.projitems*{9d4a1c9c-f343-46ed-ba95-cf66a78d71a7}*SharedItemsImports = 13
-		Beyova.Authentication.Contract.Generic\Beyova.Authentication.Contract.Generic.projitems*{9dec3ebd-6350-4d77-a8a8-193d4c538f70}*SharedItemsImports = 4
-		Beyova.BinaryStorage.Contract.Generic\Beyova.BinaryStorage.Contract.Generic.projitems*{9dec3ebd-6350-4d77-a8a8-193d4c538f70}*SharedItemsImports = 4
-		Beyova.ProvisioningService.Contract.Generic\Beyova.ProvisioningService.Contract.Generic.projitems*{9dec3ebd-6350-4d77-a8a8-193d4c538f70}*SharedItemsImports = 4
 		Beyova.AspNet\Beyova.AspNet.projitems*{a0bbbeab-9a29-45d8-9e83-7924df6beb72}*SharedItemsImports = 13
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{a153c9de-958e-4628-a156-f4a74f93064a}*SharedItemsImports = 13
 		Beyova.Common\Beyova.Common.projitems*{b50ceaf8-c299-4ea2-9a38-2f0ff6a0354a}*SharedItemsImports = 13
@@ -293,10 +280,6 @@ Global
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36CDCB07-4F83-4808-8210-498D972C6E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -309,10 +292,6 @@ Global
 		{71FD3426-02E2-4571-8077-50E49C9BAA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71FD3426-02E2-4571-8077-50E49C9BAA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71FD3426-02E2-4571-8077-50E49C9BAA51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCC93C80-68BB-41CD-82A9-1F946106292B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -402,7 +381,6 @@ Global
 		{E71237CD-9DC1-46C0-8BEA-C41C7F9ABBE7} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90} = {12871993-A575-4CD7-83E4-B114957C1431}
-		{36CDCB07-4F83-4808-8210-498D972C6E2B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{63B9D4D4-FF67-45C3-8A9E-80D2CF31A7B1} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{DD80C11F-30D2-4D7E-995E-3F541BB2CE20} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{E36856C6-8678-455C-BDF5-C4931598E7B2} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
@@ -412,7 +390,6 @@ Global
 		{DAD3B9E8-48C9-4DEF-AC19-603F8AB4CE0B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{1887283A-3D28-43CD-8E16-D2CC274CF4F0} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{71FD3426-02E2-4571-8077-50E49C9BAA51} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
-		{9DEC3EBD-6350-4D77-A8A8-193D4C538F70} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{BEAE5294-4EBA-4666-AF3A-198ABE753004} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{C21B259B-3E47-4090-A02A-6B5A457C751E} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}
 		{48956A61-A871-42BB-B11D-3C8487F57A9F} = {3AC53A29-2C74-4C33-AD6F-9FF16828A6D4}

@@ -52,10 +52,6 @@
       <Project>{eca11a30-d8b6-40e1-a896-62cbfff66e36}</Project>
       <Name>Beyova.Common.Framework4.6.2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Beyova.CommonFunctionService.Contract.Framework4.6.2\Beyova.CommonFunctionService.Contract.Framework4.6.2.csproj">
-      <Project>{9dec3ebd-6350-4d77-a8a8-193d4c538f70}</Project>
-      <Name>Beyova.CommonFunctionService.Contract.Framework4.6.2</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

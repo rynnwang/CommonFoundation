@@ -56,6 +56,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\Beyova.BinaryStorage.Core.Generic\Beyova.BinaryStorage.Core.Generic.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

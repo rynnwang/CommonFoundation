@@ -7,7 +7,7 @@ namespace Beyova
     /// Class CryptoKey.
     /// </summary>
     [JsonConverter(typeof(CryptoKeyConverter))]
-    public struct CryptoKey : IStringifiable
+    public struct CryptoKey
     {
         /// <summary>
         /// Gets the byte value.

@@ -434,9 +434,9 @@ namespace Beyova
                 {
                     parameterObject = parameterObject.ToString();
                 }
-                else if (parameterObject is IStringifiable)
+                else if (parameterObject is IStringConvertable)
                 {
-                    parameterObject = parameterObject == null ? Convert.DBNull : (string)parameterObject as object;
+                    parameterObject = parameterObject == null ? Convert.DBNull : parameterObject.ToString() as object;
                 }
                 else
                 {

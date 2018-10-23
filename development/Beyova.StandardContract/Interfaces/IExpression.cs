@@ -1,12 +1,12 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    ///
+    /// 
     /// </summary>
-    /// <typeparam name="TItem1">The type of the item.</typeparam>
-    /// <typeparam name="TItem2">The type of the item2.</typeparam>
+    /// <typeparam name="TItemLeft">The type of the item left.</typeparam>
+    /// <typeparam name="TItemRight">The type of the item right.</typeparam>
     /// <typeparam name="TOperator">The type of the operator.</typeparam>
-    public interface IExpression<TItem1, TItem2, TOperator>
+    public interface IExpression<TItemLeft, TItemRight, TOperator>
     {
         /// <summary>
         /// Gets or sets the item left.
@@ -14,7 +14,7 @@
         /// <value>
         /// The item left.
         /// </value>
-        TItem1 ItemLeft { get; set; }
+        TItemLeft ItemLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the item right.
@@ -22,7 +22,7 @@
         /// <value>
         /// The item right.
         /// </value>
-        TItem2 ItemRight { get; set; }
+        TItemRight ItemRight { get; set; }
 
         /// <summary>
         /// Gets or sets the operator.

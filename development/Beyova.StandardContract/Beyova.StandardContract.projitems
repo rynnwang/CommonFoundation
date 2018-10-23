@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\ICriteriaOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IRelationshipOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAccessClientIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStringConvertable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRealmable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\HttpCredential.cs" />
@@ -33,7 +34,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICellphoneNumberValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INational.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IServiceUserCredential.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStringifiable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppPlatform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICredential.cs" />
