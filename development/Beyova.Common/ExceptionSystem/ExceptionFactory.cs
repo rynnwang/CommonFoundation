@@ -103,14 +103,14 @@ namespace Beyova
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="NullObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckEmptyCellphoneNumber(this CellphoneNumber cellphoneNumber, string objectIdentity, FriendlyHint friendlyHint = null,
+        public static void CheckEmptyCellphoneNumber(this CellphoneNumber cellphoneNumber, string objectIdentity = null, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (cellphoneNumber == null || string.IsNullOrWhiteSpace(cellphoneNumber.Number))
             {
-                throw new NullObjectException(objectIdentity, friendlyHint, new ExceptionScene
+                throw new NullObjectException(objectIdentity.SafeToString(nameof(cellphoneNumber)), friendlyHint, new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -185,21 +185,21 @@ namespace Beyova
         /// <param name="targetObject">The target object.</param>
         /// <param name="objectIdentity">The object identity.</param>
         /// <param name="reason">The reason.</param>
-        /// <param name="externalDataReference">The external data reference.</param>
+        /// <param name="data">The external data reference.</param>
         /// <param name="friendlyHint">The friendly hint.</param>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="InvalidObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckNullObjectAsInvalid(this object targetObject, string objectIdentity, string reason = null, object externalDataReference = null, FriendlyHint friendlyHint = null,
+        public static void CheckNullObjectAsInvalid(this object targetObject, string objectIdentity, string reason = null, object data = null, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (targetObject == null)
             {
-                throw new InvalidObjectException(objectIdentity, data: new { externalDataReference }, reason: reason, hint: friendlyHint, scene: new ExceptionScene
+                throw new InvalidObjectException(objectIdentity, data: new { data }, reason: reason, hint: friendlyHint, scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,
@@ -248,7 +248,7 @@ namespace Beyova
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <exception cref="InvalidObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
-        public static void CheckZeroEnum<T>(this T enumObject, string resourceName, FriendlyHint friendlyHint = null,
+        public static void CheckZeroEnum<T>(this T enumObject, string resourceName = null, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
             [CallerFilePath] string sourceFilePath = null,
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -256,7 +256,7 @@ namespace Beyova
         {
             if (enumObject.EnumToInt32() == 0)
             {
-                throw new InvalidObjectException(resourceName, data: new { type = typeof(T).FullName }, reason: "ZeroEnumValue", hint: friendlyHint, scene: new ExceptionScene
+                throw new InvalidObjectException(resourceName.SafeToString(typeof(T).FullName), data: new { type = typeof(T).FullName }, reason: "ZeroEnumValue", hint: friendlyHint, scene: new ExceptionScene
                 {
                     FilePath = sourceFilePath,
                     LineNumber = sourceLineNumber,

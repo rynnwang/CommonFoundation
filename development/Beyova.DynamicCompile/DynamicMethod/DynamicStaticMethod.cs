@@ -79,7 +79,7 @@ namespace Beyova
 
 
                 type = ReflectionExtension.SmartGetType(string.Format("{0}.DynamicStatiClass{1}", _namespace, tmpId));
-                type.CheckNullObjectAsInvalid(nameof(options), externalDataReference: new { options, generatedCode, tmpId });
+                type.CheckNullObjectAsInvalid(nameof(options), data: new { options, generatedCode, tmpId });
 
                 _methodInfo = type.GetMethod(string.Format("DynamicStaticMethod{0}", tmpId));
             }

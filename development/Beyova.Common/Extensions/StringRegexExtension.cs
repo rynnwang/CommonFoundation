@@ -675,26 +675,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// To the hexadecimal string.
-        /// </summary>
-        /// <param name="anyGuid">Any unique identifier.</param>
-        /// <returns>System.String.</returns>
-        public static string ToHexString(this Guid? anyGuid)
-        {
-            return anyGuid.HasValue ? anyGuid.Value.ToHexString() : string.Empty;
-        }
-
-        /// <summary>
-        /// To the hexadecimal string.
-        /// </summary>
-        /// <param name="anyGuid">Any unique identifier.</param>
-        /// <returns>System.String.</returns>
-        public static string ToHexString(this Guid anyGuid)
-        {
-            return anyGuid.ToString("N");
-        }
-
-        /// <summary>
         /// Determines whether the specified string obj is number.
         /// </summary>
         /// <param name="stringObj">The string obj.</param>

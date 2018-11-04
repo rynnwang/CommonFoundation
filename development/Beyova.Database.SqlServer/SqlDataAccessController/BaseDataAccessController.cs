@@ -413,10 +413,23 @@ namespace Beyova
         {
             if (baseObj != null)
             {
-                baseObj.Key = sqlDataReader[column_Key].ObjectToGuid();
-                baseObj.CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime();
                 baseObj.LastUpdatedStamp = sqlDataReader[column_LastUpdatedStamp].ObjectToDateTime();
                 baseObj.State = (ObjectState)(sqlDataReader[column_State].ObjectToInt32());
+                baseObj.Key = sqlDataReader[column_Key].ObjectToGuid();
+                baseObj.CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime();
+            }
+        }
+
+        /// <summary>
+        /// Fills the audit base object fields.
+        /// </summary>
+        /// <param name="baseObj">The base object.</param>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        protected static void FillAuditBaseObjectFields(IAuditBaseObject baseObj, SqlDataReader sqlDataReader)
+        {
+            if (baseObj != null)
+            {
+
             }
         }
 

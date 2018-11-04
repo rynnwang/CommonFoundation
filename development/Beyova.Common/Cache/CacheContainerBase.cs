@@ -74,7 +74,6 @@ namespace Beyova.Cache
         public CacheContainerBase(CacheContainerOptions containerOptions, CacheAutoRetrievalOptions<TKey, TEntity> retrievalOptions = null)
         {
             containerOptions.CheckNullObject(nameof(containerOptions));
-            retrievalOptions.CheckNullObject(nameof(retrievalOptions));
 
             this.ContainerOptions = containerOptions ?? new CacheContainerOptions();
             this.ContainerOptions.Name = this.ContainerOptions.Name.SafeToString(typeof(TEntity).GetFullName());

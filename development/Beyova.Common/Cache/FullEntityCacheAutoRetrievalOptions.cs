@@ -81,9 +81,6 @@ namespace Beyova.Cache
         public FullEntityCacheAutoRetrievalOptions(Func<IEnumerable<TEntity>> entityRetrievalImplementation, Func<TEntity, TKey> entityKeyGetter, Func<BaseException, bool> exceptionProcessingImplementation = null, long? failureExpirationInSecond = null)
             : base(exceptionProcessingImplementation, failureExpirationInSecond)
         {
-            entityRetrievalImplementation.CheckNullObject(nameof(entityRetrievalImplementation));
-            entityKeyGetter.CheckNullObject(nameof(entityKeyGetter));
-
             this.EntityRetrievalImplementation = entityRetrievalImplementation;
             this.EntityKeyGetter = entityKeyGetter;
         }
@@ -97,9 +94,6 @@ namespace Beyova.Cache
         public FullEntityCacheAutoRetrievalOptions(Func<IEnumerable<TEntity>> entityRetrievalImplementation, Func<TEntity, TKey> entityKeyGetter, BaseCacheAutoRetrievalOptions baseRetrievalOptions)
            : base(baseRetrievalOptions)
         {
-            entityRetrievalImplementation.CheckNullObject(nameof(entityRetrievalImplementation));
-            entityKeyGetter.CheckNullObject(nameof(entityKeyGetter));
-
             this.EntityRetrievalImplementation = entityRetrievalImplementation;
             this.EntityKeyGetter = entityKeyGetter;
         }

@@ -7,17 +7,7 @@ namespace Beyova
     /// </summary>
     public interface ISimpleBaseObject : IIdentifier
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the created stamp.
-        /// </summary>
-        /// <value>The created stamp.</value>
-        DateTime? CreatedStamp
-        {
-            get;
-            set;
-        }
+        #region Properties      
 
         /// <summary>
         /// Gets or sets the last updated stamp.
@@ -38,6 +28,19 @@ namespace Beyova
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets the created stamp.
+        /// </summary>
+        /// <value>
+        /// The created stamp.
+        /// </value>
+        DateTime? CreatedStamp
+        {
+            get;
+            set;
+        }
+
 
         #endregion Properties
     }

@@ -7,7 +7,7 @@
     <ProjectGuid>{46C0F765-D2F1-443D-BE24-AD2B481AE23E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Beyova.AspNet.Framework4._6._2</RootNamespace>
+    <RootNamespace>Beyova.AspNet</RootNamespace>
     <AssemblyName>Beyova.AspNet</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

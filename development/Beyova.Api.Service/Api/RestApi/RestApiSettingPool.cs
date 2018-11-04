@@ -19,12 +19,37 @@ namespace Beyova.Api.RestApi
         const string defaultSettingName = "default";
 
         /// <summary>
+        /// The default rest API settings
+        /// </summary>
+        private static RestApiSettings defaultRestApiSettings = new RestApiSettings
+        {
+            TokenHeaderKey = HttpConstants.HttpHeader.TOKEN,
+            ClientIdentifierHeaderKey = HttpConstants.HttpHeader.CLIENTIDENTIFIER,
+            EnableContentCompression = true,
+            Name = defaultSettingName,
+            ApiTracking = Framework.ApiTracking
+        };
+
+        /// <summary>
         /// Gets the default rest API settings.
         /// </summary>
         /// <value>
         /// The default rest API settings.
         /// </value>
-        public static RestApiSettings DefaultRestApiSettings { get; private set; }
+        public static RestApiSettings DefaultRestApiSettings
+        {
+            get
+            {
+                return defaultRestApiSettings;
+            }
+            private set
+            {
+                if (value != null)
+                {
+                    defaultRestApiSettings = value;
+                }
+            }
+        }
 
         /// <summary>
         /// The settings container
@@ -39,7 +64,6 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         public static bool AddSetting(RestApiSettings setting, bool overrideIfExists = false)
         {
-            TryInitializeDefaultSetting(setting);
             return (setting != null) ? settingsContainer.Merge(setting.Name.SafeToString(), setting, overrideIfExists) : false;
         }
 
@@ -56,22 +80,11 @@ namespace Beyova.Api.RestApi
         }
 
         /// <summary>
-        /// Tries the initialize default setting.
+        /// Initializes the <see cref="RestApiSettingPool"/> class.
         /// </summary>
-        /// <param name="settings">The settings.</param>
-        internal static void TryInitializeDefaultSetting(RestApiSettings settings)
+        static RestApiSettingPool()
         {
-            if (DefaultRestApiSettings == null)
-            {
-                DefaultRestApiSettings = settings ?? new RestApiSettings
-                {
-                    TokenHeaderKey = HttpConstants.HttpHeader.TOKEN,
-                    ClientIdentifierHeaderKey = HttpConstants.HttpHeader.CLIENTIDENTIFIER,
-                    EnableContentCompression = true,
-                    Name = defaultSettingName,
-                    ApiTracking = Framework.ApiTracking
-                };
-            }
+            settingsContainer.Add(defaultRestApiSettings.Name, defaultRestApiSettings);
         }
     }
 }

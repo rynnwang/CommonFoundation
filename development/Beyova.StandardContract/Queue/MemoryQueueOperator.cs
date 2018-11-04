@@ -41,7 +41,7 @@ namespace Beyova
             {
                 Message = item,
                 CreatedStamp = DateTime.UtcNow,
-                Id = Guid.NewGuid().ToHexString()
+                Id = Guid.NewGuid().ToString("N")
             });
         }
 

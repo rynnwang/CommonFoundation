@@ -125,7 +125,7 @@ namespace Beyova
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static explicit operator Date(DateTime dateTime)
+        public static implicit operator Date(DateTime dateTime)
         {
             return new Date(dateTime);
         }
@@ -137,7 +137,7 @@ namespace Beyova
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static explicit operator Date? (string date)
+        public static implicit operator Date? (string date)
         {
             var dateTime = date.ToDateTime(dateFormat1, System.Globalization.DateTimeStyles.AssumeLocal)
                 ?? date.ToDateTime(dateFormat2, System.Globalization.DateTimeStyles.AssumeLocal);

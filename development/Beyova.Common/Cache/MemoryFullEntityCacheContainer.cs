@@ -142,10 +142,12 @@ namespace Beyova.Cache
             {
                 try
                 {
+                    // Regarding check null already, not need to worry about null ref.
                     var entities = AutoRetrievalOptions.EntityRetrievalImplementation();
                     this._originContainer.Clear();
                     foreach (var one in entities)
                     {
+                        // Regarding check null already, not need to worry about null ref.
                         var key = this.AutoRetrievalOptions.EntityKeyGetter(one);
                         if (key != null)
                         {
@@ -191,6 +193,16 @@ namespace Beyova.Cache
             }
 
             return _readOnlyContainer?.Values.ToArray() ?? new TEntity[] { };
+        }
+
+        /// <summary>
+        /// Queries the specified predict.
+        /// </summary>
+        /// <param name="predict">The predict.</param>
+        /// <returns></returns>
+        public IEnumerable<TEntity> Query(Func<TEntity, bool> predict)
+        {
+            return predict == null ? (_readOnlyContainer?.Values) : _readOnlyContainer?.Values?.Where(predict);
         }
 
         /// <summary>

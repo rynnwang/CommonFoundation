@@ -18,7 +18,7 @@ namespace Beyova
         /// <summary>
         /// The cellphone number regex
         /// </summary>
-        static Regex cellphoneNumberRegex = new Regex("^1[0-9]{12}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static Regex cellphoneNumberRegex = new Regex("^1[0-9]{10}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Gets the nation codes.

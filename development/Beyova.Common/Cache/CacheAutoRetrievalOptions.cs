@@ -30,7 +30,6 @@ namespace Beyova.Cache
             long? failureExpirationInSecond = null)
             : base(exceptionProcessingImplementation, failureExpirationInSecond)
         {
-            entityRetrievalImplementation.CheckNullObject(nameof(entityRetrievalImplementation));
             this.EntityRetrievalImplementation = entityRetrievalImplementation;
         }
 
@@ -42,7 +41,6 @@ namespace Beyova.Cache
         public CacheAutoRetrievalOptions(Func<TKey, TEntity> entityRetrievalImplementation, BaseCacheAutoRetrievalOptions cacheRetrievalOptions)
             : base(cacheRetrievalOptions)
         {
-            entityRetrievalImplementation.CheckNullObject(nameof(entityRetrievalImplementation));
             this.EntityRetrievalImplementation = entityRetrievalImplementation;
         }
     }

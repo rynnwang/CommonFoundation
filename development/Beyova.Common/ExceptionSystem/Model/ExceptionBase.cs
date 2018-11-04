@@ -1,5 +1,6 @@
 ﻿using System;
 using Beyova.ApiTracking;
+using Newtonsoft.Json;
 
 namespace Beyova.ExceptionSystem
 {
@@ -14,37 +15,42 @@ namespace Beyova.ExceptionSystem
         /// Gets or sets the message.
         /// </summary>
         /// <value>The message.</value>
+        [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
 
         /// <summary>
         /// Gets or sets the target site.
         /// </summary>
         /// <value>The target site.</value>
+        [JsonProperty(PropertyName = "targetSite")]
         public string TargetSite { get; set; }
 
         /// <summary>
         /// Gets or sets the stack trace.
         /// </summary>
         /// <value>The stack trace.</value>
+        [JsonProperty(PropertyName = "stackTrace")]
         public string StackTrace { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the exception.
         /// </summary>
         /// <value>The type of the exception.</value>
+        [JsonProperty(PropertyName = "exceptionType")]
         public string ExceptionType { get; set; }
 
         /// <summary>
         /// Gets or sets the level.
         /// </summary>
         /// <value>The level.</value>
+        [JsonProperty(PropertyName = "level")]
         public ExceptionInfo.ExceptionCriticality? Level { get; set; }
 
         /// <summary>
         /// Gets or sets the source.
         /// </summary>
         /// <value>The source.</value>
-        public string Source { get; set; }
+        [JsonProperty(PropertyName = "source")] public string Source { get; set; }
 
         /// <summary>
         /// Gets or sets the event key. Primarily for ApiEvent Key. It can be any other system event key.
@@ -52,12 +58,14 @@ namespace Beyova.ExceptionSystem
         /// <value>
         /// The event key.
         /// </value>
+        [JsonProperty(PropertyName = "eventKey")]
         public string EventKey { get; set; }
 
         /// <summary>
         /// Gets or sets the operator credential.
         /// </summary>
         /// <value>The operator credential.</value>
+        [JsonProperty(PropertyName = "operatorCredential")]
         public BaseCredential OperatorCredential { get; set; }
 
         #endregion Property

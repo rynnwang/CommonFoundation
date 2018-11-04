@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MVC\MVCExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MVC\UriRewriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MVC\UriRewriteRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RestApi\ProductBasedActionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\ViewExtension\ApiViewAttribute.cs" />
   </ItemGroup>
 </Project>

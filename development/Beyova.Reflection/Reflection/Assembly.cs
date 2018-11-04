@@ -169,10 +169,23 @@ namespace Beyova
         /// Gets the public properties.
         /// </summary>
         /// <param name="type">The type.</param>
+        /// <param name="inherit">if set to <c>true</c> [inherit].</param>
         /// <returns></returns>
-        public static List<PropertyInfo> GetPublicProperties(this Type type)
+        public static List<PropertyInfo> GetPublicProperties(this Type type, bool inherit)
         {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty, true);
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.SetProperty | BindingFlags.FlattenHierarchy, inherit);
+        }
+
+        /// <summary>
+        /// Gets the public property.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="inherit">if set to <c>true</c> [inherit].</param>
+        /// <returns></returns>
+        public static PropertyInfo GetPublicProperty(this Type type, string name, bool inherit)
+        {
+            return string.IsNullOrWhiteSpace(name) ? null : GetPublicProperties(type, inherit).Where(p => p.Name.Equals(name)).FirstOrDefault();
         }
 
         /// <summary>

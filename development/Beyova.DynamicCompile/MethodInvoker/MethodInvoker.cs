@@ -95,10 +95,10 @@ namespace Beyova
                     var typeFullName = methodCodeFullName.Substring(0, lastDot);
 
                     var type = ReflectionExtension.SmartGetType(typeFullName, false);
-                    type.CheckNullObjectAsInvalid(nameof(methodCodeFullName), externalDataReference: new { method, typeFullName });
+                    type.CheckNullObjectAsInvalid(nameof(methodCodeFullName), data: new { method, typeFullName });
 
                     var methodInfo = type.GetMethod(method);
-                    methodInfo.CheckNullObjectAsInvalid(nameof(methodCodeFullName), externalDataReference: new { method, typeFullName });
+                    methodInfo.CheckNullObjectAsInvalid(nameof(methodCodeFullName), data: new { method, typeFullName });
 
                     return new MethodInvoker(methodInfo);
                 }

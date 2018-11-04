@@ -23,11 +23,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\ICriteriaOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IRelationshipOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAccessClientIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuditBaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRowId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStringConvertable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRealmable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNetConverter\CellphoneNumberConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\HttpCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FlexibleSelectOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredentialCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\AuditBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\QueueItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\MemoryQueueOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\IQueueOperator.cs" />
@@ -186,5 +192,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\Finance\" />
     <Folder Include="$(MSBuildThisFileDirectory)Model\Tenant\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Model\SessionCredential\" />
   </ItemGroup>
 </Project>

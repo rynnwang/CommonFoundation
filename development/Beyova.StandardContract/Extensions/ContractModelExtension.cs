@@ -235,5 +235,26 @@ namespace Beyova
         }
 
         #endregion ICodeIdentifier
+
+        #region IAccessClientIdentifier
+
+        /// <summary>
+        /// Copies to.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="destination">The destination.</param>
+        public static void CopyTo(this IAccessClientIdentifier source, IAccessClientIdentifier destination)
+        {
+            if (source != null && destination != null)
+            {
+                destination.DeviceId = source.DeviceId;
+                destination.DeviceName = source.DeviceName;
+                destination.IpV4Address = source.IpV4Address;
+                destination.IpV6Address = source.IpV6Address;
+                destination.UserAgent = source.UserAgent;
+            }
+        }
+
+        #endregion
     }
 }

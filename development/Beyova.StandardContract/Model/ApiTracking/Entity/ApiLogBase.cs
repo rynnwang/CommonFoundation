@@ -1,4 +1,6 @@
-﻿namespace Beyova.ApiTracking
+﻿using Newtonsoft.Json;
+
+namespace Beyova.ApiTracking
 {
     /// <summary>
     /// Class ApiLogBase.
@@ -9,14 +11,14 @@
         /// Gets or sets the service identifier.
         /// </summary>
         /// <value>The service identifier.</value>
-        public string ServiceIdentifier { get; set; }
+        [JsonProperty(PropertyName = "serviceIdentifier")] public string ServiceIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the server identifier.
         /// <remarks>Commonly, it is server name.</remarks>
         /// </summary>
         /// <value>The server identifier.</value>
-        public string ServerIdentifier { get; set; }
+        [JsonProperty(PropertyName = "serverIdentifier")] public string ServerIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the server host.
@@ -24,7 +26,7 @@
         /// <value>
         /// The server host.
         /// </value>
-        public string ServerHost { get; set; }
+        [JsonProperty(PropertyName = "serverHost")] public string ServerHost { get; set; }
 
         /// <summary>
         /// Gets or sets the raw URL.
@@ -32,7 +34,7 @@
         /// <value>
         /// The raw URL.
         /// </value>
-        public string RawUrl { get; set; }
+        [JsonProperty(PropertyName = "rawUrl")] public string RawUrl { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiLogBase" /> class.
