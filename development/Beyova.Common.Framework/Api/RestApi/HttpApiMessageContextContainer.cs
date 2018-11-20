@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Net;
 using System.IO;
-using Beyova.Http;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.IO.Compression;
 using System.Net.Http.Headers;
+using Beyova.Http;
 
 namespace Beyova.Api.RestApi
 {
@@ -127,7 +127,7 @@ namespace Beyova.Api.RestApi
             get { return this.Request?.Content?.ReadAsStreamAsync().Result; }
         }
 
-        #endregion
+        #endregion Abstract Properties
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpApiMessageContextContainer"/> class.
@@ -223,7 +223,6 @@ namespace Beyova.Api.RestApi
             WriteResponseGzipBody(stream.ReadStreamToBytes(true), contentType);
         }
 
-
         /// <summary>
         /// Reads the request body.
         /// </summary>
@@ -268,8 +267,7 @@ namespace Beyova.Api.RestApi
                 cookieMatrix.TryGetValue(cookieKey, out result);
             }
 
-            return result;
+            return result?.Select(x => x.ToUrlDecodedText());
         }
     }
-
 }

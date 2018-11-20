@@ -9,8 +9,6 @@ namespace Beyova.ApiTracking.SqlServer
     /// </summary>
     public class ApiEventLogAccessController : ApiLogBaseAccessController<ApiEventLog>
     {
-
-
         #region Constructor
 
         /// <summary>

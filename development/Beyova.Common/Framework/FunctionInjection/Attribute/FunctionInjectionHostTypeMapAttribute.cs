@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class FunctionInjectionHostTypeMapAttribute : Attribute

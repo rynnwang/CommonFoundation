@@ -213,7 +213,6 @@
         /// </value>
         public string AntiDumpingDutyDescription { get; set; }
 
-
         #endregion Duty + Tax description
     }
 }

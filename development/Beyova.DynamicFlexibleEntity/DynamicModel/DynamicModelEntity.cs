@@ -5,7 +5,7 @@ using System.Text;
 namespace Beyova.DynamicModel
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class DynamicModelEntity
     {

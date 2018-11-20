@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 
 namespace Beyova.Http
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class HttpRequestExtensible : IIncomingHttpRequestExtensible<HttpRequest>
     {

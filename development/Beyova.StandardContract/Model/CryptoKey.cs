@@ -122,6 +122,15 @@ namespace Beyova
         }
 
         /// <summary>
+        /// To the hexadecimal.
+        /// </summary>
+        /// <returns></returns>
+        public string ToHex()
+        {
+            return ByteValue.ToHex();
+        }
+
+        /// <summary>
         /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
@@ -137,7 +146,7 @@ namespace Beyova
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {

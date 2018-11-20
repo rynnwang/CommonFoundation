@@ -158,7 +158,7 @@ namespace Beyova.Api.RestApi
             }
             if (queryString.HasItem())
             {
-                url += ("?" + queryString.ToKeyValueStringWithUrlEncode());
+                url += ("?" + queryString.ToKeyValuePairString(encodeKeyValue: true));
             }
 
             return url;

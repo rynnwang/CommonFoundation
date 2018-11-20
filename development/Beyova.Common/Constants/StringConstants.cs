@@ -1,12 +1,10 @@
-﻿
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class StringConstants
     /// </summary>
     public static class StringConstants
     {
-
         /// <summary>
         /// The na
         /// </summary>
@@ -128,7 +126,7 @@ namespace Beyova
         public static readonly char[] NewLineCharacters = new char[] { '\n', '\r' };
 
         /// <summary>
-        /// The trimmed characters.  '\n', '\t', '\r', ' ' 
+        /// The trimmed characters.  '\n', '\t', '\r', ' '
         /// </summary>
         public static readonly char[] TrimmedCharacters = new char[] { '\n', '\t', '\r', ' ' };
     }

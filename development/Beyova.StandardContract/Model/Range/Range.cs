@@ -3,7 +3,7 @@
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TCoordinate">The type of the coordinate.</typeparam>
     public abstract class Range<TCoordinate>

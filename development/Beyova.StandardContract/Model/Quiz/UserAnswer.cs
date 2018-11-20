@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace Beyova.Quiz
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class UserAnswer : UserAnswer<Guid?>
     {
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TUserKey">The type of the user key.</typeparam>
     /// <typeparam name="TRealm">The type of the realm.</typeparam>
@@ -27,7 +27,7 @@ namespace Beyova.Quiz
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TUserKey">The type of the user key.</typeparam>
     public abstract class UserAnswer<TUserKey>

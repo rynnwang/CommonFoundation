@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
 using Beyova.Http;

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public abstract class StorageContainer : IStorageContainer
     {

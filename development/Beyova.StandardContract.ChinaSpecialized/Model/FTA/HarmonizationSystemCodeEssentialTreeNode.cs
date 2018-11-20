@@ -3,7 +3,7 @@
 namespace Beyova.ChinaSpecialized
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <seealso cref="Beyova.IGlobalObjectName" />
     /// <seealso cref="Beyova.IIdentifier" />

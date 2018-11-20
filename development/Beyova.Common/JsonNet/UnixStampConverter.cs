@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class UnixStampConverter : JsonConverter
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public enum UnixStampAccuracy
         {
@@ -49,8 +49,10 @@ namespace Beyova
                 {
                     case UnixStampAccuracy.Second:
                         return 1000;
+
                     case UnixStampAccuracy.Minute:
                         return 60000;
+
                     case UnixStampAccuracy.Millisecond:
                     default:
                         return 1;

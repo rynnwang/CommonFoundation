@@ -328,6 +328,27 @@ namespace Beyova
         #region MD5
 
         /// <summary>
+        /// To the md5.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns></returns>
+        public static CryptoKey ToMD5(this byte[] bytes)
+        {
+            return new CryptoKey(ToMD5Bytes(bytes));
+        }
+
+        /// <summary>
+        /// To the m d5.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="resetPosition">The reset position.</param>
+        /// <returns></returns>
+        public static CryptoKey ToMD5(this Stream stream, long? resetPosition = null)
+        {
+            return new CryptoKey(ToMD5Bytes(stream, resetPosition));
+        }
+
+        /// <summary>
         /// To the md5 bytes.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
@@ -396,27 +417,6 @@ namespace Beyova
             {
                 throw ex.Handle(stringObject);
             }
-        }
-
-        /// <summary>
-        /// To the m d5 base64 string.
-        /// </summary>
-        /// <param name="bytes">The bytes.</param>
-        /// <returns>System.String.</returns>
-        public static string ToBase64Md5(this byte[] bytes)
-        {
-            return ToMD5Bytes(bytes)?.EncodeBase64();
-        }
-
-        /// <summary>
-        /// To the m d5 base64 string.
-        /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <param name="resetPosition">The reset position.</param>
-        /// <returns>System.String.</returns>
-        public static string ToBase64Md5(this Stream stream, long? resetPosition = null)
-        {
-            return ToMD5Bytes(stream, resetPosition)?.EncodeBase64();
         }
 
         /// <summary>

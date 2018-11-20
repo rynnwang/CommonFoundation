@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class FileContainer : StorageContainer
     {

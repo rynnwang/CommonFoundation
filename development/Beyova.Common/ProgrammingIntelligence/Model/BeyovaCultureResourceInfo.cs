@@ -94,7 +94,6 @@ namespace Beyova
                             var resources = TryReadResourceFile(file.FullName);
                             if (resources != null)
                             {
-
                                 foreach (var item in resources)
                                 {
                                     var destinationContainer = container.GetOrCreate(cultureInfo, new GlobalCultureResourceCollection(file.Name));

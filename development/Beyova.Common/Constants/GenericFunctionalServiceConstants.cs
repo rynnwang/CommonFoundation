@@ -14,7 +14,6 @@
             /// The remote configuration administrator
             /// </summary>
 
-
             /// <summary>
             /// The authentication administrator
             /// </summary>

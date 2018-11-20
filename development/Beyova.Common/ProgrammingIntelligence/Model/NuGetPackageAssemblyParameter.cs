@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Beyova.ExceptionSystem;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class NuGetPackageAssemblyParameter is used in <see cref="BeyovaComponentAttribute"/> to define NuGet parameters for CI system to read.

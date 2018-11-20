@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class NameValueDictionary<T> : Dictionary<string, T>
@@ -34,6 +34,6 @@ namespace Beyova
         {
         }
 
-        #endregion
+        #endregion Constructors
     }
 }

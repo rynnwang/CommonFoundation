@@ -63,7 +63,7 @@ namespace Beyova
                 Identifier = metaData.Identifier;
                 Name = metaData.Name;
                 Hash = metaData.Hash;
-                Mime = metaData.Mime;
+                ContentType = metaData.ContentType;
                 Length = metaData.Length;
                 Width = metaData.Width;
                 Height = metaData.Height;

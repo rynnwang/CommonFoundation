@@ -4,7 +4,7 @@ using System.Text;
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class WebUiBuilder
     {

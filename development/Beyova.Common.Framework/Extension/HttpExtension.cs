@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
-using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using Beyova.Api.RestApi;
 using Beyova.ExceptionSystem;
 
 namespace Beyova
@@ -22,7 +15,7 @@ namespace Beyova
     /// </summary>
     static partial class HttpExtension
     {
-        #region Uri and Credential      
+        #region Uri and Credential
 
         /// <summary>
         /// To the full raw URL.
@@ -417,8 +410,6 @@ namespace Beyova
             return builder.ToString();
         }
 
-
-
         /// <summary>
         /// Supply binary download via HttpResponse
         /// </summary>
@@ -708,11 +699,5 @@ namespace Beyova
         }
 
         #endregion Http proxy
-
-
-
-
-
-
     }
 }

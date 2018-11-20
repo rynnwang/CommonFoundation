@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonConverter(typeof(MappingTableConverter))]
     public sealed class MappingTable : MappingTable<string>
@@ -42,7 +42,7 @@ namespace Beyova
             this.AddRange(dictionary);
         }
 
-        #endregion
+        #endregion Constructors
 
         /// <summary>
         /// Gets or sets the <see cref="System.String"/> with the specified key.
@@ -64,7 +64,7 @@ namespace Beyova
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [JsonConverter(typeof(MappingTableConverter))]
@@ -135,7 +135,7 @@ namespace Beyova
             this.AddRange(dictionary);
         }
 
-        #endregion
+        #endregion Constructors
 
         /// <summary>
         /// Checks the value duplication.

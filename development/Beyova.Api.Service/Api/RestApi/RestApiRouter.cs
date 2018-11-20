@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Beyova.ApiTracking;
-using Beyova.Cache;
-using Beyova.ExceptionSystem;
-using Beyova.ProgrammingIntelligence;
+﻿using System.Linq;
 
 namespace Beyova.Api.RestApi
 {

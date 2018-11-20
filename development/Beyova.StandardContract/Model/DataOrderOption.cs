@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class DataOrderOption.
@@ -8,7 +6,7 @@ namespace Beyova
     public sealed class DataOrderOption
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public enum OrderMethod
         {

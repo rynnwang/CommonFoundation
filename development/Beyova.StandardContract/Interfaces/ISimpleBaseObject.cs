@@ -7,7 +7,7 @@ namespace Beyova
     /// </summary>
     public interface ISimpleBaseObject : IIdentifier
     {
-        #region Properties      
+        #region Properties
 
         /// <summary>
         /// Gets or sets the last updated stamp.
@@ -40,7 +40,6 @@ namespace Beyova
             get;
             set;
         }
-
 
         #endregion Properties
     }

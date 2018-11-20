@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Net;
-using System.IO;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Net;
 
 namespace Beyova.Http
 {
@@ -149,7 +149,7 @@ namespace Beyova.Http
         /// </value>
         public abstract HttpStatusCode ResponseStatusCode { get; set; }
 
-        #endregion
+        #endregion Abstract Properties
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpContextContainer{TRequest, TResponse}" /> class.

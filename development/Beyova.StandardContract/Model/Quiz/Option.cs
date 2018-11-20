@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Beyova.Quiz
+﻿namespace Beyova.Quiz
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Option
     {

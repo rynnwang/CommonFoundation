@@ -66,7 +66,7 @@ namespace Beyova.Azure
             if (meta != null && blobProperties != null)
             {
                 meta.Hash = blobProperties.ContentMD5;
-                meta.Mime = blobProperties.ContentType;
+                meta.ContentType = blobProperties.ContentType;
                 meta.Name = blobProperties.ContentDisposition.ConvertContentDispositionToName();
             }
         }
@@ -80,7 +80,7 @@ namespace Beyova.Azure
         {
             if (meta != null && blobProperties != null)
             {
-                blobProperties.ContentType = meta.Mime.SafeToString(HttpConstants.ContentType.BinaryDefault);
+                blobProperties.ContentType = meta.ContentType.SafeToString(HttpConstants.ContentType.BinaryDefault);
                 blobProperties.ContentDisposition = meta.Name?.ConvertNameToContentDisposition();
             }
         }

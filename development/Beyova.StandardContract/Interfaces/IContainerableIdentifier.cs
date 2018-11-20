@@ -1,7 +1,7 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IContainerableIdentifier : IContainerableIdentifier<string, string>
     {

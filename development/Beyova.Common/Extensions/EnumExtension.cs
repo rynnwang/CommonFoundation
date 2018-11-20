@@ -8,6 +8,20 @@ namespace Beyova
     public static class EnumExtension
     {
         /// <summary>
+        /// Determines whether [is valid integer value].
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="intValue">The int value.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid integer value] [the specified int value]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsValidIntegerValue<TEnum>(this int intValue)
+            where TEnum : struct, IConvertible
+        {
+            return typeof(TEnum).IsEnum && Enum.IsDefined(typeof(TEnum), intValue);
+        }
+
+        /// <summary>
         /// Gets the enum default value.
         /// </summary>
         /// <param name="type">The type.</param>

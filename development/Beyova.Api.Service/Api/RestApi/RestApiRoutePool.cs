@@ -9,7 +9,7 @@ using Beyova.ExceptionSystem;
 namespace Beyova.Api.RestApi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal static class RestApiRoutePool
     {

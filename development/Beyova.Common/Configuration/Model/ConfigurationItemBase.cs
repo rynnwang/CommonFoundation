@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public abstract class ConfigurationItemBase
     {

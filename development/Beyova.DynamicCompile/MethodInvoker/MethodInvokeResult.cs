@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Beyova.ExceptionSystem;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class MethodInvokeResult
     {

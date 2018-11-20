@@ -11,7 +11,7 @@ namespace Beyova
     /// </summary>
     public static class IOExtension
     {
-        #region  Stream
+        #region Stream
 
         /// <summary>
         /// Determines whether [is relative path] [the specified path].
@@ -61,7 +61,7 @@ namespace Beyova
             }
         }
 
-        #endregion
+        #endregion Stream
 
         #region IO
 
@@ -375,10 +375,32 @@ namespace Beyova
         /// To the hexadecimal.
         /// </summary>
         /// <param name="bytes">The bytes.</param>
-        /// <returns>System.String.</returns>
-        public static string ToHex(this byte[] bytes)
+        /// <param name="hasPrefix">if set to <c>true</c> [has prefix].</param>
+        /// <returns>
+        /// System.String.
+        /// </returns>
+        public static string ToHex(this byte[] bytes, bool hasPrefix = false)
         {
-            return bytes != null ? BitConverter.ToString(bytes).Replace("-", "") : string.Empty;
+            // It is the second implementation for converting byte array to string.
+            // http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa
+
+            if (bytes != null && bytes.Length > 0)
+            {
+                char[] c = new char[bytes.Length * 2];
+                int b;
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    b = bytes[i] >> 4;
+                    c[i * 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                    b = bytes[i] & 0xF;
+                    c[i * 2 + 1] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                }
+                var result = new string(c);
+
+                return hasPrefix ? ("0x" + result) : result;
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -553,7 +575,7 @@ namespace Beyova
 
         #endregion Bytes
 
-        #region Directory       
+        #region Directory
 
         /// <summary>
         /// Ensures the existence.

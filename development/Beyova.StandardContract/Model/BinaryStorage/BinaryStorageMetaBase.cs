@@ -1,4 +1,7 @@
-﻿namespace Beyova
+﻿using System;
+using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     /// Class BinaryStorageMetaData.
@@ -9,7 +12,19 @@
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// <remarks>
+        /// http://www.w3.org/wiki/Evolution/MIME
+        /// </remarks>
+        /// </summary>
+        /// <value>
+        /// The MIME.
+        /// </value>
+        [JsonProperty(PropertyName = "contentType")]
+        public string ContentType { get; set; }
 
         /// <summary>
         /// Gets or sets the MIME.
@@ -18,12 +33,15 @@
         /// </remarks>
         /// </summary>
         /// <value>The MIME.</value>
-        public string Mime { get; set; }
+        [JsonIgnore]
+        [Obsolete]
+        public string Mime { get { return ContentType; } set { ContentType = value; } }
 
         /// <summary>
         /// Gets or sets the length.
         /// </summary>
         /// <value>The length.</value>
+        [JsonProperty(PropertyName = "length")]
         public long? Length { get; set; }
 
         /// <summary>
@@ -31,6 +49,7 @@
         /// <remarks>It is used when storage is image or video.</remarks>
         /// </summary>
         /// <value>The width.</value>
+        [JsonProperty(PropertyName = "width")]
         public int? Width { get; set; }
 
         /// <summary>
@@ -38,6 +57,7 @@
         /// <remarks>It is used when storage is image or video.</remarks>
         /// </summary>
         /// <value>The height.</value>
+        [JsonProperty(PropertyName = "height")]
         public int? Height { get; set; }
 
         /// <summary>
@@ -45,6 +65,7 @@
         /// <remarks>It is used when storage is audio or video. Unit: second.</remarks>
         /// </summary>
         /// <value>The duration.</value>
+        [JsonProperty(PropertyName = "duration")]
         public int? Duration { get; set; }
 
         /// <summary>
@@ -57,7 +78,7 @@
             if (metaBase != null)
             {
                 this.Name = metaBase.Name;
-                this.Mime = metaBase.Mime;
+                this.ContentType = metaBase.ContentType;
                 this.Length = metaBase.Length;
                 this.Width = metaBase.Width;
                 this.Height = metaBase.Height;
@@ -70,7 +91,6 @@
         /// </summary>
         public BinaryStorageMetaBase() : this(null)
         {
-
         }
 
         /// <summary>

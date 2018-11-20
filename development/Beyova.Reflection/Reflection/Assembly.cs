@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Beyova.ProgrammingIntelligence;
 
 namespace Beyova
 {
@@ -51,10 +50,6 @@ namespace Beyova
         }
 
         #endregion PropertyInfoEquailtyComparer
-
-        #region Constant
-
-        #endregion Constant
 
         /// <summary>
         /// The generic regex

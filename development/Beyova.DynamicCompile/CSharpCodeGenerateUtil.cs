@@ -40,7 +40,7 @@ namespace Beyova
             return name;
         }
 
-        #endregion
+        #endregion ReformatVariableName
 
         /// <summary>
         /// The variable specification regex. Start with _ or alphabet, and _+alphabet+numeric
@@ -305,14 +305,7 @@ namespace Beyova
         /// <param name="genericTypes">The generic types.</param>
         /// <param name="inputParameters">The input parameters.</param>
         /// <returns></returns>
-#if DEBUG
-
-        public
-#else
-
-        internal
-#endif
-            static string ToInvokeCodeLook(this MethodInfo methodInfo, Type[] genericTypes, ParameterInfo[] inputParameters)
+        public static string ToInvokeCodeLook(this MethodInfo methodInfo, Type[] genericTypes, ParameterInfo[] inputParameters)
         {
             return ToInvokeCodeLook(methodInfo, genericTypes, inputParameters.Select(x => x.Name).ToArray());
         }
@@ -324,13 +317,7 @@ namespace Beyova
         /// <param name="genericTypes">The generic types.</param>
         /// <param name="inputParameterNames">The input parameter names.</param>
         /// <returns></returns>
-#if DEBUG
-
-        public
-#else
-        internal
-#endif
-            static string ToInvokeCodeLook(this MethodInfo methodInfo, Type[] genericTypes, string[] inputParameterNames)
+        public static string ToInvokeCodeLook(this MethodInfo methodInfo, Type[] genericTypes, string[] inputParameterNames)
         {
             if (methodInfo != null)
             {

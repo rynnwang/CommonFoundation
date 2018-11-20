@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal class ConfigurationRawItemAccessController : BaseDataAccessController<ConfigurationRawItem>
     {

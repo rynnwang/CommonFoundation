@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.AspNet
+namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class JsonNetValueProviderFactory : ValueProviderFactory
     {

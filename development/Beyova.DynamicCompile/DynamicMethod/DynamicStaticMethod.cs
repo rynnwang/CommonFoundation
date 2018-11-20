@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Beyova.ExceptionSystem;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class DynamicStaticMethod
     {
@@ -76,7 +73,6 @@ namespace Beyova
 
                 TempAssemblyProvider provider = new TempAssemblyProvider();
                 var tempAssembly = provider.CreateTempAssembly(generatedCode.AsArray());
-
 
                 type = ReflectionExtension.SmartGetType(string.Format("{0}.DynamicStatiClass{1}", _namespace, tmpId));
                 type.CheckNullObjectAsInvalid(nameof(options), data: new { options, generatedCode, tmpId });

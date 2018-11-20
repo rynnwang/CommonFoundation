@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Beyova.VirtualSecuredTransferProtocol
+﻿namespace Beyova.VirtualSecuredTransferProtocol
 {
     /// <summary>
     /// Class VirtualSecuredRequestRawMessage stands for the RSA-decrpted raw message object for request.

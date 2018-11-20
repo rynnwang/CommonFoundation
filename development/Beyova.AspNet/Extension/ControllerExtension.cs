@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using Beyova.Api.RestApi;
 using Beyova.ExceptionSystem;
@@ -9,7 +6,7 @@ using Beyova.ExceptionSystem;
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class ControllerExtension
     {
@@ -23,6 +20,21 @@ namespace Beyova.Web
         {
             ApiHandlerBase<HttpRequestBase, HttpResponseBase>.PackageResponse(
                 new HttpBaseApiContextContainer(controller.Request, controller.Response), data, null, ex);
+        }
+
+        /// <summary>
+        /// Jsons the net.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
+        public static JsonNetResult JsonNet(this Controller controller, object obj)
+        {
+            return new JsonNetResult
+            {
+                Data = obj,
+                ContentType = HttpConstants.ContentType.Json
+            };
         }
     }
 }

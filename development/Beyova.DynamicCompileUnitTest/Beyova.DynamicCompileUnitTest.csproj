@@ -8,8 +8,9 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Beyova.DynamicCompileUnitTest</RootNamespace>
     <AssemblyName>Beyova.DynamicCompileUnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beyova.Aop.Framework4.6.2\Beyova.Aop.Framework4.6.2.csproj">
+      <Project>{81f89c6e-328c-49e2-bbae-d3e5a9f22674}</Project>
+      <Name>Beyova.Aop.Framework4.6.2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beyova.Common.Framework4.6.2\Beyova.Common.Framework4.6.2.csproj">
+      <Project>{eca11a30-d8b6-40e1-a896-62cbfff66e36}</Project>
+      <Name>Beyova.Common.Framework4.6.2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using Beyova.ExceptionSystem;
 
 namespace Beyova
 {
@@ -50,7 +48,7 @@ namespace Beyova
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -187,6 +185,6 @@ namespace Beyova
             return new CurrencyAmount { Amount = amount, Currency = "TRY", Symbol = '₺' };
         }
 
-        #endregion
+        #endregion Create CURRENCY
     }
 }

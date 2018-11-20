@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.Api
+﻿namespace Beyova.Api
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class ApiRouterExtensionFeature
     {

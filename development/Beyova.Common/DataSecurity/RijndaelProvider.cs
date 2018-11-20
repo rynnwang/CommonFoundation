@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class RijndaelProvider : IDisposable
     {

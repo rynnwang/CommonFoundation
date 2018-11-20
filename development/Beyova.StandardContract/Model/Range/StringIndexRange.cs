@@ -1,7 +1,7 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class StringIndexRange : Range<int>
     {

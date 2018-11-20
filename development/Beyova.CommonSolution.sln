@@ -161,6 +161,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aop.Framework4.6.2",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFramework.UnitTest", "Beyova.CommonFramework.UnitTest\Beyova.CommonFramework.UnitTest.csproj", "{271FC1DC-3A3C-46AA-8B0F-640A4A765481}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.BinaryStorageHelper", "Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.shproj", "{AE544BC1-1A61-49C0-A866-D8D19194CC4E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.projitems*{0279b826-a639-42fa-8429-01840deef360}*SharedItemsImports = 13
@@ -196,12 +198,14 @@ Global
 		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{7be4fa48-62e5-4af2-a2f9-ea5cf26f9b9c}*SharedItemsImports = 13
 		Beyova.Aop\Beyova.Aop.projitems*{81f89c6e-328c-49e2-bbae-d3e5a9f22674}*SharedItemsImports = 4
 		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{936d9664-0d54-41a9-807e-000ad33ade4d}*SharedItemsImports = 13
+		Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.projitems*{93d25c54-75e9-40b2-ae07-4a047a5114ad}*SharedItemsImports = 4
 		Beyova.CommandLine.Windows\Beyova.CommandLine.Windows.projitems*{959412a5-161e-45fb-8c5f-4b6d037bc1f2}*SharedItemsImports = 13
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{9c62d919-9235-4e90-ba1f-708726bb01de}*SharedItemsImports = 13
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{9cafb893-cef7-4438-9d26-e959141951cf}*SharedItemsImports = 13
 		Beyova.MachineLearning.Kit\Beyova.MachineLearning.Kit.projitems*{9d4a1c9c-f343-46ed-ba95-cf66a78d71a7}*SharedItemsImports = 13
 		Beyova.AspNet\Beyova.AspNet.projitems*{a0bbbeab-9a29-45d8-9e83-7924df6beb72}*SharedItemsImports = 13
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{a153c9de-958e-4628-a156-f4a74f93064a}*SharedItemsImports = 13
+		Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.projitems*{ae544bc1-1a61-49c0-a866-d8d19194cc4e}*SharedItemsImports = 13
 		Beyova.Common\Beyova.Common.projitems*{b50ceaf8-c299-4ea2-9a38-2f0ff6a0354a}*SharedItemsImports = 13
 		Beyova.Reflection\Beyova.Reflection.projitems*{b52bd1bf-8679-4945-bef8-0c4d7d6fdb71}*SharedItemsImports = 13
 		Beyova.SqlConfiguration\Beyova.SqlConfiguration.projitems*{bcc93c80-68bb-41cd-82a9-1f946106292b}*SharedItemsImports = 4
@@ -229,6 +233,7 @@ Global
 		Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Gravity\Beyova.Gravity.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Http\Beyova.Http.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
+		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Reflection\Beyova.Reflection.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Server\Beyova.Server.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
@@ -418,6 +423,7 @@ Global
 		{EF8E002C-7D98-4C83-8E26-6A8092D1FB88} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{271FC1DC-3A3C-46AA-8B0F-640A4A765481} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
+		{AE544BC1-1A61-49C0-A866-D8D19194CC4E} = {12871993-A575-4CD7-83E4-B114957C1431}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}

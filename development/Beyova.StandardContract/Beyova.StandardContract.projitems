@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BaseObjectExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ContractModelExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EntityInterfaceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ApiTracking\IApiTrackingRawDateReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ApiTracking\IApiAnalytics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ApiTracking\IApiTracking.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ApiTracking\IGroupByResult.cs" />
@@ -24,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\BooleanSearch\IRelationshipOperatorComputable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAccessClientIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuditBaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStampCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRowId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStringConvertable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameObject.cs" />

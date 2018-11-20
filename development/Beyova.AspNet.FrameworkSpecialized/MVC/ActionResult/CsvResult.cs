@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using System.Xml.Linq;
-using System.Xml.Serialization;
+﻿using System.Web.Mvc;
 
 namespace Beyova.Web
 {
@@ -22,7 +15,7 @@ namespace Beyova.Web
         /// <value>The data.</value>
         public string Data { get; set; }
 
-        #endregion
+        #endregion Property
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CsvResult"/> class.

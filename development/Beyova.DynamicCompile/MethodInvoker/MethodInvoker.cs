@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Beyova.ExceptionSystem;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class MethodInvoker
     {
@@ -45,7 +44,6 @@ namespace Beyova
         {
             return _method.InvokeMethod(null, parameters);
         }
-
 
         /// <summary>
         /// Gets the parameter requirements.

@@ -6,13 +6,9 @@
 //{
 //    public class StringFormatCompiler
 //    {
-
-
 //        public StringFormatCompiler(string stringFormat)
 //        {
-
 //        }
-
 
 //    }
 //}

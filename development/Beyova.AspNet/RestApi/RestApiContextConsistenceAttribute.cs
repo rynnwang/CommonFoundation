@@ -18,11 +18,50 @@ namespace Beyova.Web
     /// <list type="number">
     /// <item><c>Token</c>, <c>User-Agent</c> and <c>IP address</c> would be initialized in <see cref="ContextHelper"/></item>
     /// <item><c>Exception</c>, <c>API Event</c> and <c>API Trace</c> would be handled.</item>
-    /// </list> 
+    /// </list>
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class RestApiContextConsistenceAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="baseException">The base exception.</param>
+        /// <returns></returns>
+        public delegate RouteValueDictionary GetUnauthenticationRedirectionDelegate(ExceptionInfo baseException);
+
+        /// <summary>
+        /// The redirect route value
+        /// </summary>
+        private static GetUnauthenticationRedirectionDelegate getUnauthenticationRedirection = DefaultGetUnauthenticationRedirection;
+
+        /// <summary>
+        /// Defaults the get unauthentication redirection.
+        /// </summary>
+        /// <param name="baseException">The base exception.</param>
+        /// <returns></returns>
+        private static RouteValueDictionary DefaultGetUnauthenticationRedirection(ExceptionInfo baseException)
+        {
+            return new RouteValueDictionary{
+                {"controller", "Error"},
+                {"action", "Index"},
+                {"code", 401},
+                {"minor", baseException.Code.Minor},
+                {"message", baseException.Message}
+            };
+        }
+
+        /// <summary>
+        /// Sets the get unauthentication redirection.
+        /// </summary>
+        /// <value>
+        /// The get unauthentication redirection.
+        /// </value>
+        internal static GetUnauthenticationRedirectionDelegate GetUnauthenticationRedirection
+        {
+            set { getUnauthenticationRedirection = value ?? getUnauthenticationRedirection; }
+        }
+
         /// <summary>
         /// Gets or sets the API tracking.
         /// </summary>
@@ -75,11 +114,11 @@ namespace Beyova.Web
         /// </summary>
         /// <param name="settingName">Name of the setting.</param>
         public RestApiContextConsistenceAttribute(string settingName = null)
-            : this(RestApiSettingPool.GetRestApiSettingByName(settingName, false))
+            : this(RestApiSettingPool.GetRestApiSettingByName(settingName, true))
         {
         }
 
-        #endregion
+        #endregion Constructor
 
         /// <summary>
         /// Called when [result executed].
@@ -213,7 +252,7 @@ namespace Beyova.Web
 
                 if (tokenRequired)
                 {
-                    if (!ContextHelper.IsUser)
+                    if (ContextHelper.CurrentCredential == null)
                     {
                         var baseException = (new UnauthorizedTokenException(ContextHelper.Token)).Handle(
                        filterContext.HttpContext.Request.ToExceptionScene(filterContext.RouteData?.GetControllerName()), data: new { filterContext.HttpContext.Request.RawUrl });
@@ -251,14 +290,7 @@ namespace Beyova.Web
             }
             else
             {
-                filterContext.Result = new RedirectToRouteResult(routeValues: new RouteValueDictionary
-                {
-                    {"controller", "Error"},
-                    {"action", "Index"},
-                    {"code", 401},
-                    {"minor", baseException.Code.Minor},
-                    {"message", baseException.Message}
-                });
+                filterContext.Result = new RedirectToRouteResult(routeValues: getUnauthenticationRedirection.Invoke(baseException?.ToExceptionInfo()));
             }
         }
 

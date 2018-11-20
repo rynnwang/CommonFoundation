@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class CountableLoopEnumerator<T> : LoopEnumerator<T>
@@ -44,7 +43,9 @@ namespace Beyova
             _counter = new List<int>();
         }
 
-        #endregion      
+        #endregion Constructor
+
+
 
         /// <summary>
         /// Gets the current count.

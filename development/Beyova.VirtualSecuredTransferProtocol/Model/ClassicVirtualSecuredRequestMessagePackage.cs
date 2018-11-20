@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
 
 namespace Beyova.VirtualSecuredTransferProtocol
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ClassicVirtualSecuredRequestMessagePackage<T>

@@ -449,7 +449,7 @@ namespace Beyova.Azure
                         {
                             Container = containerName,
                             Identifier = i.Name,
-                            Mime = i.Properties.ContentType,
+                            ContentType = i.Properties.ContentType,
                             Name = i.Properties.ContentDisposition.ConvertContentDispositionToName(),
                             Length = i.Properties.Length,
                             Hash = i.Properties.ContentMD5
@@ -483,7 +483,7 @@ namespace Beyova.Azure
                     Hash = blob.Properties.ContentMD5,
                     Length = blob.Properties.Length,
                     Name = blob.Properties.ContentDisposition,
-                    Mime = blob.Properties.ContentType
+                    ContentType = blob.Properties.ContentType
                 };
             }
             catch (Exception ex)
@@ -613,7 +613,7 @@ namespace Beyova.Azure
                 blobUri.CheckEmptyString(nameof(blobUri));
                 stream.CheckNullObject(nameof(stream));
 
-                var metaData = new BinaryStorageMetaData { Mime = contentType.SafeToString(HttpConstants.ContentType.BinaryDefault), Name = fileName };
+                var metaData = new BinaryStorageMetaData { ContentType = contentType.SafeToString(HttpConstants.ContentType.BinaryDefault), Name = fileName };
                 var blob = new CloudBlockBlob(new Uri(blobUri));
                 blob.Properties.FillMeta(metaData);
 

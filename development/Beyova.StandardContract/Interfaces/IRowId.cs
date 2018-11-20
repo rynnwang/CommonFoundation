@@ -3,7 +3,7 @@
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IRowId
     {

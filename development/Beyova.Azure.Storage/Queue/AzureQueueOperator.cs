@@ -1,5 +1,4 @@
-﻿using System;
-using Beyova.Api;
+﻿using Beyova.Api;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -7,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 namespace Beyova.Azure
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <seealso cref="Beyova.IQueueOperator{T}" />

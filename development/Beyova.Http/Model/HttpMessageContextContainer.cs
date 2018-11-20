@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.IO.Compression;
+using System.Net.Http;
 
 namespace Beyova.Http
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class HttpMessageContextContainer : HttpContextContainer<HttpRequestMessage, HttpResponseMessage>
     {
@@ -237,7 +236,7 @@ namespace Beyova.Http
                 cookieMatrix.TryGetValue(cookieKey, out result);
             }
 
-            return result;
+            return result?.Select(x => x.ToUrlDecodedText());
         }
 
         /// <summary>

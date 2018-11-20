@@ -13,32 +13,6 @@ namespace Beyova
     /// </summary>
     public static class CommonExtension
     {
-        /// <summary>
-        /// To the hexadecimal string.
-        /// </summary>
-        /// <param name="byteArray">The byte array.</param>
-        /// <returns></returns>
-        public static string ToHexString(this byte[] byteArray)
-        {
-            if (byteArray.HasItem())
-            {
-                if (byteArray.Length == 1)
-                {
-                    return byteArray[0].ToString("x2");
-                }
-
-                StringBuilder hex = new StringBuilder(byteArray.Length * 2 + 2);
-                hex.Append("0x");
-                foreach (byte b in byteArray)
-                {
-                    hex.AppendFormat("{0:x2}", b);
-                }
-                return hex.ToString();
-            }
-
-            return string.Empty;
-        }
-
         #region Or + And
 
         /// <summary>
@@ -366,8 +340,6 @@ namespace Beyova
 
         #region Type Convert Extensions
 
-
-
         /// <summary>
         /// To the int32.
         /// </summary>
@@ -453,10 +425,46 @@ namespace Beyova
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="intValue">The int value.</param>
+        /// <param name="defaultEnumIfValueIsInvalid">The default enum if value is invalid.</param>
+        /// <returns></returns>
+        public static T Int32ToEnum<T>(this int intValue, T defaultEnumIfValueIsInvalid) where T : struct, IConvertible
+        {
+            return intValue.IsValidIntegerValue<T>() ? intValue.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
+        }
+
+        /// <summary>
+        /// Int32s to enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="intValue">The int value.</param>
         /// <returns>System.Nullable&lt;T&gt;.</returns>
         public static T? Int32ToEnum<T>(this int? intValue) where T : struct, IConvertible
         {
             return intValue.HasValue ? (T?)Enum.ToObject(typeof(T), intValue) : null;
+        }
+
+        /// <summary>
+        /// Int32s to enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="intValue">The int value.</param>
+        /// <param name="defaultEnumIfValueIsInvalid">The default enum if value is invalid.</param>
+        /// <returns></returns>
+        public static T? Int32ToEnum<T>(this int? intValue, T? defaultEnumIfValueIsInvalid) where T : struct, IConvertible
+        {
+            return (intValue.HasValue && intValue.Value.IsValidIntegerValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
+        }
+
+        /// <summary>
+        /// Int32s to enum.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="intValue">The int value.</param>
+        /// <param name="defaultEnumIfValueIsInvalid">The default enum if value is invalid.</param>
+        /// <returns></returns>
+        public static T Int32ToEnum<T>(this int? intValue, T defaultEnumIfValueIsInvalid) where T : struct, IConvertible
+        {
+            return (intValue.HasValue && intValue.Value.IsValidIntegerValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
         }
 
         /// <summary>

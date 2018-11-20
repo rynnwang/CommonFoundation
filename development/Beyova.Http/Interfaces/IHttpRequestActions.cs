@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.Http
+﻿namespace Beyova.Http
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IHttpRequestActions
     {

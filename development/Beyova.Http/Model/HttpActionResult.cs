@@ -4,7 +4,7 @@ using System.Net;
 namespace Beyova.Http
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class HttpActionResult<T>

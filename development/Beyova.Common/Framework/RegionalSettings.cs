@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class RegionalOptions
     {

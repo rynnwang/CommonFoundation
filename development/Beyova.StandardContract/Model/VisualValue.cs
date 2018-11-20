@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class VisualValue
     {

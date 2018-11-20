@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [JsonConverter(typeof(CellphoneNumberConverter))]
     public class CellphoneNumber : INational, IStringConvertable
@@ -73,7 +71,7 @@ namespace Beyova
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -104,7 +102,7 @@ namespace Beyova
                 {
                     return new CellphoneNumber
                     {
-                        NationCode = match.Result("${NationCode}").SafeToString(defaultNationCode).Trim(),
+                        NationCode = match.Result("${NationCode}").SafeToString(defaultNationCode)?.Trim(),
                         Number = match.Result("${Number}").Replace(new char[] { '-', ' ', '\t' }, StringConstants.EmptyChar)
                     };
                 }
@@ -141,6 +139,6 @@ namespace Beyova
             return cellphoneNumber.ToFullCellphoneNumber();
         }
 
-        #endregion
+        #endregion static
     }
 }

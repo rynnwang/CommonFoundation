@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 
 namespace Beyova.DocumentBot
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     internal class ApiHttpStatusDescription
     {

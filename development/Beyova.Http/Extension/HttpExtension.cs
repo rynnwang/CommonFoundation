@@ -40,7 +40,7 @@ namespace Beyova
             return url;
         }
 
-        #endregion
+        #endregion Ensure protocol
 
         #region CreateHttpWebRequest
 
@@ -336,7 +336,7 @@ namespace Beyova
             return null;
         }
 
-        #endregion
+        #endregion HttpRawMessage
 
         #region Basic http Authorization
 
@@ -351,7 +351,7 @@ namespace Beyova
         private static readonly char[] basicAuthorizationSeparator = new char[] { ':' };
 
         /// <summary>
-        /// Gets the basic authentication. 
+        /// Gets the basic authentication.
         /// </summary>
         /// <param name="basicAuthorizationValue">The basic authorization value. E.g.: Basic iiwjke=</param>
         /// <returns></returns>
@@ -384,28 +384,7 @@ namespace Beyova
             }
         }
 
-        #endregion
-
-        /// <summary>
-        /// To the key value string.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="needUrlEncode">if set to <c>true</c> [need URL encode]. Using <c>HttpUtility.UrlEncode</c> inside for encoding.</param>
-        /// <returns>System.String.</returns>
-        public static string ToKeyValueStringWithUrlEncode(this IDictionary<string, string> parameters, bool needUrlEncode = true)
-        {
-            var builder = new StringBuilder();
-
-            if (parameters != null && parameters.Count > 0)
-            {
-                foreach (var one in parameters)
-                {
-                    builder.AppendFormat("{0}={1}&", needUrlEncode ? one.Key.ToUrlEncodedText() : one.Key, needUrlEncode ? one.Value.ToUrlEncodedText() : one.Value);
-                }
-            }
-
-            return builder.ToString().TrimEnd('&');
-        }
+        #endregion Basic http Authorization
 
         /// <summary>
         /// Parses to dictonary.
@@ -525,6 +504,25 @@ namespace Beyova
         public static NameValueCollection ToQueryString(this Uri uri)
         {
             return ParseToNameValueCollection(uri?.Query, '&', EncodingOrSecurityExtension.ToUrlDecodedText);
+        }
+
+        /// <summary>
+        /// Updates the query string.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <param name="updateActions">The update actions.</param>
+        /// <returns></returns>
+        public static Uri UpdateQueryString(this Uri uri, Action<Dictionary<string, string>> updateActions)
+        {
+            if (uri != null && updateActions != null)
+            {
+                var parameters = uri.Query.ParseToDictonary();
+                updateActions(parameters);
+
+                return new Uri(string.Format("{0}?{1}", uri.ToString().SubStringBeforeFirstMatch('?'), parameters.ToKeyValuePairString(encodeKeyValue: true)));
+            }
+
+            return uri;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -66,16 +67,28 @@ namespace Beyova
         /// <value>The name of the product.</value>
         public static string ProductName { get; private set; }
 
+        // public static ReadOnlyCollection<Assembly> DescendingAssemblyDependencyChain;
+
         /// <summary>
         /// The descending assembly dependency chain. Descending here means order by referenced amount.
         /// So result would be like: web -> core -> contract - > common -> json.net, etc.
         /// </summary>
-        internal static List<Assembly> DescendingAssemblyDependencyChain;
+        public static ReadOnlyCollection<Assembly> DescendingAssemblyDependencyChain { get { return _descendingAssemblyDependencyChain; } }
+
+        /// <summary>
+        /// The descending assembly dependency chain
+        /// </summary>
+        static ReadOnlyCollection<Assembly> _descendingAssemblyDependencyChain;
 
         /// <summary>
         /// The ascending assembly dependency chain
         /// </summary>
-        internal static List<Assembly> AscendingAssemblyDependencyChain;
+        public static ReadOnlyCollection<Assembly> AscendingAssemblyDependencyChain { get { return _ascendingAssemblyDependencyChain; } }
+
+        /// <summary>
+        /// The ascending assembly dependency chain
+        /// </summary>
+        static ReadOnlyCollection<Assembly> _ascendingAssemblyDependencyChain;
 
         /// <summary>
         /// Gets the entry assembly.
@@ -125,9 +138,12 @@ namespace Beyova
             LogDirectory = Path.Combine(ApplicationBaseDirectory, "logs");
             ApplicationId = System.AppDomain.CurrentDomain.Id;
 
-            DescendingAssemblyDependencyChain = ReflectionExtension.GetAppDomainAssemblies().GetAssemblyDependencyChain(true);
-            AscendingAssemblyDependencyChain = new List<Assembly>(DescendingAssemblyDependencyChain);
-            DescendingAssemblyDependencyChain.Reverse();
+            var dependencyChain = ReflectionExtension.GetAppDomainAssemblies().GetAssemblyDependencyChain(true);
+            _ascendingAssemblyDependencyChain = new List<Assembly>(dependencyChain).AsReadOnly();
+            dependencyChain.Reverse();
+
+            _descendingAssemblyDependencyChain = dependencyChain.AsReadOnly();
+
 
             foreach (var one in DescendingAssemblyDependencyChain)
             {

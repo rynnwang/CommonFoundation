@@ -1,14 +1,16 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ContainerableIdentifier : ContainerableIdentifier<string, string>
     {
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TContainer">The type of the container.</typeparam>
     /// <typeparam name="TIndentifier">The type of the indentifier.</typeparam>
@@ -18,12 +20,14 @@
         /// Gets or sets the container.
         /// </summary>
         /// <value>The container.</value>
+        [JsonProperty(PropertyName = "container")]
         public TContainer Container { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        [JsonProperty(PropertyName = "identifier")]
         public TIndentifier Identifier { get; set; }
 
         /// <summary>

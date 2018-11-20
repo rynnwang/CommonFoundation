@@ -21,7 +21,5 @@ namespace Beyova.DynamicModel
         /// The name.
         /// </value>
         public string Name { get; set; }
-
-
     }
 }

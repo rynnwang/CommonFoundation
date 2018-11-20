@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text;
 using Beyova.Api;
 using Beyova.Api.RestApi;
-using Beyova.ProgrammingIntelligence;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_QueryException.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogException.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiEvent.sql" />
     <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ApiMessage.sql" />

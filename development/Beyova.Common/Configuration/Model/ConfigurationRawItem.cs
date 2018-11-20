@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class ConfigurationRawItem. It maps to raw configuration values from file/db/...

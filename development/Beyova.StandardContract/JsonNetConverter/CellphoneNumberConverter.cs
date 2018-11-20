@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class CellphoneNumberConverter : JsonConverter
     {

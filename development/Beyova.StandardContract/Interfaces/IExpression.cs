@@ -1,7 +1,7 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TItemLeft">The type of the item left.</typeparam>
     /// <typeparam name="TItemRight">The type of the item right.</typeparam>

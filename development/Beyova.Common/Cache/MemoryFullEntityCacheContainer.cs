@@ -7,7 +7,7 @@ using Beyova.ExceptionSystem;
 namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     public class MemoryFullEntityCacheContainer<TEntity> : MemoryFullEntityCacheContainer<Guid, TEntity>

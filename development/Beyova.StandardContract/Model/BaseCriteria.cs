@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TStartIndex">The type of the start index.</typeparam>
     public abstract class BaseCriteria<TStartIndex> : BaseCriteria
@@ -22,7 +22,6 @@ namespace Beyova
         /// </summary>
         public BaseCriteria() : base()
         {
-
         }
     }
 

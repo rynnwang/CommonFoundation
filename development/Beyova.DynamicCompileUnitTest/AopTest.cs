@@ -56,7 +56,7 @@ namespace Beyova.DynamicCompileUnitTest._Aop
         {
             try
             {
-                var proxy = Beyova.AOP.AopProxyFactory.AsAopInterfaceProxy<TestClass>(new TestClass(), new Beyova.AOP.MethodInjectionDelegates
+                var proxy = Beyova.AOP.AopProxyFactory.AsAopInterfaceProxy<TestClass>(new TestClass(), new MethodInjectionDelegates
                 {
                     MethodInvokingEvent = (x) =>
                     {

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class FlexibleSelectOption<T>
@@ -28,7 +27,7 @@ namespace Beyova
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class FlexibleSelectOption : FlexibleSelectOption<Int32>
     {

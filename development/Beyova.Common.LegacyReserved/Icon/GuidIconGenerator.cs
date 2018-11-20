@@ -22,7 +22,7 @@ namespace Beyova.Web
         /// </summary>
         int unitSquareSize;
 
-        #endregion
+        #endregion Fields
 
         #region Costructor
 
@@ -56,7 +56,7 @@ namespace Beyova.Web
             Initialize(_iconSize, unitSquareSize);
         }
 
-        #endregion
+        #endregion Costructor
 
         #region Public methods
 
@@ -78,11 +78,10 @@ namespace Beyova.Web
             bool[] points;
             var iconSize = GetFactor(guid, out color, out symmetry, out points);
 
-
             return GenerateIcon(guid, symmetry, unitSquareSize);
         }
 
-        #endregion
+        #endregion Public methods
 
         #region Guid to factor
 
@@ -120,12 +119,16 @@ namespace Beyova.Web
             {
                 case IconSymmetry.Vertical:
                     break;
+
                 case IconSymmetry.Horizontal:
                     break;
+
                 case IconSymmetry.LeftDiagonal:
                     break;
+
                 case IconSymmetry.RightDiagonal:
                     break;
+
                 default:
                     break;
             }
@@ -133,7 +136,7 @@ namespace Beyova.Web
             return result;
         }
 
-        #endregion
+        #endregion Guid to factor
 
         /// <summary>
         /// Initializes the specified icon size.
@@ -160,7 +163,6 @@ namespace Beyova.Web
         /// <returns>Bitmap.</returns>
         private Bitmap GenerateIcon(Guid guid, IconSymmetry symmetry, int unitSquareSize)
         {
-
             bool[,] imagePoints = GetPoints(guid, symmetry);
             Color color = GetColorByGuid(guid);
 
@@ -238,19 +240,22 @@ namespace Beyova.Web
             {
                 case IconSymmetry.Vertical:
                     break;
+
                 case IconSymmetry.Horizontal:
                     break;
+
                 case IconSymmetry.LeftDiagonal:
                     break;
+
                 case IconSymmetry.RightDiagonal:
                     break;
+
                 default:
                     break;
             }
 
             return result;
         }
-
 
         /// <summary>
         /// Draws the icon.
@@ -393,14 +398,19 @@ namespace Beyova.Web
             {
                 case 1:
                     return Color.FromArgb(alpha, iMid, iMax, iMin);
+
                 case 2:
                     return Color.FromArgb(alpha, iMin, iMax, iMid);
+
                 case 3:
                     return Color.FromArgb(alpha, iMin, iMid, iMax);
+
                 case 4:
                     return Color.FromArgb(alpha, iMid, iMin, iMax);
+
                 case 5:
                     return Color.FromArgb(alpha, iMax, iMin, iMid);
+
                 default:
                     return Color.FromArgb(alpha, iMax, iMid, iMin);
             }

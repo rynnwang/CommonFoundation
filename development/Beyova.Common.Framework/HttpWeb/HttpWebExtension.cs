@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Web;
 
 namespace Beyova.Http
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class HttpWebExtension
     {

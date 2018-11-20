@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using Newtonsoft.Json.Linq;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class DefaultDataSecurityProvider

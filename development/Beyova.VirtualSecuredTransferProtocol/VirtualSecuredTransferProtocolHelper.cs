@@ -230,7 +230,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
             }
         }
 
-        #endregion
+        #endregion VirtualSecuredRequestRawMessage <-> Bytes
 
         #region VirtualSecuredResponseRawMessage <-> Bytes
 
@@ -316,7 +316,9 @@ namespace Beyova.VirtualSecuredTransferProtocol
             }
         }
 
-        #endregion        
+        #endregion VirtualSecuredResponseRawMessage <-> Bytes
+
+
 
         /// <summary>
         /// Validates the stamp.

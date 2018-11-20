@@ -7,7 +7,6 @@ using Beyova.Api;
 using Beyova.ApiTracking;
 using Beyova.ExceptionSystem;
 
-
 namespace Beyova
 {
     /// <summary>

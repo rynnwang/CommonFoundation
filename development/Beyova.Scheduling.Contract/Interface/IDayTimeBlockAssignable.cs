@@ -3,7 +3,7 @@
 namespace Beyova.Scheduling
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IDayTimeBlockAssignable : ICloneable
     {

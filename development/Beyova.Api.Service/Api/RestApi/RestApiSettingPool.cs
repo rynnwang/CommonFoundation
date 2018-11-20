@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Beyova.ApiTracking;
-using Beyova.Cache;
-using Beyova.ExceptionSystem;
 
 namespace Beyova.Api.RestApi
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class RestApiSettingPool
     {

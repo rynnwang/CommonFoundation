@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using Beyova.ExceptionSystem;
-
-namespace Beyova.VirtualSecuredTransferProtocol
+﻿namespace Beyova.VirtualSecuredTransferProtocol
 {
     /// <summary>
     /// class VirtualSecuredTransferProtocolConstants
@@ -15,6 +9,5 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// The header key client identifier. GMID = Gravity member ID
         /// </summary>
         public const string headerKey_ClientId = "X-BA-GMID";
-
     }
 }

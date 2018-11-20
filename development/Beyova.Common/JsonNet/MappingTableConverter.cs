@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -80,13 +77,16 @@ namespace Beyova
                         case propertyName_CaseSensitive:
                             caseSensitive = reader.ReadAsBoolean();
                             break;
+
                         case propertyName_ValueUnique:
                             valueUnique = reader.ReadAsBoolean();
                             break;
+
                         case propertyName_Items:
                             reader.Read();
                             items = reader.ReadAsArray();
                             break;
+
                         default:
                             break;
                     }

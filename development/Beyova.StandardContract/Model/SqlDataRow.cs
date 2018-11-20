@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Beyova.ExceptionSystem;
-
-namespace Beyova
+﻿namespace Beyova
 {
     /// <summary>
     /// Class SqlDataRow.

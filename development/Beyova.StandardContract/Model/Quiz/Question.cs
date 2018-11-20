@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Beyova.Quiz
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TRealm">The type of the realm.</typeparam>
     public abstract class Question<TRealm> : Question
@@ -19,7 +19,7 @@ namespace Beyova.Quiz
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Question : IIdentifier
     {

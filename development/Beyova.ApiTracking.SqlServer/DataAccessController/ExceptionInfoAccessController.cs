@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using Beyova;
 using Beyova.ExceptionSystem;
 
 namespace Beyova.ApiTracking.SqlServer
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ExceptionInfoAccessController : ApiLogBaseAccessController<ExceptionInfo>
     {
@@ -87,7 +84,6 @@ namespace Beyova.ApiTracking.SqlServer
 
         #endregion Constructor
 
-
         /// <summary>
         /// Logs the exception.
         /// </summary>
@@ -128,6 +124,45 @@ namespace Beyova.ApiTracking.SqlServer
             catch (Exception ex)
             {
                 throw ex.Handle(new { exceptionInfo });
+            }
+        }
+
+        /// <summary>
+        /// Queries the exception.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
+        public List<ExceptionInfo> QueryException(ExceptionCriteria criteria)
+        {
+            const string spName = "sp_QueryException";
+
+            try
+            {
+                criteria.CheckNullObject(nameof(criteria));
+
+                var parameters = new List<SqlParameter>
+                {
+                    this.GenerateSqlSpParameter(column_Key,criteria.Key),
+                    this.GenerateSqlSpParameter(column_MajorCode,criteria.MajorCode.EnumToInt32()),
+                    this.GenerateSqlSpParameter(column_MinorCode, criteria.MinorCode),
+                    this.GenerateSqlSpParameter(column_ServiceIdentifier, criteria.ServiceIdentifier),
+                    this.GenerateSqlSpParameter(column_ServerIdentifier, criteria.ServerIdentifier),
+                    this.GenerateSqlSpParameter(column_ServerHost, criteria.ServerHost),
+                    this.GenerateSqlSpParameter(column_RawUrl, criteria.RawUrl),
+                    this.GenerateSqlSpParameter(column_ExceptionType, criteria.ExceptionType),
+                    this.GenerateSqlSpParameter(column_EventKey, criteria.EventKey),
+                    this.GenerateSqlSpParameter(column_Keyword, criteria.Keyword),
+                    this.GenerateSqlSpParameter(column_OperatorCredential, criteria.OperatorCredential),
+                    this.GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
+                    this.GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp),
+                    this.GenerateSqlSpParameter(column_Count, criteria.Count)
+                };
+
+                return this.ExecuteReader(spName, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { criteria });
             }
         }
     }

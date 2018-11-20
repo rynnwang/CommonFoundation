@@ -1,12 +1,13 @@
 ﻿using System;
 using Beyova.ExceptionSystem;
+using Newtonsoft.Json;
 
 namespace Beyova.ApiTracking
 {
     /// <summary>
     /// Class ExceptionCriteria.
     /// </summary>
-    public class ExceptionCriteria : ExceptionBase, ICriteria
+    public class ExceptionCriteria : ApiLogBase, ICriteria, IStampCriteria
     {
         #region Property
 
@@ -14,43 +15,79 @@ namespace Beyova.ApiTracking
         /// Gets or sets the major code.
         /// </summary>
         /// <value>The major code.</value>
+        [JsonProperty(PropertyName = "majorCode")]
         public ExceptionCode.MajorCode? MajorCode { get; set; }
 
         /// <summary>
         /// Gets or sets the minor code.
         /// </summary>
         /// <value>The minor code.</value>
+        [JsonProperty(PropertyName = "minorCode")]
         public string MinorCode { get; set; }
 
         /// <summary>
         /// Gets the key.
         /// </summary>
         /// <value>The key.</value>
+        [JsonProperty(PropertyName = "key")]
         public Guid? Key { get; set; }
 
         /// <summary>
         /// Gets or sets from stamp.
         /// </summary>
         /// <value>From stamp.</value>
+        [JsonProperty(PropertyName = "fromStamp")]
         public DateTime? FromStamp { get; set; }
 
         /// <summary>
         /// Gets or sets to stamp.
         /// </summary>
         /// <value>To stamp.</value>
+        [JsonProperty(PropertyName = "toStamp")]
         public DateTime? ToStamp { get; set; }
 
         /// <summary>
         /// Gets or sets the count.
         /// </summary>
         /// <value>The count.</value>
+        [JsonProperty(PropertyName = "count")]
         public int Count { get; set; }
 
         /// <summary>
-        /// Gets or sets the scene.
+        /// Gets or sets the keyword.
         /// </summary>
-        /// <value>The scene.</value>
-        public string Scene { get; set; }
+        /// <value>
+        /// The keyword.
+        /// </value>
+        [JsonProperty(PropertyName = "keyword")]
+        public string Keyword { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event key.
+        /// </summary>
+        /// <value>
+        /// The event key.
+        /// </value>
+        [JsonProperty(PropertyName = "eventKey")]
+        public string EventKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the operator keyword.
+        /// </summary>
+        /// <value>
+        /// The operator keyword.
+        /// </value>
+        [JsonProperty(PropertyName = "operatorCredential")]
+        public string OperatorCredential { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the exception.
+        /// </summary>
+        /// <value>
+        /// The type of the exception.
+        /// </value>
+        [JsonProperty(PropertyName = "exceptionType")]
+        public string ExceptionType { get; set; }
 
         #endregion Property
 

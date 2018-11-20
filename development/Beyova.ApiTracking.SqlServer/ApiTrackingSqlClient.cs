@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Beyova.ExceptionSystem;
+using System.Linq;
 
 namespace Beyova.ApiTracking.SqlServer
 {
     /// <summary>
     ///
     /// </summary>
-    public sealed class ApiTrackingSqlClient : IApiTracking
+    public sealed class ApiTrackingSqlClient : IApiTracking, IApiTrackingRawDateReader
     {
         /// <summary>
         /// The SQL connection string
@@ -91,6 +93,33 @@ namespace Beyova.ApiTracking.SqlServer
             {
                 throw ex.Handle(new { message });
             }
+        }
+
+        /// <summary>
+        /// Gets the exception by key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public ExceptionInfo GetExceptionByKey(Guid? key)
+        {
+            try
+            {
+                key.CheckNullObject(nameof(key));
+
+                using (var controller = new ExceptionInfoAccessController(_sqlConnectionString))
+                {
+                    return controller.QueryException(new ExceptionCriteria { Key = key }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { key });
+            }
+        }
+
+        public List<ApiTraceLog> GetApiTraceLogById(string traceId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,7 +6,7 @@ using Beyova.ExceptionSystem;
 namespace Beyova
 {
     /// <summary>
-    /// LoopEnumerator{T} is used for endless repeatable loop, like 1-&gt;2-&gt;3-&gt;1-&gt;2-&gt;... 
+    /// LoopEnumerator{T} is used for endless repeatable loop, like 1-&gt;2-&gt;3-&gt;1-&gt;2-&gt;...
     /// It is especially used when a few resources needs to be used in turns.
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -119,7 +119,7 @@ namespace Beyova
             _currentIndex = _list.Count - 1;
         }
 
-        #endregion
+        #endregion IEnumerator
 
         #region Constructor
 
@@ -149,7 +149,7 @@ namespace Beyova
             this._list = new List<T>();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Public methods
 
@@ -302,7 +302,7 @@ namespace Beyova
             OnClear();
         }
 
-        #endregion
+        #endregion Public methods
 
         /// <summary>
         /// Determines whether [is valid inex] [the specified index].

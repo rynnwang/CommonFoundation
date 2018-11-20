@@ -6,7 +6,7 @@ namespace Beyova
     /// <summary>
     /// Class EnvironmentEndpoint.
     /// </summary>
-    public class EnvironmentEndpoint : ApiEndpoint, IIdentifier,IRealmable
+    public class EnvironmentEndpoint : ApiEndpoint, IIdentifier, IRealmable
     {
         /// <summary>
         /// Gets or sets the name.

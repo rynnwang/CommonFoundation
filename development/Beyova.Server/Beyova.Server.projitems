@@ -17,5 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)HttpListener\HttpListenerServerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\CloudBinaryStorageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure\Binary\IBinaryStorageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WatchWorker\WorkerJobPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WatchWorker\WatchPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WatchWorker\WatchWorkers.cs" />
   </ItemGroup>
 </Project>

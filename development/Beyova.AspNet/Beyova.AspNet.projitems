@@ -17,7 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\PortalViewNames.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static partial class CharactorStandardization
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="potentialDoubleByteSymbol">The potential double byte symbol.</param>
         /// <returns></returns>
@@ -32,15 +30,19 @@ namespace Beyova
                 case '\uFF0E':
                     result = '.';
                     break;
+
                 case '\uFF1F':
                     result = '?';
                     break;
+
                 case '\uFF01':
                     result = '!';
                     break;
+
                 case '\uFF0C':
                     result = ',';
                     break;
+
                 case '\uFF1B':
                     result = ';';
                     break;
@@ -53,64 +55,83 @@ namespace Beyova
                 case '\u201F':
                     result = '"';
                     break;
+
                 case '\u3008':
                 case '\uFF1C':
                     result = '<';
                     break;
+
                 case '\u3009':
                 case '\uFF1E':
                     result = '>';
                     break;
+
                 case '\u3014':
                 case '\uFF08':
                     result = '(';
                     break;
+
                 case '\u3015':
                 case '\uFF09':
                     result = ')';
                     break;
+
                 case '\uFF1A':
                     result = ':';
                     break;
+
                 case '\uFF1D':
                     result = '=';
                     break;
+
                 case '\uFF20':
                     result = '@';
                     break;
+
                 case '\uFF3B':
                     result = '[';
                     break;
+
                 case '\uFF3D':
                     result = ']';
                     break;
+
                 case '\uFF3C':
                     result = '\\';
                     break;
+
                 case '\uFF0F':
                     result = '/';
                     break;
+
                 case '\uFF3F':
                     result = '_';
                     break;
+
                 case '\uFF5E':
                     result = '~';
                     break;
+
                 case '\uFF5B':
                     result = '{';
                     break;
+
                 case '\uFF5D':
                     result = '}';
                     break;
+
                 case '\uFF04':
                     result = '$';
                     break;
+
                 case '\uFF05':
                     result = '%';
                     break;
+
                 case '\uFF06':
                     result = '&';
                     break;
+
                 case '\uFF07':
                 case '\u2018':
                 case '\u2019':
@@ -118,15 +139,19 @@ namespace Beyova
                 case '\u201B':
                     result = '\'';
                     break;
+
                 case '\uFF03':
                     result = '#';
                     break;
+
                 case '\uFF0B':
                     result = '+';
                     break;
+
                 case '\uFF0D':
                     result = '-';
                     break;
+
                 case '\u3000':
                 case '\u2002':
                 case '\u2003':
@@ -136,6 +161,7 @@ namespace Beyova
                 case '\u200A':
                     result = ' ';
                     break;
+
                 default:
                     break;
             }
@@ -227,7 +253,5 @@ namespace Beyova
 
             return new string(result);
         }
-
-
     }
 }

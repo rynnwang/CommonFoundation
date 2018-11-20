@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IParentNode<T>
@@ -19,7 +18,7 @@ namespace Beyova
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IParentNode : IParentNode<Guid?>
     {

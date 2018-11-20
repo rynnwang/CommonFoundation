@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Beyova.Scheduling
+﻿namespace Beyova.Scheduling
 {
     /// <summary>
     /// class SchedulingResourceContainerConstraints. It defines constraints of container.

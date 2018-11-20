@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Beyova;
-using Beyova.Api;
-using Beyova.ExceptionSystem;
-
 
 namespace Beyova.Web
 {

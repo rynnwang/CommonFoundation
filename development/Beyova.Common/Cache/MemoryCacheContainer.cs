@@ -211,7 +211,5 @@ namespace Beyova.Cache
                 this.container.Clear();
             }
         }
-
-
     }
 }

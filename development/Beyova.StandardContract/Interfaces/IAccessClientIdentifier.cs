@@ -22,6 +22,5 @@ namespace Beyova
         /// <summary>Gets or sets Device Name.</summary>
         /// <value></value>
         System.String DeviceName { get; set; }
-
     }
 }

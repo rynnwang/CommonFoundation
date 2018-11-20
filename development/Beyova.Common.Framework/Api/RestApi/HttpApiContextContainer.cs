@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using System.Net;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Web;
 using Beyova.Http;
 
@@ -131,7 +131,7 @@ namespace Beyova.Api.RestApi
             }
         }
 
-        #endregion
+        #endregion Abstract Properties
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpApiContextContainer" /> class.
@@ -299,7 +299,7 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         public override IEnumerable<string> GetCookieValues(string cookieKey)
         {
-            return this.Request?.Cookies?.Get(cookieKey)?.Values as IEnumerable<string>;
+            return (this.Request?.Cookies?.Get(cookieKey)?.Values as IEnumerable<string>)?.Select(x => x.ToUrlDecodedText());
         }
     }
 }

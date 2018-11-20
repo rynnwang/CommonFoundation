@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Specialized;
-using System.Net;
 using Beyova.ExceptionSystem;
-using System.IO.Compression;
-using System.IO;
 
 namespace Beyova.Http
 {
@@ -203,14 +203,19 @@ namespace Beyova.Http
                 {
                     case HttpConstants.HttpMethod.Get:
                         return await client.GetAsync(request);
+
                     case HttpConstants.HttpMethod.Post:
                         return await client.PostAsync(request);
+
                     case HttpConstants.HttpMethod.Put:
                         return await client.PutAsync(request);
+
                     case HttpConstants.HttpMethod.Delete:
                         return await client.DeleteAsync(request);
+
                     case HttpConstants.HttpMethod.Head:
                         return await client.HeadAsync(request);
+
                     default:
                         break;
                 }
@@ -219,7 +224,7 @@ namespace Beyova.Http
             return null;
         }
 
-        #endregion
+        #endregion HttpClient
 
         #region As Client
 
@@ -247,7 +252,7 @@ namespace Beyova.Http
             return GetResponseAsync(request, client).Result;
         }
 
-        #endregion
+        #endregion As Client
 
         #region HttpResponseMessage
 
@@ -305,7 +310,7 @@ namespace Beyova.Http
             }
         }
 
-        #endregion
+        #endregion HttpResponseMessage
 
         #region CreateHttpRequestMessage
 
@@ -392,7 +397,7 @@ namespace Beyova.Http
             }
         }
 
-        #endregion
+        #endregion FillData
 
         #region Read response
 
@@ -685,7 +690,7 @@ namespace Beyova.Http
             return result;
         }
 
-        #endregion WebResponse Extension
+        #endregion HttpResponseMessage Extension
 
         #endregion Read response
 

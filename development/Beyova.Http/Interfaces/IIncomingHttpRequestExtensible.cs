@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Net;
-
-namespace Beyova.Http
+﻿namespace Beyova.Http
 {
     /// <summary>
     /// Interface IIncomingHttpRequestExtensible, to be implemented by extension methods.

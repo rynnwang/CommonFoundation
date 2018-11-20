@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beyova.ProgrammingIntelligence;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core;
 using StackExchange.Redis.Extensions.Core.Configuration;

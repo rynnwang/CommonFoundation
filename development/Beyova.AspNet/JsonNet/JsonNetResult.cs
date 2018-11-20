@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace Beyova.AspNet
+namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class JsonNetResult : JsonResult
     {

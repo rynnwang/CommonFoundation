@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.Scheduling
+﻿namespace Beyova.Scheduling
 {
     /// <summary>
     /// Class SchedulingResourceDimensionAllocationIndex, it is used to categorize allocation into time blocks, which would improve confliect detection speed.

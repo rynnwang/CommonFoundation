@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Beyova.Api.RestApi;
 using Beyova.ExceptionSystem;
 
-
 namespace Beyova
 {
     /// <summary>
