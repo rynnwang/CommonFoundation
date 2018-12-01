@@ -69,19 +69,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Sets the global default api tracking.
-        /// </summary>
-        /// <param name="apiTracking">The API tracking.</param>
-        [Obsolete("Use BeyovaComponent Attribute in assembly to set default ApiTracking instance.")]
-        public static void SetGlobalDefaultApiTracking(IApiTracking apiTracking)
-        {
-            if (apiTracking != null)
-            {
-                ApiTracking = apiTracking;
-            }
-        }
-
-        /// <summary>
         /// Abouts the service.
         /// </summary>
         /// <returns>ServiceVersion.</returns>
@@ -119,6 +106,20 @@ namespace Beyova
         public static string GetResourceString(string resourceKey, GlobalCultureResourceType? typeRequired = null, bool languageCompatibility = true)
         {
             return string.IsNullOrWhiteSpace(resourceKey) ? string.Empty : _resourceHub.GetResourceString(resourceKey, typeRequired, languageCompatibility: languageCompatibility);
+        }
+
+        /// <summary>
+        /// Gets the enum resource string.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="enumValue">The enum value.</param>
+        /// <param name="languageCompatibility">if set to <c>true</c> [language compatibility].</param>
+        /// <param name="forceMatchType">if set to <c>true</c> [force match type].</param>
+        /// <returns></returns>
+        public static string GetEnumResourceString<TEnum>(TEnum? enumValue, bool languageCompatibility = true, bool forceMatchType = false)
+            where TEnum : struct, IConvertible
+        {
+            return enumValue.HasValue ? GetEnumResourceString(enumValue.Value, languageCompatibility, forceMatchType) : string.Empty;
         }
 
         /// <summary>

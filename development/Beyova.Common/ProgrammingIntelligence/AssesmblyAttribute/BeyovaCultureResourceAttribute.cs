@@ -21,7 +21,7 @@ namespace Beyova
         /// Parameter <c>resourceBaseName</c> is suggested to contains namespace as full name.
         /// </summary>
         /// <param name="cultureResourceDirectory">The culture resource directory. It is based on value of <see cref="EnvironmentCore.ApplicationBaseDirectory"/>.</param>
-        /// <param name="resourceBaseName">Name of the resource base. it is suggested to contains namespace as full name</param>
+        /// <param name="resourceBaseName">Name of the resource base. it is suggested to contains namespace as full name. e.g.: Base name of <c>test.zh-CN.i18n</c> is <c>test</c>. </param>
         /// <param name="defaultCultureCode">The default culture code.</param>
         /// <param name="tryLanguageCompatibility">if set to <c>true</c> [try language compatibility].</param>
         public BeyovaCultureResourceAttribute(string cultureResourceDirectory, string resourceBaseName, string defaultCultureCode, bool tryLanguageCompatibility = true)

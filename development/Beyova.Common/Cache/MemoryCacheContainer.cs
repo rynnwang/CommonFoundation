@@ -75,20 +75,6 @@ namespace Beyova.Cache
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemoryCacheContainer{TKey, TEntity}" /> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="capacity">The capacity.</param>
-        /// <param name="expirationInSecond">The expiration in second.</param>
-        /// <param name="equalityComparer">The equality comparer.</param>
-        /// <param name="retrievalOptions">The retrieval options.</param>
-        [Obsolete]
-        public MemoryCacheContainer(string name, int? capacity, long? expirationInSecond = null, IEqualityComparer<TKey> equalityComparer = null, CacheAutoRetrievalOptions<TKey, TEntity> retrievalOptions = null)
-            : this(new MemoryCacheContainerOptions<TKey> { Capacity = capacity, EqualityComparer = equalityComparer, ExpirationInSecond = expirationInSecond, Name = name }, retrievalOptions)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MemoryCacheContainer{TKey, TEntity}"/> class.
         /// </summary>
         /// <param name="containerOptions">The container options.</param>

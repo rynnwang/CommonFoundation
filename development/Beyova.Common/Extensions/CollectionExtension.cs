@@ -795,9 +795,23 @@ namespace Beyova
         /// <param name="list">The list.</param>
         /// <param name="comparableSelector">The comparable selector.</param>
         /// <param name="isDescending">if set to <c>true</c> [is descending].</param>
-        public static void Sort<T, TComparableType>(this List<T> list, Func<T, TComparableType> comparableSelector, bool isDescending = false) where TComparableType : IComparable
+        public static void Sort<T, TComparableType>(this List<T> list, Func<T, TComparableType> comparableSelector, bool isDescending = false)
+            where TComparableType : IComparable
         {
             var comparer = new LambdaComparableComparer<T, TComparableType>(comparableSelector, isDescending);
+            list?.Sort(comparer);
+        }
+
+        /// <summary></summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TComparableType"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="comparableSelector"></param>
+        /// <param name="isDescending"></param>
+        public static void Sort<T, TComparableType>(this List<T> list, Func<T, TComparableType?> comparableSelector, bool isDescending = false)
+            where TComparableType : struct, IComparable
+        {
+            var comparer = new NullableLambdaComparableComparer<T, TComparableType>(comparableSelector, isDescending);
             list?.Sort(comparer);
         }
 
@@ -814,6 +828,24 @@ namespace Beyova
             if (list != null)
             {
                 var comparer = new LambdaComparer<T, TComparableType>(comparableSelector, comparison);
+                list.Sort(comparer);
+            }
+        }
+
+        /// <summary>
+        /// Sorts the specified comparable selector.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TComparableType">The type of the comparable type.</typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="comparableSelector">The comparable selector.</param>
+        /// <param name="comparison">The comparison.</param>
+        public static void Sort<T, TComparableType>(this List<T> list, Func<T, TComparableType?> comparableSelector, Func<TComparableType, TComparableType, int> comparison)
+            where TComparableType : struct
+        {
+            if (list != null)
+            {
+                var comparer = new NullableLambdaComparer<T, TComparableType>(comparableSelector, comparison);
                 list.Sort(comparer);
             }
         }

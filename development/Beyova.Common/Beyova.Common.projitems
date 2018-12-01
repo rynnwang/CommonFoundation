@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Cache\BaseCacheAutoRetrievalOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CultureBased\CultureBasedMemoryFullEntityCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\CultureBased\CultureBasedFullEntityCacheAutoRetrievalOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\FullEntityCacheAutoRetrievalOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryFullEntityCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\LocalConfigurationRawItem.cs" />
@@ -49,6 +51,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\RegionalSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\NullableLambdaComparableComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\NullableLambdaComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />

@@ -70,7 +70,7 @@ namespace Beyova
                     }
                 }
 
-                if (hitCollection == null)
+                if (hitCollection == null && DefaultCultureInfo != null)
                 {
                     _cultureBasedResources.TryGetValue(DefaultCultureInfo, out hitCollection);
                 }
