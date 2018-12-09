@@ -34,7 +34,7 @@ namespace Beyova.Web
         }
 
         /// <summary>
-        /// Sets the unauthentication redirection route.
+        /// Sets the unauthentication redirection route. It is especially needed when ASP.NET do not host API but uses <see cref="RestApiContextConsistenceAttribute"/>
         /// </summary>
         /// <param name="getUnauthenticationRedirection">The get unauthentication redirection.</param>
         public static void SetUnauthenticationRedirectionRoute(RestApiContextConsistenceAttribute.GetUnauthenticationRedirectionDelegate getUnauthenticationRedirection)

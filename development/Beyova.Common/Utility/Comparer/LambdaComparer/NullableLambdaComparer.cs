@@ -10,21 +10,11 @@ namespace Beyova
     public class NullableLambdaComparer<T> : LambdaComparer<T, T>
     {
         /// <summary>
-        /// Gets the self.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        /// <returns></returns>
-        private static T GetSelf(T obj)
-        {
-            return obj;
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="LambdaComparer{T}"/> class.
         /// </summary>
         /// <param name="comparison">The comparison.</param>
         public NullableLambdaComparer(Func<T, T, int> comparison)
-            : base(GetSelf, comparison)
+            : base(FuncExtension.GetSelf, comparison)
         {
         }
     }

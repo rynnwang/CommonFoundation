@@ -18,11 +18,6 @@ namespace Beyova
     public static partial class CollectionExtension
     {
         /// <summary>
-        /// The format
-        /// </summary>
-        private const string keyValueFormat = "&{0}={1}";
-
-        /// <summary>
         /// Ases the array with same value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -68,7 +63,7 @@ namespace Beyova
         /// <typeparam name="TTarget">The type of the target.</typeparam>
         /// <param name="objects">The objects.</param>
         /// <returns></returns>
-        public static ICollection<TTarget> Filter<TOriginal, TTarget>(this IEnumerable<TOriginal> objects)
+        public static ICollection<TTarget> AsCollection<TOriginal, TTarget>(this IEnumerable<TOriginal> objects)
             where TOriginal : class
             where TTarget : class
         {
@@ -1172,33 +1167,6 @@ namespace Beyova
 
         #endregion IEnumerable, ICollection, IList, IDictionary, HashSet
 
-        #region Array specialized
-
-        /// <summary>
-        /// Does the each.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array">The array.</param>
-        /// <param name="actions">The actions.</param>
-        public static void DoEach<T>(this T[] array, params Action<T>[] actions)
-        {
-            if (array.HasItem() && actions.HasItem())
-            {
-                var i = 0;
-                foreach (var one in array)
-                {
-                    if (i >= actions.Length)
-                    {
-                        break;
-                    }
-
-                    actions[i]?.Invoke(one);
-                }
-            }
-        }
-
-        #endregion Array specialized
-
         /// <summary>
         /// This method would try to convert each item of collection to from <c>TInput</c> to <c>TOutput</c> by keyword <c>as</c>. If by any reason to get null as result, it would not be included in result collection.
         /// </summary>
@@ -1210,32 +1178,18 @@ namespace Beyova
             where TInput : class
             where TOutput : class, TInput
         {
-            return ConvertNotNullAll(collection, x => x as TOutput);
+            return AsNotNullAll(collection, x => x as TOutput);
         }
 
         /// <summary>
-        /// Ases all.
-        /// </summary>
-        /// <typeparam name="TInput">The type of the input.</typeparam>
-        /// <typeparam name="TOutput">The type of the output.</typeparam>
-        /// <param name="collection">The collection.</param>
-        /// <returns></returns>
-        public static ICollection<TOutput> AsAll<TInput, TOutput>(this IEnumerable<TInput> collection)
-            where TInput : class, TOutput
-            where TOutput : class
-        {
-            return ConvertNotNullAll(collection, x => x as TOutput);
-        }
-
-        /// <summary>
-        /// Converts the not null all.
+        /// As all which is not null.
         /// </summary>
         /// <typeparam name="TInput">The type of the input.</typeparam>
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="converter">The converter.</param>
         /// <returns></returns>
-        public static List<TOutput> ConvertNotNullAll<TInput, TOutput>(this IEnumerable<TInput> collection, Func<TInput, TOutput> converter)
+        public static List<TOutput> AsNotNullAll<TInput, TOutput>(this IEnumerable<TInput> collection, Func<TInput, TOutput> converter)
         {
             if (collection != null && converter != null)
             {
@@ -1252,28 +1206,86 @@ namespace Beyova
             return new List<TOutput>();
         }
 
+        #region AsDictionary
+
         /// <summary>
-        /// Converts to dictionary.
+        /// Ases the dictionary.
         /// </summary>
-        /// <typeparam name="TInput">The type of the input.</typeparam>
-        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <typeparam name="TKey">The type of the t key.</typeparam>
+        /// <typeparam name="TValue">The type of the t value.</typeparam>
+        /// <param name="anyObject">Any object.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns>
+        /// Dictionary&lt;TKey, TValue&gt;.
+        /// </returns>
+        public static Dictionary<TKey, TValue> AsDictionary<TKey, TValue>(this TValue anyObject, TKey key, IEqualityComparer<TKey> equalityComparer = null)
+        {
+            return anyObject == null ? new Dictionary<TKey, TValue>() : new Dictionary<TKey, TValue>(equalityComparer ?? EqualityComparer<TKey>.Default) { { key, anyObject } };
+        }
+
+        /// <summary>
+        /// As dictionary.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="initializer">The initializer.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
         /// <returns></returns>
-        public static Dictionary<TInput, TOutput> ConvertToDictionary<TInput, TOutput>(this IEnumerable<TInput> collection, Func<TOutput> initializer = null)
+        public static Dictionary<TKey, TValue> AsKeyDictionary<TKey, TValue>(this IEnumerable<TKey> collection, Func<TKey, TValue> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
+        {
+            return AsDictionary<TKey, TKey, TValue>(collection, FuncExtension.GetSelf, initializer, equalityComparer);
+        }
+
+        /// <summary>
+        /// Ases the dictionary.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="initializer">The initializer.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TValue> AsKeyDictionary<TKey, TValue>(this IEnumerable<TKey> collection, Func<TValue> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
+        {
+            return AsDictionary<TKey, TKey, TValue>(collection, FuncExtension.GetSelf, initializer.ExtendAsInputless<TKey, TValue>(), equalityComparer);
+        }
+
+        /// <summary>
+        /// Ases the value dictionary.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="initializer">The initializer.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TValue> AsValueDictionary<TKey, TValue>(this IEnumerable<TValue> collection, Func<TValue, TKey> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
+        {
+            return AsDictionary<TValue, TKey, TValue>(collection, initializer, FuncExtension.GetSelf, equalityComparer);
+        }
+
+        /// <summary>
+        /// Ases the dictionary.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="keyInitializer">The key initializer.</param>
+        /// <param name="valueInitializer">The value initializer.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TValue> AsDictionary<T, TKey, TValue>(this IEnumerable<T> collection, Func<T, TKey> keyInitializer, Func<T, TValue> valueInitializer, IEqualityComparer<TKey> equalityComparer = null)
         {
             if (collection != null)
             {
-                Dictionary<TInput, TOutput> result = new Dictionary<TInput, TOutput>(collection.Count());
-
-                if (initializer == null)
-                {
-                    initializer = () => { return default(TOutput); };
-                }
+                Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>(collection.Count(), equalityComparer ?? EqualityComparer<TKey>.Default);
 
                 foreach (var one in collection)
                 {
-                    result.Add(one, initializer.Invoke());
+                    result.Add(keyInitializer == null ? default(TKey) : keyInitializer.Invoke(one), valueInitializer == null ? default(TValue) : valueInitializer.Invoke(one));
                 }
 
                 return result;
@@ -1282,12 +1294,13 @@ namespace Beyova
             return null;
         }
 
+        #endregion AsDictionary
+
         /// <summary>
-        /// Fills the values by key value string.
         /// </summary>
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="keyValueString">The key value string.</param>
-        public static void FillValuesByKeyValueString(this NameValueCollection dictionary, string keyValueString)
+        public static void SetValuesByKeyValueString(this NameValueCollection dictionary, string keyValueString)
         {
             if (dictionary == null || string.IsNullOrWhiteSpace(keyValueString))
             {
@@ -1350,37 +1363,6 @@ namespace Beyova
         {
             return stringCollection.HasItem() ? stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal) : false;
         }
-
-        ///// <summary>
-        ///// Determines whether [contains] [the specified value].
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="collection">The array.</param>
-        ///// <param name="value">The value.</param>
-        ///// <param name="equalityComparer">The equality comparer.</param>
-        ///// <returns>
-        ///// System.Boolean.
-        ///// </returns>
-        //public static bool Contains<T>(this IEnumerable<T> collection, T value, IEqualityComparer<T> equalityComparer = null)
-        //{
-        //    if (collection != null && value != null)
-        //    {
-        //        if (equalityComparer == null)
-        //        {
-        //            equalityComparer = EqualityComparer<T>.Default;
-        //        }
-
-        //        foreach (var one in collection)
-        //        {
-        //            if (equalityComparer.Equals(one, value))
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         /// <summary>
         /// Determines whether the specified predicate has item.
@@ -1508,17 +1490,6 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="array">The array.</param>
         /// <returns>T.</returns>
-        public static T FirstOrDefault<T>(this T[] array)
-        {
-            return array.Cast<T>().FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Firsts the or default.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array">The array.</param>
-        /// <returns>T.</returns>
         public static T FirstOrDefault<T>(this Array array)
         {
             return array.Cast<T>().FirstOrDefault();
@@ -1589,48 +1560,7 @@ namespace Beyova
             return anyObject != null ? new T[] { anyObject } : new T[] { };
         }
 
-        /// <summary>
-        /// Ases the dictionary.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the t key.</typeparam>
-        /// <typeparam name="TValue">The type of the t value.</typeparam>
-        /// <param name="anyObject">Any object.</param>
-        /// <param name="key">The key.</param>
-        /// <returns>Dictionary&lt;TKey, TValue&gt;.</returns>
-        public static Dictionary<TKey, TValue> AsDictionary<TKey, TValue>(this TValue anyObject, TKey key)
-        {
-            return anyObject == null ? new Dictionary<TKey, TValue>() : new Dictionary<TKey, TValue>() { { key, anyObject } };
-        }
 
-        /// <summary>
-        /// Ases the dictionary.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the t key.</typeparam>
-        /// <typeparam name="TValue">The type of the t value.</typeparam>
-        /// <param name="anyObject">Any object.</param>
-        /// <param name="keyGetter">The key getter.</param>
-        /// <param name="keyEqualityComparer">The key equality comparer.</param>
-        /// <param name="overrideIfExists">The override if exists.</param>
-        /// <returns>System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;.</returns>
-        public static Dictionary<TKey, TValue> AsDictionary<TKey, TValue>(this IEnumerable<TValue> anyObject, Func<TValue, TKey> keyGetter, IEqualityComparer<TKey> keyEqualityComparer = null, bool overrideIfExists = false)
-        {
-            Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>(keyEqualityComparer ?? EqualityComparer<TKey>.Default);
-
-            if (anyObject.HasItem() && keyGetter != null)
-            {
-                foreach (var one in anyObject)
-                {
-                    var key = keyGetter(one);
-
-                    if (key != null)
-                    {
-                        result.Merge(keyGetter(one), one, overrideIfExists);
-                    }
-                }
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Adds the range.

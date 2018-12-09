@@ -9,8 +9,9 @@
     <Import_RootNamespace>Beyova.AspNet</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\Attribute\RouteRegistrationAttribution.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\RouteFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\ActionResultType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseErrorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extension\ControllerExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetModelBinder.cs" />
@@ -19,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />
   </ItemGroup>
 </Project>

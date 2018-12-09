@@ -429,7 +429,7 @@ namespace Beyova
         /// <returns></returns>
         public static T Int32ToEnum<T>(this int intValue, T defaultEnumIfValueIsInvalid) where T : struct, IConvertible
         {
-            return intValue.IsValidIntegerValue<T>() ? intValue.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
+            return intValue.IsDefinedEnumValue<T>() ? intValue.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
         }
 
         /// <summary>
@@ -452,7 +452,7 @@ namespace Beyova
         /// <returns></returns>
         public static T? Int32ToEnum<T>(this int? intValue, T? defaultEnumIfValueIsInvalid) where T : struct, IConvertible
         {
-            return (intValue.HasValue && intValue.Value.IsValidIntegerValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
+            return (intValue.HasValue && intValue.Value.IsDefinedEnumValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace Beyova
         /// <returns></returns>
         public static T Int32ToEnum<T>(this int? intValue, T defaultEnumIfValueIsInvalid) where T : struct, IConvertible
         {
-            return (intValue.HasValue && intValue.Value.IsValidIntegerValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
+            return (intValue.HasValue && intValue.Value.IsDefinedEnumValue<T>()) ? intValue.Value.Int32ToEnum<T>() : defaultEnumIfValueIsInvalid;
         }
 
         /// <summary>
@@ -1298,13 +1298,17 @@ namespace Beyova
         {
             IList<T> result = new List<T>();
 
-            if (typeof(T).IsEnum)
+            var type = typeof(T);
+            if (type.IsEnum && type.GetCustomAttribute<FlagsAttribute>() != null)
             {
                 Int64 value = enumValue.ToInt64(null);
 
-                foreach (T one in Enum.GetValues(typeof(T)))
+                foreach (T one in Enum.GetValues(type))
                 {
-                    if ((one.ToInt64(null) & value) > 0)
+                    var currentValue = one.ToInt64(null);
+                    if (currentValue > 0
+                        && Math.Log(currentValue, 2).IsInteger()
+                        && (currentValue & value) == currentValue)
                     {
                         result.Add(one);
                     }

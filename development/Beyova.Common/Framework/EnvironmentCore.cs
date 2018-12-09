@@ -107,6 +107,14 @@ namespace Beyova
         public static BeyovaComponentInfo ProductComponentInfo { get; private set; }
 
         /// <summary>
+        /// Gets or sets the common component information.
+        /// </summary>
+        /// <value>
+        /// The common component information.
+        /// </value>
+        public static BeyovaComponentInfo CommonComponentInfo { get; private set; }
+
+        /// <summary>
         /// Initializes static members of the <see cref="EnvironmentCore"/> class.
         /// </summary>
         static EnvironmentCore()
@@ -144,21 +152,13 @@ namespace Beyova
 
             _descendingAssemblyDependencyChain = dependencyChain.AsReadOnly();
 
-
-            foreach (var one in DescendingAssemblyDependencyChain)
+            var entryAssembly = DescendingAssemblyDependencyChain.FirstOrDefault();
+            if (!entryAssembly.IsSystemAssembly())
             {
-                var currentComponent = one.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
-
-                //if (currentComponent?.RetiredStamp < DateTime.UtcNow)
-                //{
-                //    throw new NotSupportedException("Retired component cannot be supported.");
-                //}
-
-                if (ProductComponentInfo == null && currentComponent != null)
-                {
-                    ProductComponentInfo = currentComponent;
-                }
+                ProductComponentInfo = entryAssembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
             }
+
+            CommonComponentInfo = typeof(EnvironmentCore).Assembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
 
             try
             {

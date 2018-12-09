@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Beyova
 {
@@ -10,6 +11,7 @@ namespace Beyova
         private const string dateFormat2 = "yyyy/MM/dd";
         private const string dateFormat1 = "yyyy-MM-dd";
         private const DateTimeKind kind = DateTimeKind.Unspecified;
+        private static Regex formatRegex = new Regex(@"(?<Year>(\d{4}))[\-\.\/\\](?<Month>(\d{1,2}))([\-\.\/\\](?<Day>(\d{1,2})))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Gets or sets the year.
@@ -139,10 +141,21 @@ namespace Beyova
         /// </returns>
         public static implicit operator Date? (string date)
         {
-            var dateTime = date.ToDateTime(dateFormat1, System.Globalization.DateTimeStyles.AssumeLocal)
-                ?? date.ToDateTime(dateFormat2, System.Globalization.DateTimeStyles.AssumeLocal);
+            return FromDateString(date);
+        }
 
-            return dateTime.HasValue ? new Date(dateTime.Value) as Date? : null;
+        /// <summary>
+        /// Froms the date string.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns></returns>
+        public static Date? FromDateString(string date)
+        {
+            Match match = string.IsNullOrWhiteSpace(date) ? null : formatRegex.Match(date);
+
+            return (match != null && match.Success) ?
+                new Date(match.Result("${Year}").ToInt32(), match.Result("${Month}").ToInt32(), match.Result("${Day}").ToInt32(1))
+                : null as Date?;
         }
 
         /// <summary>

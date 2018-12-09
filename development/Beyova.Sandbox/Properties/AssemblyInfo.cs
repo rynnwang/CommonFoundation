@@ -11,7 +11,7 @@ using Beyova;
 [assembly: AssemblyProduct("Beyova.Sandbox")]
 [assembly: AssemblyCulture("")]
 
-[assembly: BeyovaComponent("Beyova.Sandbox", "1.0.0")]
+[assembly: BeyovaComponent("Beyova.Sandbox", "1.0.1")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

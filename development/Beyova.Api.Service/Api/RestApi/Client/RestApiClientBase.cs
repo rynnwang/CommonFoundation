@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Beyova.Http;
 
 namespace Beyova.Api.RestApi
@@ -51,14 +52,23 @@ namespace Beyova.Api.RestApi
         /// </summary>
         protected abstract int ClientGeneratedVersion { get; }
 
+        /// <summary>
+        /// Gets or sets the user agent.
+        /// </summary>
+        /// <value>
+        /// The user agent.
+        /// </value>
+        public string UserAgent { get; protected set; }
+
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RestApiAsyncClient" /> class.
+        /// Initializes a new instance of the <see cref="RestApiClientBase" /> class.
         /// </summary>
         /// <param name="endpoint">The endpoint.</param>
         /// <param name="acceptGZip">if set to <c>true</c> [accept g zip].</param>
         /// <param name="timeout">The timeout.</param>
+        /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="System.NotSupportedException"></exception>
         public RestApiClientBase(ApiEndpoint endpoint, bool acceptGZip = false, int? timeout = null)
         {
@@ -71,6 +81,12 @@ namespace Beyova.Api.RestApi
             this.Endpoint = endpoint ?? new ApiEndpoint();
             this.AcceptGZip = acceptGZip;
             this.Timeout = timeout;
+
+            var actualType = GetType();
+
+            var version = (actualType.Assembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject?.Version).SafeToString(actualType.Assembly.GetName().Version.ToString());
+
+            this.UserAgent = string.Format("{0}/{1} BeyovaCommon/{2} .NET/{3}", actualType.Name, version, EnvironmentCore.CommonComponentInfo?.Version, Environment.Version.ToString());
         }
 
         #endregion Constructor
@@ -94,7 +110,8 @@ namespace Beyova.Api.RestApi
             {
                 Uri = new Uri(GetRequestUri(this.Endpoint, realm, version, resourceName, resourceAction, key, queryString)),
                 Method = httpMethod,
-                ProtocolVersion = "1.1"
+                ProtocolVersion = "1.1",
+                Headers = new System.Collections.Specialized.NameValueCollection { { HttpConstants.HttpHeader.UserAgent, UserAgent } }
             };
 
             FillAdditionalData(result);

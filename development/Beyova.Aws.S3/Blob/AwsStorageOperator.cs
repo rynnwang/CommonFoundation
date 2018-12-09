@@ -503,7 +503,7 @@ namespace Beyova.Aws
                     Hash = blob.Metadata["x-amz-meta-md5hash"],
                     Length = blob.ContentLength,
                     Name = blob.Headers.ContentDisposition,
-                    Mime = blob.Headers.ContentType
+                    ContentType = blob.Headers.ContentType
                 };
 
                 return result;
@@ -544,7 +544,7 @@ namespace Beyova.Aws
                     identifier.Identifier = key;
                     var meta = FetchCloudMeta(identifier);
 
-                    if ((string.IsNullOrWhiteSpace(contentType) || meta.Mime.Equals(contentType, StringComparison.OrdinalIgnoreCase))
+                    if ((string.IsNullOrWhiteSpace(contentType) || meta.ContentType.Equals(contentType, StringComparison.OrdinalIgnoreCase))
                                 && (string.IsNullOrWhiteSpace(md5) || meta.Hash.Equals(md5, StringComparison.OrdinalIgnoreCase))
                                 && (!length.HasValue || meta.Length == length))
                     {

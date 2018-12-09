@@ -787,37 +787,61 @@ namespace Beyova
         /// Replaces the specified old values.
         /// </summary>
         /// <param name="anyString">Any string.</param>
+        /// <param name="hitValues">The hit values.</param>
+        /// <returns>
+        /// System.String.
+        /// </returns>
+        public static string Remove(this string anyString, char[] hitValues)
+        {
+            if (!string.IsNullOrEmpty(anyString) && hitValues.HasItem())
+            {
+                var charArray = anyString.ToCharArray();
+                var resultList = new List<char>(charArray.Length);
+
+                for (var i = 0; i < charArray.Length; i++)
+                {
+                    if (!hitValues.HasItem(charArray[i]))
+                    {
+                        resultList.Add(charArray[i]);
+                    }
+                }
+
+                return new string(resultList.ToArray());
+            }
+
+            return anyString;
+        }
+
+        #region Replace
+
+        /// <summary>
+        /// Replaces the specified old values.
+        /// </summary>
+        /// <param name="anyString">Any string.</param>
         /// <param name="oldValues">The old values.</param>
         /// <param name="newValue">The new value.</param>
         /// <returns>System.String.</returns>
         public static string Replace(this string anyString, char[] oldValues, char newValue)
         {
-            if (!string.IsNullOrEmpty(anyString))
+            if (!string.IsNullOrEmpty(anyString) && oldValues.HasItem())
             {
-                anyString = oldValues.Aggregate(anyString, (current, one) => current.Replace(one, newValue));
+                var charArray = anyString.ToCharArray();
+                for (var i = 0; i < charArray.Length; i++)
+                {
+                    if (oldValues.HasItem(charArray[i]))
+                    {
+                        charArray[i] = newValue;
+                    }
+                }
+
+                return new string(charArray);
             }
 
             return anyString;
         }
 
         /// <summary>
-        /// Replaces the specified replacements.
-        /// </summary>
-        /// <param name="anyString">Any string.</param>
-        /// <param name="replacements">The replacements.</param>
-        /// <returns>System.String.</returns>
-        public static string Replace(this string anyString, Dictionary<string, string> replacements)
-        {
-            if (!string.IsNullOrEmpty(anyString) && replacements != null)
-            {
-                anyString = replacements.Aggregate(anyString, (current, one) => current.Replace(one.Key, one.Value));
-            }
-
-            return anyString;
-        }
-
-        /// <summary>
-        /// Replaces the specified old values.
+        /// Replaces the specified old values. NOTE: replace is executed by sequence. So values in <c>oldValues</c> need to be cared with <c>newValue</c>.
         /// </summary>
         /// <param name="anyString">Any string.</param>
         /// <param name="oldValues">The old values.</param>
@@ -832,6 +856,8 @@ namespace Beyova
 
             return anyString;
         }
+
+        #endregion Replace
 
         /// <summary>
         /// Safes to upper.

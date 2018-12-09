@@ -4,7 +4,7 @@ using System.Data;
 namespace Beyova
 {
     /// <summary>
-    /// Extensions for common type and common actions
+    /// 
     /// </summary>
     public static class DatabaseExtension
     {

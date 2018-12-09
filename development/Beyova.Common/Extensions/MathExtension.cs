@@ -206,6 +206,20 @@ namespace Beyova
         #endregion Min
 
         /// <summary>
+        /// Determines whether this instance is integer.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="numericValue">The numeric value.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified numeric value is integer; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsInteger<T>(this T numericValue)
+            where T : struct, IConvertible, IComparable
+        {
+            return 0 == (numericValue.ToDouble(null) % 1);
+        }
+
+        /// <summary>
         /// Do SUM(item[N], byteItems[i][N]) by each byte wise
         /// </summary>
         /// <param name="item">The item.</param>

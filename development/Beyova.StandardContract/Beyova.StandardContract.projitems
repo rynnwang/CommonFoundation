@@ -135,8 +135,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\FractionObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Date.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\Gender.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\Nation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\NationCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoInfoBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoPosition.cs" />
@@ -157,10 +155,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\SingleParameterInstanceConstructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextValueCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\VisualValue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Quiz\Section.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Quiz\UserAnswer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Quiz\Option.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Quiz\Question.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Range\Range.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Range\StringIndexRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Range\TimeRange.cs" />

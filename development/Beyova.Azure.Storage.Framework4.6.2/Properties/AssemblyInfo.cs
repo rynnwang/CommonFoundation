@@ -9,7 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Azure.Storage")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Azure.Storage", "2.5.0")]
+[assembly: BeyovaComponent("Beyova.Azure.Storage", "2.5.1")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]
