@@ -11,7 +11,7 @@ using Beyova;
 [assembly: AssemblyProduct("Beyova.AspNet")]
 [assembly: AssemblyCulture("")]
 
-[assembly: BeyovaComponent("Beyova.AspNet", "1.2.0")]
+[assembly: BeyovaComponent("Beyova.AspNet", "1.7.0")]
 //[assembly: PreApplicationStartMethod(typeof(WebInfrastructureEnhancement), "Initialize")]
 
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]

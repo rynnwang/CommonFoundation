@@ -92,6 +92,30 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Gets the current raw URL.
+        /// </summary>
+        /// <returns></returns>
+        [FunctionInjectionMap(nameof(Framework.GetCurrentRawUrl))]
+        public static string GetCurrentRawUrl()
+        {
+            return CurrentRawUrl;
+        }
+
+        /// <summary>
+        /// Gets the current raw URL.
+        /// </summary>
+        /// <value>
+        /// The current raw URL.
+        /// </value>
+        public static string CurrentRawUrl
+        {
+            get
+            {
+                return ApiContext.CurrentUri?.ToString();
+            }
+        }
+
+        /// <summary>
         /// Gets the current credential.
         /// </summary>
         /// <returns></returns>

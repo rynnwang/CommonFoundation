@@ -173,7 +173,7 @@ namespace Beyova.Api.RestApi
 
                 exception = httpEx.Handle(new { httpMethod, resourceName, resourceAction, key, queryString, externalExceptionInfo });
                 //Reset key to new one so that in log system, this exception can be identified correctly.
-                exception.Key = Guid.NewGuid();
+                exception.ResetNewKey();
                 throw exception;
             }
             catch (Exception ex)

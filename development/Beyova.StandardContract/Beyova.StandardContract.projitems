@@ -9,6 +9,7 @@
     <Import_RootNamespace>Beyova.StandardContract</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CentralPlatform\ITenantable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\Continent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ApiTrackingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\BaseCellphoneNumberValidator.cs" />
@@ -30,9 +31,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStringConvertable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRealmable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IUserEssential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNetConverter\CellphoneNumberConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\HttpCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FlexibleSelectOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredentialCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AuditBaseObject.cs" />
@@ -128,8 +131,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Configuration\RemoteConfigurationObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Dictionary\MappingTable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Dictionary\SequencedKeyDictionary.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\EntitySynchronization\EntitySynchronizationRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\EntitySynchronization\EntitySynchronizationResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Endpoint\EnvironmentEndpoint\EnvironmentEndpoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Endpoint\EnvironmentEndpoint\EnvironmentEndpointCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FractionObject.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\PlatformType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\ObjectState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AesKeys.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\SingleParameterInstanceConstructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextValueCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\VisualValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Range\Range.cs" />
@@ -176,18 +176,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UserPreference\UserPreference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UserPreference\UserPreferenceCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\ModelInterface\IUserEssentialCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\ModelInterface\IUserEssential.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\ModelInterface\IUserCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\ModelInterface\IUserInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Tenant\TenantBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Tenant\TenantCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\Model\SessionCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SaaS-Legacy\Model\SessionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Model\Finance\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Model\Tenant\" />
     <Folder Include="$(MSBuildThisFileDirectory)Model\SessionCredential\" />
   </ItemGroup>
 </Project>

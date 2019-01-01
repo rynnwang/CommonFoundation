@@ -50,7 +50,7 @@ namespace Beyova
         /// <returns></returns>
         public TOutput InternalCultureThing<TInput, TOutput>(TInput input, CultureInfo cultureInfo, bool languageCompatibility, Func<GlobalCultureResourceCollection, TInput, TOutput> delegateFunc)
         {
-            cultureInfo = cultureInfo ?? ContextHelper.CurrentCultureInfo ?? DefaultCultureInfo;
+            cultureInfo = cultureInfo ?? Framework.CurrentCultureInfo ?? DefaultCultureInfo;
 
             if (cultureInfo == null) return default(TOutput);
 
@@ -99,7 +99,7 @@ namespace Beyova
             return string.IsNullOrWhiteSpace(resourceKey) ? null : InternalCultureThing(new Tuple<string, GlobalCultureResourceType?>(resourceKey, typeRequired), cultureInfo, languageCompatibility, (coll, p) =>
                {
                    return coll?.GetResourceByKey(p?.Item1, p?.Item2);
-               });
+               }).SafeToString(resourceKey);
         }
 
         /// <summary>

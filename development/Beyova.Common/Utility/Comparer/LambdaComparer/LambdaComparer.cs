@@ -30,7 +30,7 @@ namespace Beyova
         /// Gets or sets the comparer.
         /// </summary>
         /// <value>The comparer.</value>
-        public Func<T, TCompareType> Comparer
+        public Func<T, TCompareType> Selector
         {
             get; protected set;
         }
@@ -47,11 +47,11 @@ namespace Beyova
         /// <summary>
         /// Initializes a new instance of the <see cref="LambdaComparer{T, TCompareType}" /> class.
         /// </summary>
-        /// <param name="comparer">The comparer.</param>
+        /// <param name="selector">The selector.</param>
         /// <param name="comparison">The comparison.</param>
-        public LambdaComparer(Func<T, TCompareType> comparer, Func<TCompareType, TCompareType, int> comparison)
+        public LambdaComparer(Func<T, TCompareType> selector, Func<TCompareType, TCompareType, int> comparison)
         {
-            this.Comparer = comparer;
+            this.Selector = selector;
             this.Comparison = comparison;
         }
 
@@ -63,7 +63,7 @@ namespace Beyova
         /// <returns>A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in the following table.Value Meaning Less than zero <paramref name="x" /> is less than <paramref name="y" />.Zero <paramref name="x" /> equals <paramref name="y" />.Greater than zero <paramref name="x" /> is greater than <paramref name="y" />.</returns>
         public override int Compare(T x, T y)
         {
-            return (this.Comparer != null && this.Comparison != null) ? this.Comparison(Comparer(x), Comparer(y)) : 0;
+            return (this.Selector != null && this.Comparison != null) ? this.Comparison(Selector(x), Selector(y)) : 0;
         }
     }
 }

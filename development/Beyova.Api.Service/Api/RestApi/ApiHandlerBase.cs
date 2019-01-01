@@ -310,11 +310,12 @@ namespace Beyova.Api.RestApi
                     break;
 
                 case "gravity":
-                    result = Gravity.GravityShell.Current?.Info;
+                    result = //Gravity.GravityShell.Current?.Info;
+                        "<Retired>";
                     break;
 
                 case "i18n":
-                    result = Framework._resourceHub?.AvailableCultureInfo ?? new Collection<CultureInfo>();
+                    result = Framework.GetGlobalResourceAvailableCultureInfo() ?? new Collection<CultureInfo>();
                     break;
 
                 case "mirror":

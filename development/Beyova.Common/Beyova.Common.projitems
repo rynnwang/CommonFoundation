@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\FunctionInjectionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\ParameterlessPrioritizedFunctionInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\RegionalSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\SafeContractResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\NullableLambdaComparableComparer.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\ICacheParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\BeyovaPropertyConstants.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\GenericFunctionalServiceConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\DefaultSecuritySettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\HttpConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\StringConstants.cs" />
@@ -125,7 +125,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UnionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\BaseJsonConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\JsonConfigurationReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigurationReader\GravityConfigurationReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\CultureResource\GlobalCultureResourceHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\EnvironmentCore.cs" />

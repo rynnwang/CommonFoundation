@@ -14,7 +14,7 @@
         /// <param name="message">The message.</param>
         /// <param name="errorCode">The error code.</param>
         /// <param name="reason">The reason.</param>
-        internal SqlStoredProcedureException(string storedProcedureName, string message, int errorCode, string reason)
+        public SqlStoredProcedureException(string storedProcedureName, string message, int errorCode, string reason)
             : base(string.Format("Error occurred when executing SQL stored procedure [{0}]. {1}", storedProcedureName, message),
                   new ExceptionCode { Major = (ExceptionCode.MajorCode)errorCode, Minor = reason })
         {
@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="exceptionCode">The exception code.</param>
-        internal SqlStoredProcedureException(string message, ExceptionCode exceptionCode)
+        public SqlStoredProcedureException(string message, ExceptionCode exceptionCode)
             : base(message, exceptionCode)
         {
         }

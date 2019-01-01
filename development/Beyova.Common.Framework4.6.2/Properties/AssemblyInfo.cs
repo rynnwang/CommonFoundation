@@ -15,7 +15,7 @@ using Beyova;
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
 [assembly: AssemblyProduct("Beyova.Common")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Common", "4.6.2")]
+[assembly: BeyovaComponent("Beyova.Common", "4.7.2")]
 
 [assembly: InternalsVisibleTo("Beyova.UnitTestKit, PublicKey=0024000004800000940000000602000000240000525341310004000001000100a77bdcffcc1f21"
 + "9efe5232f329c5db2158316252fb8ae4b64cf9396c6e284e315704a42dfab582d9efe1907d1ebf"

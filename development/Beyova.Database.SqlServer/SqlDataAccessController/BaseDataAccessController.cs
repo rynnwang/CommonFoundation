@@ -307,6 +307,26 @@ namespace Beyova
         protected const string column_Tags = "Tags";
 
         /// <summary>
+        /// The column tag
+        /// </summary>
+        protected const string column_Tag = "Tag";
+
+        /// <summary>
+        /// The column tenant key
+        /// </summary>
+        protected const string column_TenantKey = "TenantKey";
+
+        /// <summary>
+        /// The column binary keys
+        /// </summary>
+        protected const string column_BinaryKeys = "BinaryKeys";
+
+        /// <summary>
+        /// The column is read only
+        /// </summary>
+        protected const string column_IsReadOnly = "IsReadOnly";
+
+        /// <summary>
         /// The column_ public key
         /// </summary>
         protected const string column_PublicKey = "PublicKey";

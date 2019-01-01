@@ -23,7 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extension\SpecializedExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpWeb\HttpRequestExtensible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpWeb\HttpWebExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Json.NET\SafeContractResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)License.md" />

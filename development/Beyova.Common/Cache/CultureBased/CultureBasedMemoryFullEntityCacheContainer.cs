@@ -54,7 +54,7 @@ namespace Beyova.Cache
         {
             if (key.HasValue)
             {
-                cultureCode = (cultureCode.SafeToString(ContextHelper.CurrentCultureInfo?.Name)).SafeToString(defaultCultureCode);
+                cultureCode = (cultureCode.SafeToString(Framework.CurrentCultureInfo?.Name)).SafeToString(defaultCultureCode);
                 MemoryFullEntityCacheContainer<Guid, TEntity> container = string.IsNullOrWhiteSpace(cultureCode) ? null : GetCultureSpecificCacheContainer(cultureCode);
 
                 return container == null ? default(TEntity) : container.Get(key.Value);
@@ -200,7 +200,7 @@ namespace Beyova.Cache
         /// <returns></returns>
         public TEntity Get(TKey key, string cultureCode = null, string defaultCultureCode = null)
         {
-            cultureCode = (cultureCode.SafeToString(ContextHelper.CurrentCultureInfo?.Name)).SafeToString(defaultCultureCode);
+            cultureCode = (cultureCode.SafeToString(Framework.CurrentCultureInfo?.Name)).SafeToString(defaultCultureCode);
             MemoryFullEntityCacheContainer<TKey, TEntity> container = string.IsNullOrWhiteSpace(cultureCode) ? null : GetCultureSpecificCacheContainer(cultureCode);
 
             return container == null ? default(TEntity) : container.Get(key);

@@ -276,7 +276,7 @@ namespace Beyova
         /// Gets the assembly hash.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal static string GetAssemblyHash()
+        public static string GetAssemblyHash()
         {
             try
             {

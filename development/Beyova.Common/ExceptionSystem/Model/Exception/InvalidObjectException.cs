@@ -32,7 +32,7 @@ namespace Beyova.ExceptionSystem
         /// <param name="reason">The reason.</param>
         /// <param name="hint">The hint.</param>
         /// <param name="scene">The scene.</param>
-        internal InvalidObjectException(Exception innerException, object data = null, string reason = null, FriendlyHint hint = null, ExceptionScene scene = null)
+        public InvalidObjectException(Exception innerException, object data = null, string reason = null, FriendlyHint hint = null, ExceptionScene scene = null)
             : base((innerException?.Message).SafeToString("Invalid object."), new ExceptionCode { Major = ExceptionCode.MajorCode.NullOrInvalidValue, Minor = reason.SafeToString("InvalidObject") }, innerException, data, hint, scene)
         {
         }

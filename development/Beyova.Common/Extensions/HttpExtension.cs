@@ -14,7 +14,7 @@ namespace Beyova
         /// </summary>
         static HttpExtension()
         {
-            // ServicePointManager.ServerCertificateValidationCallback += delegate { return true; };
+            ServicePointManager.ServerCertificateValidationCallback += delegate { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 

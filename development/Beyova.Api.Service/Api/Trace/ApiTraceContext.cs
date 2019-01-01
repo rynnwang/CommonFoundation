@@ -29,7 +29,7 @@ namespace Beyova.Api
         /// The debuggable trace identifier. It is set by Gravity protocol.
         /// </summary>
         [ThreadStatic]
-        internal static string DebuggableTraceId;
+        internal static string DebuggableTraceId = null;
 
         /// <summary>
         /// Gets a value indicating whether [debug current].

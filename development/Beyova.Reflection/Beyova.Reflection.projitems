@@ -9,6 +9,7 @@
     <Import_RootNamespace>Beyova.Reflection</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Model\SingleParameterInstanceConstructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Assembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpecificTypeDiscover.cs" />

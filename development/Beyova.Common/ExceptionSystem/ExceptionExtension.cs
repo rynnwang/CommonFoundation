@@ -310,12 +310,11 @@ namespace Beyova
         /// <param name="exception">The exception.</param>
         /// <param name="key">The key.</param>
         /// <param name="level">The level.</param>
-        /// <param name="operatorIdentifier">The operator identifier.</param>
         /// <param name="eventKey">The event key.</param>
         /// <returns>
         /// ExceptionInfo.
         /// </returns>
-        public static ExceptionInfo ToExceptionInfo(this Exception exception, Guid? key = null, ExceptionInfo.ExceptionCriticality level = ExceptionInfo.ExceptionCriticality.Error, string operatorIdentifier = null, string eventKey = null)
+        public static ExceptionInfo ToExceptionInfo(this Exception exception, Guid? key = null, ExceptionInfo.ExceptionCriticality level = ExceptionInfo.ExceptionCriticality.Error, string eventKey = null)
         {
             if (exception != null)
             {
@@ -324,8 +323,6 @@ namespace Beyova
                 {
                     key = baseException?.Key ?? Guid.NewGuid();
                 }
-
-                operatorIdentifier = operatorIdentifier.SafeToString(Framework.GetCurrentOperatorCredential?.Invoke()?.Key?.ToString());
 
                 var exceptionInfo = new ExceptionInfo
                 {
@@ -342,10 +339,10 @@ namespace Beyova
                     Data = baseException?.ReferenceData,
                     Key = key,
                     Scene = baseException?.Scene,
-                    OperatorCredential = baseException?.OperatorCredential ?? (ContextHelper.CurrentCredential),
+                    OperatorCredential = (baseException?.OperatorCredential) ?? (Framework.CurrentOperatorCredential),
                     Hint = baseException?.Hint,
                     EventKey = eventKey,
-                    RawUrl = ContextHelper.ApiContext.CurrentUri?.ToString()
+                    RawUrl = Framework.CurrentRawUrl
                 };
 
                 if (exception.InnerException != null)
@@ -482,7 +479,7 @@ namespace Beyova
                         break;
 
                     case ExceptionCode.MajorCode.UnauthorizedOperation:
-                        result = new UnauthorizedOperationException(sqlException, reason: sqlException.Code.Minor);
+                        result = new UnauthorizedOperationException(sqlException, minorCode: sqlException.Code.Minor);
                         break;
 
                     case ExceptionCode.MajorCode.OperationForbidden:

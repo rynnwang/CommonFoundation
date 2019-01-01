@@ -63,7 +63,7 @@ namespace Beyova
         /// <typeparam name="TTarget">The type of the target.</typeparam>
         /// <param name="objects">The objects.</param>
         /// <returns></returns>
-        public static ICollection<TTarget> AsCollection<TOriginal, TTarget>(this IEnumerable<TOriginal> objects)
+        public static Collection<TTarget> AsCollection<TOriginal, TTarget>(this IEnumerable<TOriginal> objects)
             where TOriginal : class
             where TTarget : class
         {

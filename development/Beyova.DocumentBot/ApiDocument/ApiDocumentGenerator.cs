@@ -227,7 +227,7 @@ url{
             {
                 c.Add(name, b);
             }, container, (routes.HasItem() ? routes : RestApiRoutePool.RuntimeRoutes as IEnumerable<RuntimeRoute>)
-            .Distinct(new LambdaEqualityComparer<RuntimeRoute>((x, y) => { return x?.InstanceType == y?.InstanceType; }, x => x?.InstanceType?.GetHashCode() ?? 0))
+            .Distinct(new LambdaEqualityComparer<RuntimeRoute,Type>((x) => { return x?.InstanceType; }))
             .Select(x => new KeyValuePair<Type, IApiContractOptions>(x.InstanceType, x.ApiRouteIdentifier)).ToArray());
 
             return container.Any() ? container.ZipAsBytes() : null;

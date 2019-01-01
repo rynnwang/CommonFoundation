@@ -14,7 +14,7 @@ namespace Beyova.ApiTracking
         /// </summary>
         /// <value>The parent.</value>
         [JsonIgnore]
-        internal ApiTraceLogPiece Parent { get; set; }
+        public ApiTraceLogPiece Parent { get; set; }
 
         /// <summary>
         /// Gets or sets the full name of the method.
@@ -60,7 +60,7 @@ namespace Beyova.ApiTracking
         /// <param name="parent">The parent.</param>
         /// <param name="methodFullName">Full name of the method.</param>
         /// <param name="entryStamp">The entry stamp.</param>
-        internal ApiTraceLogPiece(ApiTraceLogPiece parent, string methodFullName = null, DateTime? entryStamp = null)
+        public ApiTraceLogPiece(ApiTraceLogPiece parent, string methodFullName = null, DateTime? entryStamp = null)
             : this()
         {
             this.Parent = parent;

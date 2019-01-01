@@ -4,7 +4,7 @@ using Beyova.ExceptionSystem;
 namespace Beyova.BooleanSearch
 {
     /// <summary>
-    /// Class BooleanSearchExpressionReader.
+    /// Class BooleanSearchExpressionReader. To convert string expression to <see cref="IBooleanComputable"/>. For instance: "(IntValue=13) AND (DoubleValue> '11')"
     /// </summary>
     public class BooleanSearchExpressionReader
     {

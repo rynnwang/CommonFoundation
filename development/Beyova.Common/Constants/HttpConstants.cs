@@ -87,11 +87,6 @@
             public const string TOKEN = "X-BA-TOKEN";
 
             /// <summary>
-            /// The realm
-            /// </summary>
-            public const string REALM = "X-BA-REALM";
-
-            /// <summary>
             /// If modified since
             /// </summary>
             public const string IfModifiedSince = "If-Modified-Since";

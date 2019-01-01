@@ -20,6 +20,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MultipleSelectionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SingleSelectionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SelectionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />
   </ItemGroup>

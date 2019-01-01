@@ -14,7 +14,7 @@ using Beyova;
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Aop", "1.0.0")]
+[assembly: BeyovaComponent("Beyova.Aop", "1.0.1")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

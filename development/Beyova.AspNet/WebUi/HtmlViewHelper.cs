@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Beyova.Web
@@ -15,6 +16,47 @@ namespace Beyova.Web
         /// The na
         /// </summary>
         public const string NA = "(N/A)";
+
+        /// <summary>
+        /// Renders the boolean value as text.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <returns></returns>
+        public static string RenderBooleanValueAsText(bool value)
+        {
+            return value ? "Yes" : "No";
+        }
+
+        /// <summary>
+        /// Renders the boolean value as text.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static string RenderBooleanValueAsText(bool? value)
+        {
+            return value.HasValue ? RenderBooleanValueAsText(value.Value) : NA;
+        }
+
+        /// <summary>
+        /// Renders the boolean value as symbol.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <returns></returns>
+        public static string RenderBooleanValueAsSymbol(bool value)
+        {
+            return (value ? Fun.UnicodeConstants.Yes : Fun.UnicodeConstants.No).ToString();
+        }
+
+        /// <summary>
+        /// Renders the boolean value as icon raw.
+        /// </summary>
+        /// <param name="value">if set to <c>true</c> [value].</param>
+        /// <param name="additionalClass">The additional class.</param>
+        /// <returns></returns>
+        public static string RenderBooleanValueAsIconRaw(bool value, string additionalClass = null)
+        {
+            return string.Format("<i class=\"{0} {1}\"></i>", value ? "fas fa-check-circle" : "fas fa-times-circle", value);
+        }
 
         /// <summary>
         /// Renders the information value.
@@ -115,56 +157,97 @@ namespace Beyova.Web
         /// Splits to list raw.
         /// </summary>
         /// <param name="text">The text.</param>
+        /// <param name="seperators">The seperators.</param>
+        /// <param name="ulClass">The ul class. BS class: <c>list-group</c></param>
+        /// <param name="liClass">The li class. BS class: <c>list-group-item</c></param>
+        /// <returns></returns>
+        public static string SplitToListRaw(string text, string[] seperators, string ulClass = null, string liClass = null)
+        {
+            return SplitToListRaw(text, (x) => x.Split(seperators, StringSplitOptions.RemoveEmptyEntries), ulClass, liClass);
+        }
+
+        /// <summary>
+        /// Splits to list raw.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="seperator">The seperator.</param>
         /// <param name="ulClass">The ul class.</param>
         /// <param name="liClass">The li class.</param>
-        /// <param name="liFormat">The li format.</param>
-        /// <param name="seperators">The seperators.</param>
+        /// <param name="itemTextBuilder">The item text builder.</param>
         /// <returns></returns>
-        public static string SplitToListRaw(string text, string ulClass, string liClass, string liFormat, params string[] seperators)
+        public static string SplitToListRaw(string text, Func<string, IEnumerable<string>> seperator, string ulClass = null, string liClass = null, Func<string, string> itemTextBuilder = null)
         {
-            if (!string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(text) && seperator != null)
             {
-                var items = text.Split(seperators, StringSplitOptions.RemoveEmptyEntries);
-                StringBuilder builder = new StringBuilder(text.Length * 2);
-                builder.AppendFormat("<ul class=\"{0}\">", ulClass.Remove(new char[] { '\'', '"' }));
-
-                foreach (var item in items)
+                if (itemTextBuilder == null)
                 {
-                    builder.AppendFormat("<li class=\"{0}\">", liClass.Remove(new char[] { '\'', '"' }));
-                    builder.Append((string.IsNullOrWhiteSpace(liFormat) ? item : string.Format(liFormat, item)).ToHtmlEncodedText());
-                    builder.Append("</li>");
+                    itemTextBuilder = FuncExtension.GetSelf;
                 }
 
-                builder.Append("</ul>");
+                var items = seperator(text);
 
-                return builder.ToString();
+                if (items.HasItem())
+                {
+                    StringBuilder builder = new StringBuilder(text.Length * 2);
+                    builder.AppendFormat("<ul class=\"{0}\">", ulClass.GetValidDomAttributeName());
+
+                    foreach (var item in items)
+                    {
+                        builder.AppendFormat("<li class=\"{0}\">", liClass.GetValidDomAttributeName());
+                        builder.Append(itemTextBuilder(item).ToHtmlEncodedText());
+                        builder.Append("</li>");
+                    }
+
+                    builder.Append("</ul>");
+
+                    return builder.ToString();
+                }
             }
 
             return text;
         }
 
         /// <summary>
-        /// Splits to list raw.
+        /// Gets the name of the valid DOM attribute.
         /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="ulClass">The ul class.</param>
-        /// <param name="liClass">The li class.</param>
-        /// <param name="seperators">The seperators.</param>
+        /// <param name="attributeName">Name of the attribute.</param>
         /// <returns></returns>
-        public static string SplitToListRaw(string text, string ulClass, string liClass, params string[] seperators)
+        internal static string GetValidDomAttributeName(this string attributeName)
         {
-            return SplitToListRaw(text, ulClass, liClass, null, seperators);
+            return attributeName.Remove(new char[] { '\'', '"' });
+        }
+
+        static Regex flatListContentSymbolRegex = new Regex(@"([\(\[（【]?)(\d+)[\.\-,，、。\]\)）】]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Tries the content of the structurize list.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
+        public static string[] TryStructurizeListContentToList(string content)
+        {
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                return flatListContentSymbolRegex.Split(content);
+            }
+
+            return new string[] { };
         }
 
         /// <summary>
-        /// Splits to list raw.
+        /// Tries the content of the structurize list.
         /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="seperators">The seperators.</param>
+        /// <param name="content">The content.</param>
+        /// <param name="replaceSeperator">The replace seperator.</param>
         /// <returns></returns>
-        public static string SplitToListRaw(string text, params string[] seperators)
+        public static string TryStructurizeListContent(string content, string replaceSeperator = null)
         {
-            return SplitToListRaw(text, null, null, null, seperators);
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                return flatListContentSymbolRegex.Replace(content, replaceSeperator.SafeToString(StringConstants.NewLine));
+            }
+
+            return content;
         }
     }
 }

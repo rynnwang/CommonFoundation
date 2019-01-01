@@ -34,6 +34,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\SharedModel\ApiSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Trace\ApiTraceContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Trace\ApiTraceExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpApiExtension.cs" />
   </ItemGroup>
 </Project>

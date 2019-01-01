@@ -14,20 +14,12 @@ namespace Beyova
         string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the nation code.
-        /// </summary>
-        /// <value>
-        /// The nation code.
-        /// </value>
-        string NationCode { get; set; }
-
-        /// <summary>
         /// Gets or sets the cellphone.
         /// </summary>
         /// <value>
         /// The cellphone.
         /// </value>
-        string Cellphone { get; set; }
+        CellphoneNumber Cellphone { get; set; }
 
         /// <summary>
         /// Gets or sets the avatar key.

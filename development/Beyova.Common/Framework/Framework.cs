@@ -361,6 +361,8 @@ namespace Beyova
         /// </value>
         public static Encoding DefaultTextEncoding { get { return Encoding.UTF8; } }
 
+        #region FunctionInjection and interfaces
+
         /// <summary>
         /// Initializes the default function injection.
         /// </summary>
@@ -371,7 +373,7 @@ namespace Beyova
                 return _resourceHub?.DefaultCultureInfo;
             };
 
-            CurrentCultureInfo = new ParameterlessPrioritizedFunctionInjection<CultureInfo>(injection);
+            GetCurrentCultureInfo = new ParameterlessPrioritizedFunctionInjection<CultureInfo>(injection);
         }
 
         /// <summary>
@@ -392,7 +394,14 @@ namespace Beyova
         {
             get
             {
-                return GetCurrentOperatorCredential?.Invoke();
+                // It is by design, to ensure no sensitive fields would be unexpectedly throw out.
+                // Constraint to BaseCredential.
+                var obj = GetCurrentOperatorCredential?.Invoke();
+                return obj == null ? null : new BaseCredential
+                {
+                    Key = obj.Key,
+                    Name = obj.Name
+                };
             }
         }
 
@@ -402,7 +411,7 @@ namespace Beyova
         /// <value>
         /// The get current culture information.
         /// </value>
-        public static ParameterlessFunctionInjection<CultureInfo> GetCurrentCultureInfo { get; private set; }
+        public static ParameterlessPrioritizedFunctionInjection<CultureInfo> GetCurrentCultureInfo { get; private set; }
 
         /// <summary>
         /// Gets the current culture information.
@@ -410,6 +419,36 @@ namespace Beyova
         /// <value>
         /// The current culture information.
         /// </value>
-        public static ParameterlessPrioritizedFunctionInjection<CultureInfo> CurrentCultureInfo { get; private set; } = new ParameterlessPrioritizedFunctionInjection<CultureInfo>();
+        public static CultureInfo CurrentCultureInfo
+        {
+            get
+            {
+                return GetCurrentCultureInfo?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Gets the get current raw URL.
+        /// </summary>
+        /// <value>
+        /// The get current raw URL.
+        /// </value>
+        public static ParameterlessFunctionInjection<string> GetCurrentRawUrl { get; private set; }
+
+        /// <summary>
+        /// Gets the current raw URL.
+        /// </summary>
+        /// <value>
+        /// The current raw URL.
+        /// </value>
+        public static string CurrentRawUrl
+        {
+            get
+            {
+                return GetCurrentRawUrl?.Invoke();
+            }
+        }
+
+        #endregion
     }
 }

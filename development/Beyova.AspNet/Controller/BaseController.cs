@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Beyova.Api;
 using Beyova.ExceptionSystem;
-using Beyova.Web;
 
 namespace Beyova.Web
 {
@@ -68,7 +67,8 @@ namespace Beyova.Web
                     case ActionResultType.Default:
                     case ActionResultType.Json:
                     default:
-                        result = JsonNet(exception.ToSimpleExceptionInfo());
+                        this.PackageResponse(null, exception);
+                        result = null;
                         break;
                 }
             }
@@ -116,19 +116,53 @@ namespace Beyova.Web
         /// <exception cref="ResourceNotFoundException">T</exception>
         protected virtual ActionResult GetEntityView<T>(Func<Guid?, T> get, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null)
         {
+            return GetEntityView<Guid?, T>(get, key, viewName, x => x.HasValue, resultType, postValidation);
+        }
+
+        /// <summary>
+        /// Gets the entity view.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="get">The get.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="resultType">Type of the result.</param>
+        /// <param name="postValidation">The post validation.</param>
+        /// <returns></returns>
+        /// <exception cref="ResourceNotFoundException">T</exception>
+        protected virtual ActionResult GetEntityView<T>(Func<string, T> get, string key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null)
+        {
+            return GetEntityView<string, T>(get, key, viewName, x => !string.IsNullOrWhiteSpace(x), resultType, postValidation);
+        }
+
+        /// <summary>
+        /// Gets the entity view.
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input.</typeparam>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="get">The get.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="inputValidator">The input validator.</param>
+        /// <param name="resultType">Type of the result.</param>
+        /// <param name="postValidation">The post validation.</param>
+        /// <returns></returns>
+        /// <exception cref="ResourceNotFoundException">TEntity</exception>
+        private ActionResult GetEntityView<TInput, TEntity>(Func<TInput, TEntity> get, TInput key, string viewName, Func<TInput, bool> inputValidator, ActionResultType resultType, Func<TEntity, bool> postValidation)
+        {
             try
             {
                 get.CheckNullObject(nameof(get));
                 viewName.CheckEmptyString(nameof(viewName));
 
-                var result = key.HasValue ? get.Invoke(key.Value) : default(T);
+                var result = inputValidator(key) ? get.Invoke(key) : default(TEntity);
                 if (result != null && (postValidation == null || postValidation(result)))
                 {
                     return resultType == ActionResultType.PartialView ? PartialView(viewName, result) : View(viewName, result) as ActionResult;
                 }
                 else
                 {
-                    throw new ResourceNotFoundException(nameof(T), key.ToString());
+                    throw new ResourceNotFoundException(nameof(TEntity), key.ToString());
                 }
             }
             catch (Exception ex)
@@ -189,6 +223,52 @@ namespace Beyova.Web
                 entity.CheckNullObject(nameof(entity));
 
                 return JsonNet(action(entity));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex, ActionResultType.Json);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        protected virtual ActionResult DeleteEntity<TEntity, TOutput>(Func<TEntity, TOutput> action, TEntity entity)
+        {
+            try
+            {
+                action.CheckNullObject(nameof(action));
+                entity.CheckNullObject(nameof(entity));
+
+                return JsonNet(action(entity));
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex, ActionResultType.Json);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        protected virtual ActionResult DeleteEntity<TEntity>(Action<TEntity> action, TEntity entity)
+        {
+            try
+            {
+                action.CheckNullObject(nameof(action));
+                entity.CheckNullObject(nameof(entity));
+
+                action(entity);
+                return JsonNet(DateTime.UtcNow);
             }
             catch (Exception ex)
             {

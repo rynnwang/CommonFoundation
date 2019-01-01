@@ -41,10 +41,10 @@ namespace Beyova.ApiTracking
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiTraceLog" /> class.
         /// </summary>
+        /// <param name="entryStamp">The entry stamp.</param>
         /// <param name="serverName">Name of the server.</param>
         /// <param name="serviceName">Name of the service.</param>
-        /// <param name="entryStamp">The entry stamp.</param>
-        internal ApiTraceLog(string serverName = null, string serviceName = null, DateTime? entryStamp = null) : this()
+        public ApiTraceLog(DateTime? entryStamp, string serverName = null, string serviceName = null) : this()
         {
             this.ServerName = serverName.SafeToString(EnvironmentCore.MachineName);
             this.ServiceName = serviceName.SafeToString(EnvironmentCore.ProductName);

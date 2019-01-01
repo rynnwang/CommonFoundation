@@ -2,7 +2,10 @@
 
 namespace Beyova
 {
-    public static partial class HttpExtension
+    /// <summary>
+    /// 
+    /// </summary>
+    public static partial class HttpApiExtension
     {
         /// <summary>
         /// To the full raw URL.

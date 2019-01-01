@@ -104,5 +104,13 @@ namespace Beyova.ExceptionSystem
         }
 
         #endregion Constructor
+
+        /// <summary>
+        /// Resets the new key.
+        /// </summary>
+        public void ResetNewKey()
+        {
+            this.Key = Guid.NewGuid();
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Beyova.Cache
     /// <summary>
     /// Class CacheRealm.
     /// </summary>
-    internal static class CacheRealm
+    public static class CacheRealm
     {
         /// <summary>
         /// The containers

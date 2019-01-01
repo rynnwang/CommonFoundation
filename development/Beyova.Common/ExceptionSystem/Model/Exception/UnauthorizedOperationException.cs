@@ -16,46 +16,27 @@ namespace Beyova.ExceptionSystem
         /// Initializes a new instance of the <see cref="UnauthorizedOperationException" /> class.
         /// </summary>
         /// <param name="innerException">The inner exception.</param>
-        /// <param name="reason">The minor code.</param>
+        /// <param name="minorCode">The minor code.</param>
         /// <param name="data">The data.</param>
         /// <param name="hint">The hint.</param>
         /// <param name="scene">The scene.</param>
-        public UnauthorizedOperationException(Exception innerException = null, string reason = null, object data = null, FriendlyHint hint = null, ExceptionScene scene = null)
-            : base(string.Format("Unauthorized action on [{0}].", scene?.MethodName),
-                  new ExceptionCode { Major = ExceptionCode.MajorCode.UnauthorizedOperation, Minor = reason.SafeToString("Operation") }, innerException, data, hint, scene)
+        public UnauthorizedOperationException(Exception innerException, string minorCode = null, object data = null, FriendlyHint hint = null, ExceptionScene scene = null)
+            : base(string.Format("Unauthorized operation on [{0}].", scene?.MethodName),
+                  new ExceptionCode { Major = ExceptionCode.MajorCode.UnauthorizedOperation, Minor = minorCode.SafeToString("Operation") }, innerException, data, hint, scene)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnauthorizedOperationException" /> class.
         /// </summary>
-        /// <param name="reason">The reason.</param>
+        /// <param name="minorCode">The reason.</param>
         /// <param name="data">The data.</param>
         /// <param name="hint">The hint.</param>
         /// <param name="operationName">Name of the operation.</param>
-        public UnauthorizedOperationException(string reason = null, object data = null, FriendlyHint hint = null, [CallerMemberName] string operationName = null)
-                 : base(string.Format("Unauthorized action on [{0}].", operationName),
-                       new ExceptionCode { Major = ExceptionCode.MajorCode.UnauthorizedOperation, Minor = reason.SafeToString("Operation") }, data: data, hint: hint)
+        public UnauthorizedOperationException(string minorCode = null, object data = null, FriendlyHint hint = null, [CallerMemberName] string operationName = null)
+                 : base(string.Format("Unauthorized operation on [{0}].", operationName),
+                       new ExceptionCode { Major = ExceptionCode.MajorCode.UnauthorizedOperation, Minor = minorCode.SafeToString("Operation") }, data: data, hint: hint)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnauthorizedOperationException" /> class.
-        /// </summary>
-        /// <param name="destinationMethod">The destination method.</param>
-        /// <param name="permissionIdentifier">The permission identifier.</param>
-        /// <param name="permission">The permission.</param>
-        /// <param name="scene">The scene.</param>
-        internal UnauthorizedOperationException(string destinationMethod, string permissionIdentifier, ApiPermission permission, ExceptionScene scene = null)
-                 : base(string.Format(permission == ApiPermission.Required ? "Access denied to {0} by requirement of permission identifier: {1}" : "Access denied to {0} by owning permission identifier: {1}", destinationMethod, permissionIdentifier),
-                       new ExceptionCode { Major = ExceptionCode.MajorCode.UnauthorizedOperation, Minor = ("PermissionIssue") }, scene: scene)
-        {
-            this.Hint = new FriendlyHint
-            {
-                CauseObjects = permissionIdentifier.AsArray(),
-                Message = this.Message,
-                HintCode = "401.Permission"
-            };
         }
 
         /// <summary>

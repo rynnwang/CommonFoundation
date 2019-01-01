@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Beyova.Gravity;
 
 namespace Beyova
 {
@@ -18,7 +17,7 @@ namespace Beyova
         /// </summary>
         static ConfigurationHub()
         {
-            _configurationReaders.AddIfNotNull(GravityShell.Current?.ConfigurationReader);
+            //_configurationReaders.AddIfNotNull(GravityShell.Current?.ConfigurationReader);
         }
 
         /// <summary>

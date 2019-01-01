@@ -429,6 +429,13 @@ namespace Beyova
                 else if (parameterObject is CryptoKey)
                 {
                     parameterObject = (byte[])((CryptoKey)parameterObject);
+
+                    // Somehow, when SQL type is VarBinary, DB NULL cannot work for null value.
+                    // Need to specifically set SqlBinary.Null.
+                    if (parameterObject == null)
+                    {
+                        parameterObject = System.Data.SqlTypes.SqlBinary.Null;
+                    }
                 }
                 else if (parameterObject is JToken)
                 {

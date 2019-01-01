@@ -7,29 +7,58 @@ namespace Beyova
     /// Class LambdaEqualityComparer. This class cannot be inherited.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class LambdaEqualityComparer<T> : IEqualityComparer<T>
+    /// <typeparam name="TComparableType">The type of the comparable type.</typeparam>
+    public sealed class LambdaEqualityComparer<T, TComparableType> : IEqualityComparer<T>
     {
         /// <summary>
         /// Gets or sets the comparer.
         /// </summary>
-        /// <value>The comparer.</value>
-        public Func<T, T, bool> Comparer { get; set; }
+        /// <value>
+        /// The comparer.
+        /// </value>
+        public IEqualityComparer<TComparableType> Comparer { get; set; }
 
         /// <summary>
         /// Gets or sets the hash code getter.
         /// </summary>
         /// <value>The hash code getter.</value>
-        public Func<T, int> HashCodeGetter { get; set; }
+        public Func<T, TComparableType> ComparableSelector { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LambdaEqualityComparer{T}"/> class.
+        /// Initializes a new instance of the <see cref="LambdaEqualityComparer{T, TComparableType}" /> class.
         /// </summary>
+        /// <param name="comparableSelector">The comparable selector.</param>
         /// <param name="comparer">The comparer.</param>
-        /// <param name="hashCodeGetter">The hash code getter.</param>
-        public LambdaEqualityComparer(Func<T, T, bool> comparer, Func<T, int> hashCodeGetter)
+        public LambdaEqualityComparer(Func<T, TComparableType> comparableSelector, IEqualityComparer<TComparableType> comparer = null)
         {
-            this.Comparer = comparer == null ? GetDefaultComparison() : comparer;
-            this.HashCodeGetter = hashCodeGetter == null ? GetDefaultHashCodeGetter() : hashCodeGetter;
+            this.ComparableSelector = comparableSelector == null ? (x) => { return default(TComparableType); } : comparableSelector;
+            this.Comparer = comparer ?? EqualityComparer<TComparableType>.Default;
+        }
+
+        /// <summary>
+        /// Equalses the specified x.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="y">The y.</param>
+        /// <returns></returns>
+        public bool Equals(T x, TComparableType y)
+        {
+            //https://referencesource.microsoft.com/#mscorlib/system/nullable.cs,c9505a785f9fd8c5
+            var left = x == null ? default(TComparableType) : this.ComparableSelector(x);
+
+            if (left == null)
+            {
+                return y == null;
+            }
+
+            if (y == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Comparer.Equals(left, y);
+            }
         }
 
         /// <summary>
@@ -37,10 +66,28 @@ namespace Beyova
         /// </summary>
         /// <param name="x">The first object of type T to compare.</param>
         /// <param name="y">The second object of type T to compare.</param>
-        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
+        /// <returns>
+        /// true if the specified objects are equal; otherwise, false.
+        /// </returns>
         public bool Equals(T x, T y)
         {
-            return Comparer(x, y);
+            //https://referencesource.microsoft.com/#mscorlib/system/nullable.cs,c9505a785f9fd8c5
+            var left = x == null ? default(TComparableType) : this.ComparableSelector(x);
+            var right = y == null ? default(TComparableType) : this.ComparableSelector(y);
+
+            if (left == null)
+            {
+                return right == null;
+            }
+
+            if (right == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Comparer.Equals(left, right);
+            }
         }
 
         /// <summary>
@@ -50,31 +97,7 @@ namespace Beyova
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public int GetHashCode(T obj)
         {
-            return HashCodeGetter(obj);
-        }
-
-        /// <summary>
-        /// Gets the default comparison.
-        /// </summary>
-        /// <returns>Func&lt;T, T, System.Boolean&gt;.</returns>
-        private static Func<T, T, bool> GetDefaultComparison()
-        {
-            return (x, y) =>
-            {
-                return x.Equals(y);
-            };
-        }
-
-        /// <summary>
-        /// Gets the default hash code getter.
-        /// </summary>
-        /// <returns>Func&lt;T, System.Int32&gt;.</returns>
-        private static Func<T, int> GetDefaultHashCodeGetter()
-        {
-            return (x) =>
-            {
-                return x.GetHashCode();
-            };
+            return Comparer.GetHashCode(ComparableSelector(obj));
         }
     }
 }

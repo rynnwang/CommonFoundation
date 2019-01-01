@@ -21,7 +21,7 @@ namespace Beyova
         /// Initializes a new instance of the <see cref="BeyovaConfigurationAttribute" /> class.
         /// If configurationDirectory is not specified, then use <c>{BaseDirectory}/Configurations/{configurationName}</c>
         /// </summary>
-        /// <param name="configurationName">Name of the configuration.</param>
+        /// <param name="configurationName">Name of the configuration. e.g.: <c>XXX.YYY.*.json</c></param>
         /// <param name="configurationDirectory">The configuration directory.</param>
         public BeyovaConfigurationAttribute(string configurationName, string configurationDirectory = null) : this(new BeyovaLocalConfigurationOptions(configurationName, configurationDirectory))
         {
@@ -31,7 +31,7 @@ namespace Beyova
         /// Initializes a new instance of the <see cref="BeyovaConfigurationAttribute"/> class.
         /// </summary>
         /// <param name="configurationOption">The configuration option.</param>
-        public BeyovaConfigurationAttribute(BeyovaLocalConfigurationOptions configurationOption)
+        protected BeyovaConfigurationAttribute(BeyovaLocalConfigurationOptions configurationOption)
         {
             Options = configurationOption;
         }

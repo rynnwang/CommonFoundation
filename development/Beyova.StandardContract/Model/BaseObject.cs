@@ -46,12 +46,12 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseObject{T}"/> class.
+        /// Initializes a new instance of the <see cref="BaseObject{T}" /> class.
         /// </summary>
-        /// <param name="genricObject">The genric object.</param>
-        public BaseObject(T genricObject) : this()
+        /// <param name="genericObject">The generic object.</param>
+        public BaseObject(T genericObject) : this()
         {
-            Object = genricObject;
+            Object = genericObject;
         }
     }
 }

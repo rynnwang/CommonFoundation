@@ -229,9 +229,6 @@ Global
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.DynamicCompile\Beyova.DynamicCompile.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
-		Beyova.Function.Generic\Beyova.Function.Generic.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
-		Beyova.Gravity.Embedded\Beyova.Gravity.Embedded.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
-		Beyova.Gravity\Beyova.Gravity.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Http\Beyova.Http.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Reflection\Beyova.Reflection.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4

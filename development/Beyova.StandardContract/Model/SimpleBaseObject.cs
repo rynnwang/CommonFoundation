@@ -72,12 +72,12 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleBaseObject{T}"/> class.
+        /// Initializes a new instance of the <see cref="SimpleBaseObject{T}" /> class.
         /// </summary>
-        /// <param name="genricObject">The genric object.</param>
-        public SimpleBaseObject(T genricObject) : this()
+        /// <param name="genericObject">The generic object.</param>
+        public SimpleBaseObject(T genericObject) : this()
         {
-            Object = genricObject;
+            Object = genericObject;
         }
     }
 }

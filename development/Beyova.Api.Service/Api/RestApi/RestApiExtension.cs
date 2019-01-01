@@ -126,15 +126,16 @@ namespace Beyova.Api.RestApi
         {
             var permissionValidationResult = userPermissions.ValidateApiPermission(methodPermissions);
 
-            if (permissionValidationResult != null)
-            {
-                return new UnauthorizedOperationException(methodName, permissionValidationResult.Value.Key, permissionValidationResult.Value.Value, new ExceptionScene
-                {
-                    MethodName = "ValidateApiPermission"
-                });
-            }
-
-            return null;
+            return (permissionValidationResult != null) ?
+                new UnauthorizedOperationException(
+                    minorCode: "ApiPermissionConstraint",
+                     data: new
+                     {
+                         userPermissions,
+                         methodPermissions,
+                         result = permissionValidationResult
+                     })
+                : null;
         }
     }
 }

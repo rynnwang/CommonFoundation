@@ -206,6 +206,62 @@ namespace Beyova.Cache
         }
 
         /// <summary>
+        /// Expires this instance.
+        /// </summary>
+        public void Expire()
+        {
+            lock (_itemChangeLocker)
+            {
+                this.ExpiredStamp = DateTime.UtcNow;
+            }
+        }
+
+        /// <summary>
+        /// Gets the specified predict.
+        /// </summary>
+        /// <param name="predict">The predict.</param>
+        /// <returns></returns>
+        public TEntity Get(Func<TEntity, bool> predict)
+        {
+            if (predict != null && _readOnlyContainer != null && _readOnlyContainer.Values != null)
+            {
+                foreach (var item in _readOnlyContainer.Values)
+                {
+                    if (predict(item))
+                    {
+                        return item;
+                    }
+                }
+            }
+            return default(TEntity);
+        }
+
+        /// <summary>
+        /// Gets the specified selector.
+        /// </summary>
+        /// <typeparam name="TComparableType">The type of the comparable type.</typeparam>
+        /// <param name="selector">The selector.</param>
+        /// <param name="equaltyValue">The equalty value.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <returns></returns>
+        public TEntity Get<TComparableType>(Func<TEntity, TComparableType> selector, TComparableType equaltyValue, IEqualityComparer<TComparableType> comparer = null)
+        {
+            if (selector != null && comparer != null && _readOnlyContainer != null && _readOnlyContainer.Values != null)
+            {
+                var equaltyComparer = new LambdaEqualityComparer<TEntity, TComparableType>(selector, comparer);
+
+                foreach (var item in _readOnlyContainer.Values)
+                {
+                    if (equaltyComparer.Equals(item, equaltyValue))
+                    {
+                        return item;
+                    }
+                }
+            }
+            return default(TEntity);
+        }
+
+        /// <summary>
         /// Gets the specified key.
         /// </summary>
         /// <param name="key">The key.</param>

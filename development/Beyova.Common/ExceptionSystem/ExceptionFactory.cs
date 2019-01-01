@@ -209,6 +209,33 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Expects the not null object. This is used to check if a key obejct during business processing is null.
+        /// </summary>
+        /// <param name="targetObject">The target object.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="data">The data.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="OperationFailureException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void ExpectNotNullObject(this object targetObject, string objectIdentity, object data = null,
+            [CallerMemberName] string memberName = null,
+            [CallerFilePath] string sourceFilePath = null,
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (targetObject == null)
+            {
+                throw new OperationFailureException(data: new { data, expectNotNullObjectName = objectIdentity }, minor: "ExpectNotNullObject", scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Checks the null resource.
         /// </summary>
         /// <param name="anyObject">Any object.</param>

@@ -12,10 +12,10 @@ namespace Beyova
         /// <summary>
         /// Initializes a new instance of the <see cref="LambdaComparer{T, TComparableType}" /> class.
         /// </summary>
-        /// <param name="comparer">The comparer.</param>
+        /// <param name="selector">The selector.</param>
         /// <param name="isDescending">if set to <c>true</c> [is descending].</param>
-        public LambdaComparableComparer(Func<T, TComparableType> comparer, bool isDescending = false)
-            : base(comparer, GetDefaultComparison(isDescending))
+        public LambdaComparableComparer(Func<T, TComparableType> selector, bool isDescending = false)
+            : base(selector, GetDefaultComparison(isDescending))
         {
         }
 
