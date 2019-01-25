@@ -34,7 +34,7 @@ namespace Beyova.CommonFramework.UnitTest
         [TestMethod]
         public void TestFunctionInjection()
         {
-            FunctionInjectionController.ApplyInjectionByAttribute(typeof(TestInjectionHost));
+           // FunctionInjectionController.ApplyInjectionByAttribute(typeof(TestInjectionHost));
 
             //var method = typeof(TestInjectionHost).GetMethod(nameof(TestInjectionHost.TestInjectionMethod), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
 
