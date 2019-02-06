@@ -488,6 +488,7 @@ namespace Beyova.Api.RestApi
                 // Fill basic context info.
                 var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
                 var token = context.TryGetRequestHeader((context.Settings?.TokenHeaderKey).SafeToString(HttpConstants.HttpHeader.TOKEN));
+                ContextHelper.ApiContext.IndicatedOperator = context.TryGetRequestHeader(HttpConstants.HttpHeader.OPERATOR);
 
                 ContextHelper.ConsistContext(
                     // TOKEN

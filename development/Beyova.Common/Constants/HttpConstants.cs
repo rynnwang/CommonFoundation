@@ -92,39 +92,9 @@
             public const string IfModifiedSince = "If-Modified-Since";
 
             /// <summary>
-            /// The x if modified since
-            /// </summary>
-            public const string XIfModifiedSince = "X-BA-IF-MODIFIED-SINCE";
-
-            /// <summary>
             /// The last modified
             /// </summary>
             public const string LastModified = "Last-Modified";
-
-            /// <summary>
-            /// The x last modified
-            /// </summary>
-            public const string XLastModified = "X-BA-LAST-MODIFIED";
-
-            /// <summary>
-            /// The cache version match
-            /// </summary>
-            public const string CACHEVERSIONMATCH = "IF-MATCH";
-
-            /// <summary>
-            /// The admin token
-            /// </summary>
-            public const string ADMINTOKEN = "X-BA-ADMIN-TOKEN";
-
-            /// <summary>
-            /// The secured token. It indicates request and response is encrypted.
-            /// </summary>
-            public const string SECUREDTOKEN = "X-BA-SECURED-TOKEN";
-
-            /// <summary>
-            /// The secured key. It is used for secure encryption key for response. Value itself is encrypted by RSA Publish Key
-            /// </summary>
-            public const string SECUREDKEY = "X-BA-SECURED-KEY";
 
             /// <summary>
             /// The client identifier
@@ -159,6 +129,11 @@
             /// The debug ID
             /// </summary>
             public const string DEBUG = "X-BA-DEBUG-ID";
+
+            /// <summary>
+            /// The operator
+            /// </summary>
+            public const string OPERATOR = "X-BA-OPERATOR";
 
             /// <summary>
             /// The poweredby

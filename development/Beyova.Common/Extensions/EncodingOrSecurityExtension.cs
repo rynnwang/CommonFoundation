@@ -503,6 +503,11 @@ namespace Beyova
         #region 3DES
 
         /// <summary>
+        /// The triple description key length
+        /// </summary>
+        private const int tripleDesKeyLength = 24;
+
+        /// <summary>
         /// Generates the triple DES key.
         /// </summary>
         /// <returns>System.Byte[].</returns>
@@ -850,6 +855,11 @@ namespace Beyova
         #region DES
 
         /// <summary>
+        /// The description key length
+        /// </summary>
+        private const int desKeyLength = 48;
+
+        /// <summary>
         /// Generates the random DES key.
         /// </summary>
         /// <param name="anyObject">Any object.</param>
@@ -1028,145 +1038,135 @@ namespace Beyova
 
         #region My encryption
 
-        /// <summary>
-        /// The description key length
-        /// </summary>
-        private const int desKeyLength = 48;
+        ///// <summary>
+        ///// Encrypts the r3 DES.
+        ///// </summary>
+        ///// <param name="content">The content.</param>
+        ///// <returns>System.Byte[].</returns>
+        //internal static byte[] EncryptR3DES(this byte[] content)
+        //{
+        //    if (content.HasItem())
+        //    {
+        //        try
+        //        {
+        //            byte[] keyBytes = GenerateTripleDESKey();
+        //            using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
+        //            {
+        //                DES.Key = keyBytes;
+        //                DES.Mode = CipherMode.ECB;
+        //                DES.Padding = PaddingMode.PKCS7;
 
-        /// <summary>
-        /// The triple description key length
-        /// </summary>
-        private const int tripleDesKeyLength = 24;
+        //                ICryptoTransform DESEncrypt = DES.CreateEncryptor();
 
-        /// <summary>
-        /// Encrypts the r3 DES.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <returns>System.Byte[].</returns>
-        internal static byte[] EncryptR3DES(this byte[] content)
-        {
-            if (content.HasItem())
-            {
-                try
-                {
-                    byte[] keyBytes = GenerateTripleDESKey();
-                    using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
-                    {
-                        DES.Key = keyBytes;
-                        DES.Mode = CipherMode.ECB;
-                        DES.Padding = PaddingMode.PKCS7;
+        //                var buffer = DESEncrypt.TransformFinalBlock(content, 0, content.Length);
+        //                List<byte> data = new List<byte>(keyBytes);
+        //                data.AddRange(buffer);
+        //                return data.ToArray();
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex.Handle();
+        //        }
+        //    }
 
-                        ICryptoTransform DESEncrypt = DES.CreateEncryptor();
+        //    return null;
+        //}
 
-                        var buffer = DESEncrypt.TransformFinalBlock(content, 0, content.Length);
-                        List<byte> data = new List<byte>(keyBytes);
-                        data.AddRange(buffer);
-                        return data.ToArray();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex.Handle();
-                }
-            }
+        ///// <summary>
+        ///// Encrypts the r3 DES.
+        ///// </summary>
+        ///// <param name="content">The content.</param>
+        ///// <param name="encoding">The encoding.</param>
+        ///// <returns>System.String.</returns>
+        //internal static string EncryptR3DES(this string content, Encoding encoding = null)
+        //{
+        //    string result = content;
 
-            return null;
-        }
+        //    if (!string.IsNullOrWhiteSpace(content))
+        //    {
+        //        try
+        //        {
+        //            return Convert.ToBase64String(EncryptR3DES((encoding ?? Encoding.UTF8).GetBytes(content)));
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex.Handle(new { content });
+        //        }
+        //    }
 
-        /// <summary>
-        /// Encrypts the r3 DES.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <param name="encoding">The encoding.</param>
-        /// <returns>System.String.</returns>
-        internal static string EncryptR3DES(this string content, Encoding encoding = null)
-        {
-            string result = content;
+        //    return result;
+        //}
 
-            if (!string.IsNullOrWhiteSpace(content))
-            {
-                try
-                {
-                    return Convert.ToBase64String(EncryptR3DES((encoding ?? Encoding.UTF8).GetBytes(content)));
-                }
-                catch (Exception ex)
-                {
-                    throw ex.Handle(new { content });
-                }
-            }
+        ///// <summary>
+        ///// Decrypts the r3 DES.
+        ///// </summary>
+        ///// <param name="content">The content.</param>
+        ///// <returns>System.Byte[].</returns>
+        //internal static byte[] DecryptR3DES(this byte[] content)
+        //{
+        //    if (content.HasItem())
+        //    {
+        //        try
+        //        {
+        //            List<byte> bytes = new List<byte>(content);
+        //            using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
+        //            {
+        //                DES.Key = bytes.GetRange(0, tripleDesKeyLength).ToArray();
+        //                var buffer = bytes.GetRange(tripleDesKeyLength, bytes.Count - tripleDesKeyLength).ToArray();
+        //                DES.Mode = CipherMode.ECB;
+        //                DES.Padding = PaddingMode.PKCS7;
 
-            return result;
-        }
+        //                ICryptoTransform DESDecrypt = DES.CreateDecryptor();
+        //                buffer = DESDecrypt.TransformFinalBlock(buffer, 0, buffer.Length);
+        //                return buffer;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex.Handle(content);
+        //        }
+        //    }
 
-        /// <summary>
-        /// Decrypts the r3 DES.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <returns>System.Byte[].</returns>
-        internal static byte[] DecryptR3DES(this byte[] content)
-        {
-            if (content.HasItem())
-            {
-                try
-                {
-                    List<byte> bytes = new List<byte>(content);
-                    using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
-                    {
-                        DES.Key = bytes.GetRange(0, tripleDesKeyLength).ToArray();
-                        var buffer = bytes.GetRange(tripleDesKeyLength, bytes.Count - tripleDesKeyLength).ToArray();
-                        DES.Mode = CipherMode.ECB;
-                        DES.Padding = PaddingMode.PKCS7;
+        //    return null;
+        //}
 
-                        ICryptoTransform DESDecrypt = DES.CreateDecryptor();
-                        buffer = DESDecrypt.TransformFinalBlock(buffer, 0, buffer.Length);
-                        return buffer;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex.Handle(content);
-                }
-            }
+        ///// <summary>
+        ///// Decrypt within 3DES.
+        ///// </summary>
+        ///// <param name="content">The content.</param>
+        ///// <param name="encoding">The encoding.</param>
+        ///// <returns>System.String.</returns>
+        //internal static string DecryptR3DES(this string content, Encoding encoding = null)
+        //{
+        //    string result = content;
 
-            return null;
-        }
+        //    if (!string.IsNullOrWhiteSpace(content))
+        //    {
+        //        try
+        //        {
+        //            byte[] buffer = Convert.FromBase64String(content);
+        //            List<byte> bytes = new List<byte>(buffer);
+        //            using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
+        //            {
+        //                DES.Key = bytes.GetRange(0, tripleDesKeyLength).ToArray();
+        //                buffer = bytes.GetRange(tripleDesKeyLength, bytes.Count - tripleDesKeyLength).ToArray();
+        //                DES.Mode = CipherMode.ECB;
+        //                DES.Padding = PaddingMode.PKCS7;
 
-        /// <summary>
-        /// Decrypt within 3DES.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        /// <param name="encoding">The encoding.</param>
-        /// <returns>System.String.</returns>
-        internal static string DecryptR3DES(this string content, Encoding encoding = null)
-        {
-            string result = content;
+        //                ICryptoTransform DESDecrypt = DES.CreateDecryptor();
+        //                buffer = DESDecrypt.TransformFinalBlock(buffer, 0, buffer.Length);
+        //                result = (encoding ?? Encoding.UTF8).GetString(buffer);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex.Handle(content);
+        //        }
+        //    }
 
-            if (!string.IsNullOrWhiteSpace(content))
-            {
-                try
-                {
-                    byte[] buffer = Convert.FromBase64String(content);
-                    List<byte> bytes = new List<byte>(buffer);
-                    using (TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider())
-                    {
-                        DES.Key = bytes.GetRange(0, tripleDesKeyLength).ToArray();
-                        buffer = bytes.GetRange(tripleDesKeyLength, bytes.Count - tripleDesKeyLength).ToArray();
-                        DES.Mode = CipherMode.ECB;
-                        DES.Padding = PaddingMode.PKCS7;
-
-                        ICryptoTransform DESDecrypt = DES.CreateDecryptor();
-                        buffer = DESDecrypt.TransformFinalBlock(buffer, 0, buffer.Length);
-                        result = (encoding ?? Encoding.UTF8).GetString(buffer);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex.Handle(content);
-                }
-            }
-
-            return result;
-        }
+        //    return result;
+        //}
 
         #endregion My encryption
 

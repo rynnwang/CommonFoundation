@@ -90,5 +90,18 @@ namespace Beyova.Web
         {
             return mvcHtmlHelper?.Raw((isSelected ?? false) ? " selected" : string.Empty);
         }
+
+        /// <summary>
+        /// Renders the determinable icon DOM.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <param name="mvcHtmlHelper">The MVC HTML helper.</param>
+        /// <param name="needShow">The need show.</param>
+        /// <param name="classNames">The class names.</param>
+        /// <returns></returns>
+        public static IHtmlString RenderDeterminableIconDom<TModel>(this HtmlHelper<TModel> mvcHtmlHelper, bool? needShow, string classNames)
+        {
+            return mvcHtmlHelper?.Raw((needShow ?? false) ? string.Format("<i class=\"{0}\"></i>", classNames) : string.Empty);
+        }
     }
 }

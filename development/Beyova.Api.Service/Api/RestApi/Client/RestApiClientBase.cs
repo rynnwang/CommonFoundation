@@ -133,6 +133,7 @@ namespace Beyova.Api.RestApi
                 httpRequest.Headers.AddIfNotNullOrEmpty(HttpConstants.HttpHeader.ORIGINAL, currentApiContext.IpAddress);
                 httpRequest.Headers.AddIfNotNullOrEmpty(HttpConstants.HttpHeader.TRACEID, ApiTraceContext.TraceId);
                 httpRequest.Headers.AddIfNotNullOrEmpty(HttpConstants.HttpHeader.TRACESEQUENCE, ApiTraceContext.TraceSequence.ToString());
+                httpRequest.Headers.AddIfNotNullOrEmpty(HttpConstants.HttpHeader.OPERATOR, currentApiContext.IndicatedOperator.SafeToString(currentApiContext.CurrentCredential?.Key.ToString()));
 
                 var userAgent = currentApiContext.UserAgent.SafeToString();
                 if (!string.IsNullOrWhiteSpace(userAgent))

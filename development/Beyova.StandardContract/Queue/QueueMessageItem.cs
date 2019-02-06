@@ -6,7 +6,7 @@ namespace Beyova
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class QueueItem<T>
+    public class QueueMessageItem<T>
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -31,5 +31,13 @@ namespace Beyova
         /// The message.
         /// </value>
         public T Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the revisible stamp.
+        /// </summary>
+        /// <value>
+        /// The revisible stamp.
+        /// </value>
+        public DateTime? RevisibleStamp { get; set; }
     }
 }

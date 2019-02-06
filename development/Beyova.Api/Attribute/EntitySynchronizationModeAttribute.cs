@@ -58,8 +58,8 @@ namespace Beyova.Api.RestApi
         public EntitySynchronizationModeAttribute(string ifModifiedSinceKey = null, string lastModifiedKey = null, Func<DateTime?, string> stampOutputFunc = null, Func<string, DateTime?> stampInputFunc = null)
             : base()
         {
-            this.IfModifiedSinceKey = ifModifiedSinceKey.SafeToString(HttpConstants.HttpHeader.XIfModifiedSince);
-            this.LastModifiedKey = lastModifiedKey.SafeToString(HttpConstants.HttpHeader.XLastModified);
+            this.IfModifiedSinceKey = ifModifiedSinceKey.SafeToString(HttpConstants.HttpHeader.IfModifiedSince);
+            this.LastModifiedKey = lastModifiedKey.SafeToString(HttpConstants.HttpHeader.LastModified);
             this.StampInputFunction = stampInputFunc;
             this.StampOutputFunction = stampOutputFunc;
         }

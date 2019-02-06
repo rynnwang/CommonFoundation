@@ -131,6 +131,16 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Tries the get.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public virtual List<TValue> TryGet(TKey key)
+        {
+            return GetCollectionByKey(key, false);
+        }
+
+        /// <summary>
         /// Adds the specified key.
         /// </summary>
         /// <param name="key">The key.</param>

@@ -37,6 +37,34 @@ namespace Beyova.BooleanSearch
         }
 
         /// <summary>
+        /// Computes the specified computable object.
+        /// </summary>
+        /// <param name="computableObject">The computable object.</param>
+        /// <param name="json">The json.</param>
+        /// <returns></returns>
+        public static bool Compute(IBooleanComputable computableObject, JObject json)
+        {
+            if (json != null)
+            {
+                ICriteriaOperatorComputable operatorComputable = computableObject as ICriteriaOperatorComputable;
+
+                if (operatorComputable != null)
+                {
+                    return BooleanCompute(operatorComputable, json);
+                }
+
+                IRelationshipOperatorComputable relationshipComputable = computableObject as IRelationshipOperatorComputable;
+
+                if (relationshipComputable != null)
+                {
+                    return BooleanCompute(relationshipComputable, json);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Booleans the compute.
         /// </summary>
         /// <param name="criteriaOperatorComputable">The criteria operator computable.</param>

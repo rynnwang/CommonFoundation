@@ -1,4 +1,7 @@
-﻿using Beyova.Api;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Beyova.Api;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -9,8 +12,8 @@ namespace Beyova.Azure
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="Beyova.IQueueOperator{T}" />
-    public class AzureQueueOperator<T> : IQueueOperator<T>
+    /// <seealso cref="Beyova.IQueueMessageOperator{T}" />
+    public class AzureQueueOperator<T> : IQueueMessageOperator<T>
     {
         #region Fields
 
@@ -141,33 +144,71 @@ namespace Beyova.Azure
         }
 
         /// <summary>
-        /// Dequeues this instance.
-        /// </summary>
-        /// <returns></returns>
-        public QueueItem<T> Dequeue()
-        {
-            var message = this.Queue.GetMessage();
-            return (message != null) ? new QueueItem<T>
-            {
-                CreatedStamp = message.InsertionTime.ToDateTime(),
-                Id = message.Id,
-                Message = message.AsString.TryConvertJsonToObject<T>()
-            } : default(QueueItem<T>);
-        }
-
-        /// <summary>
         /// Peeks this instance.
         /// </summary>
         /// <returns></returns>
-        public QueueItem<T> Peek()
+        public QueueMessageItem<T> Peek()
         {
-            var message = this.Queue.PeekMessage();
-            return (message != null) ? new QueueItem<T>
+            return ConvertObject(this.Queue.PeekMessage());
+        }
+
+        /// <summary>
+        /// Gets the message.
+        /// </summary>
+        /// <param name="invisibilityTimeout">The invisibility timeout.</param>
+        /// <returns></returns>
+        public QueueMessageItem<T> GetMessage(int? invisibilityTimeout)
+        {
+            return ConvertObject(this.Queue.GetMessage(invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?));
+        }
+
+        /// <summary>
+        /// Gets the messages.
+        /// </summary>
+        /// <param name="messageCount">The message count.</param>
+        /// <param name="invisibilityTimeout">The invisibility timeout.</param>
+        /// <returns></returns>
+        public List<QueueMessageItem<T>> GetMessages(int messageCount, int? invisibilityTimeout)
+        {
+            return this.Queue.GetMessages(messageCount, invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?)
+                .Select(ConvertObject)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Deletes the message.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="receipt">The receipt.</param>
+        public void DeleteMessage(string id, string receipt)
+        {
+            id.CheckEmptyString(nameof(id));
+            this.Queue.DeleteMessage(id, receipt);
+        }
+
+        /// <summary>
+        /// Peeks the messages.
+        /// </summary>
+        /// <param name="messageCount">The message count.</param>
+        /// <returns></returns>
+        public List<QueueMessageItem<T>> PeekMessages(int messageCount)
+        {
+            return this.Queue.PeekMessages(messageCount).Select(ConvertObject).ToList();
+        }
+
+        /// <summary>
+        /// Converts the object.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns></returns>
+        private static QueueMessageItem<T> ConvertObject(CloudQueueMessage message)
+        {
+            return (message != null) ? new QueueMessageItem<T>
             {
                 CreatedStamp = message.InsertionTime.ToDateTime(),
                 Id = message.Id,
                 Message = message.AsString.TryConvertJsonToObject<T>()
-            } : default(QueueItem<T>);
+            } : default(QueueMessageItem<T>);
         }
     }
 }

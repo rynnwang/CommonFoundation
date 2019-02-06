@@ -45,6 +45,14 @@ namespace Beyova.Api.RestApi
         public ICredential CurrentCredential { get; set; }
 
         /// <summary>
+        /// Gets or sets the indicated operator.
+        /// </summary>
+        /// <value>
+        /// The indicated operator.
+        /// </value>
+        public string IndicatedOperator { get; set; }
+
+        /// <summary>
         /// Gets or sets the HTTP authorization.
         /// </summary>
         /// <value>

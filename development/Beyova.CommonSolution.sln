@@ -125,6 +125,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.CommonFramework.Unit
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.BinaryStorageHelper", "Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.shproj", "{AE544BC1-1A61-49C0-A866-D8D19194CC4E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.QueueDispatcher", "..\..\..\CodingNet\CommonSolution\Development\Beyova.QueueDispatcher\Beyova.QueueDispatcher.shproj", "{88F8DF2E-7A97-4271-B412-1BCF07CEEE61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.QueueDispatcher.Framework4.6.2", "..\..\..\CodingNet\CommonSolution\Development\Beyova.QueueDispatcher.Framework4.6.2\Beyova.QueueDispatcher.Framework4.6.2.csproj", "{98A75580-02EE-428B-9E75-11D12C232814}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.projitems*{0279b826-a639-42fa-8429-01840deef360}*SharedItemsImports = 13
@@ -154,8 +158,10 @@ Global
 		Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.projitems*{713524f5-8360-45a8-b6a7-9c3c2b4534d4}*SharedItemsImports = 4
 		Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.projitems*{7be4fa48-62e5-4af2-a2f9-ea5cf26f9b9c}*SharedItemsImports = 13
 		Beyova.Aop\Beyova.Aop.projitems*{81f89c6e-328c-49e2-bbae-d3e5a9f22674}*SharedItemsImports = 4
+		..\..\..\CodingNet\CommonSolution\Development\Beyova.QueueDispatcher\Beyova.QueueDispatcher.projitems*{88f8df2e-7a97-4271-b412-1bcf07ceee61}*SharedItemsImports = 13
 		Beyova.DocumentBot\Beyova.DocumentBot.projitems*{936d9664-0d54-41a9-807e-000ad33ade4d}*SharedItemsImports = 13
 		Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.projitems*{93d25c54-75e9-40b2-ae07-4a047a5114ad}*SharedItemsImports = 4
+		..\..\..\CodingNet\CommonSolution\Development\Beyova.QueueDispatcher\Beyova.QueueDispatcher.projitems*{98a75580-02ee-428b-9e75-11d12c232814}*SharedItemsImports = 4
 		Beyova.Database.SqlServer\Beyova.Database.SqlServer.projitems*{9c62d919-9235-4e90-ba1f-708726bb01de}*SharedItemsImports = 13
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{9cafb893-cef7-4438-9d26-e959141951cf}*SharedItemsImports = 13
 		Beyova.AspNet\Beyova.AspNet.projitems*{a0bbbeab-9a29-45d8-9e83-7924df6beb72}*SharedItemsImports = 13
@@ -266,6 +272,10 @@ Global
 		{271FC1DC-3A3C-46AA-8B0F-640A4A765481}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{271FC1DC-3A3C-46AA-8B0F-640A4A765481}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{271FC1DC-3A3C-46AA-8B0F-640A4A765481}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A75580-02EE-428B-9E75-11D12C232814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A75580-02EE-428B-9E75-11D12C232814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A75580-02EE-428B-9E75-11D12C232814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A75580-02EE-428B-9E75-11D12C232814}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -330,6 +340,8 @@ Global
 		{81F89C6E-328C-49E2-BBAE-D3E5A9F22674} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{271FC1DC-3A3C-46AA-8B0F-640A4A765481} = {F8736670-82A8-440F-B9B3-C2EA4FFF5463}
 		{AE544BC1-1A61-49C0-A866-D8D19194CC4E} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{88F8DF2E-7A97-4271-B412-1BCF07CEEE61} = {12871993-A575-4CD7-83E4-B114957C1431}
+		{98A75580-02EE-428B-9E75-11D12C232814} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}
