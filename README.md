@@ -25,21 +25,11 @@ Beyova.SqlConfiguration:
 
 Beyova.AwsExtension: 
 ```
-  PM> Install-Package Beyova.AwsExtension
+  PM> Install-Package Beyova.Aws.S3
 ```
 
 Beyova.AzureExtension: 
 ```
-  PM> Install-Package Beyova.AzureExtension
-```
-
-Beyova.CommonFunctionService.Contract: 
-```
-  PM> Install-Package Beyova.CommonFunctionService.Contract
-```
-
-Beyova.CommonFunctionService: 
-```
-  PM> Install-Package Beyova.CommonFunctionService
+  PM> Install-Package Beyova.Azure.Storage
 ```
 
