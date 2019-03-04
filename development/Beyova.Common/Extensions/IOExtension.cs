@@ -76,7 +76,7 @@ namespace Beyova
         /// <param name="directory">The directory.</param>
         /// <param name="subDirectoryName">Name of the sub directory.</param>
         /// <returns></returns>
-        public static DirectoryInfo GetSubDirectory(this DirectoryInfo directory, string subDirectoryName)
+        private static DirectoryInfo InternalGetSubDirectory(this DirectoryInfo directory, string subDirectoryName)
         {
             DirectoryInfo result = null;
             if (directory == null || string.IsNullOrWhiteSpace(subDirectoryName))
@@ -90,6 +90,27 @@ namespace Beyova
             }
 
             return result ?? new DirectoryInfo(Path.Combine(directory.FullName, subDirectoryName));
+        }
+
+        /// <summary>
+        /// Gets the sub directory.
+        /// </summary>
+        /// <param name="directory">The directory.</param>
+        /// <param name="subDirectoryNames">The sub directory names.</param>
+        /// <returns></returns>
+        public static DirectoryInfo GetSubDirectory(this DirectoryInfo directory, params string[] subDirectoryNames)
+        {
+            DirectoryInfo result = directory;
+
+            if (directory != null && subDirectoryNames.HasItem())
+            {
+                foreach (var item in subDirectoryNames)
+                {
+                    result = InternalGetSubDirectory(result, item);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -144,7 +165,8 @@ namespace Beyova
         {
             if (!string.IsNullOrWhiteSpace(fileName))
             {
-                return fileName.SubStringBeforeLastMatch(dot);
+                // If file name is like ".gitignore", then still consider full tern is file name.
+                return (fileName.SubStringBeforeLastMatch(dot)).SafeToString(fileName);
             }
 
             return fileName;

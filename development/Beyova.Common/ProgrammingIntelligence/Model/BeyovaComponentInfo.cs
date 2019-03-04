@@ -26,14 +26,6 @@ namespace Beyova
         public Type ApiTrackingType { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the retired stamp.
-        /// </summary>
-        /// <value>
-        /// The retired stamp.
-        /// </value>
-        internal DateTime? RetiredStamp { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BeyovaComponentInfo" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>

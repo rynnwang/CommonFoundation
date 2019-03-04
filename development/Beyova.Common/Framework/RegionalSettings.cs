@@ -27,6 +27,6 @@
         /// <value>
         /// The default name of the time zone.
         /// </value>
-        public static string DefaultTimeZoneName { get; set; } = "China Standard Time";
+        public static string DefaultTimeZoneId { get; set; } = "China Standard Time";
     }
 }

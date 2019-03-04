@@ -9,6 +9,7 @@
     <Import_RootNamespace>Beyova.AspNet</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ActionFilter\LocalAccessOnlyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\ActionResultType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseErrorController.cs" />
@@ -18,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RestApi\RestApiContextConsistenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActionFilter\RestApiContextConsistenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MultipleSelectionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SingleSelectionOptions.cs" />

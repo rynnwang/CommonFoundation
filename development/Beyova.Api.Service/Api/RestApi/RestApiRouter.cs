@@ -103,7 +103,7 @@ namespace Beyova.Api.RestApi
             object result = null;
             contentType = HttpConstants.ContentType.Json;
 
-            switch (runtimeContext?.ResourceName.SafeToString().ToLowerInvariant())
+            switch ((runtimeContext?.ResourceName).SafeToString().ToLowerInvariant())
             {
                 case "apilist":
                     result = RestApiRoutePool.Routes.Select(x => new
@@ -114,9 +114,9 @@ namespace Beyova.Api.RestApi
                     }).ToList();
                     break;
 
-                //case "configuration":
-                //    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
-                //    break;
+                case "configuration":
+                    result = isLocalhost ? Framework.ConfigurationValues : localhostTip as object;
+                    break;
 
                 case "doc":
                 case "doc.zip":

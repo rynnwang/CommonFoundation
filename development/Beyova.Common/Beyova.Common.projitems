@@ -158,7 +158,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Diff\ValueDiffResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DualHttpWebRequest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Logger\DiagnosticFileLogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\Model\NuGetPackageAssemblyParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\LoopEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\IObjectMemberClone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberClone.cs" />
