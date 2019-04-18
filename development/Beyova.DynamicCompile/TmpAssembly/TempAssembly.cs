@@ -47,9 +47,9 @@ namespace Beyova
         /// <param name="appDomain">The application domain.</param>
         internal TempAssembly(CompilerResults compilerResults, string _namespace = null, AppDomain appDomain = null)
         {
-            this._assembly = compilerResults?.CompiledAssembly;
-            this.Namespace = _namespace.SafeToString();
-            this._appDomain = appDomain ?? System.AppDomain.CurrentDomain;
+            _assembly = compilerResults?.CompiledAssembly;
+            Namespace = _namespace.SafeToString();
+            _appDomain = appDomain ?? System.AppDomain.CurrentDomain;
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace Beyova
         {
             typeName.CheckEmptyString(nameof(typeName));
 
-            if (!typeName.StartsWith(this.Namespace))
+            if (!typeName.StartsWith(Namespace))
             {
-                typeName = string.Format("{0}.{1}", this.Namespace, typeName);
+                typeName = string.Format("{0}.{1}", Namespace, typeName);
             }
 
             return Activator.CreateInstance(ReflectionExtension.SmartGetType(typeName, false), parameters);

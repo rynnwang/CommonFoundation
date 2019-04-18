@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -14,8 +13,7 @@ using Beyova;
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
 [assembly: AssemblyProduct("Beyova.BinaryStorageHelper")]
 [assembly: AssemblyCulture("")]
-
-[assembly: BeyovaComponent("Beyova.BinaryStorageHelper", "0.4.0")]
+[assembly: BeyovaComponent("Beyova.BinaryStorageHelper", "0.6.1")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

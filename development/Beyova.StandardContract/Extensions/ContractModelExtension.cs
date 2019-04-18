@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Beyova.ExceptionSystem;
 
 namespace Beyova
 {
@@ -172,8 +173,10 @@ namespace Beyova
         /// <returns>MatrixList&lt;T&gt;.</returns>
         public static MatrixList<T> AsMatrixList<T>(this List<T> list, string key, bool keyCaseSensitive = true)
         {
-            var result = new MatrixList<T>(keyCaseSensitive);
-            result.Add(key.SafeToString(), list ?? new List<T>());
+            var result = new MatrixList<T>(keyCaseSensitive)
+            {
+                { key.SafeToString(), list ?? new List<T>() }
+            };
 
             return result;
         }
@@ -255,5 +258,162 @@ namespace Beyova
         }
 
         #endregion IAccessClientIdentifier
+
+        #region Key info collection
+
+        /// <summary>
+        /// Keyses the specified items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <returns></returns>
+        public static IEnumerable<Guid> Keys<T>(this IEnumerable<T> items)
+            where T : IIdentifier
+        {
+            HashSet<Guid> result = new HashSet<Guid>();
+
+            if (items.HasItem())
+            {
+                foreach (IIdentifier item in items)
+                {
+                    if (item?.Key.HasValue ?? false)
+                    {
+                        result.Add(item.Key.Value);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Codeses the specified items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="stringComparer">The string comparer.</param>
+        /// <returns></returns>
+        public static IEnumerable<string> Codes<T>(this IEnumerable<T> items, StringComparer stringComparer = null)
+            where T : ICodeIdentifier
+        {
+            HashSet<string> result = new HashSet<string>(stringComparer ?? StringComparer.Ordinal);
+
+            if (items.HasItem())
+            {
+                foreach (ICodeIdentifier item in items)
+                {
+                    if (!string.IsNullOrWhiteSpace(item.Code))
+                    {
+                        result.Add(item.Code);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region KVMetaExtensible
+
+        /// <summary>
+        /// Computes the specified k.
+        /// </summary>
+        /// <param name="kvMetaObject">The kv meta object.</param>
+        /// <param name="k">The k.</param>
+        /// <param name="operator">The operator.</param>
+        /// <param name="v">The v.</param>
+        /// <returns></returns>
+        public static bool Compute(this IKVMetaExtensible kvMetaObject, string k, string @operator, JValue v)
+        {
+            return Compute(kvMetaObject?.KVMeta, k, @operator, v);
+        }
+
+        /// <summary>
+        /// Computes the specified key.
+        /// </summary>
+        /// <param name="jsonObject">The json object.</param>
+        /// <param name="k">The k.</param>
+        /// <param name="operator">The operator.</param>
+        /// <param name="v">The v.</param>
+        /// <returns></returns>
+        public static bool Compute(this JObject jsonObject, string k, string @operator, JValue v)
+        {
+            if (jsonObject != null && !string.IsNullOrWhiteSpace(k))
+            {
+                var property = jsonObject.GetProperty(k);
+
+                if (property != null && property.Type == v.Type)
+                {
+                    return JsonValueOperatesOn(property.Value<JValue>(), @operator, v);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Jsons the value operates on.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="operator">The operator.</param>
+        /// <param name="right">The right.</param>
+        /// <returns></returns>
+        public static bool JsonValueOperatesOn(JValue left, string @operator, JValue right)
+        {
+            if (left != null && right != null && left.Type == right.Type && !string.IsNullOrWhiteSpace(@operator))
+            {
+                switch (@operator)
+                {
+                    case "==":
+                        return left == right;
+                    case "!=":
+                        return left != right;
+                    case ">":
+                        return left.CompareTo(right) > 0;
+                    case "<":
+                        return left.CompareTo(right) < 0;
+                    case "<=":
+                        return left.CompareTo(right) >= 0;
+                    case ">=":
+                        return left.CompareTo(right) <= 0;
+                    default:
+                        break;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Computes the specified key.
+        /// </summary>
+        /// <param name="kvMetaObject">The kv meta object.</param>
+        /// <param name="k">The k.</param>
+        /// <param name="operator">The operator.</param>
+        /// <param name="v">The v.</param>
+        /// <returns></returns>
+        public static bool Compute(this IDictionary<string, JValue> kvMetaObject, string k, string @operator, JValue v)
+        {
+            JValue metaValue = null;
+            return (kvMetaObject.HasItem()
+                && !string.IsNullOrWhiteSpace(k)
+                && !string.IsNullOrWhiteSpace(@operator)
+                && v != null && kvMetaObject.TryGetValue(k, out metaValue)) ?
+                    JsonValueOperatesOn(metaValue, @operator, v)
+                    : false;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Creates the commit request.
+        /// </summary>
+        /// <param name="storageIdentifier">The storage identifier.</param>
+        /// <returns></returns>
+        public static BinaryStorageCommitRequest CreateCommitRequest(this BinaryStorageIdentifier storageIdentifier)
+        {
+            return storageIdentifier == null ? null : new BinaryStorageCommitRequest(storageIdentifier);
+        }
     }
 }

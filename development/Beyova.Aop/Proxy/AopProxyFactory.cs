@@ -139,7 +139,7 @@ namespace Beyova.AOP
                 }
                 catch (Exception ex)
                 {
-                    throw new Beyova.ExceptionSystem.InitializationFailureException(typeName, ex, minor: "AopProxyGeneration", data: new { type = type?.FullName });
+                    throw new Beyova.Diagnostic.InitializationFailureException(typeName, ex, minor: "AopProxyGeneration", data: new { type = type?.FullName });
                 }
             }
         }

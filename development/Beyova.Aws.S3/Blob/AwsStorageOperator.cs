@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using Amazon;
+﻿using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Beyova;
 using Beyova.Api;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 
 namespace Beyova.Aws
 {
@@ -119,7 +119,7 @@ namespace Beyova.Aws
         /// <param name="contentType">Content type.</param>
         /// <returns>BinaryStorageActionCredential.</returns>
         protected BinaryStorageActionCredential CreateBlobUri(string bucketName,
-            string blobIdentifier, HttpVerb verb, int expireOffsetInMinute = 10, string hash = null, string contentType = null)
+            string blobIdentifier, HttpVerb verb, int expireOffsetInMinute = 10, CryptoKey hash = null, string contentType = null)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace Beyova.Aws
         /// <param name="contentType">Content type.</param>
         /// <returns>BinaryStorageActionCredential.</returns>
         protected BinaryStorageActionCredential GenerateBlobUri(string bucketName,
-            string blobIdentifier, HttpVerb verb, int expireOffsetInMinute = 10, string hash = null, string contentType = null)
+            string blobIdentifier, HttpVerb verb, int expireOffsetInMinute = 10, CryptoKey hash = null, string contentType = null)
         {
             var request = new GetPreSignedUrlRequest()
             {
@@ -155,9 +155,9 @@ namespace Beyova.Aws
                 ContentType = contentType,
                 Expires = DateTime.Now.AddMinutes(expireOffsetInMinute),
             };
-            if (!string.IsNullOrWhiteSpace(hash))
+            if (hash != null && hash.HasValue)
             {
-                request.Headers["x-amz-meta-md5hash"] = hash;
+                request.Headers["x-amz-meta-md5hash"] = hash.StringValue;
             }
 
             var url = blobClient.GetPreSignedURL(request);
@@ -280,7 +280,7 @@ namespace Beyova.Aws
         /// <param name="contentType">Content type.</param>
         /// <returns>BinaryStorageActionCredential.</returns>
         public override BinaryStorageActionCredential CreateBlobUploadCredential(string containerName,
-            string blobIdentifier, int expireOffsetInMinute, string hash = null, string contentType = null)
+            string blobIdentifier, int expireOffsetInMinute, CryptoKey hash = null, string contentType = null)
         {
             return CreateBlobUri(containerName, blobIdentifier.SafeToString(Guid.NewGuid().ToString()), HttpVerb.PUT,
                 expireOffsetInMinute, hash, contentType);
@@ -369,7 +369,7 @@ namespace Beyova.Aws
             {
                 using (var stream = DownloadBinaryStreamByCredentialUri(blobUri))
                 {
-                    return stream.ToBytes();
+                    return stream.ReadStreamToBytes();
                 }
             }
             catch (Exception ex)
@@ -425,7 +425,7 @@ namespace Beyova.Aws
                 // Upload a file using the pre-signed URL.
                 var bucketName = GetBucketNameByCredentialUri(blobUri);
                 var key = GetKeyByCredentialUri(blobUri);
-                var streamBytes = stream.ToBytes();
+                var streamBytes = stream.ReadStreamToBytes();
                 MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
                 var md5hash = md5.ComputeHash(streamBytes).EncodeBase64();
                 HttpWebRequest httpRequest = WebRequest.Create(blobUri) as HttpWebRequest;
@@ -519,16 +519,19 @@ namespace Beyova.Aws
         /// </summary>
         /// <param name="containerName">Name of the container.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="md5">The MD5.</param>
+        /// <param name="hash">The MD5.</param>
         /// <param name="length">The length.</param>
         /// <param name="limitCount">The limit count.</param>
-        /// <returns>List&lt;BinaryStorageMetaBase&gt;.</returns>
+        /// <returns>
+        /// List&lt;BinaryStorageMetaBase&gt;.
+        /// </returns>
         public override List<BinaryStorageMetaData> QueryBinaryBlobByContainer(string containerName, string contentType = null,
-            string md5 = null, long? length = null, int limitCount = 10)
+            CryptoKey hash = null, long? length = null, int limitCount = 10)
         {
             try
             {
-                containerName.CheckEmptyString("containerName");
+                containerName.CheckEmptyString(nameof(containerName));
+
                 var request = new ListObjectsRequest
                 {
                     BucketName = containerName,
@@ -539,13 +542,15 @@ namespace Beyova.Aws
                 foreach (var s3Obj in s3ObjectList)
                 {
                     var key = s3Obj.Key;
-                    BinaryStorageIdentifier identifier = new BinaryStorageIdentifier();
-                    identifier.Container = containerName;
-                    identifier.Identifier = key;
+                    BinaryStorageIdentifier identifier = new BinaryStorageIdentifier
+                    {
+                        Container = containerName,
+                        Identifier = key
+                    };
                     var meta = FetchCloudMeta(identifier);
 
                     if ((string.IsNullOrWhiteSpace(contentType) || meta.ContentType.Equals(contentType, StringComparison.OrdinalIgnoreCase))
-                                && (string.IsNullOrWhiteSpace(md5) || meta.Hash.Equals(md5, StringComparison.OrdinalIgnoreCase))
+                                && (string.IsNullOrWhiteSpace(hash) || meta.Hash.Equals(hash))
                                 && (!length.HasValue || meta.Length == length))
                     {
                         binaryStorageMetaBaseList.Add(meta);
@@ -574,12 +579,12 @@ namespace Beyova.Aws
         /// <param name="length">The length.(no-use)</param>
         /// <param name="limitCount">The limit count.</param>
         /// <returns>IEnumerable&lt;TCloudBlobObject&gt;.</returns>
-        public override IEnumerable<S3Object> QueryBlob(S3Bucket container, string contentType = null, string md5 = null,
+        public override IEnumerable<S3Object> QueryBlob(S3Bucket container, string contentType = null, CryptoKey md5 = null,
             long? length = null, int limitCount = 100)
         {
             try
             {
-                container.CheckNullObject("container");
+                container.CheckNullObject(nameof(container));
                 return QueryS3Objects(container.BucketName, null, null, limitCount);
             }
             catch (Exception ex)
@@ -600,11 +605,11 @@ namespace Beyova.Aws
         /// </summary>
         /// <param name="containerName">Name of the container.</param>
         /// <param name="contentType">Type of the content.(no-use)</param>
-        /// <param name="md5">The MD5.(no-use)</param>
+        /// <param name="hash">The MD5.(no-use)</param>
         /// <param name="length">The length.(no-use)</param>
         /// <param name="limitCount">The limit count.</param>
         /// <returns>IEnumerable&lt;CloudBlockBlob&gt;.</returns>
-        public override IEnumerable<S3Object> QueryBlob(string containerName, string contentType = null, string md5 = null, long? length = null, int limitCount = 100)
+        public override IEnumerable<S3Object> QueryBlob(string containerName, string contentType = null, CryptoKey hash = null, long? length = null, int limitCount = 100)
         {
             try
             {

@@ -20,7 +20,7 @@ namespace Beyova
         /// <param name="capacity">Capacity of the stream</param>
         public BitStream(int capacity)
         {
-            this._source = new byte[capacity];
+            _source = new byte[capacity];
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Beyova
         /// <param name="source"></param>
         public BitStream(byte[] source)
         {
-            this._source = source;
+            _source = source;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Beyova
         public override int Read(byte[] buffer, int offset, int count)
         {
             // Temporary position cursor
-            long tempPos = this.Position;
+            long tempPos = Position;
             tempPos += offset;
 
             // Buffer byte position and in-byte position
@@ -100,10 +100,10 @@ namespace Beyova
             long posCount = tempPos >> 3;
             int posMod = (int)(tempPos - ((tempPos >> 3) << 3));
 
-            while (tempPos < this.Position + offset + count && tempPos < this.Length)
+            while (tempPos < Position + offset + count && tempPos < Length)
             {
                 // Copy the bit from the stream to buffer
-                if ((((int)this._source[posCount]) & (0x1 << (7 - posMod))) != 0)
+                if ((((int)_source[posCount]) & (0x1 << (7 - posMod))) != 0)
                 {
                     buffer[readPosCount] = (byte)((int)(buffer[readPosCount]) | (0x1 << (7 - readPosMod)));
                 }
@@ -133,8 +133,8 @@ namespace Beyova
                     readPosMod++;
                 }
             }
-            int bits = (int)(tempPos - this.Position - offset);
-            this.Position = tempPos;
+            int bits = (int)(tempPos - Position - offset);
+            Position = tempPos;
             return bits;
         }
 
@@ -150,21 +150,21 @@ namespace Beyova
             {
                 case (SeekOrigin.Begin):
                     {
-                        this.Position = offset;
+                        Position = offset;
                         break;
                     }
                 case (SeekOrigin.Current):
                     {
-                        this.Position += offset;
+                        Position += offset;
                         break;
                     }
                 case (SeekOrigin.End):
                     {
-                        this.Position = this.Length + offset;
+                        Position = Length + offset;
                         break;
                     }
             }
-            return this.Position;
+            return Position;
         }
 
         /// <summary>
@@ -179,13 +179,13 @@ namespace Beyova
             }
 
             var tmp = new byte[value];
-            var length = Math.Min(this._source.Length, value);
+            var length = Math.Min(_source.Length, value);
             for (var i = 0; i < length; i++)
             {
-                tmp[i] = this._source[i];
+                tmp[i] = _source[i];
             }
 
-            this._source = tmp;
+            _source = tmp;
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Beyova
         public override void Write(byte[] buffer, int offset, int count)
         {
             // Temporary position cursor
-            long tempPos = this.Position;
+            long tempPos = Position;
 
             // Buffer byte position and in-byte position
             int readPosCount = offset >> 3, readPosMod = offset - ((offset >> 3) << 3);
@@ -206,16 +206,16 @@ namespace Beyova
             long posCount = tempPos >> 3;
             int posMod = (int)(tempPos - ((tempPos >> 3) << 3));
 
-            while (tempPos < this.Position + count && tempPos < this.Length)
+            while (tempPos < Position + count && tempPos < Length)
             {
                 // Copy the bit from buffer to the stream
                 if ((((int)buffer[readPosCount]) & (0x1 << (7 - readPosMod))) != 0)
                 {
-                    this._source[posCount] = (byte)((int)(this._source[posCount]) | (0x1 << (7 - posMod)));
+                    _source[posCount] = (byte)((int)(_source[posCount]) | (0x1 << (7 - posMod)));
                 }
                 else
                 {
-                    this._source[posCount] = (byte)((int)(this._source[posCount]) & (0xffffffff - (0x1 << (7 - posMod))));
+                    _source[posCount] = (byte)((int)(_source[posCount]) & (0xffffffff - (0x1 << (7 - posMod))));
                 }
 
                 // Increment position cursors
@@ -239,7 +239,7 @@ namespace Beyova
                     readPosMod++;
                 }
             }
-            this.Position = tempPos;
+            Position = tempPos;
         }
     }
 }

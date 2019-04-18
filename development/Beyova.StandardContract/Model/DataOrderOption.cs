@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     /// Class DataOrderOption.
@@ -26,6 +28,7 @@
         /// <value>
         /// The by.
         /// </value>
+        [JsonProperty(PropertyName = "by")]
         public string By { get; set; }
 
         /// <summary>
@@ -34,6 +37,7 @@
         /// <value>
         /// The method.
         /// </value>
+        [JsonProperty(PropertyName = "method")]
         public OrderMethod Method { get; set; }
     }
 }

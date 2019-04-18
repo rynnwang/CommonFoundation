@@ -44,7 +44,7 @@ namespace Beyova
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         internal string InternalToString(string positivePrefix = null, string negativePrefix = null, string positiveSuffix = null, string negativeSuffix = null)
         {
-            return string.Format("{0}{1}°{2}'{3}''{4}", this.Degrees > 0 ? positivePrefix : negativePrefix, this.Degrees, this.Minutes, this.Seconds, this.Degrees > 0 ? positiveSuffix : negativeSuffix);
+            return string.Format("{0}{1}°{2}'{3}''{4}", Degrees > 0 ? positivePrefix : negativePrefix, Degrees, Minutes, Seconds, Degrees > 0 ? positiveSuffix : negativeSuffix);
         }
 
         /// <summary>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text;
 using Beyova.Api.RestApi;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api
 {
@@ -76,11 +78,11 @@ namespace Beyova.Api
         /// <param name="action">The action.</param>
         internal ApiRouteIdentifier(string realm, string version, string resource, string httpMethod, string action) : this()
         {
-            this.Realm = realm;
-            this.Version = version;
-            this.Resource = resource;
-            this.HttpMethod = httpMethod;
-            this.Action = action;
+            Realm = realm;
+            Version = version;
+            Resource = resource;
+            HttpMethod = httpMethod;
+            Action = action;
         }
 
         /// <summary>
@@ -103,8 +105,68 @@ namespace Beyova.Api
         {
             return
                 ParameterizedIdentifiers.HasItem() ?
-                string.Format("{0}:{1}/{2}/{3}/{4}/?{5}", HttpMethod, Realm, Version, Resource, Action, ParameterizedIdentifiers.Join(seperator: "&")) :
-                string.Format("{0}:{1}/{2}/{3}/{4}/", HttpMethod, Realm, Version, Resource, Action);
+                string.Format("{0}?{1}", ToUniqueDeclaration(true), ParameterizedIdentifiers.Join(seperator: "&")) :
+                ToUniqueDeclaration(true);
+        }
+
+        /// <summary>
+        /// Converts to unique declaration. Format: <c>{method}:[{realm}]/{version}/{resource}/[{action}]</c>
+        /// </summary>
+        /// <returns></returns>
+        public string ToUniqueDeclaration(bool includeMethod = false)
+        {
+            return ToPath(includeMethod, null);
+        }
+
+        /// <summary>
+        /// Converts to apiuniqueidentifier.
+        /// </summary>
+        /// <returns></returns>
+        public ApiUniqueIdentifier ToApiUniqueIdentifier()
+        {
+            return new ApiUniqueIdentifier
+            {
+                HttpMethod = HttpMethod,
+                Path = ToRoutePath(false)
+            };
+        }
+
+        /// <summary>
+        /// Converts to path.
+        /// </summary>
+        /// <param name="includeMethod">if set to <c>true</c> [include method].</param>
+        /// <param name="prefix">The prefix.</param>
+        /// <returns></returns>
+        private string ToPath(bool includeMethod, string prefix)
+        {
+            StringBuilder builder = new StringBuilder(256);
+            if (includeMethod)
+            {
+                builder.Append(HttpMethod).Append(":");
+            }
+            if (!string.IsNullOrWhiteSpace(prefix))
+            {
+                builder.Append(prefix);
+            }
+            if (!string.IsNullOrWhiteSpace(Realm))
+            {
+                builder.Append(Realm).Append("/");
+            }
+            builder.Append(Version).Append("/").Append(Resource).Append("/");
+            if (!string.IsNullOrWhiteSpace(Action))
+            {
+                builder.Append(Action).Append("/");
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Converts to routepath. Format: <c>{method}:/api/[{realm}]/{version}/{resource}/[{action}]</c>
+        /// </summary>
+        /// <returns></returns>
+        public string ToRoutePath(bool includeMethod = false)
+        {
+            return ToPath(includeMethod, "/api/");
         }
 
         /// <summary>
@@ -116,7 +178,7 @@ namespace Beyova.Api
         /// </returns>
         public override bool Equals(object obj)
         {
-            return string.Equals(this.ToString(), obj.SafeToString(), StringComparison.OrdinalIgnoreCase);
+            return obj is ApiRouteIdentifier && string.Equals(ToUniqueDeclaration(true), ((ApiRouteIdentifier)obj).ToUniqueDeclaration(true), StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -127,7 +189,7 @@ namespace Beyova.Api
         /// </returns>
         public override int GetHashCode()
         {
-            return this.ToString().ToLowerInvariant().GetHashCode();
+            return ToUniqueDeclaration(true).ToLowerInvariant().GetHashCode();
         }
 
         /// <summary>
@@ -164,7 +226,7 @@ namespace Beyova.Api
         /// </returns>
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
     }
 }

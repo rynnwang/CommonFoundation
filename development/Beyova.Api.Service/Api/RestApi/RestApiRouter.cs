@@ -108,8 +108,7 @@ namespace Beyova.Api.RestApi
                 case "apilist":
                     result = RestApiRoutePool.Routes.Select(x => new
                     {
-                        Url = x.Key.ToString().EnsureEndWith('/'),
-                        Method = x.Value.ApiMethod?.Name,
+                        Url = x.Key.ToRoutePath(true),
                         TokenRequired = x.Value?.OperationParameters?.IsTokenRequired
                     }).ToList();
                     break;

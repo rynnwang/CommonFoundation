@@ -1,54 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ApiTraceLog.
     /// </summary>
-    public class ApiTraceLog : ApiTraceLogPiece
+    public class ApiTraceLog : ApiTraceStep, ICreatedStamp, IServiceIdentifiable
     {
         /// <summary>
         /// Gets or sets the trace identifier.
         /// </summary>
         /// <value>The trace identifier.</value>
+        [JsonProperty(PropertyName = "traceId")]
         public string TraceId { get; set; }
 
         /// <summary>
         /// Gets or sets the trace sequence.
         /// </summary>
         /// <value>The trace sequence.</value>
+        [JsonProperty(PropertyName = "traceSequence")]
         public int? TraceSequence { get; set; }
 
         /// <summary>
         /// Gets or sets the created stamp.
         /// </summary>
         /// <value>The created stamp.</value>
-        public DateTime CreatedStamp { get; set; }
+        [JsonProperty(PropertyName = "createdStamp")]
+        public DateTime? CreatedStamp { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the service.
+        /// Gets or sets the service identifier.
         /// </summary>
-        /// <value>The name of the service.</value>
-        public string ServiceName { get; set; }
+        /// <value>
+        /// The service identifier.
+        /// </value>
+        [JsonProperty(PropertyName = "serviceIdentifier")]
+        public string ServiceIdentifier { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the server.
+        /// Gets or sets the server identifier.
         /// </summary>
-        /// <value>The name of the server.</value>
-        public string ServerName { get; set; }
+        /// <value>
+        /// The server identifier.
+        /// </value>
+        [JsonProperty(PropertyName = "serverIdentifier")]
+        public string ServerIdentifier { get; set; }
+
+        /// <summary>
+        /// Gets or sets the steps.
+        /// </summary>
+        /// <value>
+        /// The steps.
+        /// </value>
+        [JsonProperty(PropertyName = "steps")]
+        public List<ApiTraceStep> Steps { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiTraceLog" /> class.
         /// </summary>
-        /// <param name="entryStamp">The entry stamp.</param>
         /// <param name="serverName">Name of the server.</param>
         /// <param name="serviceName">Name of the service.</param>
-        public ApiTraceLog(DateTime? entryStamp, string serverName = null, string serviceName = null) : this()
+        public ApiTraceLog(string serverName, string serviceName)
+            : this()
         {
-            this.ServerName = serverName.SafeToString(EnvironmentCore.MachineName);
-            this.ServiceName = serviceName.SafeToString(EnvironmentCore.ProductName);
-            this.EntryStamp = entryStamp ?? DateTime.UtcNow;
+            ServerIdentifier = serverName.SafeToString(EnvironmentCore.MachineName);
+            ServiceIdentifier = serviceName.SafeToString(EnvironmentCore.ProductName);
         }
 
         /// <summary>
@@ -56,8 +74,8 @@ namespace Beyova.ApiTracking
         /// </summary>
         public ApiTraceLog()
         {
-            this.CreatedStamp = DateTime.UtcNow;
-            this.InnerTraces = new List<ApiTraceLogPiece>();
+            CreatedStamp = DateTime.UtcNow;
+            Steps = new List<ApiTraceStep>();
         }
     }
 }

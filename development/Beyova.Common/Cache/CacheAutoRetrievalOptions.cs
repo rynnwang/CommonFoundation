@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -30,7 +30,7 @@ namespace Beyova.Cache
             long? failureExpirationInSecond = null)
             : base(exceptionProcessingImplementation, failureExpirationInSecond)
         {
-            this.EntityRetrievalImplementation = entityRetrievalImplementation;
+            EntityRetrievalImplementation = entityRetrievalImplementation;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Beyova.Cache
         public CacheAutoRetrievalOptions(Func<TKey, TEntity> entityRetrievalImplementation, BaseCacheAutoRetrievalOptions cacheRetrievalOptions)
             : base(cacheRetrievalOptions)
         {
-            this.EntityRetrievalImplementation = entityRetrievalImplementation;
+            EntityRetrievalImplementation = entityRetrievalImplementation;
         }
     }
 }

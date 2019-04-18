@@ -59,7 +59,7 @@ namespace Beyova.ProgrammingIntelligence
         {
             Namespace = @namespace.SafeToString("Beyova");
             ClassName = className.SafeToString("TmpClass");
-            BaseClassType = baseClassType ?? this.GetType();
+            BaseClassType = baseClassType ?? GetType();
             CodeIndent = codeIndent.SafeToString(defaultCodeIndent);
         }
 
@@ -85,7 +85,7 @@ namespace Beyova.ProgrammingIntelligence
                 builder.AppendLine("using System.Linq;");
                 builder.AppendLine("using System.Text;");
                 builder.AppendLine("using Beyova.ProgrammingIntelligence;");
-                builder.AppendLine("using Beyova.ExceptionSystem;");
+                builder.AppendLine("using Beyova.Diagnostic;");
                 builder.AppendLine("using Beyova;");
                 builder.AppendLine("using Newtonsoft.Json;");
             }
@@ -144,10 +144,10 @@ namespace Beyova.ProgrammingIntelligence
                 builder.Append(">");
             }
 
-            if (this.BaseClassType != null)
+            if (BaseClassType != null)
             {
                 builder.Append(": ");
-                builder.Append(this.BaseClassType.ToCodeLook());
+                builder.Append(BaseClassType.ToCodeLook());
             }
 
             builder.AppendLine();

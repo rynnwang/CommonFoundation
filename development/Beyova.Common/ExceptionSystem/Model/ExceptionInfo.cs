@@ -2,45 +2,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ExceptionInfo.
     /// </summary>
-    public class ExceptionInfo : ExceptionBase, IIdentifier
+    public class ExceptionInfo : ExceptionBase, IIdentifier, ILogBase, ICreatedStamp
     {
-        /// <summary>
-        /// Enum ExceptionCriticality
-        /// </summary>
-        public enum ExceptionCriticality
-        {
-            /// <summary>
-            /// The fetal.
-            /// Commonly, it is used by forgotten to set, or errors might make system crash.
-            /// </summary>
-            Fetal = 0,
-
-            /// <summary>
-            /// The error
-            /// </summary>
-            Error = 1,
-
-            /// <summary>
-            /// The warning
-            /// </summary>
-            Warning = 2,
-
-            /// <summary>
-            /// The information
-            /// </summary>
-            Information = 3,
-
-            /// <summary>
-            /// The debug
-            /// </summary>
-            Debug = 4
-        }
-
         /// <summary>
         /// Gets the key.
         /// </summary>
@@ -94,10 +62,20 @@ namespace Beyova.ExceptionSystem
         /// Initializes a new instance of the <see cref="ExceptionInfo"/> class.
         /// </summary>
         public ExceptionInfo(ExceptionBase exceptionBase = null)
-            : base()
+            : base(exceptionBase)
         {
-            this.Key = Guid.NewGuid();
-            this.CreatedStamp = DateTime.UtcNow;
+            Key = Guid.NewGuid();
+        }
+
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format("{0}-{1}", Code, Message);
         }
     }
 }

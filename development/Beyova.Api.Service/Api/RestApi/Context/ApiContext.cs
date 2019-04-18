@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -61,12 +62,12 @@ namespace Beyova.Api.RestApi
         public HttpCredential HttpAuthorization { get; set; }
 
         /// <summary>
-        /// Gets or sets the secure encryption key.
+        /// Gets the unique identifier.
         /// </summary>
         /// <value>
-        /// The secure encryption key.
+        /// The unique identifier.
         /// </value>
-        public string SecureEncryptionKey { get; internal set; }
+        public ApiUniqueIdentifier UniqueIdentifier { get; internal set; }
 
         /// <summary>
         /// Gets the current permission identifiers.

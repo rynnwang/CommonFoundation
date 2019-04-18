@@ -73,7 +73,7 @@ namespace Beyova.Diagnostic
             builder.AppendLine();
             builder.AppendLine(body);
 
-            this.HttpResponseRaw = builder.ToString();
+            HttpResponseRaw = builder.ToString();
         }
     }
 }

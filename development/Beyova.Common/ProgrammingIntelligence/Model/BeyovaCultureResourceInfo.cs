@@ -52,10 +52,10 @@ namespace Beyova
         /// <param name="tryLanguageCompatibility">if set to <c>true</c> [try language compatibility].</param>
         public BeyovaCultureResourceInfo(string cultureResourceDirectory, string resourceBaseName, string defaultCultureCode, bool tryLanguageCompatibility = true)
         {
-            this.ResourceBaseName = resourceBaseName;
-            this.DefaultCultureCode = defaultCultureCode;
-            this.TryLanguageCompatibility = tryLanguageCompatibility;
-            this.Directory = cultureResourceDirectory.SafeToString("i18n");
+            ResourceBaseName = resourceBaseName;
+            DefaultCultureCode = defaultCultureCode;
+            TryLanguageCompatibility = tryLanguageCompatibility;
+            Directory = cultureResourceDirectory.SafeToString("i18n");
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Beyova
 
             try
             {
-                DirectoryInfo directory = EnvironmentCore.GetDirectory(this.Directory);
+                DirectoryInfo directory = EnvironmentCore.GetDirectory(Directory);
 
                 if (directory.Exists)
                 {

@@ -4,7 +4,7 @@
 //{
 //    /// <summary>
 //    /// </summary>
-//    public class SessionCredential : IExpirable, IAccessClientIdentifier, IRealmable
+//    public class SessionCredential : IExpirable, IAccessClientIdentifier, IRealmable, ICreatedStamp
 //    {
 //        /// <summary>
 //        /// Gets or sets the user key.
@@ -83,16 +83,16 @@
 //        {
 //            if (sessionInfo != null)
 //            {
-//                this.UserKey = sessionInfo.UserKey;
-//                this.IpV4Address = sessionInfo.IpV4Address;
-//                this.IpV6Address = sessionInfo.IpV6Address;
-//                this.Realm = sessionInfo.Realm;
-//                this.DeviceId = sessionInfo.DeviceId;
-//                this.DeviceName = sessionInfo.DeviceName;
-//                this.CreatedStamp = sessionInfo.CreatedStamp;
-//                this.ExpiredStamp = sessionInfo.ExpiredStamp;
-//                this.Token = sessionInfo.Token;
-//                this.UserAgent = sessionInfo.UserAgent;
+//                UserKey = sessionInfo.UserKey;
+//                IpV4Address = sessionInfo.IpV4Address;
+//                IpV6Address = sessionInfo.IpV6Address;
+//                Realm = sessionInfo.Realm;
+//                DeviceId = sessionInfo.DeviceId;
+//                DeviceName = sessionInfo.DeviceName;
+//                CreatedStamp = sessionInfo.CreatedStamp;
+//                ExpiredStamp = sessionInfo.ExpiredStamp;
+//                Token = sessionInfo.Token;
+//                UserAgent = sessionInfo.UserAgent;
 //            }
 //        }
 //    }

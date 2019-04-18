@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -54,7 +54,7 @@ namespace Beyova.Api.RestApi
         /// <summary>
         /// The API URL regex
         /// </summary>
-        internal readonly static string apiUrlRegex = GetModuleBasedUrlRegex("api");
+        internal static readonly string apiUrlRegex = GetModuleBasedUrlRegex("api");
 
         #endregion Route Url
 
@@ -63,15 +63,15 @@ namespace Beyova.Api.RestApi
         /// </summary>
         /// <param name="methodPermissionAttributes">The method permission attributes.</param>
         /// <returns>Dictionary&lt;System.String, ApiPermission&gt;.</returns>
-        public static Dictionary<string, ApiPermission> ToDictionary(this IEnumerable<ApiPermissionAttribute> methodPermissionAttributes)
+        public static Dictionary<string, ApiPermissionAttribute> ToDictionary(this IEnumerable<ApiPermissionAttribute> methodPermissionAttributes)
         {
-            Dictionary<string, ApiPermission> result = new Dictionary<string, ApiPermission>();
+            Dictionary<string, ApiPermissionAttribute> result = new Dictionary<string, ApiPermissionAttribute>();
 
             if (methodPermissionAttributes != null)
             {
                 foreach (var one in methodPermissionAttributes)
                 {
-                    result.Merge(one.PermissionIdentifier, one.Permission);
+                    result.Merge(one.PermissionIdentifier, one);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace Beyova.Api.RestApi
         /// <param name="userPermissions">The user permissions.</param>
         /// <param name="methodPermissions">The method permissions.</param>
         /// <returns>System.Nullable&lt;KeyValuePair&lt;System.String, ApiPermission&gt;&gt;.</returns>
-        public static KeyValuePair<string, ApiPermission>? ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermission> methodPermissions)
+        public static ApiPermissionValidationResult ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions)
         {
             if (methodPermissions == null)
             {
@@ -94,20 +94,28 @@ namespace Beyova.Api.RestApi
             userPermissions = userPermissions ?? new List<string>();
 
             // Check deny first
-            foreach (var one in (from item in methodPermissions where item.Value == ApiPermission.Denied select item.Key))
+            foreach (var one in (from item in methodPermissions where item.Value.Permission == ApiPermission.Denied select item.Key))
             {
                 if (userPermissions.Contains(one))
                 {
-                    return new KeyValuePair<string, ApiPermission>(one, ApiPermission.Denied);
+                    return new ApiPermissionValidationResult
+                    {
+                        PermissionIdentifier = one,
+                        DeclaredApiPermissionRule = methodPermissions[one]
+                    };
                 }
             }
 
             // Check required permissions
-            foreach (var one in (from item in methodPermissions where item.Value == ApiPermission.Required select item.Key))
+            foreach (var one in (from item in methodPermissions where item.Value.Permission == ApiPermission.Required select item.Key))
             {
                 if (!userPermissions.Contains(one))
                 {
-                    return new KeyValuePair<string, ApiPermission>(one, ApiPermission.Required);
+                    return new ApiPermissionValidationResult
+                    {
+                        PermissionIdentifier = one,
+                        DeclaredApiPermissionRule = methodPermissions[one]
+                    };
                 }
             }
 
@@ -122,20 +130,52 @@ namespace Beyova.Api.RestApi
         /// <param name="token">The token.</param>
         /// <param name="methodName">Name of the method.</param>
         /// <returns>BaseException.</returns>
-        public static BaseException ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermission> methodPermissions, string token, string methodName)
+        public static BaseException ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions, string token, string methodName)
         {
+            const string defaultMinor = "ApiPermissionConstraint";
+
+            BaseException result = null;
             var permissionValidationResult = userPermissions.ValidateApiPermission(methodPermissions);
 
-            return (permissionValidationResult != null) ?
-                new UnauthorizedOperationException(
-                    minorCode: "ApiPermissionConstraint",
-                     data: new
-                     {
-                         userPermissions,
-                         methodPermissions,
-                         result = permissionValidationResult
-                     })
-                : null;
+            if (permissionValidationResult != null)
+            {
+                var data = new
+                {
+                    userPermissions,
+                    methodPermissions,
+                    result = new
+                    {
+                        permissionIdentifier = permissionValidationResult.PermissionIdentifier,
+                        apiPermission = permissionValidationResult.DeclaredApiPermissionRule.Permission
+                    }
+                };
+
+                if (permissionValidationResult.DeclaredApiPermissionRule?.ExceptionBehavior != null)
+                {
+                    var reason = permissionValidationResult.DeclaredApiPermissionRule.ExceptionBehavior.Minor.SafeToString(defaultMinor);
+
+                    switch (permissionValidationResult.DeclaredApiPermissionRule.ExceptionBehavior.Major)
+                    {
+                        case ExceptionCode.MajorCode.UnauthorizedOperation:
+                            result = new UnauthorizedOperationException(reason, data: data);
+                            break;
+
+                        case ExceptionCode.MajorCode.OperationForbidden:
+                            result = new OperationForbiddenException(reason, data: data);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                if (result == null)
+                {
+                    result = new UnauthorizedOperationException(minorCode: defaultMinor, data: data);
+                }
+            }
+
+            return result;
         }
     }
 }

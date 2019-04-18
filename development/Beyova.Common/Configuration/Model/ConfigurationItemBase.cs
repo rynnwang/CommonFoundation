@@ -56,10 +56,10 @@
         {
             if (item != null)
             {
-                this.Key = item.Key;
-                this.Type = item.Type;
-                this.MinComponentVersionRequired = item.MinComponentVersionRequired;
-                this.MaxComponentVersionLimited = item.MaxComponentVersionLimited;
+                Key = item.Key;
+                Type = item.Type;
+                MinComponentVersionRequired = item.MinComponentVersionRequired;
+                MaxComponentVersionLimited = item.MaxComponentVersionLimited;
             }
         }
 
@@ -71,7 +71,7 @@
         {
             if (item != null)
             {
-                this.Value = item.Value;
+                Value = item.Value;
             }
         }
     }

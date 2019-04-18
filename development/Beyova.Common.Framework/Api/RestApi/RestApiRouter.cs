@@ -72,7 +72,7 @@ namespace Beyova.Api.RestApi
         /// <param name="context">The context.</param>
         public void ProcessRequest(HttpContext context)
         {
-            this.ProcessHttpApiContextContainer(new HttpApiContextContainer(context.Request, context.Response, new HttpContextOptions<HttpRequest>
+            ProcessHttpApiContextContainer(new HttpApiContextContainer(context.Request, context.Response, new HttpContextOptions<HttpRequest>
             {
                 IncomingHttpRequestExtensible = new HttpRequestExtensible()
             }));

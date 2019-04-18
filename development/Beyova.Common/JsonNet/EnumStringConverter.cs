@@ -57,7 +57,7 @@ namespace Beyova
         public EnumStringConverter(EnumStringNamingRule namingRule)
             : base()
         {
-            this.NamingRule = namingRule;
+            NamingRule = namingRule;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Beyova
 
             if (!string.IsNullOrWhiteSpace(text))
             {
-                switch (this.NamingRule)
+                switch (NamingRule)
                 {
                     case EnumStringNamingRule.BySlash:
                         text = StringRegexExtension.SplitByUpperCases(text, "-");

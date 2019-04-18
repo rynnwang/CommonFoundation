@@ -23,9 +23,9 @@ namespace Beyova
         /// </summary>
         /// <param name="sentence">The sentence.</param>
         /// <param name="specialCharactors">The special charactors.</param>
-        /// <param name="specialCharactorReplace">The special charactor replace.</param>
+        /// <param name="specialCharactorReplacement">The special charactor replace.</param>
         /// <returns>System.String.</returns>
-        public static string CombineSentence(this string sentence, char[] specialCharactors = null, char specialCharactorReplace = '_')
+        public static string CombineSentence(this string sentence, char[] specialCharactors = null, char specialCharactorReplacement = '_')
         {
             if (!string.IsNullOrWhiteSpace(sentence))
             {
@@ -33,7 +33,7 @@ namespace Beyova
 
                 foreach (var one in sentence.Split(new char[] { StringConstants.WhiteSpaceChar }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    builder.Append(one.Replace(specialCharactors, specialCharactorReplace));
+                    builder.Append(one.Replace(specialCharactors, specialCharactorReplacement));
                 }
 
                 return builder.ToString();

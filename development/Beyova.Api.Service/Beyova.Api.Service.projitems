@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\Model\RuntimeRoute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\IRestApiEventHandlers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiPermissionValidationResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiEventHandlers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\RestApi\RestApiRoutePool.cs" />

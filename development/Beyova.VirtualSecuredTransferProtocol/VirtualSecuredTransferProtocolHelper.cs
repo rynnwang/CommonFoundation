@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.VirtualSecuredTransferProtocol
 {
@@ -14,47 +14,47 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// <summary>
         /// The security key indication byte length
         /// </summary>
-        const int _securityKeyIndicationByteLength = sizeof(UInt16);
+        private const int _securityKeyIndicationByteLength = sizeof(UInt16);
 
         /// <summary>
         /// The stamp indication byte length
         /// </summary>
-        const int _stampIndicationByteLength = sizeof(UInt64);
+        private const int _stampIndicationByteLength = sizeof(UInt64);
 
         /// <summary>
         /// The schema version indication byte length
         /// </summary>
-        const int _schemaVersionIndicationByteLength = 1;
+        private const int _schemaVersionIndicationByteLength = 1;
 
         /// <summary>
         /// The allowed stamp deviation
         /// </summary>
-        const int allowedStampDeviation = 10 * 60; //10 mins
+        private const int allowedStampDeviation = 10 * 60; //10 mins
 
         /// <summary>
         /// The schema version
         /// </summary>
-        const int _schemaVersion = 1;
+        private const int _schemaVersion = 1;
 
         /// <summary>
         /// The pack initial capacity
         /// </summary>
-        const int _packInitialCapacity = 2048;
+        private const int _packInitialCapacity = 2048;
 
         /// <summary>
         /// The dw key size
         /// </summary>
-        const int dwKeySize = 2048;
+        private const int dwKeySize = 2048;
 
         /// <summary>
         /// The zero stamp
         /// </summary>
-        static readonly DateTime _zeroStamp = new DateTime(2016, 1, 1);
+        private static readonly DateTime _zeroStamp = new DateTime(2016, 1, 1);
 
         /// <summary>
         /// The allowed stamp second deviation
         /// </summary>
-        static int _allowedStampSecondDeviation = 5 * 60;// 5 min
+        private static int _allowedStampSecondDeviation = 5 * 60;// 5 min
 
         /// <summary>
         /// Gets the schema version.
@@ -102,7 +102,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// </summary>
         /// <param name="utcStamp">The UTC stamp.</param>
         /// <returns></returns>
-        static byte[] GetStampBytes(DateTime utcStamp)
+        private static byte[] GetStampBytes(DateTime utcStamp)
         {
             var offset = (long)((utcStamp - _zeroStamp).TotalSeconds);
             return BitConverter.GetBytes(offset);
@@ -113,7 +113,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// </summary>
         /// <param name="stampOffsetBytes">The stamp offset bytes.</param>
         /// <returns></returns>
-        static DateTime GetUtcStampFromOffsetBytes(byte[] stampOffsetBytes)
+        private static DateTime GetUtcStampFromOffsetBytes(byte[] stampOffsetBytes)
         {
             var offset = BitConverter.ToUInt64(stampOffsetBytes, 0);
             return _zeroStamp.AddSeconds(offset);
@@ -141,10 +141,11 @@ namespace Beyova.VirtualSecuredTransferProtocol
                 requestMessage.SymmetricPrimaryKey.CheckNullObject(nameof(requestMessage.SymmetricPrimaryKey));
                 requestMessage.Stamp.CheckNullObject(nameof(requestMessage.Stamp));
 
-                List<byte> result = new List<byte>(_packInitialCapacity);
-
-                // index1: version.
-                result.Add(Convert.ToByte(requestMessage.SchemaVersion));
+                List<byte> result = new List<byte>(_packInitialCapacity)
+                {
+                    // index1: version.
+                    Convert.ToByte(requestMessage.SchemaVersion)
+                };
 
                 // index2: Stamp.
                 result.AddRange(GetStampBytes(requestMessage.Stamp ?? DateTime.UtcNow));
@@ -254,10 +255,11 @@ namespace Beyova.VirtualSecuredTransferProtocol
 
                 responseMessage.SchemaVersion = _schemaVersion;
 
-                List<byte> result = new List<byte>(_packInitialCapacity);
-
-                // index1: version.
-                result.Add(Convert.ToByte(responseMessage.SchemaVersion));
+                List<byte> result = new List<byte>(_packInitialCapacity)
+                {
+                    // index1: version.
+                    Convert.ToByte(responseMessage.SchemaVersion)
+                };
 
                 // index2: Stamp.
                 result.AddRange(GetStampBytes(responseMessage.Stamp ?? DateTime.UtcNow));
@@ -317,8 +319,6 @@ namespace Beyova.VirtualSecuredTransferProtocol
         }
 
         #endregion VirtualSecuredResponseRawMessage <-> Bytes
-
-
 
         /// <summary>
         /// Validates the stamp.

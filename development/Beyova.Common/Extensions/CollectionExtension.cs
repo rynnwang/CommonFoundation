@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Beyova;
+using Beyova.Diagnostic;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,9 +9,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text;
-using Beyova;
-using Beyova.ExceptionSystem;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -18,13 +18,72 @@ namespace Beyova
     public static partial class CollectionExtension
     {
         /// <summary>
-        /// Ases the array with same value.
+        /// Selects the not null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="selector">The selector.</param>
+        /// <param name="distinct">if set to <c>true</c> [distinct].</param>
+        /// <returns></returns>
+        public static ICollection<TOutput> SelectNotNull<T, TOutput>(this IEnumerable<T> items, Func<T, Nullable<TOutput>> selector, bool distinct = false)
+            where TOutput : struct
+        {
+            if (selector != null && items.HasItem())
+            {
+                ICollection<TOutput> result = distinct ? new HashSet<TOutput>() : new Collection<TOutput>() as ICollection<TOutput>;
+                foreach (var item in items)
+                {
+                    var o = selector.Invoke(item);
+                    if (o.HasValue)
+                    {
+                        result.Add(o.Value);
+                    }
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Selects the not null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="selector">The selector.</param>
+        /// <returns></returns>
+        public static ICollection<TOutput> SelectNotNull<T, TOutput>(this IEnumerable<T> items, Func<T, TOutput> selector)
+           where TOutput : class
+        {
+            if (selector != null && items.HasItem())
+            {
+                ICollection<TOutput> result = new Collection<TOutput>();
+                foreach (var item in items)
+                {
+                    var o = selector.Invoke(item);
+                    if (o != null)
+                    {
+                        result.Add(o);
+                    }
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Duplicates as array.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The value.</param>
         /// <param name="count">The count.</param>
         /// <returns></returns>
-        public static T[] AsArrayWithSameValue<T>(this T value, int count)
+        public static T[] DuplicateAsArray<T>(this T value, int count)
         {
             var array = new T[count];
             array.SetValueByRange(value);
@@ -60,20 +119,20 @@ namespace Beyova
         /// Filters the specified objects.
         /// </summary>
         /// <typeparam name="TOriginal">The type of the original.</typeparam>
-        /// <typeparam name="TTarget">The type of the target.</typeparam>
+        /// <typeparam name="TAsTarget">The type of the target.</typeparam>
         /// <param name="objects">The objects.</param>
         /// <returns></returns>
-        public static Collection<TTarget> AsCollection<TOriginal, TTarget>(this IEnumerable<TOriginal> objects)
+        public static Collection<TAsTarget> AsCollection<TOriginal, TAsTarget>(this IEnumerable<TOriginal> objects)
             where TOriginal : class
-            where TTarget : class
+            where TAsTarget : class
         {
-            Collection<TTarget> result = new Collection<TTarget>();
+            Collection<TAsTarget> result = new Collection<TAsTarget>();
 
             if (objects.HasItem())
             {
                 foreach (var one in objects)
                 {
-                    result.AddIfNotNull(one as TTarget);
+                    result.AddIfNotNull(one as TAsTarget);
                 }
             }
 
@@ -225,7 +284,7 @@ namespace Beyova
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        public static void AddIfNotNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static void AddIfBothNotNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary != null && key != null && value != null)
             {
@@ -239,7 +298,7 @@ namespace Beyova
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        public static void AddIfNotNullOrEmpty(this IDictionary<string, string> dictionary, string key, string value)
+        public static void AddIfBothNotNullOrEmpty(this IDictionary<string, string> dictionary, string key, string value)
         {
             if (dictionary != null && !string.IsNullOrWhiteSpace(key) && !string.IsNullOrWhiteSpace(value))
             {
@@ -353,9 +412,11 @@ namespace Beyova
 
                 return ToJArray(dictionary, (k, v) =>
                 {
-                    var o = new JObject();
-                    o.Add(keyPropertyName, JToken.FromObject(k));
-                    o.Add(valuePropertyName, JToken.FromObject(v));
+                    var o = new JObject
+                    {
+                        { keyPropertyName, JToken.FromObject(k) },
+                        { valuePropertyName, JToken.FromObject(v) }
+                    };
 
                     return o;
                 });
@@ -691,6 +752,37 @@ namespace Beyova
         public static T GetByIndexOf<T>(this IList<T> collection, int index)
         {
             return (collection != null && index > 0 && collection.Count >= index) ? collection[index - 1] : default(T);
+        }
+
+        /// <summary>
+        /// Indexes the of.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static int IndexOf<T>(this IEnumerable<T> collection, T target, IEqualityComparer<T> equalityComparer = null)
+        {
+            if (collection.HasItem() && target != null)
+            {
+                if (equalityComparer == null)
+                {
+                    equalityComparer = EqualityComparer<T>.Default;
+                }
+
+                int index = 0;
+                foreach (var one in collection)
+                {
+                    if (equalityComparer.Equals(one, target))
+                    {
+                        return index;
+                    }
+                    index++;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -1174,9 +1266,21 @@ namespace Beyova
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <returns></returns>
-        public static ICollection<TOutput> AsCovariance<TInput, TOutput>(this IEnumerable<TInput> collection)
+        public static List<TOutput> AsCovariance<TInput, TOutput>(this IEnumerable<TInput> collection)
             where TInput : class
             where TOutput : class, TInput
+        {
+            return AsNotNullAll(collection, x => x as TOutput);
+        }
+
+        /// <summary>
+        /// Ases the covariance.
+        /// </summary>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <returns></returns>
+        public static List<TOutput> AsCovariance<TOutput>(this IEnumerable<object> collection)
+           where TOutput : class
         {
             return AsNotNullAll(collection, x => x as TOutput);
         }
@@ -1559,8 +1663,6 @@ namespace Beyova
         {
             return anyObject != null ? new T[] { anyObject } : new T[] { };
         }
-
-
 
         /// <summary>
         /// Adds the range.
@@ -2197,21 +2299,40 @@ namespace Beyova
         /// <returns>System.String.</returns>
         public static string ToKeyValuePairString<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, char separatorChar = '&', bool encodeKeyValue = false)
         {
-            string format = "{0}={1}" + separatorChar;
-
-            var builder = new StringBuilder(64);
-
-            if (dictionary != null)
+            if (dictionary.HasItem())
             {
+                var builder = new StringBuilder(64);
+                FillAsKeyValuePairString(dictionary, builder, separatorChar, encodeKeyValue);
+                return builder.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Fills as key value pair string.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="builder">The builder.</param>
+        /// <param name="separatorChar">The separator character.</param>
+        /// <param name="encodeKeyValue">if set to <c>true</c> [encode key value].</param>
+        public static void FillAsKeyValuePairString<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, StringBuilder builder, char separatorChar = '&', bool encodeKeyValue = false)
+        {
+            if (dictionary.HasItem() && builder != null)
+            {
+                string format = "{0}={1}" + separatorChar;
+
                 foreach (var one in dictionary)
                 {
                     builder.AppendFormat(format, encodeKeyValue ?
                         one.Key.ToString().ToUrlPathEncodedText() : one.Key.ToString(),
                         encodeKeyValue ? one.Value.ToString().ToUrlPathEncodedText() : one.Value.ToString());
                 }
-            }
 
-            return builder.ToString().TrimEnd(separatorChar);
+                builder.RemoveLastIfMatch(separatorChar);
+            }
         }
 
         #endregion Dictionary Extensions
@@ -2237,6 +2358,22 @@ namespace Beyova
                         HoldFlatItems(container, item, getChildren);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sorts the specified selector.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TComparable">The type of the comparable.</typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="selector">The selector.</param>
+        /// <param name="comparer">The comparer.</param>
+        public static void Sort<T, TComparable>(this T[] array, Func<T, TComparable> selector, IComparer<TComparable> comparer = null)
+        {
+            if (array.HasItem() && selector != null)
+            {
+                Array.Sort(array, new GenericComparer<T, TComparable>(selector, comparer ?? Comparer<TComparable>.Default));
             }
         }
     }

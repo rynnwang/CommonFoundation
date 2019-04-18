@@ -43,8 +43,8 @@ namespace Beyova.Cache
         /// <param name="cacheContainer">The cache container.</param>
         public ApiCacheAttribute(ApiCacheParameter cacheParameter, IApiCacheContainer cacheContainer = null)
         {
-            this.CacheParameter = cacheParameter;
-            this.CacheContainer = cacheContainer;
+            CacheParameter = cacheParameter;
+            CacheContainer = cacheContainer;
         }
 
         /// <summary>

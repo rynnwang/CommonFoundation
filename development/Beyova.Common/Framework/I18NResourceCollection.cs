@@ -34,7 +34,7 @@ namespace Beyova
         /// <param name="resourceAssembly">The resource assembly.</param>
         public I18NResourceCollection(string resourceBaseName, Assembly resourceAssembly)
         {
-            this.resourceManager = new ResourceManager(resourceBaseName, resourceAssembly);
+            resourceManager = new ResourceManager(resourceBaseName, resourceAssembly);
         }
 
         #region Public methods
@@ -84,14 +84,14 @@ namespace Beyova
             {
                 if (cultureInfo != null)
                 {
-                    var resourceSet = this.ResourceManager.GetResourceSet(cultureInfo, false, languageCompatibility);
+                    var resourceSet = ResourceManager.GetResourceSet(cultureInfo, false, languageCompatibility);
                     if (resourceSet != null)
                     {
                         return resourceSet.GetString(resourceKey);
                     }
                 }
 
-                return this.ResourceManager.GetString(resourceKey);
+                return ResourceManager.GetString(resourceKey);
             }
 
             return string.Empty;
@@ -108,7 +108,7 @@ namespace Beyova
         {
             if (!string.IsNullOrWhiteSpace(cultureCode))
             {
-                var resourceSet = this.ResourceManager.GetResourceSet(new CultureInfo(cultureCode), false, true);
+                var resourceSet = ResourceManager.GetResourceSet(new CultureInfo(cultureCode), false, true);
 
                 if (resourceSet != null)
                 {
@@ -134,7 +134,7 @@ namespace Beyova
         /// <returns>Dictionary&lt;CultureInfo, Dictionary&lt;System.String, System.String&gt;&gt;.</returns>
         public Dictionary<CultureInfo, Dictionary<string, object>> GetResourceSet()
         {
-            return this.ResourceManager.ToDictionary(false);
+            return ResourceManager.ToDictionary(false);
         }
 
         /// <summary>
@@ -147,8 +147,8 @@ namespace Beyova
 
             foreach (var cultureInfo in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
             {
-                var resourceSet = this.ResourceManager.GetResourceSet(cultureInfo, false, true);
-                result.AddIfNotNull(cultureInfo, resourceSet);
+                var resourceSet = ResourceManager.GetResourceSet(cultureInfo, false, true);
+                result.AddIfBothNotNull(cultureInfo, resourceSet);
             }
 
             return result;
@@ -161,7 +161,7 @@ namespace Beyova
         /// <returns><c>true</c> if [has culture resource] [the specified culture information]; otherwise, <c>false</c>.</returns>
         public bool HasCultureResource(CultureInfo cultureInfo)
         {
-            return cultureInfo != null && this.ResourceManager.GetResourceSet(cultureInfo, false, true) != null;
+            return cultureInfo != null && ResourceManager.GetResourceSet(cultureInfo, false, true) != null;
         }
 
         #endregion Public methods

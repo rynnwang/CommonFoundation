@@ -1,29 +1,27 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ApiMessageCriteria.
     /// </summary>
-    public class ApiMessageCriteria : BaseCriteria
+    public class ApiMessageCriteria : BaseLogCriteria
     {
         /// <summary>
         /// Gets or sets the message.
         /// </summary>
         /// <value>The message.</value>
+        [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
 
         /// <summary>
-        /// Gets or sets from stamp.
+        /// Gets or sets the category.
         /// </summary>
-        /// <value>From stamp.</value>
-        public DateTime? FromStamp { get; set; }
-
-        /// <summary>
-        /// Gets or sets to stamp.
-        /// </summary>
-        /// <value>To stamp.</value>
-        public DateTime? ToStamp { get; set; }
+        /// <value>
+        /// The category.
+        /// </value>
+        [JsonProperty(PropertyName = "category")]
+        public string Category { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiMessageCriteria"/> class.

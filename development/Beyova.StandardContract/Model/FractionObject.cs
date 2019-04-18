@@ -55,6 +55,19 @@ namespace Beyova
         }
 
         /// <summary>
+        /// To the percentage.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <param name="includesSymbol">if set to <c>true</c> [includes symbol].</param>
+        /// <returns></returns>
+        /// <exception cref="DivideByZeroException">Denominator is zero</exception>
+        public string ToPercentage(string format = null, bool includesSymbol = false)
+        {
+            var value = ((Denominator == 0) ? 0 : ((Numerator / (double)Denominator) * 100)).ToString(format.SafeToString("0.0"));
+            return includesSymbol ? (value + "%") : value;
+        }
+
+        /// <summary>
         /// To the double.
         /// </summary>
         /// <returns>System.Double.</returns>

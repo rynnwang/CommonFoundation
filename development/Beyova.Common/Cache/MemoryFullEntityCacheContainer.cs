@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -114,14 +114,14 @@ namespace Beyova.Cache
         {
             var equalityComparer = containerOptions?.EqualityComparer ?? EqualityComparer<TKey>.Default;
 
-            this._originContainer = equalityComparer == null ? new Dictionary<TKey, TEntity>() : new Dictionary<TKey, TEntity>(equalityComparer);
+            _originContainer = equalityComparer == null ? new Dictionary<TKey, TEntity>() : new Dictionary<TKey, TEntity>(equalityComparer);
 
-            this.ContainerOptions = containerOptions ?? new CacheContainerOptions();
-            this.AutoRetrievalOptions = retrievalOptions ?? new FullEntityCacheAutoRetrievalOptions<TKey, TEntity>(null, null, BaseCacheAutoRetrievalOptions.Default);
+            ContainerOptions = containerOptions ?? new CacheContainerOptions();
+            AutoRetrievalOptions = retrievalOptions ?? new FullEntityCacheAutoRetrievalOptions<TKey, TEntity>(null, null, BaseCacheAutoRetrievalOptions.Default);
 
             CacheRealm.RegisterCacheContainer<TEntity>(this);
 
-            this.ExpiredStamp = InternalUpdate();
+            ExpiredStamp = InternalUpdate();
         }
 
         #endregion Constructors
@@ -138,32 +138,32 @@ namespace Beyova.Cache
         {
             DateTime? result = null;
 
-            if (this.AutoRetrievalOptions?.EntityRetrievalImplementation != null && this.AutoRetrievalOptions?.EntityKeyGetter != null)
+            if (AutoRetrievalOptions?.EntityRetrievalImplementation != null && AutoRetrievalOptions?.EntityKeyGetter != null)
             {
                 try
                 {
                     // Regarding check null already, not need to worry about null ref.
                     var entities = AutoRetrievalOptions.EntityRetrievalImplementation();
-                    this._originContainer.Clear();
+                    _originContainer.Clear();
                     foreach (var one in entities)
                     {
                         // Regarding check null already, not need to worry about null ref.
-                        var key = this.AutoRetrievalOptions.EntityKeyGetter(one);
+                        var key = AutoRetrievalOptions.EntityKeyGetter(one);
                         if (key != null)
                         {
-                            this._originContainer.Add(key, one);
+                            _originContainer.Add(key, one);
                         }
                     }
 
-                    _readOnlyContainer = new ReadOnlyDictionary<TKey, TEntity>(this._originContainer);
+                    _readOnlyContainer = new ReadOnlyDictionary<TKey, TEntity>(_originContainer);
                     result = ContainerOptions.GetExpiredStamp();
                 }
                 catch (Exception ex)
                 {
                     BaseException exception = ex.Handle();
-                    result = this.AutoRetrievalOptions.GetFailureExpiredStamp();
+                    result = AutoRetrievalOptions.GetFailureExpiredStamp();
 
-                    if (this.AutoRetrievalOptions.ExceptionProcessingImplementation == null || this.AutoRetrievalOptions.ExceptionProcessingImplementation(exception))
+                    if (AutoRetrievalOptions.ExceptionProcessingImplementation == null || AutoRetrievalOptions.ExceptionProcessingImplementation(exception))
                     {
                         throw exception;
                     }
@@ -187,7 +187,7 @@ namespace Beyova.Cache
                 {
                     if (IsExpired)
                     {
-                        this.ExpiredStamp = InternalUpdate();
+                        ExpiredStamp = InternalUpdate();
                     }
                 }
             }
@@ -212,7 +212,7 @@ namespace Beyova.Cache
         {
             lock (_itemChangeLocker)
             {
-                this.ExpiredStamp = DateTime.UtcNow;
+                ExpiredStamp = DateTime.UtcNow;
             }
         }
 
@@ -274,13 +274,13 @@ namespace Beyova.Cache
                 {
                     if (IsExpired)
                     {
-                        this.ExpiredStamp = InternalUpdate();
+                        ExpiredStamp = InternalUpdate();
                     }
                 }
             }
 
             TEntity result;
-            return (key != null && this._readOnlyContainer != null && this._readOnlyContainer.TryGetValue(key, out result)) ? result : default(TEntity);
+            return (key != null && _readOnlyContainer != null && _readOnlyContainer.TryGetValue(key, out result)) ? result : default(TEntity);
         }
 
         /// <summary>
@@ -290,8 +290,8 @@ namespace Beyova.Cache
         {
             lock (_itemChangeLocker)
             {
-                this.ExpiredStamp = DateTime.MinValue;
-                this._originContainer.Clear();
+                ExpiredStamp = DateTime.MinValue;
+                _originContainer.Clear();
             }
         }
     }

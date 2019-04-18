@@ -20,7 +20,7 @@ namespace Beyova.Api
         /// <param name="description">The description.</param>
         public ApiDescriptionAttribute(string description)
         {
-            this.Description = description;
+            Description = description;
         }
     }
 }

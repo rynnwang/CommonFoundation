@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Struct ExceptionCode
@@ -115,8 +115,8 @@ namespace Beyova.ExceptionSystem
         /// <param name="minor">The minor.</param>
         public ExceptionCode(MajorCode major, string minor = null)
         {
-            this.Major = major;
-            this.Minor = minor;
+            Major = major;
+            Minor = minor;
         }
 
         /// <summary>
@@ -127,8 +127,8 @@ namespace Beyova.ExceptionSystem
         {
             string[] parts = stringValue.SafeToString().Split(new char[] { '.' }, 2);
 
-            this.Major = parts.Length > 0 ? (MajorCode)(parts[0].ToInt32()) : MajorCode.Undefined;
-            this.Minor = parts.Length > 1 ? parts[1] : null;
+            Major = parts.Length > 0 ? (MajorCode)(parts[0].ToInt32()) : MajorCode.Undefined;
+            Minor = parts.Length > 1 ? parts[1] : null;
         }
 
         #endregion Constructor
@@ -139,7 +139,7 @@ namespace Beyova.ExceptionSystem
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1}", (int)this.Major, this.Minor).Trim('.');
+            return string.Format("{0}.{1}", (int)Major, Minor).Trim('.');
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Beyova.ExceptionSystem
         public override bool Equals(object obj)
         {
             ExceptionCode exceptionCode = obj as ExceptionCode;
-            return exceptionCode != null && exceptionCode.Major == this.Major && exceptionCode.Minor.SafeToString() == this.Minor.SafeToString();
+            return exceptionCode != null && exceptionCode.Major == Major && exceptionCode.Minor.SafeToString() == Minor.SafeToString();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Beyova.ExceptionSystem
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return this.ToString().GetHashCode();
+            return ToString().GetHashCode();
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Beyova.ExceptionSystem
         /// <returns>HttpStatusCode.</returns>
         public HttpStatusCode ToHttpStatusCode()
         {
-            return (HttpStatusCode)(int)(this.Major);
+            return (HttpStatusCode)(int)(Major);
         }
 
         /// <summary>

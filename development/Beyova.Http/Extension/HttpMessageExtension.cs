@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Http
 {
@@ -421,7 +421,7 @@ namespace Beyova.Http
         /// <param name="httpClient">The HTTP client.</param>
         /// <param name="responseDelegate">The response delegate.</param>
         /// <returns></returns>
-        /// <exception cref="Beyova.ExceptionSystem.HttpOperationException">
+        /// <exception cref="Beyova.Diagnostic.HttpOperationException">
         /// null - null
         /// or
         /// or

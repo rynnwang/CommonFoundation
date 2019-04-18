@@ -42,7 +42,7 @@ namespace Beyova.Http
         /// </returns>
         public bool IsLocal
         {
-            get { return this._options.IncomingHttpRequestExtensible?.IsLocal(this.Request) ?? false; }
+            get { return _options.IncomingHttpRequestExtensible?.IsLocal(Request) ?? false; }
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Beyova.Http
         {
             get
             {
-                return this._options.IncomingHttpRequestExtensible?.GetClientIpAddress(this.Request);
+                return _options.IncomingHttpRequestExtensible?.GetClientIpAddress(Request);
             }
         }
 
@@ -160,10 +160,10 @@ namespace Beyova.Http
         protected HttpContextContainer(TRequest request, TResponse response, HttpContextOptions<TRequest> options)
         {
             request.CheckNullObject(nameof(request));
-            this.Request = request;
+            Request = request;
             response.CheckNullObject(nameof(response));
-            this.Response = response;
-            this._options = options ?? new HttpContextOptions<TRequest> { LanguageParameterKey = "lang" };
+            Response = response;
+            _options = options ?? new HttpContextOptions<TRequest> { LanguageParameterKey = "lang" };
         }
 
         /// <summary>

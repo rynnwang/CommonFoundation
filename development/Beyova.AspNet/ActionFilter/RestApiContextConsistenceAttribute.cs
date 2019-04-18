@@ -7,8 +7,7 @@ using System.Web.Routing;
 using Beyova;
 using Beyova.Api;
 using Beyova.Api.RestApi;
-using Beyova.ApiTracking;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Web
 {
@@ -105,7 +104,7 @@ namespace Beyova.Web
         /// <param name="restApiSetting">The rest API settings.</param>
         public RestApiContextConsistenceAttribute(RestApiSettings restApiSetting) : base()
         {
-            this.settings = restApiSetting;
+            settings = restApiSetting;
             ApiTracking = restApiSetting?.ApiTracking;
         }
 
@@ -213,7 +212,7 @@ namespace Beyova.Web
                 var methodInfo = (filterContext.ActionDescriptor as ReflectedActionDescriptor)?.MethodInfo;
 
                 var httpContextContainer = new HttpBaseApiContextContainer(request, filterContext.HttpContext.Response);
-                ContextHelper.ConsistContext(httpContextContainer, this.settings);
+                ContextHelper.ConsistContext(httpContextContainer, settings);
 
                 if (!string.IsNullOrWhiteSpace(traceId))
                 {
@@ -225,18 +224,14 @@ namespace Beyova.Web
                     var context = filterContext.HttpContext;
                     ApiEvent = new ApiEventLog
                     {
-                        ApiFullName = methodInfo?.GetFullName(),
                         RawUrl = context.Request.RawUrl,
                         EntryStamp = entryStamp,
-                        UserAgent = context.Request.UserAgent,
                         TraceId = traceId,
                         // If request came from ApiTransport or other proxy ways, ORIGINAL stands for the IP ADDRESS from original requester.
                         IpAddress = context.Request.TryGetHeader(settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.Request.UserHostAddress),
                         CultureCode = ContextHelper.ApiContext.CultureCode,
                         ContentLength = context.Request.ContentLength,
                         OperatorCredential = ContextHelper.CurrentCredential as BaseCredential,
-                        Protocol = context.Request.Url.Scheme,
-                        ReferrerUrl = context.Request.UrlReferrer?.ToString(),
                         ServerIdentifier = EnvironmentCore.MachineName,
                         ServiceIdentifier = EnvironmentCore.ProductName
                     };

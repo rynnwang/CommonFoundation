@@ -11,42 +11,10 @@ namespace Beyova.Cache
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     public class MemoryCacheContainer<TKey, TEntity> : CacheContainerBase<TKey, TEntity>, IMemoryCacheContainer<TKey, TEntity>
     {
-        #region Inner Container
-
-        /// <summary>
-        /// Class CacheItem.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        protected class CacheItem<T> : IExpirable
-        {
-            /// <summary>
-            /// Gets or sets the value.
-            /// </summary>
-            /// <value>The value.</value>
-            public T Value { get; set; }
-
-            /// <summary>
-            /// Gets or sets the expired stamp.
-            /// </summary>
-            /// <value>The expired stamp.</value>
-            public DateTime? ExpiredStamp { get; set; }
-
-            /// <summary>
-            /// Gets a value indicating whether this instance is expired.
-            /// </summary>
-            /// <value><c>true</c> if this instance is expired; otherwise, <c>false</c>.</value>
-            public bool IsExpired
-            {
-                get { return ExpiredStamp.HasValue && ExpiredStamp < DateTime.UtcNow; }
-            }
-        }
-
-        #endregion Inner Container
-
         /// <summary>
         /// The container
         /// </summary>
-        protected SequencedKeyDictionary<TKey, CacheItem<TEntity>> container;
+        protected SequencedKeyDictionary<TKey, MemoryCacheItem<TEntity>> container;
 
         /// <summary>
         /// The item change locker
@@ -83,11 +51,11 @@ namespace Beyova.Cache
        : base(containerOptions, retrievalOptions)
         {
             var capacity = containerOptions?.Capacity;
-            this.Capacity = (capacity.HasValue && capacity.Value > 1) ? capacity : null;
+            Capacity = (capacity.HasValue && capacity.Value > 1) ? capacity : null;
             var equalityComparer = containerOptions?.EqualityComparer ?? EqualityComparer<TKey>.Default;
 
-            this.container = capacity == null ? new SequencedKeyDictionary<TKey, CacheItem<TEntity>>(equalityComparer) : new SequencedKeyDictionary<TKey, CacheItem<TEntity>>(capacity.Value, equalityComparer);
-            this.Statistic = new MemoryCacheStatistic();
+            container = capacity == null ? new SequencedKeyDictionary<TKey, MemoryCacheItem<TEntity>>(equalityComparer) : new SequencedKeyDictionary<TKey, MemoryCacheItem<TEntity>>(capacity.Value, equalityComparer);
+            Statistic = new MemoryCacheStatistic();
         }
 
         #endregion Constructors
@@ -99,9 +67,9 @@ namespace Beyova.Cache
         /// </summary>
         protected void InternalMaintainCapacity()
         {
-            if (this.Capacity.HasValue && this.container.Count > this.Capacity.Value)
+            if (Capacity.HasValue && container.Count > Capacity.Value)
             {
-                this.container.RemoveAt(0);
+                container.RemoveAt(0);
             }
         }
 
@@ -139,7 +107,7 @@ namespace Beyova.Cache
                         }
 
                         result = getExpiredStamp();
-                        container.Add(key, new CacheItem<TEntity> { Value = entity, ExpiredStamp = result });
+                        container.Add(key, new MemoryCacheItem<TEntity> { Value = entity, ExpiredStamp = result });
                         InternalMaintainCapacity();
                     }
                 }
@@ -174,7 +142,7 @@ namespace Beyova.Cache
         /// <returns></returns>
         protected override bool InternalTryGetValidEntityFromCache(TKey key, out TEntity entity)
         {
-            CacheItem<TEntity> cachedObject;
+            MemoryCacheItem<TEntity> cachedObject;
             if ((container.TryGetValue(key, out cachedObject) && !cachedObject.IsExpired))
             {
                 entity = cachedObject.Value;
@@ -194,7 +162,7 @@ namespace Beyova.Cache
         {
             lock (itemChangeLocker)
             {
-                this.container.Clear();
+                container.Clear();
             }
         }
     }

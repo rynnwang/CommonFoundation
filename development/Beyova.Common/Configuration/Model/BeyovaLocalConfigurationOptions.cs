@@ -29,8 +29,8 @@ namespace Beyova
         /// <param name="configurationDirectory">The configuration directory.</param>
         public BeyovaLocalConfigurationOptions(string configurationName, string configurationDirectory = null)
         {
-            this.ConfigurationName = configurationName;
-            this.ConfigurationDirectory = configurationDirectory;
+            ConfigurationName = configurationName;
+            ConfigurationDirectory = configurationDirectory;
         }
 
         /// <summary>

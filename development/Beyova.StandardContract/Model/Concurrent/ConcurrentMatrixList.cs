@@ -29,7 +29,7 @@ namespace Beyova.Concurrent
             {
                 key.CheckEmptyString(nameof(key));
 
-                var list = this.GetCollectionByKey(key, true);
+                var list = GetCollectionByKey(key, true);
                 list.Add(value);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Beyova.Concurrent
 
             if (!string.IsNullOrWhiteSpace(key))
             {
-                result = this.ContainsKey(key) ? this[key] : null;
+                result = ContainsKey(key) ? this[key] : null;
 
                 if (result == null && createIfNotExist)
                 {

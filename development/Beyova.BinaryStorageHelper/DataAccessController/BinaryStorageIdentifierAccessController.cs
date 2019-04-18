@@ -65,7 +65,7 @@ namespace Beyova.Binary
 
             try
             {
-                return this.ExecuteReader(spName, new List<SqlParameter>());
+                return ExecuteReader(spName, new List<SqlParameter>());
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_Stamp, stamp)
                 };
 
-                this.ExecuteNonQuery(spName, parameters);
+                ExecuteNonQuery(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -114,10 +114,10 @@ namespace Beyova.Binary
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false))
+                    GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false))
                 };
 
-                this.ExecuteNonQuery(spName, parameters);
+                ExecuteNonQuery(spName, parameters);
             }
             catch (Exception ex)
             {

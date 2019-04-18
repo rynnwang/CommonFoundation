@@ -9,22 +9,22 @@
     <Import_RootNamespace>Beyova.ApiTracking.SqlServer</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiMessage.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_QueryException.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogException.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\StoredProcedure\sp_LogApiEvent.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ApiMessage.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ExceptionInfo.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Table\ApiEvent.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Setup\Function.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Setup\Procedure.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Setup\Table.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_LogApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_QueryApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_QueryException.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_LogException.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Table\ApiMessage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Table\ExceptionInfo.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Table\ApiEvent.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ApiTrackingSqlClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BaseApiTrackingAccessController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\GlobalApiUniqueIdentifierAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiMessageAccessController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiEventLogAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ExceptionInfoAccessController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\ApiLogBaseAccessController.cs" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScript\Setup.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

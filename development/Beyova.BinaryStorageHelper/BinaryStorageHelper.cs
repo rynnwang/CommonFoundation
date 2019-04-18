@@ -7,7 +7,7 @@ using Beyova;
 namespace Beyova.Binary
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TCloudContainer">The type of the cloud container.</typeparam>
     /// <typeparam name="TCloudBlobObject">The type of the cloud BLOB object.</typeparam>
@@ -262,7 +262,7 @@ namespace Beyova.Binary
         /// <param name="hash">The hash. This value is used only when blob service provider needs to set hash (MD5) when creating credential of upload action.</param>
         /// <param name="contentType">Type of the content. This value is used only when blob service provider needs to set content type (MIME) when creating credential of upload action.</param>
         /// <returns>Beyova.BinaryStorageActionCredential.</returns>
-        public BinaryStorageActionCredential CreateBlobUploadCredential(BinaryStorageIdentifier identifier, string hash = null, string contentType = null)
+        public BinaryStorageActionCredential CreateBlobUploadCredential(BinaryStorageIdentifier identifier, CryptoKey hash = null, string contentType = null)
         {
             try
             {
@@ -363,21 +363,23 @@ namespace Beyova.Binary
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="md5">The MD5.</param>
+        /// <param name="hash">The hash.</param>
         /// <param name="length">The length.</param>
         /// <param name="limitCount">The limit count.</param>
-        /// <returns>IEnumerable&lt;TCloudBlobObject&gt;.</returns>
-        public IEnumerable<TCloudBlobObject> QueryBlob(TCloudContainer container, string contentType, string md5, long? length, int limitCount)
+        /// <returns>
+        /// IEnumerable&lt;TCloudBlobObject&gt;.
+        /// </returns>
+        public IEnumerable<TCloudBlobObject> QueryBlob(TCloudContainer container, string contentType, CryptoKey hash, long? length, int limitCount)
         {
             try
             {
                 container.CheckNullObject(nameof(container));
 
-                return cloudBinaryStorageOperator.QueryBlob(container, contentType, md5, length, limitCount);
+                return cloudBinaryStorageOperator.QueryBlob(container, contentType, hash, length, limitCount);
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { contentType, md5, length, limitCount });
+                throw ex.Handle(new { contentType, hash, length, limitCount });
             }
         }
 

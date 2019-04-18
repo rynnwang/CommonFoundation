@@ -11,43 +11,46 @@ namespace Beyova
     {
         #region Constants
 
+        /// <summary>The column name of Items</summary>
+        protected const string column_Items = "Items";
+
         /// <summary>
         /// The column keys
         /// </summary>
         protected const string column_Keys = "Keys";
 
         /// <summary>
-        /// The column_ permission
+        /// The column permission
         /// </summary>
         protected const string column_Permission = "Permission";
 
         /// <summary>
-        /// The column_ user name
+        /// The column user name
         /// </summary>
         protected const string column_UserName = "UserName";
 
         /// <summary>
-        /// The column_ gender
+        /// The column gender
         /// </summary>
         protected const string column_Gender = "Gender";
 
         /// <summary>
-        /// The column_ avatar URL
+        /// The column avatar URL
         /// </summary>
         protected const string column_AvatarUrl = "AvatarUrl";
 
         /// <summary>
-        /// The column_ container
+        /// The column container
         /// </summary>
         protected const string column_Container = "Container";
 
         /// <summary>
-        /// The column_ state
+        /// The column state
         /// </summary>
         protected const string column_State = "State";
 
         /// <summary>
-        /// The column_ key
+        /// The column key
         /// </summary>
         protected const string column_Key = "Key";
 
@@ -57,7 +60,7 @@ namespace Beyova
         protected const string column_Keyword = "Keyword";
 
         /// <summary>
-        /// The column_ user key
+        /// The column user key
         /// </summary>
         protected const string column_UserKey = "UserKey";
 
@@ -67,77 +70,87 @@ namespace Beyova
         protected const string column_Channel = "Channel";
 
         /// <summary>
-        /// The column_ owner key
+        /// The column owner key
         /// </summary>
         protected const string column_OwnerKey = "OwnerKey";
 
         /// <summary>
-        /// The column_ operator key
+        /// The column operator key
         /// </summary>
         protected const string column_OperatorKey = "OperatorKey";
 
         /// <summary>
-        /// The column_ created stamp
+        /// The column created stamp
         /// </summary>
         protected const string column_CreatedStamp = "CreatedStamp";
 
         /// <summary>
-        /// The column_ last updated stamp
+        /// The column last updated stamp
         /// </summary>
         protected const string column_LastUpdatedStamp = "LastUpdatedStamp";
 
         /// <summary>
-        /// The column_ count
+        /// The column count
         /// </summary>
         protected const string column_Count = "Count";
 
         /// <summary>
-        /// The column_ data cursor
+        /// The column data cursor
         /// </summary>
         protected const string column_DataCursor = "DataCursor";
 
         /// <summary>
-        /// The column_ identifier
+        /// The column identifier
         /// </summary>
         protected const string column_Identifier = "Identifier";
 
         /// <summary>
-        /// The column_ culture code
+        /// The column culture code
         /// </summary>
         protected const string column_CultureCode = "CultureCode";
 
         /// <summary>
-        /// The column_ hash
+        /// The column hash
         /// </summary>
         protected const string column_Hash = "Hash";
 
         /// <summary>
-        /// The column_ from stamp
+        /// The column from stamp
         /// </summary>
         protected const string column_FromStamp = "FromStamp";
 
         /// <summary>
-        /// The column_ to stamp
+        /// The column to stamp
         /// </summary>
         protected const string column_ToStamp = "ToStamp";
 
         /// <summary>
-        /// The column_ type
+        /// The column from date
+        /// </summary>
+        protected const string column_FromDate = "FromDate";
+
+        /// <summary>
+        /// The column to date
+        /// </summary>
+        protected const string column_ToDate = "ToDate";
+
+        /// <summary>
+        /// The column type
         /// </summary>
         protected const string column_Type = "Type";
 
         /// <summary>
-        /// The column_ code
+        /// The column code
         /// </summary>
         protected const string column_Code = "Code";
 
         /// <summary>
-        /// The column_ order descending
+        /// The column order descending
         /// </summary>
         protected const string column_OrderDescending = "OrderDescending";
 
         /// <summary>
-        /// The column_ time forwarding
+        /// The column time forwarding
         /// </summary>
         protected const string column_TimeForwarding = "TimeForwarding";
 
@@ -147,22 +160,22 @@ namespace Beyova
         protected const string column_Identifiers = "Identifiers";
 
         /// <summary>
-        /// The column_ created by
+        /// The column created by
         /// </summary>
         protected const string column_CreatedBy = "CreatedBy";
 
         /// <summary>
-        /// The column_ last updated by
+        /// The column last updated by
         /// </summary>
         protected const string column_LastUpdatedBy = "LastUpdatedBy";
 
         /// <summary>
-        /// The column_ name
+        /// The column name
         /// </summary>
         protected const string column_Name = "Name";
 
         /// <summary>
-        /// The column_ token
+        /// The column token
         /// </summary>
         protected const string column_Token = "Token";
 
@@ -177,42 +190,42 @@ namespace Beyova
         protected const string column_Tenant = "Tenant";
 
         /// <summary>
-        /// The column_ ip address
+        /// The column ip address
         /// </summary>
         protected const string column_IpAddress = "IpAddress";
 
         /// <summary>
-        /// The column_ user agent
+        /// The column user agent
         /// </summary>
         protected const string column_UserAgent = "UserAgent";
 
         /// <summary>
-        /// The column_ email
+        /// The column email
         /// </summary>
         protected const string column_Email = "Email";
 
         /// <summary>
-        /// The column_ domain
+        /// The column domain
         /// </summary>
         protected const string column_Domain = "Domain";
 
         /// <summary>
-        /// The column_ description
+        /// The column description
         /// </summary>
         protected const string column_Description = "Description";
 
         /// <summary>
-        /// The column_ start index
+        /// The column start index
         /// </summary>
         protected const string column_StartIndex = "StartIndex";
 
         /// <summary>
-        /// The column_ expired stamp
+        /// The column expired stamp
         /// </summary>
         protected const string column_ExpiredStamp = "ExpiredStamp";
 
         /// <summary>
-        /// The column_ platform
+        /// The column platform
         /// </summary>
         protected const string column_Platform = "Platform";
 
@@ -222,17 +235,17 @@ namespace Beyova
         protected const string column_PlatformType = "PlatformType";
 
         /// <summary>
-        /// The column_ device type
+        /// The column device type
         /// </summary>
         protected const string column_DeviceType = "DeviceType";
 
         /// <summary>
-        /// The column_ expiration
+        /// The column expiration
         /// </summary>
         protected const string column_Expiration = "Expiration";
 
         /// <summary>
-        /// The column_ time zone
+        /// The column time zone
         /// </summary>
         protected const string column_TimeZone = "TimeZone";
 
@@ -242,67 +255,67 @@ namespace Beyova
         protected const string column_TimeZoneStandardName = "TimeZoneStandardName";
 
         /// <summary>
-        /// The column_ language
+        /// The column language
         /// </summary>
         protected const string column_Language = "Language";
 
         /// <summary>
-        /// The column_ token expired stamp
+        /// The column token expired stamp
         /// </summary>
         protected const string column_TokenExpiredStamp = "TokenExpiredStamp";
 
         /// <summary>
-        /// The column_ access identifier
+        /// The column member key
         /// </summary>
-        protected const string column_AccessIdentifier = "AccessIdentifier";
+        protected const string column_MemberKey = "MemberKey";
 
         /// <summary>
-        /// The column_ functional role
+        /// The column functional role
         /// </summary>
         protected const string column_FunctionalRole = "FunctionalRole";
 
         /// <summary>
-        /// The column_ third party identifier
+        /// The column third party identifier
         /// </summary>
         protected const string column_ThirdPartyId = "ThirdPartyId";
 
         /// <summary>
-        /// The column_ parent key
+        /// The column parent key
         /// </summary>
         protected const string column_ParentKey = "ParentKey";
 
         /// <summary>
-        /// The column_ avatar key
+        /// The column avatar key
         /// </summary>
         protected const string column_AvatarKey = "AvatarKey";
 
         /// <summary>
-        /// The column_ is expired
+        /// The column is expired
         /// </summary>
         protected const string column_IsExpired = "IsExpired";
 
         /// <summary>
-        /// The column_ sequence
+        /// The column sequence
         /// </summary>
         protected const string column_Sequence = "Sequence";
 
         /// <summary>
-        /// The column_ stamp
+        /// The column stamp
         /// </summary>
         protected const string column_Stamp = "Stamp";
 
         /// <summary>
-        /// The column_ content
+        /// The column content
         /// </summary>
         protected const string column_Content = "Content";
 
         /// <summary>
-        /// The column_ content type
+        /// The column content type
         /// </summary>
         protected const string column_ContentType = "ContentType";
 
         /// <summary>
-        /// The column_ tags
+        /// The column tags
         /// </summary>
         protected const string column_Tags = "Tags";
 
@@ -327,22 +340,22 @@ namespace Beyova
         protected const string column_IsReadOnly = "IsReadOnly";
 
         /// <summary>
-        /// The column_ public key
+        /// The column public key
         /// </summary>
         protected const string column_PublicKey = "PublicKey";
 
         /// <summary>
-        /// The column_ private key
+        /// The column private key
         /// </summary>
         protected const string column_PrivateKey = "PrivateKey";
 
         /// <summary>
-        /// The column_ snapshot key
+        /// The column snapshot key
         /// </summary>
         protected const string column_SnapshotKey = "SnapshotKey";
 
         /// <summary>
-        /// The column_ product key
+        /// The column product key
         /// </summary>
         protected const string column_ProductKey = "ProductKey";
 
@@ -350,6 +363,41 @@ namespace Beyova
         /// The column platform key
         /// </summary>
         protected const string column_PlatformKey = "PlatformKey";
+
+        /// <summary>
+        /// The column name of Quantity
+        /// </summary>
+        protected const string column_Quantity = "Quantity";
+
+        /// <summary>
+        /// The column name of Width
+        /// </summary>
+        protected const string column_Width = "Width";
+
+        /// <summary>
+        /// The column name of Height
+        /// </summary>
+        protected const string column_Height = "Height";
+
+        /// <summary>
+        /// The column name of Length
+        /// </summary>
+        protected const string column_Length = "Length";
+
+        /// <summary>
+        /// The column date
+        /// </summary>
+        protected const string column_Date = "Date";
+
+        /// <summary>
+        /// The column kv meta
+        /// </summary>
+        protected const string column_KVMeta = "KVMeta";
+
+        /// <summary>
+        /// The column kv meta criteria
+        /// </summary>
+        protected const string column_KVMetaCriteria = "KVMetaCriteria";
 
         /// <summary>
         /// The column URL
@@ -488,5 +536,10 @@ namespace Beyova
                 return result;
             }, preferReadOnlyOperator);
         }
+
+        //protected object ReadColumn(SqlDataReader reader, string columnName)
+        //{
+        //    reader[
+        //}
     }
 }

@@ -22,7 +22,7 @@ namespace Beyova.Api
         /// <param name="moduleName">Name of the module.</param>
         public ApiModuleAttribute(string moduleName)
         {
-            this.ModuleName = moduleName;
+            ModuleName = moduleName;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Beyova.Api
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return this.ModuleName.SafeToString();
+            return ModuleName.SafeToString();
         }
     }
 }

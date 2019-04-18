@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Beyova;
-using Beyova.DynamicCompileUnitTest._DeepEquality;
-using Beyova.DynamicCompileUnitTest._MemberClone;
+﻿using Beyova.DynamicCompileUnitTest._MemberClone;
 
 namespace Beyova.DynamicCompileUnitTest
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-
             //AopTest.BasicFunctionTest();
             //AopTest.AdvancedFunctionTest();
 

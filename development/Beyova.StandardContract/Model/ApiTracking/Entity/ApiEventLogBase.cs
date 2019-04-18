@@ -1,48 +1,25 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ApiEventLogBase.
     /// </summary>
-    public class ApiEventLogBase : ApiLogBase
+    public class ApiEventLogBase : GlobalApiUniqueIdentifier, IApiEventLogBase
     {
-        /// <summary>
-        /// Gets or sets the name of the resource.
-        /// </summary>
-        /// <value>The name of the resource.</value>
-        public string ResourceName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the module.
-        /// </summary>
-        /// <value>The name of the module.</value>
-        public string ModuleName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the resource entity key.
-        /// </summary>
-        /// <value>The resource entity key.</value>
-        public string ResourceEntityKey { get; set; }
-
-        /// <summary>
-        /// Gets or sets the full name of the API.
-        /// </summary>
-        /// <value>The full name of the API.</value>
-        public string ApiFullName { get; set; }
-
         /// <summary>
         /// Gets or sets the exception key.
         /// </summary>
         /// <value>The exception key.</value>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "exceptionKey")]
         public Guid? ExceptionKey { get; set; }
 
         /// <summary>
         /// Gets or sets the culture code.
         /// </summary>
         /// <value>The culture code.</value>
+        [JsonProperty(PropertyName = "cultureCode")]
         public string CultureCode { get; set; }
 
         /// <summary>
@@ -50,75 +27,38 @@ namespace Beyova.ApiTracking
         /// Commonly, it can be device id, PC name, etc.
         /// </summary>
         /// <value>The client identifier.</value>
+        [JsonProperty(PropertyName = "clientIdentifier")]
         public string ClientIdentifier { get; set; }
 
         /// <summary>
         /// Gets or sets the ip address.
         /// </summary>
         /// <value>The ip address.</value>
+        [JsonProperty(PropertyName = "ipAddress")]
         public string IpAddress { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user agent.
-        /// </summary>
-        /// <value>The user agent.</value>
-        public string UserAgent { get; set; }
-
-        /// <summary>
-        /// Gets or sets the referrer URL.
-        /// </summary>
-        /// <value>The referrer URL.</value>
-        public string ReferrerUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the platform.
-        /// </summary>
-        /// <value>The platform.</value>
-        public PlatformType? Platform { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the device.
-        /// </summary>
-        /// <value>The type of the device.</value>
-        public DeviceType? DeviceType { get; set; }
 
         /// <summary>
         /// Gets or sets the trace identifier.
         /// </summary>
         /// <value>The trace identifier.</value>
+        [JsonProperty(PropertyName = "traceId")]
         public string TraceId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        /// <value>The content.</value>
-        public string Content { get; set; }
-
-        /// <summary>
-        /// Gets or sets the protocol.
-        /// </summary>
-        /// <value>The protocol.</value>
-        public string Protocol { get; set; }
 
         /// <summary>
         /// Gets or sets the operator credential.
         /// </summary>
         /// <value>The operator credential.</value>
+        [JsonProperty(PropertyName = "operatorCredential")]
         public BaseCredential OperatorCredential { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [hit API cache].
-        /// </summary>
-        /// <value><c>true</c> if [hit API cache]; otherwise, <c>false</c>.</value>
-        public bool HitApiCache { get; set; }
-
-        /// <summary>
-        /// Gets or sets the UI element identifier.
+        /// Gets or sets the raw URL.
         /// </summary>
         /// <value>
-        /// The UI element identifier.
+        /// The raw URL.
         /// </value>
-        public string UIElementId { get; set; }
+        [JsonProperty(PropertyName = "rawUrl")]
+        public string RawUrl { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiEventLogBase"/> class.
@@ -137,20 +77,13 @@ namespace Beyova.ApiTracking
         {
             if (eventLogBase != null)
             {
-                this.ExceptionKey = eventLogBase.ExceptionKey;
-                this.ResourceEntityKey = eventLogBase.ResourceEntityKey;
-                this.CultureCode = eventLogBase.CultureCode;
-                this.ClientIdentifier = eventLogBase.ClientIdentifier;
-                this.ApiFullName = eventLogBase.ApiFullName;
-                this.IpAddress = eventLogBase.IpAddress;
-                this.UserAgent = eventLogBase.UserAgent;
-                this.ResourceName = eventLogBase.ResourceName;
-                this.ExceptionKey = eventLogBase.ExceptionKey;
-                this.Platform = eventLogBase.Platform;
-                this.DeviceType = eventLogBase.DeviceType;
-                this.OperatorCredential = eventLogBase.OperatorCredential;
-                this.ReferrerUrl = eventLogBase.ReferrerUrl;
-                this.UIElementId = eventLogBase.UIElementId;
+                ExceptionKey = eventLogBase.ExceptionKey;
+                CultureCode = eventLogBase.CultureCode;
+                ClientIdentifier = eventLogBase.ClientIdentifier;
+                IpAddress = eventLogBase.IpAddress;
+                ExceptionKey = eventLogBase.ExceptionKey;
+                OperatorCredential = eventLogBase.OperatorCredential;
+                 RawUrl = eventLogBase.RawUrl;
             }
         }
     }

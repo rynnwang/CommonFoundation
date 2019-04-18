@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -30,9 +30,10 @@ namespace Beyova
         /// Validates the specified validator.
         /// </summary>
         /// <param name="validator">The validator.</param>
-        public void Validate(ICellphoneNumberValidator validator)
+        /// <param name="omitNationCode">if set to <c>true</c> [omit nation code].</param>
+        public void Validate(ICellphoneNumberValidator validator, bool omitNationCode = false)
         {
-            (validator ?? RegionalOptions.DefaultCellphoneNumberValidator)?.Validate(this);
+            (validator ?? RegionalOptions.DefaultCellphoneNumberValidator)?.Validate(this, omitNationCode);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Beyova
         /// <returns></returns>
         protected string ToFullCellphoneNumber()
         {
-            return string.IsNullOrWhiteSpace(this.Number) ? StringConstants.NA : string.Format("+{0} {1}", this.NationCode.SafeToString(RegionalOptions.DefaultCellphoneNationCode), this.Number);
+            return string.IsNullOrWhiteSpace(Number) ? StringConstants.NA : string.Format("+{0} {1}", NationCode.SafeToString(RegionalOptions.DefaultCellphoneNationCode), Number);
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace Beyova
         /// </returns>
         public override string ToString()
         {
-            return this.ToFullCellphoneNumber();
+            return ToFullCellphoneNumber();
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Beyova
         /// </returns>
         public override bool Equals(object obj)
         {
-            return (obj as CellphoneNumber)?.ToFullCellphoneNumber()?.Equals(this.ToFullCellphoneNumber()) ?? false;
+            return (obj as CellphoneNumber)?.ToFullCellphoneNumber()?.Equals(ToFullCellphoneNumber()) ?? false;
         }
 
         /// <summary>
@@ -75,12 +76,12 @@ namespace Beyova
         /// </returns>
         public override int GetHashCode()
         {
-            return this.ToFullCellphoneNumber().GetHashCode();
+            return ToFullCellphoneNumber().GetHashCode();
         }
 
         #region static
 
-        static Regex regex = new Regex(@"^(\+(?<NationCode>([0-9]+))([\s\t\-]))?(?<Number>([0-9\-\s]+))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex regex = new Regex(@"^(\+(?<NationCode>([0-9]+))([\s\t\-]))?(?<Number>([0-9\-\s]+))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Froms the string.

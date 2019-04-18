@@ -60,7 +60,7 @@ namespace Beyova
         {
             DateTime? result = null;
             DateTime tmp;
-            switch (this.Recurrence)
+            switch (Recurrence)
             {
                 //// Everyday
                 case TimeScope.Day:
@@ -139,9 +139,9 @@ namespace Beyova
                     break;
                 //// Once
                 case TimeScope.None:
-                    if (this.HitReference >= nowStandardStamp)
+                    if (HitReference >= nowStandardStamp)
                     {
-                        result = this.HitReference;
+                        result = HitReference;
                     }
                     break;
 
@@ -160,10 +160,10 @@ namespace Beyova
         {
             return new DateTimeRecurrence
             {
-                EndStamp = this.EndStamp,
-                Recurrence = this.Recurrence,
-                HitReference = this.HitReference,
-                StartStamp = this.StartStamp
+                EndStamp = EndStamp,
+                Recurrence = Recurrence,
+                HitReference = HitReference,
+                StartStamp = StartStamp
             };
         }
     }

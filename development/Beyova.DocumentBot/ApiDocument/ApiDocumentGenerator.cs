@@ -196,7 +196,7 @@ url{
         /// <param name="tokenKey">The token key.</param>
         public ApiDocumentGenerator(string tokenKey)
         {
-            this.TokenKey = tokenKey;
+            TokenKey = tokenKey;
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ url{
             {
                 c.Add(name, b);
             }, container, (routes.HasItem() ? routes : RestApiRoutePool.RuntimeRoutes as IEnumerable<RuntimeRoute>)
-            .Distinct(new LambdaEqualityComparer<RuntimeRoute,Type>((x) => { return x?.InstanceType; }))
+            .Distinct(new LambdaEqualityComparer<RuntimeRoute, Type>((x) => { return x?.InstanceType; }))
             .Select(x => new KeyValuePair<Type, IApiContractOptions>(x.InstanceType, x.ApiRouteIdentifier)).ToArray());
 
             return container.Any() ? container.ZipAsBytes() : null;
@@ -1002,8 +1002,10 @@ url{
         /// <returns>List&lt;Type&gt;.</returns>
         private static List<Type> AppendChain(List<Type> chain, Type type)
         {
-            var list = new List<Type>(chain);
-            list.Add(type);
+            var list = new List<Type>(chain)
+            {
+                type
+            };
 
             return list;
         }

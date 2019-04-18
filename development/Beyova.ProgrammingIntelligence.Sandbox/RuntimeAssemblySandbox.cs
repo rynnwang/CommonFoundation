@@ -40,7 +40,7 @@ namespace Beyova
         protected override void Initialize(SandboxSetting setting)
         {
             base.Initialize(setting);
-            this._assemblyProvider = CreateInstanceAndUnwrap<RemoteAssemblyProvider>(this.AppDomain);
+            _assemblyProvider = CreateInstanceAndUnwrap<RemoteAssemblyProvider>(AppDomain);
         }
 
         /// <summary>

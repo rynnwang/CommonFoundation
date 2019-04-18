@@ -1,4 +1,5 @@
 ﻿using System;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api
 {
@@ -21,14 +22,34 @@ namespace Beyova.Api
         public ApiPermission Permission { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the exception behavior.
+        /// </summary>
+        /// <value>
+        /// The exception behavior.
+        /// </value>
+        public ExceptionCode ExceptionBehavior { get; protected set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiPermissionAttribute" /> class.
         /// </summary>
         /// <param name="permissionIdentifier">The permission identifier.</param>
         /// <param name="permission">The permission.</param>
         public ApiPermissionAttribute(string permissionIdentifier, ApiPermission permission = ApiPermission.Required)
         {
-            this.PermissionIdentifier = permissionIdentifier;
-            this.Permission = permission;
+            PermissionIdentifier = permissionIdentifier;
+            Permission = permission;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiPermissionAttribute"/> class.
+        /// </summary>
+        /// <param name="permissionIdentifier">The permission identifier.</param>
+        /// <param name="exceptionBehavior">The exception behavior.</param>
+        /// <param name="permission">The permission.</param>
+        public ApiPermissionAttribute(string permissionIdentifier, ExceptionCode exceptionBehavior, ApiPermission permission = ApiPermission.Required)
+            : this(permissionIdentifier, permission)
+        {
+            ExceptionBehavior = exceptionBehavior;
         }
     }
 }

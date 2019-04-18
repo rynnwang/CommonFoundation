@@ -8,7 +8,7 @@
         /// <summary>
         /// The na
         /// </summary>
-        public const string NA = "NA";
+        public const string NA = "<N/A>";
 
         /// <summary>
         /// The equal operator

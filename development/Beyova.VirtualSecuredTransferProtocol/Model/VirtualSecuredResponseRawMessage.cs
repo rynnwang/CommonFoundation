@@ -14,7 +14,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// </summary>
         public VirtualSecuredResponseRawMessage()
         {
-            this.Stamp = DateTime.UtcNow;
+            Stamp = DateTime.UtcNow;
         }
     }
 }

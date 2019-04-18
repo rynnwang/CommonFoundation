@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
@@ -39,9 +39,9 @@ namespace Beyova
         {
             if (result != null)
             {
-                this.Type = result.Type;
-                this.ExceptionInfo = result.ExceptionInfo;
-                this.Value = result.Value;
+                Type = result.Type;
+                ExceptionInfo = result.ExceptionInfo;
+                Value = result.Value;
             }
         }
 
@@ -53,17 +53,17 @@ namespace Beyova
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(this.Value) || string.IsNullOrWhiteSpace(this.Type))
+                if (string.IsNullOrWhiteSpace(Value) || string.IsNullOrWhiteSpace(Type))
                 {
                     return null;
                 }
 
-                Type type = ReflectionExtension.SmartGetType(this.Type, true);
-                return JToken.Parse(this.Value).ToObject(type);
+                Type type = ReflectionExtension.SmartGetType(Type, true);
+                return JToken.Parse(Value).ToObject(type);
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { this.Value, this.Type });
+                throw ex.Handle(new { Value, Type });
             }
         }
 
@@ -73,7 +73,7 @@ namespace Beyova
         /// <returns>ExceptionInfo.</returns>
         public ExceptionInfo GetExceptionInfo()
         {
-            return string.IsNullOrWhiteSpace(this.ExceptionInfo) ? null : JToken.Parse(this.ExceptionInfo).ToObject<ExceptionInfo>();
+            return string.IsNullOrWhiteSpace(ExceptionInfo) ? null : JToken.Parse(ExceptionInfo).ToObject<ExceptionInfo>();
         }
     }
 }

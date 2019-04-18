@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -129,7 +129,7 @@ namespace Beyova
         /// <param name="capacity">The capacity.</param>
         public LoopEnumerator(int capacity)
         {
-            this._list = new List<T>(capacity);
+            _list = new List<T>(capacity);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Beyova
         /// <param name="collection">The collection.</param>
         public LoopEnumerator(IEnumerable<T> collection)
         {
-            this._list = new List<T>(collection);
+            _list = new List<T>(collection);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Beyova
         /// </summary>
         public LoopEnumerator()
         {
-            this._list = new List<T>();
+            _list = new List<T>();
         }
 
         #endregion Constructor
@@ -160,7 +160,7 @@ namespace Beyova
         /// <param name="functionality">The functionality.</param>
         /// <param name="exception">The exception.</param>
         /// <returns></returns>
-        /// <exception cref="Beyova.ExceptionSystem.ResourceNotFoundException"></exception>
+        /// <exception cref="Beyova.Diagnostic.ResourceNotFoundException"></exception>
         public TOutput DoInLoop<TOutput>(Func<T, TOutput> functionality, out Exception exception)
         {
             functionality.CheckNullObject(nameof(functionality));
@@ -172,7 +172,7 @@ namespace Beyova
                 try
                 {
                     var result = functionality(input);
-                    this.MoveNext();
+                    MoveNext();
                     return result;
                 }
                 catch (Exception ex)
@@ -195,7 +195,7 @@ namespace Beyova
         /// <param name="parameter">The parameter.</param>
         /// <param name="exception">The exception.</param>
         /// <returns></returns>
-        /// <exception cref="Beyova.ExceptionSystem.ResourceNotFoundException"></exception>
+        /// <exception cref="Beyova.Diagnostic.ResourceNotFoundException"></exception>
         public TOutput DoInLoop<TOutput>(Func<T, object, TOutput> functionality, object parameter, out Exception exception)
         {
             functionality.CheckNullObject(nameof(functionality));
@@ -207,7 +207,7 @@ namespace Beyova
                 try
                 {
                     var result = functionality(input, parameter);
-                    this.MoveNext();
+                    MoveNext();
                     return result;
                 }
                 catch (Exception ex)

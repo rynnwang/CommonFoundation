@@ -51,8 +51,8 @@ namespace Beyova
         /// <param name="comparison">The comparison.</param>
         public LambdaComparer(Func<T, TCompareType> selector, Func<TCompareType, TCompareType, int> comparison)
         {
-            this.Selector = selector;
-            this.Comparison = comparison;
+            Selector = selector;
+            Comparison = comparison;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Beyova
         /// <returns>A signed integer that indicates the relative values of <paramref name="x" /> and <paramref name="y" />, as shown in the following table.Value Meaning Less than zero <paramref name="x" /> is less than <paramref name="y" />.Zero <paramref name="x" /> equals <paramref name="y" />.Greater than zero <paramref name="x" /> is greater than <paramref name="y" />.</returns>
         public override int Compare(T x, T y)
         {
-            return (this.Selector != null && this.Comparison != null) ? this.Comparison(Selector(x), Selector(y)) : 0;
+            return (Selector != null && Comparison != null) ? Comparison(Selector(x), Selector(y)) : 0;
         }
     }
 }

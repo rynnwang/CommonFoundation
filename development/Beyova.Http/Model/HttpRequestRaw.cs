@@ -54,7 +54,7 @@ namespace Beyova.Http
         /// </summary>
         public HttpRequestRaw()
         {
-            this.Headers = new NameValueCollection();
+            Headers = new NameValueCollection();
         }
 
         /// <summary>
@@ -68,11 +68,11 @@ namespace Beyova.Http
             StringBuilder builder = new StringBuilder(512);
 
             //Write destination
-            builder.Append(this.Method);
+            builder.Append(Method);
             builder.Append(StringConstants.WhiteSpace);
-            builder.Append(this.Uri.PathAndQuery);
+            builder.Append(Uri.PathAndQuery);
             builder.Append(StringConstants.WhiteSpace);
-            builder.Append(this.ProtocolVersion);
+            builder.Append(ProtocolVersion);
             builder.AppendLine();
             builder.AppendLine();
 
@@ -89,7 +89,7 @@ namespace Beyova.Http
 
             if (Method.IsInString(HttpConstants.HttpMethod.Post, HttpConstants.HttpMethod.Put))
             {
-                builder.AppendLine(this.Body.ToUtf8String());
+                builder.AppendLine(Body.ToUtf8String());
             }
 
             builder.AppendLine();

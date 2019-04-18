@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beyova.ExceptionSystem;
 
 namespace Beyova.Cache
 {
@@ -66,8 +65,8 @@ namespace Beyova.Cache
         public CultureBasedFullEntityCacheAutoRetrievalOptions(Func<string, IEnumerable<TEntity>> entityRetrievalImplementation, Func<TEntity, TKey> entityKeyGetter, BaseCacheAutoRetrievalOptions baseRetrievalOptions)
            : base(baseRetrievalOptions)
         {
-            this.EntityRetrievalImplementation = entityRetrievalImplementation;
-            this.EntityKeyGetter = entityKeyGetter;
+            EntityRetrievalImplementation = entityRetrievalImplementation;
+            EntityKeyGetter = entityKeyGetter;
         }
     }
 }

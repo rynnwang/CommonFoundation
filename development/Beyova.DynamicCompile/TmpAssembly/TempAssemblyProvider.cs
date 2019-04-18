@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Microsoft.CSharp;
 using Newtonsoft.Json.Linq;
 
@@ -126,19 +126,20 @@ namespace Beyova
         /// <returns>HashSet&lt;System.String&gt;.</returns>
         private static HashSet<string> GetDefaultUsingNamespaces()
         {
-            var namespaces = new HashSet<string>();
-
-            namespaces.Add(typeof(System.Int32).Namespace);
-            namespaces.Add(typeof(System.Collections.Generic.List<>).Namespace);
-            namespaces.Add(typeof(System.Linq.IQueryable).Namespace);
-            namespaces.Add(typeof(System.Net.HttpStatusCode).Namespace);
-            namespaces.Add(typeof(System.Reflection.Assembly).Namespace);
-            namespaces.Add(typeof(System.Text.StringBuilder).Namespace);
-            namespaces.Add(typeof(Beyova.ExceptionSystem.BaseException).Namespace);
-            namespaces.Add(typeof(Beyova.IBaseObject).Namespace);
-            namespaces.Add(typeof(Beyova.Api.ApiEndpoint).Namespace);
-            namespaces.Add(typeof(Newtonsoft.Json.JsonConvert).Namespace);
-            namespaces.Add(typeof(Newtonsoft.Json.Linq.JToken).Namespace);
+            var namespaces = new HashSet<string>
+            {
+                typeof(System.Int32).Namespace,
+                typeof(System.Collections.Generic.List<>).Namespace,
+                typeof(System.Linq.IQueryable).Namespace,
+                typeof(System.Net.HttpStatusCode).Namespace,
+                typeof(System.Reflection.Assembly).Namespace,
+                typeof(System.Text.StringBuilder).Namespace,
+                typeof(Beyova.Diagnostic.BaseException).Namespace,
+                typeof(Beyova.IBaseObject).Namespace,
+                typeof(Beyova.Api.ApiEndpoint).Namespace,
+                typeof(Newtonsoft.Json.JsonConvert).Namespace,
+                typeof(Newtonsoft.Json.Linq.JToken).Namespace
+            };
 
             return namespaces;
         }
@@ -149,14 +150,15 @@ namespace Beyova
         /// <returns>HashSet&lt;Assembly&gt;.</returns>
         public static HashSet<Assembly> GetDefaultAdditionalAssembly()
         {
-            var result = new HashSet<Assembly>();
-
-            result.Add(typeof(JToken).Assembly);
-            result.Add(typeof(Framework).Assembly);
-            result.Add(typeof(System.Linq.Enumerable).Assembly);
-            result.Add(typeof(BaseException).Assembly);
-            result.Add(typeof(System.Net.HttpWebRequest).Assembly);
-            result.Add(typeof(System.Text.StringBuilder).Assembly);
+            var result = new HashSet<Assembly>
+            {
+                typeof(JToken).Assembly,
+                typeof(Framework).Assembly,
+                typeof(System.Linq.Enumerable).Assembly,
+                typeof(BaseException).Assembly,
+                typeof(System.Net.HttpWebRequest).Assembly,
+                typeof(System.Text.StringBuilder).Assembly
+            };
 
             return result;
         }

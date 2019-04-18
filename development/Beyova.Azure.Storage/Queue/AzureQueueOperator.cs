@@ -107,11 +107,11 @@ namespace Beyova.Azure
         public AzureQueueOperator(CloudStorageAccount account, string queueName, bool encodeMessage)
         {
             storageAccount = account;
-            this.queueClient = storageAccount.CreateCloudQueueClient();
+            queueClient = storageAccount.CreateCloudQueueClient();
 
-            this.Queue = queueClient.GetQueueReference(queueName.SafeToLower());
-            this.Queue.EncodeMessage = encodeMessage;
-            this.Queue?.CreateIfNotExists();
+            Queue = queueClient.GetQueueReference(queueName.SafeToLower());
+            Queue.EncodeMessage = encodeMessage;
+            Queue?.CreateIfNotExists();
         }
 
         #endregion Constructor
@@ -122,7 +122,7 @@ namespace Beyova.Azure
         /// <returns></returns>
         public int GetCount()
         {
-            return this.Queue?.ApproximateMessageCount ?? 0;
+            return Queue?.ApproximateMessageCount ?? 0;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Beyova.Azure
         /// </summary>
         public void Clear()
         {
-            this.Queue.Clear();
+            Queue.Clear();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Beyova.Azure
         public void Enqueue(T item)
         {
             item.CheckNullObject(nameof(item));
-            this.Queue.AddMessage(new CloudQueueMessage(item?.ToJson(false)));
+            Queue.AddMessage(new CloudQueueMessage(item?.ToJson(false)));
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Beyova.Azure
         /// <returns></returns>
         public QueueMessageItem<T> Peek()
         {
-            return ConvertObject(this.Queue.PeekMessage());
+            return ConvertObject(Queue.PeekMessage());
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Beyova.Azure
         /// <returns></returns>
         public QueueMessageItem<T> GetMessage(int? invisibilityTimeout)
         {
-            return ConvertObject(this.Queue.GetMessage(invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?));
+            return ConvertObject(Queue.GetMessage(invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?));
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Beyova.Azure
         /// <returns></returns>
         public List<QueueMessageItem<T>> GetMessages(int messageCount, int? invisibilityTimeout)
         {
-            return this.Queue.GetMessages(messageCount, invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?)
+            return Queue.GetMessages(messageCount, invisibilityTimeout.HasValue ? new System.TimeSpan(0, 0, invisibilityTimeout.Value) : null as TimeSpan?)
                 .Select(ConvertObject)
                 .ToList();
         }
@@ -183,7 +183,7 @@ namespace Beyova.Azure
         public void DeleteMessage(string id, string receipt)
         {
             id.CheckEmptyString(nameof(id));
-            this.Queue.DeleteMessage(id, receipt);
+            Queue.DeleteMessage(id, receipt);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Beyova.Azure
         /// <returns></returns>
         public List<QueueMessageItem<T>> PeekMessages(int messageCount)
         {
-            return this.Queue.PeekMessages(messageCount).Select(ConvertObject).ToList();
+            return Queue.PeekMessages(messageCount).Select(ConvertObject).ToList();
         }
 
         /// <summary>
@@ -207,6 +207,7 @@ namespace Beyova.Azure
             {
                 CreatedStamp = message.InsertionTime.ToDateTime(),
                 Id = message.Id,
+                PopReceipt = message.PopReceipt,
                 Message = message.AsString.TryConvertJsonToObject<T>()
             } : default(QueueMessageItem<T>);
         }

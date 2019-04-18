@@ -2,7 +2,7 @@
 using System.Net;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class HttpOperationException.
@@ -42,7 +42,7 @@ namespace Beyova.ExceptionSystem
             /// Gets or sets the HTTP status code.
             /// </summary>
             /// <value>The HTTP status code.</value>
-            public HttpStatusCode HttpStatusCode { get; set; }
+            public HttpStatusCode? HttpStatusCode { get; set; }
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Beyova.ExceptionSystem
         {
             get
             {
-                return this.ReferenceData == null ? null : this.ReferenceData.ToObject<HttpExceptionReference>();
+                return ReferenceData == null ? null : ReferenceData.ToObject<HttpExceptionReference>();
             }
         }
 
@@ -69,7 +69,7 @@ namespace Beyova.ExceptionSystem
         /// <param name="httpStatusCode">The HTTP status code.</param>
         /// <param name="webExceptionStatus">The web exception status.</param>
         /// <param name="serverIdentifier">The server identifier.</param>
-        public HttpOperationException(string destinationUrl, string httpMethod, string message, string responseText, HttpStatusCode httpStatusCode, WebExceptionStatus? webExceptionStatus, string serverIdentifier = null)
+        public HttpOperationException(string destinationUrl, string httpMethod, string message, string responseText, HttpStatusCode? httpStatusCode, WebExceptionStatus? webExceptionStatus, string serverIdentifier = null)
             : base(string.Format("Failed to request destination URL [{0}] using method [{1}]. Respond within code [{2}], status [{3}], message: [{4}]. [{5}]", destinationUrl, httpMethod, (int)httpStatusCode, webExceptionStatus.ToString(), message, string.IsNullOrWhiteSpace(serverIdentifier) ? string.Empty : "Machine Name: " + serverIdentifier),
                   httpStatusCode.ConvertHttpStatusCodeToExceptionCode(webExceptionStatus),
                   data: new HttpExceptionReference
@@ -91,7 +91,7 @@ namespace Beyova.ExceptionSystem
         /// <param name="httpStatusCode">The HTTP status code.</param>
         /// <param name="innerException">The inner exception.</param>
         /// <param name="serverIdentifier">The server identifier.</param>
-        public HttpOperationException(string destinationUrl, string httpMethod, HttpStatusCode httpStatusCode, BaseException innerException, string serverIdentifier = null)
+        public HttpOperationException(string destinationUrl, string httpMethod, HttpStatusCode? httpStatusCode, BaseException innerException, string serverIdentifier = null)
                     : base(string.Format("Failed to request destination URL [{0}] using method [{1}]. Responed within code [{2}]. [{3}]", destinationUrl, httpMethod, (int)httpStatusCode, string.IsNullOrWhiteSpace(serverIdentifier) ? string.Empty : "Machine Name: " + serverIdentifier),
                           new ExceptionCode { Major = ExceptionCode.MajorCode.OperationFailure, Minor = innerException?.Code.Minor }, innerException: innerException,
                           data: new HttpExceptionReference

@@ -5,7 +5,7 @@ namespace Beyova
     /// <summary>
     /// Interface IStampCriteria
     /// </summary>
-    public interface IStampCriteria 
+    public interface IStampCriteria
     {
         #region Properties
 

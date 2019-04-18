@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Beyova.Azure
 {
@@ -195,12 +196,14 @@ namespace Beyova.Azure
         {
             if (endpoint != null)
             {
-                var values = new Dictionary<string, string>();
-                values.Add("Region", endpoint.Region.ToString());
-                values.Add("DefaultEndpointsProtocol", endpoint.Protocol.SafeToString(HttpConstants.HttpProtocols.Https));
-                values.AddIfNotNullOrEmpty("AccountKey", endpoint.Token);
-                values.AddIfNotNullOrEmpty("AccountName", endpoint.Account);
-                values.AddIfNotNullOrEmpty("CustomBlobDomain", endpoint.Host);
+                var values = new Dictionary<string, string>
+                {
+                    { "Region", endpoint.Region.ToString() },
+                    { "DefaultEndpointsProtocol", endpoint.Protocol.SafeToString(HttpConstants.HttpProtocols.Https) }
+                };
+                values.AddIfBothNotNullOrEmpty("AccountKey", endpoint.Token);
+                values.AddIfBothNotNullOrEmpty("AccountName", endpoint.Account);
+                values.AddIfBothNotNullOrEmpty("CustomBlobDomain", endpoint.Host);
 
                 return values.ToKeyValuePairString(';');
             }
@@ -249,6 +252,25 @@ namespace Beyova.Azure
             }
 
             return new Uri(string.Format(uriFormat, useHttps ? HttpConstants.HttpProtocols.Https : HttpConstants.HttpProtocols.Http, accountName, feature));
+        }
+
+        /// <summary>
+        /// To the HTTP request.
+        /// </summary>
+        /// <param name="actionCredential">The action credential.</param>
+        /// <param name="httpMethod">The HTTP method.</param>
+        /// <returns></returns>
+        public static HttpWebRequest CreateHttpRequest(this BinaryStorageActionCredential actionCredential, string httpMethod = HttpConstants.HttpMethod.Get)
+        {
+            if (actionCredential != null)
+            {
+                var httpRequest = actionCredential.CredentialUri.CreateHttpWebRequest(httpMethod);
+                httpRequest.Headers.Set("x-ms-blob-type", "BlockBlob");
+
+                return httpRequest;
+            }
+
+            return null;
         }
     }
 }

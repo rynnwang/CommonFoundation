@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -15,6 +16,7 @@ namespace Beyova
         /// <value>
         /// The start index.
         /// </value>
+        [JsonProperty(PropertyName = "startIndex")]
         public TStartIndex StartIndex { get; set; }
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace Beyova
         /// If this value is assigned, other criteria would be ignored.
         /// </summary>
         /// <value>The key.</value>
+        [JsonProperty(PropertyName = "key")]
         public Guid? Key
         {
             get;
@@ -47,6 +50,7 @@ namespace Beyova
         /// Gets or sets the count.
         /// </summary>
         /// <value>The count.</value>
+        [JsonProperty(PropertyName = "count")]
         public int Count
         {
             get;
@@ -59,13 +63,8 @@ namespace Beyova
         /// <value>
         /// The order by.
         /// </value>
+        [JsonProperty(PropertyName = "orderBy")]
         public List<DataOrderOption> OrderBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [order descending].
-        /// </summary>
-        /// <value><c>true</c> if [order descending]; otherwise, <c>false</c>.</value>
-        [Obsolete("Use OrderBy")] public bool OrderDescending { get; set; }
 
         #endregion Properties
 

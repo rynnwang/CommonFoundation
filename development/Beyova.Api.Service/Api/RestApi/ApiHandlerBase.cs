@@ -9,9 +9,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Beyova.ApiTracking;
 using Beyova.Cache;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Beyova.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -82,7 +81,7 @@ namespace Beyova.Api.RestApi
         protected ApiHandlerBase(RestApiSettings defaultApiSettings, bool allowOptions = false)
         {
             RestApiSettingPool.AddSetting(defaultApiSettings);
-            this.AllowOptions = allowOptions;
+            AllowOptions = allowOptions;
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace Beyova.Api.RestApi
 
                 if (context.HttpMethod.Equals(HttpConstants.HttpMethod.Options, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (this.AllowOptions)
+                    if (AllowOptions)
                     {
                         //Return directly. IIS would append following headers by default, according to what exactly web.config have.
                         //Access-Control-Allow-Origin: *
@@ -130,21 +129,22 @@ namespace Beyova.Api.RestApi
 
                 var userAgentHeaderKey = context.Settings?.OriginalUserAgentHeaderKey;
 
-                ContextHelper.ConsistContext(
-                    // TOKEN
-                    context.TryGetRequestHeader((context.Settings?.TokenHeaderKey).SafeToString(HttpConstants.HttpHeader.TOKEN)),
-                    // Settings
-                    context.Settings,
-                    // IP Address
-                    context.TryGetRequestHeader((context.Settings?.OriginalIpAddressHeaderKey).SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
-                    // User Agent
-                    string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent),
-                    // Culture Code
-                    context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
-                     // Current Uri
-                     context.Url,
-                     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
-                    );
+                //ContextHelper.ConsistContext(
+                //    // TOKEN
+                //    context.TryGetRequestHeader((context.Settings?.TokenHeaderKey).SafeToString(HttpConstants.HttpHeader.TOKEN)),
+                //    // Settings
+                //    context.Settings,
+                //    // IP Address
+                //    context.TryGetRequestHeader((context.Settings?.OriginalIpAddressHeaderKey).SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(context.ClientIpAddress),
+                //    // User Agent
+                //    string.IsNullOrWhiteSpace(userAgentHeaderKey) ? context.UserAgent : context.TryGetRequestHeader(userAgentHeaderKey).SafeToString(context.UserAgent),
+                //    // Culture Code
+                //    context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
+                //     // Current Uri
+                //     context.Url,
+                //     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                //     runtimeContext.ApiRouterIdentifier
+                //    );
 
                 if (runtimeContext.OperationParameters?.EntitySynchronizationMode != null)
                 {
@@ -209,11 +209,6 @@ namespace Beyova.Api.RestApi
                     }
                     finally
                     {
-                        if (context.ApiEvent != null && !string.IsNullOrWhiteSpace(jsonBody) && !(runtimeContext.OperationParameters?.IsDataSensitive ?? false))
-                        {
-                            context.ApiEvent.Content = jsonBody.Length > 50 ? ((jsonBody.Substring(0, 40) + "..." + jsonBody.Substring(jsonBody.Length - 6, 6))) : jsonBody;
-                        }
-
                         ApiTraceContext.Exit(context.BaseException?.Key);
                     }
                 }
@@ -428,10 +423,11 @@ namespace Beyova.Api.RestApi
                 }
 
                 RuntimeRoute runtimeRoute;
-
-                if (!RestApiRoutePool.Routes.TryGetValue(new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, result.Parameter1), out runtimeRoute))
+                var apiRouterIdentifier = new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, result.Parameter1);
+                if (!RestApiRoutePool.Routes.TryGetValue(apiRouterIdentifier, out runtimeRoute))
                 {
-                    RestApiRoutePool.Routes.TryGetValue(new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, null), out runtimeRoute);
+                    apiRouterIdentifier = new ApiRouteIdentifier(result.Realm, result.Version, result.ResourceName, httpMethod, null);
+                    RestApiRoutePool.Routes.TryGetValue(apiRouterIdentifier, out runtimeRoute);
                 }
                 else
                 {
@@ -445,6 +441,8 @@ namespace Beyova.Api.RestApi
                 {
                     throw new ResourceNotFoundException(rawFullUrl);
                 }
+
+                result.ApiRouterIdentifier = apiRouterIdentifier;
 
                 // Override out parameters
                 result.OperationParameters = runtimeRoute.OperationParameters ?? new RuntimeApiOperationParameters();
@@ -503,7 +501,8 @@ namespace Beyova.Api.RestApi
                     context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                      // Current Uri
                      context.Url,
-                     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                     HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                     apiRouterIdentifier.ToApiUniqueIdentifier()
                     );
 
                 string userIdentifier = ContextHelper.ApiContext.CurrentCredential?.Name.SafeToString(token);

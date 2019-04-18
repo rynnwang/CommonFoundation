@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Beyova;
 
 namespace Beyova.DynamicCompileUnitTest._MemberClone
 {
@@ -44,7 +39,6 @@ namespace Beyova.DynamicCompileUnitTest._MemberClone
             Console.WriteLine(format, "Id", item1.Id, item2.Id);
             Console.WriteLine(format, "age", item1.age, item2.age);
             Console.WriteLine(format, "IsEngineer", item1.IsEngineer, item2.IsEngineer);
-
         }
     }
 }

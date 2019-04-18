@@ -52,8 +52,8 @@ namespace Beyova
         /// <param name="comparison">The comparison.</param>
         public NullableLambdaComparer(Func<T, TCompareType?> comparer, Func<TCompareType, TCompareType, int> comparison)
         {
-            this.Comparer = comparer;
-            this.Comparison = comparison;
+            Comparer = comparer;
+            Comparison = comparison;
         }
 
         /// <summary>
@@ -79,8 +79,7 @@ namespace Beyova
                 return 1;
             }
 
-
-            return (this.Comparer != null && this.Comparison != null) ? this.Comparison(n1.Value, n2.Value) : 0;
+            return (Comparer != null && Comparison != null) ? Comparison(n1.Value, n2.Value) : 0;
         }
     }
 }

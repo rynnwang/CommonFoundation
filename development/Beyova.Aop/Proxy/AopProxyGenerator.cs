@@ -36,7 +36,7 @@ namespace Beyova.AOP
                 builder.AppendLine("using System.Reflection;");
                 builder.AppendLine("using System.Text;");
                 builder.AppendLine("using Beyova.ProgrammingIntelligence;");
-                builder.AppendLine("using Beyova.ExceptionSystem;");
+                builder.AppendLine("using Beyova.Diagnostic;");
                 builder.AppendLine("using Beyova;");
                 builder.AppendLine("using Newtonsoft.Json;");
                 builder.AppendLine("using Newtonsoft.Json.Linq;");

@@ -120,7 +120,7 @@ namespace Beyova
         /// <param name="comparer">The comparer.</param>
         public SequencedKeyDictionary(IDictionary<TKey, TValue> baseDictionary, IEqualityComparer<TKey> comparer)
         {
-            this.dictionary = baseDictionary == null ?
+            dictionary = baseDictionary == null ?
                 new Dictionary<TKey, TValue>(comparer ?? EqualityComparer<TKey>.Default)
                 : new Dictionary<TKey, TValue>(dictionary, comparer ?? EqualityComparer<TKey>.Default);
             keys = new List<TKey>();
@@ -133,7 +133,7 @@ namespace Beyova
         /// <param name="comparer">The comparer.</param>
         public SequencedKeyDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
-            this.dictionary = new Dictionary<TKey, TValue>(capacity, comparer ?? EqualityComparer<TKey>.Default);
+            dictionary = new Dictionary<TKey, TValue>(capacity, comparer ?? EqualityComparer<TKey>.Default);
             keys = new List<TKey>(capacity);
         }
 
@@ -142,8 +142,8 @@ namespace Beyova
         /// </summary>
         public SequencedKeyDictionary()
         {
-            this.dictionary = new Dictionary<TKey, TValue>();
-            this.keys = new List<TKey>();
+            dictionary = new Dictionary<TKey, TValue>();
+            keys = new List<TKey>();
         }
 
         /// <summary>
@@ -320,9 +320,9 @@ namespace Beyova
         protected List<KeyValuePair<TKey, TValue>> InternalToKeyValueList()
         {
             List<KeyValuePair<TKey, TValue>> tmp = new List<KeyValuePair<TKey, TValue>>();
-            foreach (var key in this.dictionary.Keys)
+            foreach (var key in dictionary.Keys)
             {
-                tmp.Add(new KeyValuePair<TKey, TValue>(key, this.dictionary[key]));
+                tmp.Add(new KeyValuePair<TKey, TValue>(key, dictionary[key]));
             }
             return tmp;
         }

@@ -37,7 +37,7 @@ namespace Beyova
         /// <param name="objectToWrap">The object to wrap.</param>
         public SandboxWrapper(T objectToWrap) : this()
         {
-            this.Object = objectToWrap;
+            Object = objectToWrap;
         }
 
         /// <summary>

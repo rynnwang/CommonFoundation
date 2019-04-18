@@ -1,13 +1,12 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
 using Newtonsoft.Json;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ExceptionCriteria.
     /// </summary>
-    public class ExceptionCriteria : ApiLogBase, ICriteria, IStampCriteria
+    public class ExceptionCriteria : GlobalApiUniqueIdentifier, ICriteria, IStampCriteria
     {
         #region Property
 
@@ -88,6 +87,15 @@ namespace Beyova.ApiTracking
         /// </value>
         [JsonProperty(PropertyName = "exceptionType")]
         public string ExceptionType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the raw URL.
+        /// </summary>
+        /// <value>
+        /// The raw URL.
+        /// </value>
+        [JsonProperty(PropertyName = "rawUrl")]
+        public string RawUrl { get; set; }
 
         #endregion Property
 

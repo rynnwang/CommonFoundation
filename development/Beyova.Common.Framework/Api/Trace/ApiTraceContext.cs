@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.Remoting.Messaging;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api
 {

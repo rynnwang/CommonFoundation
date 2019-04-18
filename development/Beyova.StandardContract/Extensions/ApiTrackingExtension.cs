@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Beyova.ApiTracking;
+﻿using Beyova.Diagnostic;
+using System.Text;
 
 namespace Beyova.Api
 {
@@ -8,24 +8,6 @@ namespace Beyova.Api
     /// </summary>
     public static class ApiTrackingExtension
     {
-        /// <summary>
-        /// APIs the event log to string.
-        /// </summary>
-        /// <param name="log">The log.</param>
-        /// <returns>System.String.</returns>
-        public static string ApiEventLogToString(this ApiEventLog log)
-        {
-            var builder = new StringBuilder(512);
-
-            if (log != null)
-            {
-                builder.AppendLineWithFormat("{0}: {1}", log.CreatedStamp.ToFullDateTimeString(), log.ApiFullName);
-                builder.AppendLine(log.ToJson());
-            }
-
-            return builder.ToString();
-        }
-
         /// <summary>
         /// APIs the message to string.
         /// </summary>
@@ -51,7 +33,7 @@ namespace Beyova.Api
         /// <param name="log">The log.</param>
         /// <param name="level">The level.</param>
         /// <returns>System.String.</returns>
-        private static void ApiTraceLogToString(StringBuilder builder, ApiTraceLogPiece log, int level)
+        private static void ApiTraceLogToString(StringBuilder builder, ApiTraceStep log, int level)
         {
             if (builder != null && log != null)
             {

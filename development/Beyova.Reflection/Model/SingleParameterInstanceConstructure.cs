@@ -60,8 +60,8 @@ namespace Beyova
         /// <param name="parameter">The parameter.</param>
         public SingleParameterInstanceConstructure(Type type, T parameter)
         {
-            this.Type = type;
-            this.Parameter = parameter;
+            Type = type;
+            Parameter = parameter;
         }
     }
 }

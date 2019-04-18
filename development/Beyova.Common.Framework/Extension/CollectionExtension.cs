@@ -2,7 +2,7 @@
 
 namespace Beyova
 {
-    static partial class CollectionExtension
+    public static partial class CollectionExtension
     {
         /// <summary>
         /// Tries the get value.

@@ -1,6 +1,6 @@
 ﻿using Beyova.Api;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     ///

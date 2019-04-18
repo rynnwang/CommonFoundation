@@ -49,11 +49,11 @@ namespace Beyova
         /// </summary>
         /// <param name="accountString">The account string.</param>
         /// <returns>HttpCredential.</returns>
-        public static HttpCredential ParseToAccessCredential(this string accountString)
+        public static HttpCredential ParseToHttpCredential(this string accountString)
         {
             return string.IsNullOrWhiteSpace(accountString) ?
                     null
-                    : (ParseDomainCredentialToAccessCredential(accountString) ?? ParseUrlCredentialToAccessCredential(accountString));
+                    : (ParseDomainCredentialToHttpCredential(accountString) ?? ParseUrlCredentialToHttpCredential(accountString));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Beyova
         /// </summary>
         /// <param name="urlCredential">The URL credential.</param>
         /// <returns></returns>
-        public static HttpCredential ParseUrlCredentialToAccessCredential(this string urlCredential)
+        public static HttpCredential ParseUrlCredentialToHttpCredential(this string urlCredential)
         {
             if (!string.IsNullOrWhiteSpace(urlCredential))
             {
@@ -85,7 +85,7 @@ namespace Beyova
         /// </summary>
         /// <param name="urlCredential">The URL credential.</param>
         /// <returns></returns>
-        public static HttpCredential ParseDomainCredentialToAccessCredential(this string urlCredential)
+        public static HttpCredential ParseDomainCredentialToHttpCredential(this string urlCredential)
         {
             if (!string.IsNullOrWhiteSpace(urlCredential))
             {

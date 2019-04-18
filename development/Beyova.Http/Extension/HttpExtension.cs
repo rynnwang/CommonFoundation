@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using Beyova.Http;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -9,8 +11,6 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using Beyova.ExceptionSystem;
-using Beyova.Http;
 
 namespace Beyova
 {
@@ -21,7 +21,7 @@ namespace Beyova
         /// <summary>
         /// The regex protocol
         /// </summary>
-        static Regex regexProtocol = new Regex(@"^(?<protocol>([a-zA-Z]+:\/\/))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex regexProtocol = new Regex(@"^(?<protocol>([a-zA-Z]+:\/\/))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Ensures the URL protocol.
@@ -363,7 +363,7 @@ namespace Beyova
                 if (basicAuthorizationValue.StartsWith(basicAuthorizationPrefix))
                 {
                     basicAuthorizationValue = basicAuthorizationValue.Substring(basicAuthorizationPrefix.Length).DecodeBase64();
-                    result = basicAuthorizationValue.ParseDomainCredentialToAccessCredential();
+                    result = basicAuthorizationValue.ParseDomainCredentialToHttpCredential();
                 }
             }
 
@@ -428,6 +428,25 @@ namespace Beyova
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts the HTTP status code to exception code.
+        /// </summary>
+        /// <param name="httpStatusCode">The HTTP status code.</param>
+        /// <param name="webExceptionStatus">The web exception status.</param>
+        /// <returns></returns>
+        public static ExceptionCode ConvertHttpStatusCodeToExceptionCode(this HttpStatusCode? httpStatusCode, WebExceptionStatus? webExceptionStatus)
+        {
+            return httpStatusCode.HasValue ?
+                ConvertHttpStatusCodeToExceptionCode(httpStatusCode.Value, webExceptionStatus)
+                : new ExceptionCode
+                {
+                    Major = ExceptionCode.MajorCode.HttpBlockError,
+                    Minor = webExceptionStatus.HasValue ?
+                        string.Format("{0}={1}", nameof(WebExceptionStatus), webExceptionStatus.Value)
+                        : null
+                };
         }
 
         /// <summary>
@@ -1000,16 +1019,26 @@ namespace Beyova
         #region Read response
 
         /// <summary>
+        /// Reads the response.
+        /// </summary>
+        /// <param name="httpWebRequest">The HTTP web request.</param>
+        /// <returns></returns>
+        public static HttpStatusCode ReadResponse(this HttpWebRequest httpWebRequest)
+        {
+            httpWebRequest.AllowAutoRedirect = false;
+            var result = ReadResponseAsT<string>(httpWebRequest, null);
+            return result.HttpStatusCode;
+        }
+
+
+        /// <summary>
         /// Reads the response as t.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="httpWebRequest">The HTTP web request.</param>
-        /// <param name="responseDelegate">The response delegate.</param>
-        /// <returns>
-        /// T.
-        /// </returns>
-        /// <exception cref="Beyova.ExceptionSystem.HttpOperationException">
-        /// </exception>
+        /// <param name="responseDelegate">The response delegate. If not specified, return default(T).</param>
+        /// <returns></returns>
+        /// <exception cref="Beyova.Diagnostic.HttpOperationException"></exception>
         private static HttpActionResult<T> ReadResponseAsT<T>(this HttpWebRequest httpWebRequest, Func<HttpWebResponse, T> responseDelegate)
         {
             WebResponse response = null;
@@ -1018,6 +1047,12 @@ namespace Beyova
             try
             {
                 httpWebRequest.CheckNullObject(nameof(httpWebRequest));
+
+                if (httpWebRequest.ContentLength < 0
+                    && httpWebRequest.Method.IsInValues(HttpConstants.HttpMethod.Post, HttpConstants.HttpMethod.Put))
+                {
+                    httpWebRequest.ContentLength = 0;
+                }
 
                 response = httpWebRequest.GetResponse();
 
@@ -1041,9 +1076,9 @@ namespace Beyova
                     httpWebRequest.Method,
                     webEx.Message,
                     responseText,
-                    webResponse.StatusCode,
+                    webResponse?.StatusCode,
                     webEx.Status,
-                    webResponse.Headers?.Get(HttpConstants.HttpHeader.SERVERNAME));
+                    webResponse?.Headers?.Get(HttpConstants.HttpHeader.SERVERNAME));
             }
             catch (Exception ex)
             {

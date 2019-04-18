@@ -20,7 +20,7 @@ namespace Beyova.Cache
         /// <value>
         /// The hit percentage.
         /// </value>
-        public string HitPercentage { get { return ToPercentage((ulong)(this.Values.Sum(x => (long)x.HitAttemptCount)), (ulong)(this.Values.Sum(x => (long)x.TotalAttemptCount))); } }
+        public string HitPercentage { get { return ToPercentage((ulong)(Values.Sum(x => (long)x.HitAttemptCount)), (ulong)(Values.Sum(x => (long)x.TotalAttemptCount))); } }
 
         /// <summary>
         /// Gets the failure percentage.
@@ -28,7 +28,7 @@ namespace Beyova.Cache
         /// <value>
         /// The failure percentage.
         /// </value>
-        public string FailurePercentage { get { return ToPercentage((ulong)(this.Values.Sum(x => (long)x.FailurRetrievalCount)), (ulong)(this.Values.Sum(x => (long)x.TotalAttemptCount))); } }
+        public string FailurePercentage { get { return ToPercentage((ulong)(Values.Sum(x => (long)x.FailurRetrievalCount)), (ulong)(Values.Sum(x => (long)x.TotalAttemptCount))); } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryCacheStatistic"/> class.
@@ -45,7 +45,7 @@ namespace Beyova.Cache
         /// <returns></returns>
         internal static string ToPercentage(ulong numerator, ulong denominator)
         {
-            return denominator > 0 ? string.Format("{0}%", (numerator * 0.01 / denominator).ToString(".00")) : "NA";
+            return denominator > 0 ? string.Format("{0}%", (numerator * 0.01 / denominator).ToString(".00")) : StringConstants.NA;
         }
 
         /// <summary>
@@ -69,16 +69,16 @@ namespace Beyova.Cache
             var hourlyIdentifier = GetHourIdentifier(nowTime);
             MemoryCacheHourlyStatistic statistic = null;
 
-            if (!this.TryGetValue(hourlyIdentifier, out statistic))
+            if (!TryGetValue(hourlyIdentifier, out statistic))
             {
                 lock (locker)
                 {
-                    if (!this.TryGetValue(hourlyIdentifier, out statistic))
+                    if (!TryGetValue(hourlyIdentifier, out statistic))
                     {
                         //clean expired item first
                         this.Remove(x => x.Value.ExpriedStamp < nowTime);
                         statistic = new MemoryCacheHourlyStatistic(hourlyIdentifier, nowTime.ResetMinute().ResetSecond());
-                        this.Add(hourlyIdentifier, statistic);
+                        Add(hourlyIdentifier, statistic);
                     }
                 }
             }

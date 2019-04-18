@@ -46,13 +46,13 @@ namespace Beyova
 
                 if (SqlTransactionScope.SqlCommand != null)
                 {
-                    this.sqlCommand = SqlTransactionScope.SqlCommand;
+                    sqlCommand = SqlTransactionScope.SqlCommand;
                     this.sqlConnection = SqlTransactionScope.SqlCommand.Connection;
                 }
                 else
                 {
                     this.sqlConnection = sqlConnection;
-                    this.sqlCommand = sqlConnection.CreateCommand();
+                    sqlCommand = sqlConnection.CreateCommand();
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                 }
@@ -79,8 +79,8 @@ namespace Beyova
 
             if (SqlTransactionScope.SqlTransaction == null)
             {
-                var sqlTransaction = this.sqlConnection.BeginTransaction(iso, transactionName);
-                return new SqlTransactionScope(sqlTransaction, this.sqlCommand);
+                var sqlTransaction = sqlConnection.BeginTransaction(iso, transactionName);
+                return new SqlTransactionScope(sqlTransaction, sqlCommand);
             }
             else
             {
@@ -161,7 +161,10 @@ namespace Beyova
                 sqlCommand.Parameters.Clear();
                 sqlCommand.CommandTimeout = timeoutMillSeconds;
                 if (sqlParameters != null)
+                {
                     sqlCommand.Parameters.AddRange(sqlParameters.ToArray());
+                }
+
                 if (sqlConnection.State != ConnectionState.Open)
                 {
                     sqlConnection.Open();
@@ -196,7 +199,10 @@ namespace Beyova
                 sqlCommand.Parameters.Clear();
                 sqlCommand.CommandTimeout = timeoutMillSeconds;
                 if (sqlParameters != null)
+                {
                     sqlCommand.Parameters.AddRange(sqlParameters.ToArray());
+                }
+
                 if (sqlConnection.State != ConnectionState.Open)
                 {
                     sqlConnection.Open();
@@ -235,7 +241,10 @@ namespace Beyova
                 sqlCommand.Parameters.Clear();
                 sqlCommand.CommandTimeout = timeoutMillSeconds;
                 if (sqlParameters != null)
+                {
                     sqlCommand.Parameters.AddRange(sqlParameters.ToArray());
+                }
+
                 if (sqlConnection.State != ConnectionState.Open)
                 {
                     sqlConnection.Open();

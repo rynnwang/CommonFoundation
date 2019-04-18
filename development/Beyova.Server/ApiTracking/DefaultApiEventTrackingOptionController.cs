@@ -1,11 +1,11 @@
 ﻿using Beyova.Api;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     ///
     /// </summary>
-    /// <seealso cref="Beyova.ApiTracking.IApiEventTrackingOptionController" />
+    /// <seealso cref="IApiEventTrackingOptionController" />
     internal class DefaultApiEventTrackingOptionController : IApiEventTrackingOptionController
     {
         /// <summary>

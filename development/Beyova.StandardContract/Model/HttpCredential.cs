@@ -3,7 +3,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class HttpCredential
+    public class HttpCredential : ICommonCredential
     {
         /// <summary>
         /// Gets or sets the account.

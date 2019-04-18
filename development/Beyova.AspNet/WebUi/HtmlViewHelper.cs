@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class HtmlViewHelper
     {
-        /// <summary>
-        /// The na
-        /// </summary>
-        public const string NA = "(N/A)";
-
         /// <summary>
         /// Renders the boolean value as text.
         /// </summary>
@@ -34,7 +27,7 @@ namespace Beyova.Web
         /// <returns></returns>
         public static string RenderBooleanValueAsText(bool? value)
         {
-            return value.HasValue ? RenderBooleanValueAsText(value.Value) : NA;
+            return value.HasValue ? RenderBooleanValueAsText(value.Value) : StringConstants.NA;
         }
 
         /// <summary>
@@ -48,7 +41,7 @@ namespace Beyova.Web
         }
 
         /// <summary>
-        /// Renders the boolean value as icon raw.
+        /// Renders the boolean value as icon raw. 
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <param name="additionalClass">The additional class.</param>
@@ -65,7 +58,7 @@ namespace Beyova.Web
         /// <returns></returns>
         public static string RenderTextValue(string value)
         {
-            return value.SafeToString(NA);
+            return value.SafeToString(StringConstants.NA);
         }
 
         /// <summary>
@@ -97,13 +90,16 @@ namespace Beyova.Web
                     prefix);
             }
 
-            return NA;
+            return StringConstants.NA;
         }
 
-        /// <summary></summary>
-        /// <param name="date"></param>
-        /// <param name="nullString"></param>
-        public static string RenderDate(Date? date, string nullString)
+        /// <summary>
+        /// Renders the date month. "{Year}.{Month}"
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="nullString">The null string.</param>
+        /// <returns></returns>
+        public static string RenderDateMonth(Date? date, string nullString)
         {
             return date.HasValue ? string.Format("{0}.{1}", date.Value.Year, date.Value.Month) : nullString;
         }
@@ -217,7 +213,7 @@ namespace Beyova.Web
             return attributeName.Remove(new char[] { '\'', '"' });
         }
 
-        static Regex flatListContentSymbolRegex = new Regex(@"([\(\[（【]?)(\d+)[\.\-,，、。\]\)）】]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex flatListContentSymbolRegex = new Regex(@"([\(\[（【]?)(\d+)[\.\-,，、。\]\)）】]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Tries the content of the structurize list.
@@ -249,5 +245,7 @@ namespace Beyova.Web
 
             return content;
         }
+
+       
     }
 }

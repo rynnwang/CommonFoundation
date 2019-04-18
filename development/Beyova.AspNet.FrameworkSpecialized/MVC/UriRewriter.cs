@@ -38,7 +38,7 @@ namespace Beyova
 
             if (!string.IsNullOrWhiteSpace(sourceUri))
             {
-                foreach (var one in this.Rules)
+                foreach (var one in Rules)
                 {
                     if (one.RewriteToUri(sourceUri, out outputUri))
                     {

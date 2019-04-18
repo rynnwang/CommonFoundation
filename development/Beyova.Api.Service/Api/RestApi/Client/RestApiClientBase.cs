@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Beyova.Http;
 
 namespace Beyova.Api.RestApi
@@ -18,7 +17,7 @@ namespace Beyova.Api.RestApi
         {
             get
             {
-                return this.Endpoint?.Token;
+                return Endpoint?.Token;
             }
         }
 
@@ -78,15 +77,15 @@ namespace Beyova.Api.RestApi
                 throw new NotSupportedException(string.Format("ClientGeneratedVersion [{0}] doesnot match BaseClientVersion [{1}].", ClientGeneratedVersion, BaseClientVersion));
             }
 
-            this.Endpoint = endpoint ?? new ApiEndpoint();
-            this.AcceptGZip = acceptGZip;
-            this.Timeout = timeout;
+            Endpoint = endpoint ?? new ApiEndpoint();
+            AcceptGZip = acceptGZip;
+            Timeout = timeout;
 
             var actualType = GetType();
 
             var version = (actualType.Assembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject?.Version).SafeToString(actualType.Assembly.GetName().Version.ToString());
 
-            this.UserAgent = string.Format("{0}/{1} BeyovaCommon/{2} .NET/{3}", actualType.Name, version, EnvironmentCore.CommonComponentInfo?.Version, Environment.Version.ToString());
+            UserAgent = string.Format("{0}/{1} BeyovaCommon/{2} .NET/{3}", actualType.Name, version, EnvironmentCore.CommonComponentInfo?.Version, Environment.Version.ToString());
         }
 
         #endregion Constructor
@@ -108,7 +107,7 @@ namespace Beyova.Api.RestApi
         {
             var result = new HttpRequestRaw
             {
-                Uri = new Uri(GetRequestUri(this.Endpoint, realm, version, resourceName, resourceAction, key, queryString)),
+                Uri = new Uri(GetRequestUri(Endpoint, realm, version, resourceName, resourceAction, key, queryString)),
                 Method = httpMethod,
                 ProtocolVersion = "1.1",
                 Headers = new System.Collections.Specialized.NameValueCollection { { HttpConstants.HttpHeader.UserAgent, UserAgent } }
@@ -169,7 +168,7 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         protected internal virtual string GetRequestUri(ApiEndpoint apiEndpoint, string realm, string version, string resourceName, string resourceAction, string key, Dictionary<string, string> queryString = null)
         {
-            var url = string.Format("{0}{1}/{2}", GetRequestEndpoint(this.Endpoint, realm, version), resourceName, resourceAction).TrimEnd('/') + "/";
+            var url = string.Format("{0}{1}/{2}", GetRequestEndpoint(Endpoint, realm, version), resourceName, resourceAction).TrimEnd('/') + "/";
             if (!string.IsNullOrWhiteSpace(key))
             {
                 url += (key.ToUrlEncodedText() + "/");

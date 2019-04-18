@@ -1,6 +1,5 @@
 ﻿using System;
-using Beyova.ApiTracking;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Beyova.Http;
 
 namespace Beyova.Api.RestApi
@@ -96,39 +95,32 @@ namespace Beyova.Api.RestApi
         /// </summary>
         public void CollectTrackingInfo(long bodyLength)
         {
-            if (this.Settings != null && this.Settings.ApiTracking != null && this.Settings.TrackingEvent && this.RuntimeContext != null && !this.RuntimeContext.OmitApiEvent)
+            if (Settings != null && Settings.ApiTracking != null && Settings.TrackingEvent && RuntimeContext != null && !RuntimeContext.OmitApiEvent)
             {
-                this.ApiEvent = new ApiEventLog
+                ApiEvent = new ApiEventLog
                 {
-                    RawUrl = this.RawUrl,
-                    EntryStamp = this.EntryStamp,
-                    UserAgent = this.UserAgent,
-                    TraceId = this.TraceId,
+                    RawUrl = RawUrl,
+                    EntryStamp = EntryStamp,
+                    TraceId = TraceId,
                     // If request came from ApiTransport or other proxy ways, ORIGINAL stands for the IP ADDRESS from original requester.
-                    IpAddress = this.TryGetRequestHeader(this.Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(this.ClientIpAddress),
-                    CultureCode = this.UserLanguages.SafeFirstOrDefault(),
+                    IpAddress = TryGetRequestHeader(Settings?.OriginalIpAddressHeaderKey.SafeToString(HttpConstants.HttpHeader.ORIGINAL)).SafeToString(ClientIpAddress),
+                    CultureCode = UserLanguages.SafeFirstOrDefault(),
                     ContentLength = bodyLength,
                     OperatorCredential = ContextHelper.CurrentCredential as BaseCredential,
-                    Protocol = this.NetworkProtocol,
                     ServiceIdentifier = RuntimeContext.ApiInstance?.GetType()?.Name,
-                    ApiFullName = this.RuntimeContext.ApiMethod?.Name,
-                    ResourceName = this.RuntimeContext.ResourceName,
-                    ServerIdentifier = EnvironmentCore.MachineName,
-                    ModuleName = this.RuntimeContext.OperationParameters.ModuleName,
-                    ReferrerUrl = this.TryGetRequestHeader(HttpConstants.HttpHeader.Referrer),
-                    ResourceEntityKey = this.RuntimeContext.IsActionUsed ? this.RuntimeContext.Parameter2 : this.RuntimeContext.Parameter1
+                    ServerIdentifier = EnvironmentCore.MachineName
                 };
 
-                var clientIdentifierHeaderKey = this.Settings.ClientIdentifierHeaderKey;
+                var clientIdentifierHeaderKey = Settings.ClientIdentifierHeaderKey;
                 if (!string.IsNullOrWhiteSpace(clientIdentifierHeaderKey))
                 {
-                    this.ApiEvent.ClientIdentifier = this.TryGetRequestHeader(clientIdentifierHeaderKey);
+                    ApiEvent.ClientIdentifier = TryGetRequestHeader(clientIdentifierHeaderKey);
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(this.TraceId))
+            if (!string.IsNullOrWhiteSpace(TraceId))
             {
-                ApiTraceContext.Initialize(this.TraceId, this.TraceSequence, this.EntryStamp);
+                ApiTraceContext.Initialize(TraceId, TraceSequence, EntryStamp);
             }
         }
     }

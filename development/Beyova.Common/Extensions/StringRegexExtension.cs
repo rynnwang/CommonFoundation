@@ -319,6 +319,22 @@ namespace Beyova
         #endregion Trim
 
         /// <summary>
+        /// Safe format. return String.format(format, anyString);
+        /// </summary>
+        /// <param name="anyString">Any string.</param>
+        /// <param name="format">The format.</param>
+        /// <returns></returns>
+        public static string SafeFormat(this string anyString, string format)
+        {
+            if(!string.IsNullOrEmpty(anyString) && !string.IsNullOrWhiteSpace(format))
+            {
+                return string.Format(format, anyString);
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
         /// Ases the version.
         /// </summary>
         /// <param name="versionString">The version string.</param>

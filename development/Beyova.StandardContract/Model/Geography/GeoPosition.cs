@@ -23,7 +23,7 @@
         /// <returns>System.String.</returns>
         public string ToDecimalString()
         {
-            return string.Format("{0}, {1}", this.Latitude.ToDecimal(), this.Longitude.ToDecimal());
+            return string.Format("{0}, {1}", Latitude.ToDecimal(), Longitude.ToDecimal());
         }
 
         /// <summary>
@@ -32,7 +32,7 @@
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format("{0}, {1}", this.Latitude.InternalToString("N", "S"), this.Longitude.InternalToString("E", "W"));
+            return string.Format("{0}, {1}", Latitude.InternalToString("N", "S"), Longitude.InternalToString("E", "W"));
         }
     }
 }

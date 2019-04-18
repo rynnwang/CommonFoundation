@@ -1,7 +1,7 @@
 ﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class DynamicCompileException.

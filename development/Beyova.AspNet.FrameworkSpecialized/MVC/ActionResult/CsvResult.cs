@@ -23,7 +23,7 @@ namespace Beyova.Web
         /// <param name="data">The data.</param>
         public CsvResult(string data)
         {
-            this.Data = data;
+            Data = data;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Beyova.Web
         /// <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
         public override void ExecuteResult(ControllerContext context)
         {
-            if (this.Data == null)
+            if (Data == null)
             {
                 new EmptyResult().ExecuteResult(context);
                 return;

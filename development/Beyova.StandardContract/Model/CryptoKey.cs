@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -7,7 +7,7 @@ namespace Beyova
     /// Class CryptoKey.
     /// </summary>
     [JsonConverter(typeof(CryptoKeyConverter))]
-    public struct CryptoKey
+    public class CryptoKey : IStringConvertable
     {
         /// <summary>
         /// Gets the byte value.
@@ -25,6 +25,14 @@ namespace Beyova
         /// </value>
         public string StringValue { get { return ByteValue.EncodeBase64(); } }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has value.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has value; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasValue { get { return ByteValue != null && ByteValue.Length > 0; } }
+
         #region Constructor
 
         /// <summary>
@@ -33,7 +41,7 @@ namespace Beyova
         /// <param name="value">The value.</param>
         public CryptoKey(byte[] value)
         {
-            this.ByteValue = value;
+            ByteValue = value;
         }
 
         /// <summary>
@@ -42,7 +50,7 @@ namespace Beyova
         /// <param name="value">The value.</param>
         public CryptoKey(string value)
         {
-            this.ByteValue = string.IsNullOrWhiteSpace(value) ? null : value.DecodeBase64ToByteArray();
+            ByteValue = string.IsNullOrWhiteSpace(value) ? null : value.DecodeBase64ToByteArray();
         }
 
         #endregion Constructor
@@ -107,7 +115,7 @@ namespace Beyova
         /// </returns>
         public bool IsEmpty()
         {
-            return this.ByteValue == null || this.ByteValue.Length == 0;
+            return ByteValue == null || ByteValue.Length == 0;
         }
 
         /// <summary>
@@ -139,7 +147,7 @@ namespace Beyova
         /// </returns>
         public override bool Equals(object obj)
         {
-            return this.ByteValue.ValueEquals(((CryptoKey)obj).ByteValue);
+            return ByteValue.ValueEquals(((CryptoKey)obj).ByteValue);
         }
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace Beyova.VirtualSecuredTransferProtocol
         /// </summary>
         protected VirtualSecuredRawMessageBase()
         {
-            this.Stamp = DateTime.UtcNow;
+            Stamp = DateTime.UtcNow;
         }
     }
 }

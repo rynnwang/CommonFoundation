@@ -10,6 +10,14 @@ namespace Beyova
         #region Properties
 
         /// <summary>
+        /// Gets or sets the created stamp.
+        /// </summary>
+        /// <value>
+        /// The created stamp.
+        /// </value>
+        DateTime? CreatedStamp { get; set; }
+
+        /// <summary>
         /// Gets or sets the last updated stamp.
         /// </summary>
         /// <value>The last updated stamp.</value>
@@ -24,18 +32,6 @@ namespace Beyova
         /// </summary>
         /// <value>The state.</value>
         ObjectState State
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the created stamp.
-        /// </summary>
-        /// <value>
-        /// The created stamp.
-        /// </value>
-        DateTime? CreatedStamp
         {
             get;
             set;

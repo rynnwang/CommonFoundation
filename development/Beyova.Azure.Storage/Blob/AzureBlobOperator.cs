@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Beyova;
+﻿using Beyova;
 using Beyova.Api;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Beyova.Azure
 {
@@ -233,9 +233,11 @@ namespace Beyova.Azure
         {
             //Set the expiry time and permissions for the container.
             //In this case no start time is specified, so the shared access signature becomes valid immediately.
-            var sasConstraints = new SharedAccessBlobPolicy();
-            sasConstraints.SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(expireOffsetInMinute);
-            sasConstraints.Permissions = permission;
+            var sasConstraints = new SharedAccessBlobPolicy
+            {
+                SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(expireOffsetInMinute),
+                Permissions = permission
+            };
 
             //Generate the shared access signature on the container, setting the constraints directly on the signature.
             string sasContainerToken = container.GetSharedAccessSignature(sasConstraints);
@@ -331,7 +333,7 @@ namespace Beyova.Azure
             try
             {
                 serviceProperty.CheckNullObject(nameof(serviceProperty));
-                this.blobClient.SetServiceProperties(serviceProperty);
+                blobClient.SetServiceProperties(serviceProperty);
             }
             catch (Exception ex)
             {
@@ -347,7 +349,7 @@ namespace Beyova.Azure
         {
             try
             {
-                return this.blobClient.GetServiceProperties();
+                return blobClient.GetServiceProperties();
             }
             catch (Exception ex)
             {
@@ -384,8 +386,10 @@ namespace Beyova.Azure
         /// <param name="expireOffsetInMinute">The expire offset in minute.</param>
         /// <param name="hash">The hash. (this value would be ignored.)</param>
         /// <param name="contentType">Type of the content. This value is used only when blob service provider needs to set content type (MIME) when creating credential of upload action.</param>
-        /// <returns>BinaryStorageActionCredential.</returns>
-        public override BinaryStorageActionCredential CreateBlobUploadCredential(string containerName, string blobIdentifier, int expireOffsetInMinute, string hash = null, string contentType = null)
+        /// <returns>
+        /// BinaryStorageActionCredential.
+        /// </returns>
+        public override BinaryStorageActionCredential CreateBlobUploadCredential(string containerName, string blobIdentifier, int expireOffsetInMinute, CryptoKey hash = null, string contentType = null)
         {
             return CreateBlobUri(containerName, blobIdentifier.SafeToString(Guid.NewGuid().ToString()), expireOffsetInMinute, SharedAccessBlobPermissions.List | SharedAccessBlobPermissions.Write);
         }
@@ -432,18 +436,18 @@ namespace Beyova.Azure
         /// </summary>
         /// <param name="containerName">Name of the container.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="md5">The MD5.</param>
+        /// <param name="hash">The MD5.</param>
         /// <param name="length">The length.</param>
         /// <param name="limitCount">The limit count.</param>
         /// <returns>List&lt;BinaryStorageMetaBase&gt;.</returns>
-        public override List<BinaryStorageMetaData> QueryBinaryBlobByContainer(string containerName, string contentType, string md5,
+        public override List<BinaryStorageMetaData> QueryBinaryBlobByContainer(string containerName, string contentType, CryptoKey hash,
             long? length, int limitCount = 100)
         {
             try
             {
                 containerName.CheckEmptyString(nameof(containerName));
 
-                var blobs = QueryBlob(this.blobClient.GetContainerReference(containerName), contentType, md5, length, limitCount);
+                var blobs = QueryBlob(blobClient.GetContainerReference(containerName), contentType, hash, length, limitCount);
                 return (from i in blobs
                         select new BinaryStorageMetaData
                         {
@@ -507,16 +511,16 @@ namespace Beyova.Azure
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="md5">The MD5.</param>
+        /// <param name="hash">The MD5.</param>
         /// <param name="length">The length.</param>
         /// <param name="limitCount">The limit count.</param>
         /// <returns>IEnumerable&lt;TCloudBlobObject&gt;.</returns>
-        public override IEnumerable<CloudBlockBlob> QueryBlob(CloudBlobContainer container, string contentType, string md5, long? length, int limitCount)
+        public override IEnumerable<CloudBlockBlob> QueryBlob(CloudBlobContainer container, string contentType, CryptoKey hash, long? length, int limitCount)
         {
             try
             {
                 container.CheckNullObject(nameof(container));
-                if (string.IsNullOrWhiteSpace(contentType) && string.IsNullOrWhiteSpace(md5) && length == null)
+                if (string.IsNullOrWhiteSpace(contentType) && (hash?.HasValue ?? false) && length == null)
                 {
                     return container.ListBlobs().OfType<CloudBlockBlob>().Take(limitCount);
                 }
@@ -530,8 +534,8 @@ namespace Beyova.Azure
                                      item.Properties.ContentType.Equals(contentType,
                                          StringComparison.InvariantCultureIgnoreCase))
                                     &&
-                                    (string.IsNullOrWhiteSpace(md5) ||
-                                     item.Properties.ContentMD5.Equals(md5,
+                                    (string.IsNullOrWhiteSpace(hash) ||
+                                     item.Properties.ContentMD5.Equals(hash,
                                          StringComparison.InvariantCultureIgnoreCase))
                                     && (length == null || item.Properties.Length == length.Value));
                         }).Take(limitCount);
@@ -539,7 +543,7 @@ namespace Beyova.Azure
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { container = container == null ? null : container.Uri.ToString(), contentType, md5, length, limitCount });
+                throw ex.Handle(new { container = container == null ? null : container.Uri.ToString(), contentType, hash, length, limitCount });
             }
         }
 
@@ -580,17 +584,17 @@ namespace Beyova.Azure
         /// </summary>
         /// <param name="containerName">Name of the container.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="md5">The MD5.</param>
+        /// <param name="hash">The MD5.</param>
         /// <param name="length">The length.</param>
         /// <param name="limitCount">The limit count.</param>
         /// <returns>IEnumerable&lt;CloudBlockBlob&gt;.</returns>
-        public override IEnumerable<CloudBlockBlob> QueryBlob(string containerName, string contentType, string md5, long? length, int limitCount = 100)
+        public override IEnumerable<CloudBlockBlob> QueryBlob(string containerName, string contentType, CryptoKey hash, long? length, int limitCount = 100)
         {
             try
             {
                 containerName.CheckEmptyString(nameof(containerName));
 
-                return QueryBlob(this.blobClient.GetContainerReference(containerName), contentType, md5, length, limitCount);
+                return QueryBlob(blobClient.GetContainerReference(containerName), contentType, hash, length, limitCount);
             }
             catch (Exception ex)
             {

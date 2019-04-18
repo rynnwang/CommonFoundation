@@ -1,12 +1,11 @@
-﻿using Beyova.ApiTracking;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ExceptionBase.
     /// </summary>
-    public class ExceptionBase : ApiLogBase
+    public class ExceptionBase : GlobalApiUniqueIdentifier
     {
         #region Property
 
@@ -39,17 +38,11 @@ namespace Beyova.ExceptionSystem
         public string ExceptionType { get; set; }
 
         /// <summary>
-        /// Gets or sets the level.
-        /// </summary>
-        /// <value>The level.</value>
-        [JsonProperty(PropertyName = "level")]
-        public ExceptionInfo.ExceptionCriticality? Level { get; set; }
-
-        /// <summary>
         /// Gets or sets the source.
         /// </summary>
         /// <value>The source.</value>
-        [JsonProperty(PropertyName = "source")] public string Source { get; set; }
+        [JsonProperty(PropertyName = "source")]
+        public string Source { get; set; }
 
         /// <summary>
         /// Gets or sets the event key. Primarily for ApiEvent Key. It can be any other system event key.
@@ -67,6 +60,15 @@ namespace Beyova.ExceptionSystem
         [JsonProperty(PropertyName = "operatorCredential")]
         public BaseCredential OperatorCredential { get; set; }
 
+        /// <summary>
+        /// Gets or sets the raw URL.
+        /// </summary>
+        /// <value>
+        /// The raw URL.
+        /// </value>
+        [JsonProperty(PropertyName = "rawUrl")]
+        public string RawUrl { get; set; }
+
         #endregion Property
 
         /// <summary>
@@ -78,13 +80,13 @@ namespace Beyova.ExceptionSystem
         {
             if (exceptionBase != null)
             {
-                this.Message = exceptionBase.Message;
-                this.TargetSite = exceptionBase.TargetSite;
-                this.StackTrace = exceptionBase.StackTrace;
-                this.Level = exceptionBase.Level;
-                this.Source = exceptionBase.Source;
-                this.OperatorCredential = exceptionBase.OperatorCredential;
-                this.EventKey = exceptionBase.EventKey;
+                Message = exceptionBase.Message;
+                RawUrl = exceptionBase.RawUrl;
+                TargetSite = exceptionBase.TargetSite;
+                StackTrace = exceptionBase.StackTrace;
+                Source = exceptionBase.Source;
+                OperatorCredential = exceptionBase.OperatorCredential;
+                EventKey = exceptionBase.EventKey;
             }
         }
     }

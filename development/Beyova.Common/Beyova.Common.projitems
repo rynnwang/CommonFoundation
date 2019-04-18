@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CultureBased\CultureBasedMemoryFullEntityCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\CultureBased\CultureBasedFullEntityCacheAutoRetrievalOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\FullEntityCacheAutoRetrievalOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryCacheItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache\MemoryFullEntityCacheContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\LocalConfigurationRawItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\Model\JsonFileConfigurationManifest.cs" />
@@ -50,11 +51,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\FunctionInjectionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\FunctionInjection\ParameterlessPrioritizedFunctionInjection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Framework\RegionalSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonNet\DateConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\SafeContractResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FunctionInvokeBag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProgrammingIntelligence\AssesmblyAttribute\ConfigurationSourceChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\IStorageContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\GenericComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\NullableLambdaComparableComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\Comparer\LambdaComparer\NullableLambdaComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\MockupHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringFormatCompiler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\CryptoKeyConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\UnixStampConverter.cs" />
@@ -106,7 +111,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CompressionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CultureExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DatabaseExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EncodingOrSecurityExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GlobalizationExtension.cs" />
@@ -162,13 +166,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\IObjectMemberClone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberClone.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\EntityUtility\ObjectMemberCloner\ObjectMemberCloneGenerator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializableJsonObject\StrickJsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\IPlaceHolderMember.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\StringHolderReplacement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\PlaceHolder\StringPlaceHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\RegexPatternBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShifter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShifterExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShift\StringShifter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShift\StringShifterExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringEnhancements\StringShift\StringShiftShard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SystemOperation\DiagnosticUtil.cs" />
   </ItemGroup>

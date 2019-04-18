@@ -27,7 +27,7 @@ namespace Beyova.Api.RestApi
         {
             get
             {
-                return HttpMessageExtension.AllKeys(this.Request?.Headers);
+                return HttpMessageExtension.AllKeys(Request?.Headers);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Beyova.Api.RestApi
         /// </value>
         public override string RawUrl
         {
-            get { return this.Request?.RequestUri?.ToString(); }
+            get { return Request?.RequestUri?.ToString(); }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The user agent.
         /// </value>
-        public override string UserAgent { get { return this.Request?.Headers?.UserAgent?.ToString(); } }
+        public override string UserAgent { get { return Request?.Headers?.UserAgent?.ToString(); } }
 
         /// <summary>
         /// Gets the user languages.
@@ -56,7 +56,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The user languages.
         /// </value>
-        public override IEnumerable<string> UserLanguages { get { return this.Request?.Headers?.AcceptLanguage?.ToEnumerable(); } }
+        public override IEnumerable<string> UserLanguages { get { return Request?.Headers?.AcceptLanguage?.ToEnumerable(); } }
 
         /// <summary>
         /// Gets the network protocol.
@@ -64,7 +64,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The network protocol.
         /// </value>
-        public override string NetworkProtocol { get { return this.Request?.RequestUri?.Scheme; } }
+        public override string NetworkProtocol { get { return Request?.RequestUri?.Scheme; } }
 
         /// <summary>
         /// Gets the query string.
@@ -72,7 +72,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The query string.
         /// </value>
-        public override NameValueCollection QueryString { get { return this.Request?.RequestUri.ToQueryString(); } }
+        public override NameValueCollection QueryString { get { return Request?.RequestUri.ToQueryString(); } }
 
         /// <summary>
         /// Gets the request headers.
@@ -80,7 +80,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The request headers.
         /// </value>
-        public override NameValueCollection RequestHeaders { get { return this.Request?.Headers.ToNameValueCollection(); } }
+        public override NameValueCollection RequestHeaders { get { return Request?.Headers.ToNameValueCollection(); } }
 
         /// <summary>
         /// Gets the URL.
@@ -88,7 +88,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The URL.
         /// </value>
-        public override Uri Url { get { return this.Request?.RequestUri; } }
+        public override Uri Url { get { return Request?.RequestUri; } }
 
         /// <summary>
         /// Gets the HTTP method.
@@ -96,7 +96,7 @@ namespace Beyova.Api.RestApi
         /// <value>
         /// The HTTP method.
         /// </value>
-        public override string HttpMethod { get { return this.Request?.Method?.ToString(); } }
+        public override string HttpMethod { get { return Request?.Method?.ToString(); } }
 
         /// <summary>
         /// Gets or sets the response status code.
@@ -108,11 +108,11 @@ namespace Beyova.Api.RestApi
         {
             get
             {
-                return this.Response.StatusCode;
+                return Response.StatusCode;
             }
             set
             {
-                this.Response.StatusCode = value;
+                Response.StatusCode = value;
             }
         }
 
@@ -124,7 +124,7 @@ namespace Beyova.Api.RestApi
         /// </value>
         public override Stream RequestBodyStream
         {
-            get { return this.Request?.Content?.ReadAsStreamAsync().Result; }
+            get { return Request?.Content?.ReadAsStreamAsync().Result; }
         }
 
         #endregion Abstract Properties
@@ -147,7 +147,7 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         public override string TryGetRequestHeader(string headerKey)
         {
-            return this.Request.Headers.GetValue(headerKey);
+            return Request.Headers.GetValue(headerKey);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Beyova.Api.RestApi
         /// <param name="value">The value.</param>
         public override void SetResponseHeader(string headerName, string value)
         {
-            this.Response.SafeSetHttpHeader(headerName, value);
+            Response.SafeSetHttpHeader(headerName, value);
         }
 
         /// <summary>
@@ -166,9 +166,9 @@ namespace Beyova.Api.RestApi
         /// <param name="headerName">Name of the header.</param>
         public override void RemoveResponseHeader(string headerName)
         {
-            if (!string.IsNullOrWhiteSpace(headerName) && (this.Response?.Headers?.AllKeys().Contains(headerName, false) ?? false))
+            if (!string.IsNullOrWhiteSpace(headerName) && (Response?.Headers?.AllKeys().Contains(headerName, false) ?? false))
             {
-                this.Response.Headers.Remove(headerName);
+                Response.Headers.Remove(headerName);
             }
         }
 
@@ -192,14 +192,14 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseBody(Stream stream, string contentType)
         {
-            if (this.Response != null && stream != null)
+            if (Response != null && stream != null)
             {
-                this.Response.Content = new StreamContent(stream);
+                Response.Content = new StreamContent(stream);
                 if (!string.IsNullOrWhiteSpace(contentType))
                 {
-                    this.Response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    Response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                 }
-                this.Response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.GZip);
+                Response.Content.Headers.ContentEncoding.Add(HttpConstants.HttpValues.GZip);
             }
         }
 
@@ -210,7 +210,7 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseGzipBody(byte[] bytes, string contentType)
         {
-            this.Response.WriteResponseGzipBody(bytes, contentType);
+            Response.WriteResponseGzipBody(bytes, contentType);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Beyova.Api.RestApi
         /// <returns></returns>
         public override byte[] ReadRequestBody()
         {
-            return this.Request.Content.ReadAsByteArrayAsync().Result;
+            return Request.Content.ReadAsByteArrayAsync().Result;
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Beyova.Api.RestApi
         /// <param name="contentType">Type of the content.</param>
         public override void WriteResponseDeflateBody(byte[] bytes, string contentType)
         {
-            this.Response.WriteResponseDeflateBody(bytes, contentType);
+            Response.WriteResponseDeflateBody(bytes, contentType);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Beyova.Api.RestApi
             List<string> result = new List<string>();
             if (!string.IsNullOrWhiteSpace(cookieKey))
             {
-                var cookieString = this.Request.Headers.GetValue(HttpConstants.HttpHeader.Cookie);
+                var cookieString = Request.Headers.GetValue(HttpConstants.HttpHeader.Cookie);
                 var cookieMatrix = HttpExtension.ConvertCookieStringToMatrix(cookieString);
                 cookieMatrix.TryGetValue(cookieKey, out result);
             }

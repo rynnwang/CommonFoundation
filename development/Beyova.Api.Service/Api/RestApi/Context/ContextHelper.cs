@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Beyova.Api.RestApi;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -225,7 +226,8 @@ namespace Beyova
         /// <param name="cultureCode">The culture code.</param>
         /// <param name="currentUri">The current URI.</param>
         /// <param name="basicAuthentication">The basic authentication.</param>
-        internal static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication)
+        /// <param name="apiUniqueIdentifier">The API unique identifier.</param>
+        internal static void ConsistContext(string token, RestApiSettings setting, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication, ApiUniqueIdentifier apiUniqueIdentifier)
         {
             IRestApiEventHandlers restApiEventHandlers = setting?.EventHandlers;
 
@@ -236,6 +238,7 @@ namespace Beyova
             apiContext.CultureCode = cultureCode;
             apiContext.CurrentUri = currentUri;
             apiContext.HttpAuthorization = basicAuthentication;
+            apiContext.UniqueIdentifier = apiUniqueIdentifier;
 
             if (restApiEventHandlers != null && !string.IsNullOrWhiteSpace(token))
             {

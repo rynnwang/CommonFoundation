@@ -4,8 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Beyova.Api;
-using Beyova.ApiTracking;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -111,22 +110,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Logs the API event.
-        /// </summary>
-        /// <param name="eventLog">The event log.</param>
-        /// <returns>System.Nullable&lt;Guid&gt;.</returns>
-        private Guid? InternalLogApiEvent(ApiEventLog eventLog)
-        {
-            if (eventLog != null)
-            {
-                InternalWriteContent(eventLog.ApiEventLogToString());
-                return eventLog.Key;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Logs the API trace log.
         /// </summary>
         /// <param name="traceLog">The trace log.</param>
@@ -144,23 +127,7 @@ namespace Beyova
         /// <param name="eventLog">The event log.</param>
         public void LogApiEvent(ApiEventLog eventLog)
         {
-            if (eventLog != null)
-            {
-                Task.Factory.StartNew(() => InternalLogApiEvent(eventLog));
-            }
-        }
-
-        /// <summary>
-        /// Logs the event.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="eventLog">The event log.</param>
-        private void InternalLogEvent<T>(T eventLog)
-        {
-            if (eventLog != null)
-            {
-                InternalWriteContent(eventLog.ToJson());
-            }
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -171,10 +138,7 @@ namespace Beyova
         /// <param name="eventLog">The event log.</param>
         public void LogEventAsync<T>(string container, T eventLog)
         {
-            if (eventLog != null)
-            {
-                Task.Factory.StartNew(() => InternalLogEvent(eventLog));
-            }
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -198,18 +162,6 @@ namespace Beyova
             if (exceptionInfo != null)
             {
                 Task.Factory.StartNew(() => InternalWriteContent(exceptionInfo.ToJson()));
-            }
-        }
-
-        /// <summary>
-        /// Logs the message asynchronous.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public void LogMessage(string message)
-        {
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                LogApiMessage(new ApiMessage { Message = message });
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using Beyova.Api.RestApi;
+using Beyova.Diagnostic;
 using Beyova.Http;
 
 namespace Beyova
@@ -9,7 +10,7 @@ namespace Beyova
     /// <summary>
     /// Class ContextHelper.
     /// </summary>
-    static partial class ContextHelper
+    public static partial class ContextHelper
     {
         #region ConsistContext
 
@@ -23,9 +24,10 @@ namespace Beyova
         /// <param name="cultureCode">The culture code.</param>
         /// <param name="currentUri">The current URI.</param>
         /// <param name="basicAuthentication">The basic authentication.</param>
-        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication)
+        /// <param name="apiUniqueIdentifier">The API unique identifier.</param>
+        internal static void ConsistContext(string token, string settingName, string ipAddress, string userAgent, string cultureCode, Uri currentUri, HttpCredential basicAuthentication, ApiUniqueIdentifier apiUniqueIdentifier)
         {
-            ConsistContext(token, RestApiSettingPool.GetRestApiSettingByName(settingName, true), ipAddress, userAgent, cultureCode, currentUri, basicAuthentication);
+            ConsistContext(token, RestApiSettingPool.GetRestApiSettingByName(settingName, true), ipAddress, userAgent, cultureCode, currentUri, basicAuthentication, apiUniqueIdentifier);
         }
 
         /// <summary>
@@ -44,7 +46,12 @@ namespace Beyova
                 context.UserAgent,
                 context.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(context?.GetCookieValue(HttpConstants.QueryString.Language)).SafeToString(context.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                 context.Url,
-                HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                HttpExtension.GetBasicAuthentication(context.TryGetRequestHeader(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                new ApiUniqueIdentifier
+                {
+                    HttpMethod = context.HttpMethod,
+                    Path = context.Url.AbsolutePath
+                }
                 );
         }
 
@@ -78,7 +85,12 @@ namespace Beyova
                     httpRequest.UserAgent,
                     httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                     httpRequest.Url,
-                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                    new ApiUniqueIdentifier
+                    {
+                        HttpMethod = httpRequest.HttpMethod,
+                        Path = httpRequest.Url.AbsolutePath
+                    }
                     );
             }
         }
@@ -99,7 +111,12 @@ namespace Beyova
                     httpRequest.UserAgent,
                     httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                     httpRequest.Url,
-                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                    new ApiUniqueIdentifier
+                    {
+                        HttpMethod = httpRequest.HttpMethod,
+                        Path = httpRequest.Url.AbsolutePath
+                    }
                     );
             }
         }
@@ -119,7 +136,12 @@ namespace Beyova
                     httpRequest.UserAgent,
                     httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.Cookies.Get(HttpConstants.QueryString.Language)?.Value).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                     httpRequest.Url,
-                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                    new ApiUniqueIdentifier
+                    {
+                        HttpMethod = httpRequest.HttpMethod,
+                        Path = httpRequest.Url.AbsolutePath
+                    }
                     );
             }
         }
@@ -139,12 +161,16 @@ namespace Beyova
                     httpRequest.UserAgent,
                     httpRequest.QueryString.Get(HttpConstants.QueryString.Language).SafeToString(httpRequest.UserLanguages.SafeFirstOrDefault()).EnsureCultureCode(),
                     httpRequest.Url,
-                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64())
+                    HttpExtension.GetBasicAuthentication(httpRequest.Headers.Get(HttpConstants.HttpHeader.Authorization).DecodeBase64()),
+                    new ApiUniqueIdentifier
+                    {
+                        HttpMethod = httpRequest.HttpMethod,
+                        Path = httpRequest.Url.AbsolutePath
+                    }
                     );
             }
         }
 
         #endregion ConsistContext
-
     }
 }

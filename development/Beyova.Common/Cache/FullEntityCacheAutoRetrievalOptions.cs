@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -81,8 +81,8 @@ namespace Beyova.Cache
         public FullEntityCacheAutoRetrievalOptions(Func<IEnumerable<TEntity>> entityRetrievalImplementation, Func<TEntity, TKey> entityKeyGetter, Func<BaseException, bool> exceptionProcessingImplementation = null, long? failureExpirationInSecond = null)
             : base(exceptionProcessingImplementation, failureExpirationInSecond)
         {
-            this.EntityRetrievalImplementation = entityRetrievalImplementation;
-            this.EntityKeyGetter = entityKeyGetter;
+            EntityRetrievalImplementation = entityRetrievalImplementation;
+            EntityKeyGetter = entityKeyGetter;
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace Beyova.Cache
         public FullEntityCacheAutoRetrievalOptions(Func<IEnumerable<TEntity>> entityRetrievalImplementation, Func<TEntity, TKey> entityKeyGetter, BaseCacheAutoRetrievalOptions baseRetrievalOptions)
            : base(baseRetrievalOptions)
         {
-            this.EntityRetrievalImplementation = entityRetrievalImplementation;
-            this.EntityKeyGetter = entityKeyGetter;
+            EntityRetrievalImplementation = entityRetrievalImplementation;
+            EntityKeyGetter = entityKeyGetter;
         }
     }
 }

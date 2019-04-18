@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Beyova.ExceptionSystem;
 
 namespace Beyova
 {
@@ -19,7 +19,7 @@ namespace Beyova
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <exception cref="Beyova.ExceptionSystem.NullObjectException"></exception>
+        /// <exception cref="Beyova.Diagnostic.NullObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
         /// <exception cref="NullObjectException"></exception>
         public static void CheckEmptyString(this string anyString, string objectIdentity, FriendlyHint friendlyHint = null,
@@ -128,7 +128,7 @@ namespace Beyova
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <exception cref="Beyova.ExceptionSystem.NullObjectException"></exception>
+        /// <exception cref="Beyova.Diagnostic.NullObjectException"></exception>
         /// <exception cref="ExceptionScene"></exception>
         /// <exception cref="NullObjectException"></exception>
         public static void CheckNullObject(this object anyObject, string objectIdentity, FriendlyHint friendlyHint = null,
@@ -209,6 +209,34 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Checks the null object as resource not found.
+        /// </summary>
+        /// <param name="targetObject">The target object.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="ResourceNotFoundException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void CheckNullObjectAsResourceNotFound(this object targetObject, string objectIdentity, string objectIdentifier = null, FriendlyHint friendlyHint = null,
+           [CallerMemberName] string memberName = null,
+           [CallerFilePath] string sourceFilePath = null,
+           [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (targetObject == null)
+            {
+                throw new ResourceNotFoundException(objectIdentity, objectIdentifier, friendlyHint: friendlyHint, scene: new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Expects the not null object. This is used to check if a key obejct during business processing is null.
         /// </summary>
         /// <param name="targetObject">The target object.</param>
@@ -245,7 +273,7 @@ namespace Beyova
         /// <param name="memberName">Name of the member.</param>
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
-        /// <exception cref="Beyova.ExceptionSystem.ResourceNotFoundException"></exception>
+        /// <exception cref="Beyova.Diagnostic.ResourceNotFoundException"></exception>
         /// <exception cref="ExceptionScene"></exception>
         public static void CheckNullResource(this object anyObject, string resourceName, string resourceIdentity, FriendlyHint friendlyHint = null,
             [CallerMemberName] string memberName = null,
@@ -332,7 +360,7 @@ namespace Beyova
         /// <returns>
         /// OperationFailureException.
         /// </returns>
-        /// <exception cref="Beyova.ExceptionSystem.OperationFailureException"></exception>
+        /// <exception cref="Beyova.Diagnostic.OperationFailureException"></exception>
         /// <exception cref="ExceptionScene"></exception>
         public static OperationFailureException CreateOperationException(object data = null, string reason = null, FriendlyHint hint = null,
             [CallerMemberName] string memberName = null,

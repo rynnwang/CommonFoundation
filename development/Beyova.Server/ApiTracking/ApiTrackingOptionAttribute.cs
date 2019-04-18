@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Beyova.ApiTracking
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ApiTrackingOptionAttribute
@@ -31,7 +31,7 @@ namespace Beyova.ApiTracking
         /// <param name="omitType">Type of the omit.</param>
         internal ApiTrackingOptionAttribute(ApiTrackingType omitType)
         {
-            this.OmitType = omitType;
+            OmitType = omitType;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Beyova.ApiTracking
         /// <param name="eventTrackingOptionController">The event tracking option controller.</param>
         internal ApiTrackingOptionAttribute(IApiEventTrackingOptionController eventTrackingOptionController)
         {
-            this.EventTrackingOptionController = eventTrackingOptionController;
+            EventTrackingOptionController = eventTrackingOptionController;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Beyova.ApiTracking
         /// <param name="trackingOption">The tracking option.</param>
         public ApiTrackingOptionAttribute(ApiEventTrackingOption trackingOption)
         {
-            this.EventTrackingOptionController = new DefaultApiEventTrackingOptionController(trackingOption);
+            EventTrackingOptionController = new DefaultApiEventTrackingOptionController(trackingOption);
         }
 
         /// <summary>

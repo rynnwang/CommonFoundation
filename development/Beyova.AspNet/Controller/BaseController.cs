@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Beyova.Api;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Web
 {
@@ -61,9 +61,11 @@ namespace Beyova.Web
                     case ActionResultType.PartialView:
                         result = PartialView(defaultErrorPartialView, exception.ToSimpleExceptionInfo());
                         break;
+
                     case ActionResultType.View:
                         result = View(defaultErrorView, exception.ToSimpleExceptionInfo());
                         break;
+
                     case ActionResultType.Default:
                     case ActionResultType.Json:
                     default:

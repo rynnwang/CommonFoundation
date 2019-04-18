@@ -35,9 +35,9 @@ namespace Beyova.Web
             if (urlHelper != null)
             {
                 return urlHelper.Action(
-                    this.Action.SafeToString("Index"),
-                    this.Controller.SafeToString("Home"),
-                    new { area = string.IsNullOrWhiteSpace(this.Area) ? string.Empty : this.Area });
+                    Action.SafeToString("Index"),
+                    Controller.SafeToString("Home"),
+                    new { area = string.IsNullOrWhiteSpace(Area) ? string.Empty : Area });
             }
 
             return string.Empty;

@@ -27,8 +27,8 @@ namespace Beyova
         /// <param name="comparer">The comparer.</param>
         public GenericEqualityComparer(Func<TOriginal, TComparer> converter, IEqualityComparer<TComparer> comparer = null)
         {
-            this._convertFunction = converter ?? (x => { return default(TComparer); });
-            this._comparer = comparer ?? EqualityComparer<TComparer>.Default;
+            _convertFunction = converter ?? (x => { return default(TComparer); });
+            _comparer = comparer ?? EqualityComparer<TComparer>.Default;
         }
 
         /// <summary>

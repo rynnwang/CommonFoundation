@@ -8,7 +8,7 @@
         /// <summary>
         /// The intance
         /// </summary>
-        static DefaultDataSecurityProvider _intance = new DefaultDataSecurityProvider(new AesKeys
+        private static DefaultDataSecurityProvider _intance = new DefaultDataSecurityProvider(new AesKeys
         {
             Key = "FXDh3AkXYSPECIZGmZbnMJED/dTFcYsv+IuJ6JSz/KQ=",
             InitializationVector = "4jmXeWg/7iBGv5srl2uj8g==",

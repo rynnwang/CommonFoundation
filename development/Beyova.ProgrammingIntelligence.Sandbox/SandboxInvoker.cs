@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Beyova.Api.RestApi;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {

@@ -10,6 +10,14 @@ namespace Beyova.Api.RestApi
     public class RuntimeContext
     {
         /// <summary>
+        /// Gets or sets the API router identifier.
+        /// </summary>
+        /// <value>
+        /// The API router identifier.
+        /// </value>
+        public ApiRouteIdentifier ApiRouterIdentifier { get; set; }
+
+        /// <summary>
         /// Gets or sets the API method.
         /// </summary>
         /// <value>The API method.</value>

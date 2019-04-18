@@ -33,8 +33,8 @@
             return new CloudResourceUri
             {
                 Type = type.SafeToString("default"),
-                Container = this.Container,
-                Identifier = this.Identifier
+                Container = Container,
+                Identifier = Identifier
             };
         }
     }

@@ -78,7 +78,7 @@ namespace Beyova
         /// <summary>
         /// The descending assembly dependency chain
         /// </summary>
-        static ReadOnlyCollection<Assembly> _descendingAssemblyDependencyChain;
+        private static ReadOnlyCollection<Assembly> _descendingAssemblyDependencyChain;
 
         /// <summary>
         /// The ascending assembly dependency chain
@@ -88,7 +88,7 @@ namespace Beyova
         /// <summary>
         /// The ascending assembly dependency chain
         /// </summary>
-        static ReadOnlyCollection<Assembly> _ascendingAssemblyDependencyChain;
+        private static ReadOnlyCollection<Assembly> _ascendingAssemblyDependencyChain;
 
         /// <summary>
         /// Gets the entry assembly.

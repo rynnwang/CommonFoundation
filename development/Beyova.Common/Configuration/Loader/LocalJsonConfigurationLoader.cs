@@ -39,7 +39,7 @@
         /// <returns></returns>
         public IConfigurationReader GetReader(string sourceAssembly, string coreComponentVersion)
         {
-            return this.Options == null ? null : new JsonConfigurationReader(sourceAssembly, coreComponentVersion, nameof(JsonConfigurationReader), this.Options, Framework.DataSecurityProvider);
+            return Options == null ? null : new JsonConfigurationReader(sourceAssembly, coreComponentVersion, nameof(JsonConfigurationReader), Options, Framework.DataSecurityProvider);
         }
     }
 }

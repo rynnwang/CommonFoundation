@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {

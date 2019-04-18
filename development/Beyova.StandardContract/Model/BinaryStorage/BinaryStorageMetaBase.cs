@@ -27,17 +27,6 @@ namespace Beyova
         public string ContentType { get; set; }
 
         /// <summary>
-        /// Gets or sets the MIME.
-        /// <remarks>
-        /// http://www.w3.org/wiki/Evolution/MIME
-        /// </remarks>
-        /// </summary>
-        /// <value>The MIME.</value>
-        [JsonIgnore]
-        [Obsolete]
-        public string Mime { get { return ContentType; } set { ContentType = value; } }
-
-        /// <summary>
         /// Gets or sets the length.
         /// </summary>
         /// <value>The length.</value>
@@ -77,12 +66,12 @@ namespace Beyova
         {
             if (metaBase != null)
             {
-                this.Name = metaBase.Name;
-                this.ContentType = metaBase.ContentType;
-                this.Length = metaBase.Length;
-                this.Width = metaBase.Width;
-                this.Height = metaBase.Height;
-                this.Duration = metaBase.Duration;
+                Name = metaBase.Name;
+                ContentType = metaBase.ContentType;
+                Length = metaBase.Length;
+                Width = metaBase.Width;
+                Height = metaBase.Height;
+                Duration = metaBase.Duration;
             }
         }
 
@@ -101,8 +90,8 @@ namespace Beyova
         {
             if (identifier != null)
             {
-                this.Container = identifier.Container;
-                this.Identifier = identifier.Identifier;
+                Container = identifier.Container;
+                Identifier = identifier.Identifier;
             }
         }
     }

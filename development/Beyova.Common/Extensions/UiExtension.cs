@@ -1,30 +1,39 @@
-﻿namespace Beyova
+﻿using System;
+
+namespace Beyova
 {
     /// <summary>
     /// </summary>
     public static class UiExtension
     {
-        ///// <summary>
-        ///// To the UI date time.
-        ///// </summary>
-        ///// <param name="utcDateTime">The UTC date time.</param>
-        ///// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
-        ///// <returns>System.Nullable&lt;DateTime&gt;.</returns>
-        //public static DateTime? ToUiDateTime(this DateTime? utcDateTime, int defaultTimeZoneInMinute = 480)
-        //{
-        //    return utcDateTime.HasValue ? ToUiDateTime(utcDateTime.Value, defaultTimeZoneInMinute) as DateTime? : null;
-        //}
+        /// <summary>
+        /// To the UI text.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyType">Any type.</param>
+        /// <param name="toString">To string.</param>
+        /// <param name="nullText">The null text.</param>
+        /// <param name="prefix">The prefix.</param>
+        /// <param name="suffix">The suffix.</param>
+        /// <returns></returns>
+        public static string ToUiText<T>(this T anyType, Func<T, string> toString, string nullText = null, string prefix = null, string suffix = null)
+        {
+            var stringValue = anyType == null ? null : (toString != null ? toString(anyType) : anyType.ToString());
+            return ToUiText(anyType == null ? null : stringValue, nullText, prefix, suffix);
+        }
 
-        ///// <summary>
-        ///// To the UI date time.
-        ///// </summary>
-        ///// <param name="utcDateTime">The UTC date time.</param>
-        ///// <param name="defaultTimeZoneInMinute">The default time zone in minute.</param>
-        ///// <returns>System.DateTime.</returns>
-        //public static DateTime ToUiDateTime(this DateTime utcDateTime, int defaultTimeZoneInMinute = 480)
-        //{
-        //    return utcDateTime.ToDifferentTimeZone((ContextHelper.CurrentUserInfo?.TimeZone) ?? 480);
-        //}
+        /// <summary>
+        /// To the UI text.
+        /// </summary>
+        /// <param name="stringObject">The string object.</param>
+        /// <param name="nullText">The null text.</param>
+        /// <param name="prefix">The prefix.</param>
+        /// <param name="suffix">The suffix.</param>
+        /// <returns></returns>
+        public static string ToUiText(this string stringObject, string nullText, string prefix = null, string suffix = null)
+        {
+            return string.IsNullOrEmpty(stringObject) ? nullText.SafeToString(StringConstants.NA) : string.Format("{0}{1}{2}", prefix, stringObject, suffix);
+        }
 
         /// <summary>
         /// To the friendly date time display.

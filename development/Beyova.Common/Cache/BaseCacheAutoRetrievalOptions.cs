@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -48,8 +48,8 @@ namespace Beyova.Cache
         /// <param name="failureExpirationInSecond">The failure expiration in second.</param>
         protected BaseCacheAutoRetrievalOptions(Func<BaseException, bool> exceptionProcessingImplementation = null, long? failureExpirationInSecond = null)
         {
-            this.ExceptionProcessingImplementation = exceptionProcessingImplementation ?? defaultExceptionHandler;
-            this.FailureExpirationInSecond = (failureExpirationInSecond.HasValue && failureExpirationInSecond.Value > 0) ? failureExpirationInSecond.Value : DefaultCacheSettings.FailureExpirationInSecond;
+            ExceptionProcessingImplementation = exceptionProcessingImplementation ?? defaultExceptionHandler;
+            FailureExpirationInSecond = (failureExpirationInSecond.HasValue && failureExpirationInSecond.Value > 0) ? failureExpirationInSecond.Value : DefaultCacheSettings.FailureExpirationInSecond;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Beyova.Cache
         /// <returns></returns>
         public DateTime? GetFailureExpiredStamp()
         {
-            return DateTime.UtcNow.AddSeconds(this.FailureExpirationInSecond) as DateTime?;
+            return DateTime.UtcNow.AddSeconds(FailureExpirationInSecond) as DateTime?;
         }
 
         #region Default

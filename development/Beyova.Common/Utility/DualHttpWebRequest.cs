@@ -3,7 +3,7 @@
 //using System.Collections.Specialized;
 //using System.Net;
 //using System.Text;
-//using Beyova.ExceptionSystem;
+//using Beyova.Diagnostic;
 //using Beyova.Http;
 
 //namespace Beyova

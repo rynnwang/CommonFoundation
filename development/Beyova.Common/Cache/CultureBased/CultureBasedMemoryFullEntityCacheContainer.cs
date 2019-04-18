@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Beyova.Cache
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     public class CultureBasedMemoryFullEntityCacheContainer<TEntity> : CultureBasedMemoryFullEntityCacheContainer<Guid, TEntity>
@@ -67,7 +66,7 @@ namespace Beyova.Cache
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
@@ -165,9 +164,9 @@ namespace Beyova.Cache
                                 result = new MemoryFullEntityCacheContainer<TKey, TEntity>(
                                     new MemoryCacheContainerOptions<TKey>
                                     {
-                                        EqualityComparer = this._containerOptions.EqualityComparer,
-                                        ExpirationInSecond = this._containerOptions.ExpirationInSecond,
-                                        Name = string.Format("full-{0}-{1}", this._containerOptions.Name, cultureCode)
+                                        EqualityComparer = _containerOptions.EqualityComparer,
+                                        ExpirationInSecond = _containerOptions.ExpirationInSecond,
+                                        Name = string.Format("full-{0}-{1}", _containerOptions.Name, cultureCode)
                                     },
                                     new FullEntityCacheAutoRetrievalOptions<TKey, TEntity>(
                                         implementation,

@@ -51,12 +51,12 @@ namespace Beyova
         /// <param name="checkRangeWhenConstruct">if set to <c>true</c> [check range when construct].</param>
         public Range(TCoordinate? from = null, TCoordinate? to = null, bool fromValueReachable = true, bool toValueReachable = false, bool checkRangeWhenConstruct = true)
         {
-            this.From = from;
-            this.To = to;
-            this.FromValueReachable = fromValueReachable;
-            this.ToValueReachable = toValueReachable;
+            From = from;
+            To = to;
+            FromValueReachable = fromValueReachable;
+            ToValueReachable = toValueReachable;
 
-            if (checkRangeWhenConstruct && from.HasValue && to.HasValue && ((IComparable)this.From.Value).CompareTo(this.To.Value) > 0)
+            if (checkRangeWhenConstruct && from.HasValue && to.HasValue && ((IComparable)From.Value).CompareTo(To.Value) > 0)
             {
                 throw ExceptionFactory.CreateInvalidObjectException(nameof(to), new { from, to }, "InvalidRange");
             }
@@ -71,21 +71,21 @@ namespace Beyova
         /// </returns>
         public virtual bool Contains(TCoordinate value)
         {
-            if (this.From.HasValue)
+            if (From.HasValue)
             {
-                var fromResult = this.From.Value.CompareTo(value);
+                var fromResult = From.Value.CompareTo(value);
 
-                if (this.FromValueReachable ? fromResult > 0 : fromResult >= 0)
+                if (FromValueReachable ? fromResult > 0 : fromResult >= 0)
                 {
                     return false;
                 }
             }
 
-            if (this.To.HasValue)
+            if (To.HasValue)
             {
-                var toResult = this.To.Value.CompareTo(value);
+                var toResult = To.Value.CompareTo(value);
 
-                if (this.ToValueReachable ? toResult < 0 : toResult <= 0)
+                if (ToValueReachable ? toResult < 0 : toResult <= 0)
                 {
                     return false;
                 }
@@ -115,10 +115,10 @@ namespace Beyova
         public override string ToString()
         {
             return string.Format("{0}{1},{2}{3}",
-                this.FromValueReachable ? "[" : "(",
-                this.From,
-                this.To,
-                this.ToValueReachable ? "]" : ")");
+                FromValueReachable ? "[" : "(",
+                From,
+                To,
+                ToValueReachable ? "]" : ")");
         }
     }
 }

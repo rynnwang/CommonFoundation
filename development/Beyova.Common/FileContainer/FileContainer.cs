@@ -22,8 +22,8 @@ namespace Beyova
         /// <param name="baseDirectory">The base directory.</param>
         public FileContainer(DirectoryInfo baseDirectory) : base()
         {
-            this.BaseDirectory = baseDirectory;
-            this.BaseDirectory.EnsureExistence();
+            BaseDirectory = baseDirectory;
+            BaseDirectory.EnsureExistence();
         }
 
         /// <summary>
@@ -43,11 +43,11 @@ namespace Beyova
 
             try
             {
-                foreach (var current in this._data)
+                foreach (var current in _data)
                 {
                     currentPath = current.Key.Replace('/', '\\').TrimStart('\\');
 
-                    var fullPath = Path.Combine(this.BaseDirectory.FullName, currentPath);
+                    var fullPath = Path.Combine(BaseDirectory.FullName, currentPath);
                     var folder = Path.GetDirectoryName(fullPath);
                     new DirectoryInfo(folder).EnsureExistence();
 

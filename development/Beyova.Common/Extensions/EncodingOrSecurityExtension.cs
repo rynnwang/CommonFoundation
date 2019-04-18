@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Security.Cryptography;
@@ -477,7 +476,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Encrypts to SH a1.
+        /// Encrypts to SHA1.
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns>System.String.</returns>
@@ -560,10 +559,11 @@ namespace Beyova
         {
             if (content != null && encryptKey.HasItem())
             {
-                TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider();
-
-                DES.Key = encryptKey;
-                DES.Mode = cipherMode;
+                TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider
+                {
+                    Key = encryptKey,
+                    Mode = cipherMode
+                };
 
                 ICryptoTransform DESEncrypt = DES.CreateEncryptor();
 

@@ -77,7 +77,7 @@ namespace Beyova.AOP
         /// </summary>
         internal MethodCallInfo()
         {
-            this.SerializableArgNames = new List<string>();
+            SerializableArgNames = new List<string>();
         }
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace Beyova.AOP
         /// <param name="inArgs">The in arguments.</param>
         public MethodCallInfo(string methodName, Dictionary<string, object> inArgs) : this()
         {
-            this.MethodFullName = methodName;
-            this.InArgs = inArgs;
+            MethodFullName = methodName;
+            InArgs = inArgs;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Beyova.AOP
 
             foreach (var one in SerializableArgNames)
             {
-                result.Add(one, this.InArgs[one]);
+                result.Add(one, InArgs[one]);
             }
 
             return result;

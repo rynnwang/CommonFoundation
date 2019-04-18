@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Beyova;
 using Beyova.AOP;
 
 namespace Beyova.DynamicCompileUnitTest._Aop
 {
-
     public class TestBaseClass
     {
         public void MethodOk()
@@ -34,7 +30,7 @@ namespace Beyova.DynamicCompileUnitTest._Aop
         /// <summary>
         /// Basics the function test.
         /// </summary>
-        static void BasicFunctionTest()
+        private static void BasicFunctionTest()
         {
             try
             {
@@ -53,7 +49,7 @@ namespace Beyova.DynamicCompileUnitTest._Aop
         /// <summary>
         /// Advanceds the function test.
         /// </summary>
-        static void AdvancedFunctionTest()
+        private static void AdvancedFunctionTest()
         {
             try
             {

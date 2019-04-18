@@ -115,7 +115,7 @@ namespace Beyova
             {
                 foreach (var one in matrixList)
                 {
-                    this.Add(one.Key, new List<TValue>(one.Value));
+                    Add(one.Key, new List<TValue>(one.Value));
                 }
             }
         }
@@ -151,15 +151,41 @@ namespace Beyova
             {
                 if (!IsKeyValid(key))
                 {
-                    throw ExceptionFactory.CreateInvalidObjectException("key");
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(key));
                 }
 
-                var list = this.GetCollectionByKey(key, true);
+                var list = GetCollectionByKey(key, true);
                 list.Add(value);
             }
             catch (Exception ex)
             {
                 throw ex.Handle(new { key, value });
+            }
+        }
+
+        /// <summary>
+        /// Initials the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="container">The container.</param>
+        public virtual void Initial(TKey key, List<TValue> container)
+        {
+            //NOTES: In case like MatrixList<TKey, Object>. Method Add would hard to tell which method is right to call (Add(key, value) of Dictionary or Add(key, List<Value>))
+            try
+            {
+                if (!IsKeyValid(key))
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(key));
+                }
+
+                if (!ContainsKey(key))
+                {
+                    Add(key, container);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { key, container });
             }
         }
 
@@ -173,11 +199,11 @@ namespace Beyova
         {
             ValidateKey(key);
 
-            List<TValue> result = this.ContainsKey(key) ? this[key] : null;
+            List<TValue> result = ContainsKey(key) ? this[key] : null;
 
             if (result == null && createIfNotExist)
             {
-                this.Add(key, new List<TValue>());
+                Add(key, new List<TValue>());
                 result = this[key];
             }
 

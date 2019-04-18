@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class OperationForbiddenException.

@@ -1,4 +1,4 @@
-﻿namespace Beyova.ExceptionSystem
+﻿namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class FriendlyHint.

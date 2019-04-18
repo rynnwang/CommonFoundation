@@ -20,7 +20,7 @@ namespace Beyova.Api.RestApi
         /// <param name="headerKey">The header key.</param>
         public ApiHeaderAttribute(string headerKey)
         {
-            this.HeaderKey = headerKey;
+            HeaderKey = headerKey;
         }
     }
 }

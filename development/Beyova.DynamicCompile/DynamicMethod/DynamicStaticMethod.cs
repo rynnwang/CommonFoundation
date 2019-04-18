@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {

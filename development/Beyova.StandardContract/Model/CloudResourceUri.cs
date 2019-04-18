@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -47,7 +47,7 @@ namespace Beyova
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return string.Format(Protocol + "{0}/{1}/{2}", this.Type.SafeToString("default"), this.Container.SafeToString("default"), this.Identifier.SafeToString("default"));
+            return string.Format(Protocol + "{0}/{1}/{2}", Type.SafeToString("default"), Container.SafeToString("default"), Identifier.SafeToString("default"));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Beyova
         /// <returns><c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            return this.ToString().Equals(obj.SafeToString());
+            return ToString().Equals(obj.SafeToString());
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Beyova
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return this.ToString().GetHashCode();
+            return ToString().GetHashCode();
         }
 
         /// <summary>

@@ -38,8 +38,8 @@ namespace Beyova
         /// <param name="readOnlySqlConnection">The read only SQL connection.</param>
         public SqlDataAccessOptions(string primarySqlConnection, string readOnlySqlConnection = null)
         {
-            this.PrimarySqlConnection = string.IsNullOrWhiteSpace(primarySqlConnection) ? null : new SqlConnection(primarySqlConnection);
-            this.ReadOnlySqlConnection = string.IsNullOrWhiteSpace(readOnlySqlConnection) ? null : new SqlConnection(readOnlySqlConnection);
+            PrimarySqlConnection = string.IsNullOrWhiteSpace(primarySqlConnection) ? null : new SqlConnection(primarySqlConnection);
+            ReadOnlySqlConnection = string.IsNullOrWhiteSpace(readOnlySqlConnection) ? null : new SqlConnection(readOnlySqlConnection);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Beyova
         /// <param name="readOnlySqlConnection">The read only SQL connection.</param>
         public SqlDataAccessOptions(SqlConnection primarySqlConnection, SqlConnection readOnlySqlConnection = null)
         {
-            this.PrimarySqlConnection = primarySqlConnection;
-            this.ReadOnlySqlConnection = readOnlySqlConnection;
+            PrimarySqlConnection = primarySqlConnection;
+            ReadOnlySqlConnection = readOnlySqlConnection;
         }
     }
 }

@@ -33,9 +33,9 @@ namespace Beyova
             {
                 cellphoneNumber.CheckNullObject(nameof(cellphoneNumber));
 
-                if (!omitNationCode && !cellphoneNumber.NationCode.MeaningfulEquals(this.NationCode))
+                if (!omitNationCode && !cellphoneNumber.NationCode.MeaningfulEquals(NationCode))
                 {
-                    throw ExceptionFactory.CreateInvalidObjectException(nameof(cellphoneNumber.NationCode), new { expected = this.NationCode, actual = cellphoneNumber.NationCode });
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(cellphoneNumber.NationCode), new { expected = NationCode, actual = cellphoneNumber.NationCode });
                 }
 
                 var regex = GetRegex();

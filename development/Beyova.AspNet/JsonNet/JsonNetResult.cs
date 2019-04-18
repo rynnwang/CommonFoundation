@@ -25,13 +25,13 @@ namespace Beyova.Web
         public override void ExecuteResult(ControllerContext context)
         {
             HttpResponseBase response = context.HttpContext.Response;
-            response.ContentType = this.ContentType.SafeToString(HttpConstants.ContentType.Json);
+            response.ContentType = ContentType.SafeToString(HttpConstants.ContentType.Json);
 
-            if (this.ContentEncoding != null)
+            if (ContentEncoding != null)
             {
-                response.ContentEncoding = this.ContentEncoding;
+                response.ContentEncoding = ContentEncoding;
             }
-            if (this.Data == null)
+            if (Data == null)
             {
                 return;
             }
@@ -40,7 +40,7 @@ namespace Beyova.Web
 
             using (var sw = new StringWriter())
             {
-                scriptSerializer.Serialize(sw, this.Data);
+                scriptSerializer.Serialize(sw, Data);
                 response.Write(sw.ToString());
             }
         }

@@ -33,6 +33,14 @@ namespace Beyova
         public T Message { get; set; }
 
         /// <summary>
+        /// Gets or sets the pop receipt.
+        /// </summary>
+        /// <value>
+        /// The pop receipt.
+        /// </value>
+        public string PopReceipt { get; set; }
+
+        /// <summary>
         /// Gets or sets the revisible stamp.
         /// </summary>
         /// <value>

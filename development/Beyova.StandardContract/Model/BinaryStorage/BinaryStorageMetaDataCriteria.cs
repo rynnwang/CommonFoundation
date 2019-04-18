@@ -1,5 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace Beyova
 {
@@ -31,16 +32,6 @@ namespace Beyova
         /// <value>The MIME.</value>
         [JsonProperty(PropertyName = "contentType")]
         public string ContentType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the MIME.
-        /// </summary>
-        /// <value>
-        /// The MIME.
-        /// </value>
-        [JsonIgnore]
-        [Obsolete]
-        public string Mime { get; set; }
 
         /// <summary>
         /// Gets or sets the minimum length.
@@ -118,6 +109,15 @@ namespace Beyova
         /// <value>From stamp.</value>
         [JsonProperty(PropertyName = "fromStamp")]
         public DateTime? FromStamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the kv meta criteria.
+        /// </summary>
+        /// <value>
+        /// The kv meta criteria.
+        /// </value>
+        [JsonProperty(PropertyName = "kvMetaCriteria")]
+        public List<KVMetaCriteriaExpression> KVMetaCriteria { get; set; }
 
         /// <summary>
         /// Gets or sets the count.

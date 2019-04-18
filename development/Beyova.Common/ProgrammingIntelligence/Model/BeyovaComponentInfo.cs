@@ -33,9 +33,9 @@ namespace Beyova
         /// <param name="apiTrackingType">Type of the API tracking, which should implement <see cref="IApiTracking" /> with 0 parameter constructor.</param>
         public BeyovaComponentInfo(string id, string version, Type apiTrackingType = null)
         {
-            this.Version = version;
-            this.Id = id;
-            this.ApiTrackingType = apiTrackingType;
+            Version = version;
+            Id = id;
+            ApiTrackingType = apiTrackingType;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace Beyova
         /// <returns>IApiTracking.</returns>
         internal IApiTracking GetApiTrackingInstance()
         {
-            if (this.ApiTrackingType != null)
+            if (ApiTrackingType != null)
             {
                 try
                 {
-                    return Activator.CreateInstance(this.ApiTrackingType) as IApiTracking;
+                    return Activator.CreateInstance(ApiTrackingType) as IApiTracking;
                 }
                 catch { }
             }

@@ -38,7 +38,7 @@ namespace Beyova
         /// </summary>
         public StringPlaceHolder()
         {
-            this.AdditionalParameters = new List<string>();
+            AdditionalParameters = new List<string>();
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Beyova
         public StringPlaceHolder(string key, string additionalParameters)
             : this()
         {
-            this.PlaceKey = key;
-            this.AdditionalParameters.AddRange(additionalParameters.SafeToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+            PlaceKey = key;
+            AdditionalParameters.AddRange(additionalParameters.SafeToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Beyova
         /// <returns></returns>
         public string ToStatement()
         {
-            return StringHolderReplacement.GeneratePlaceHolderSign(this.PlaceKey, AdditionalParameters.ToArray());
+            return StringHolderReplacement.GeneratePlaceHolderSign(PlaceKey, AdditionalParameters.ToArray());
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Beyova
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return this.PlaceKey.GetHashCode();
+            return PlaceKey.GetHashCode();
         }
 
         /// <summary>
@@ -79,20 +79,20 @@ namespace Beyova
         public override bool Equals(object obj)
         {
             StringPlaceHolder holder = obj as StringPlaceHolder;
-            var result = holder != null && holder.PlaceKey == this.PlaceKey;
+            var result = holder != null && holder.PlaceKey == PlaceKey;
 
             if (result)
             {
-                if (holder.AdditionalParameters == null || this.AdditionalParameters == null)
+                if (holder.AdditionalParameters == null || AdditionalParameters == null)
                 {
                     return true;
                 }
             }
-            else if (holder.AdditionalParameters != null && this.AdditionalParameters != null && holder.AdditionalParameters.Count == this.AdditionalParameters.Count)
+            else if (holder.AdditionalParameters != null && AdditionalParameters != null && holder.AdditionalParameters.Count == AdditionalParameters.Count)
             {
-                for (int i = 0; i < this.AdditionalParameters.Count; i++)
+                for (int i = 0; i < AdditionalParameters.Count; i++)
                 {
-                    if (holder.AdditionalParameters[i] != this.AdditionalParameters[i])
+                    if (holder.AdditionalParameters[i] != AdditionalParameters[i])
                     {
                         result = false;
                         break;

@@ -31,7 +31,7 @@ namespace Beyova
         /// <param name="collection">The collection.</param>
         public CountableLoopEnumerator(IEnumerable<T> collection) : base(collection)
         {
-            var array = 0.AsArrayWithSameValue(collection.Count());
+            var array = 0.DuplicateAsArray(collection.Count());
             _counter = new List<int>(array);
         }
 
@@ -44,8 +44,6 @@ namespace Beyova
         }
 
         #endregion Constructor
-
-
 
         /// <summary>
         /// Gets the current count.

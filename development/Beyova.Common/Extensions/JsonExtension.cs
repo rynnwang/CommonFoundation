@@ -142,6 +142,28 @@ namespace Beyova
             return TryConvertJsonToObject(jsonString, out exception);
         }
 
+        /// <summary>
+        /// Finds the and remove property.
+        /// </summary>
+        /// <param name="jObject">The j object.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
+        public static JToken FindAndRemoveProperty(this JObject jObject, string propertyName)
+        {
+            if (jObject != null && !string.IsNullOrWhiteSpace(propertyName))
+            {
+                var p = jObject.GetProperty(propertyName);
+
+                if (p != null)
+                {
+                    jObject.Remove(propertyName);
+                    return p;
+                }
+            }
+
+            return null;
+        }
+
         #endregion Json
 
         /// <summary>

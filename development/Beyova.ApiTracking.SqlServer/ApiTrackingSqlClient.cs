@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Beyova.ExceptionSystem;
 using System.Linq;
+using Beyova.Diagnostic;
 
 namespace Beyova.ApiTracking.SqlServer
 {
@@ -31,9 +31,13 @@ namespace Beyova.ApiTracking.SqlServer
             _sqlConnectionString = sqlConnectionString.SafeToString(Framework.PrimarySqlConnection);
         }
 
+        /// <summary>
+        /// Logs the API event.
+        /// </summary>
+        /// <param name="eventLog">The event log.</param>
         public void LogApiEvent(ApiEventLog eventLog)
         {
-            //TODO
+            throw new NotSupportedException();
         }
 
         public void LogApiTraceLog(ApiTraceLog traceLog)
@@ -63,14 +67,46 @@ namespace Beyova.ApiTracking.SqlServer
         }
 
         /// <summary>
-        /// Logs the message.
+        /// Queries the exception information.
         /// </summary>
-        /// <param name="message">The message.</param>
-        public void LogMessage(string message)
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
+        public List<ExceptionInfo> QueryExceptionInfo(ExceptionCriteria criteria)
         {
-            if (!string.IsNullOrWhiteSpace(message))
+            try
             {
-                LogApiMessage(new ApiMessage { Message = message });
+                criteria.CheckNullObject(nameof(criteria));
+
+                using (var controller = new ExceptionInfoAccessController(_sqlConnectionString))
+                {
+                    return controller.QueryException(criteria);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { criteria });
+            }
+        }
+
+        /// <summary>
+        /// Gets the exception by key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public ExceptionInfo GetExceptionByKey(Guid? key)
+        {
+            try
+            {
+                key.CheckNullObject(nameof(key));
+
+                using (var controller = new ExceptionInfoAccessController(_sqlConnectionString))
+                {
+                    return controller.QueryException(new ExceptionCriteria { Key = key }).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { key });
             }
         }
 
@@ -96,24 +132,24 @@ namespace Beyova.ApiTracking.SqlServer
         }
 
         /// <summary>
-        /// Gets the exception by key.
+        /// Queries the API message.
         /// </summary>
-        /// <param name="key">The key.</param>
+        /// <param name="criteria">The criteria.</param>
         /// <returns></returns>
-        public ExceptionInfo GetExceptionByKey(Guid? key)
+        public List<ApiMessage> QueryApiMessage(ApiMessageCriteria criteria)
         {
             try
             {
-                key.CheckNullObject(nameof(key));
+                criteria.CheckNullObject(nameof(criteria));
 
-                using (var controller = new ExceptionInfoAccessController(_sqlConnectionString))
+                using (var controller = new ApiMessageAccessController(_sqlConnectionString))
                 {
-                    return controller.QueryException(new ExceptionCriteria { Key = key }).FirstOrDefault();
+                    return controller.QueryApiMessage(criteria);
                 }
             }
             catch (Exception ex)
             {
-                throw ex.Handle(new { key });
+                throw ex.Handle(new { criteria });
             }
         }
 

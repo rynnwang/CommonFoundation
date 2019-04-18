@@ -9,21 +9,22 @@
     <Import_RootNamespace>Beyova.BinaryStorageHelper</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Function\sp_JsonToBinaryIdentifiers.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Setup.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CommitBinaryStorage.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CommitBinaryStorageDeletion.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_ConvertPendingCommitToPendingDelete.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_CreateBinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_DeleteBinaryStorage.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_GetBinaryCapacitySummary.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_GetBinaryStorageMetaDataByIdentifiers.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_GetPendingDeleteBinaryStorages.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_QueryBinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\StoredProcedure\sp_QueryUserBinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\BinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\Table\UserBinaryStorageMetaData.sql" />
-    <None Include="$(MSBuildThisFileDirectory)DatabaseScripts\View\view_UserBinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Function\sp_JsonToBinaryIdentifiers.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Setup\Setup-0.5-0.6.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Setup\Setup-Full.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_CommitBinaryStorage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_CommitBinaryStorageDeletion.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_ConvertPendingCommitToPendingDelete.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_CreateBinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_DeleteBinaryStorage.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_GetBinaryCapacitySummary.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_GetBinaryStorageMetaDataByIdentifiers.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_GetPendingDeleteBinaryStorages.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_QueryBinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\StoredProcedure\sp_QueryUserBinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Table\BinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\Table\UserBinaryStorageMetaData.sql" />
+    <None Include="$(MSBuildThisFileDirectory)Database\View\view_UserBinaryStorageMetaData.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BinaryStorageHelper.cs" />

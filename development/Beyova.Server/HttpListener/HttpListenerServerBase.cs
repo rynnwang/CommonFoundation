@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -33,7 +33,7 @@ namespace Beyova
         /// </summary>
         /// <param name="prefixes">The URL prefixes.</param>
         /// <param name="authenticationSchema">The authentication schema.</param>
-        /// <exception cref="Beyova.ExceptionSystem.InvalidObjectException">prefixes</exception>
+        /// <exception cref="Beyova.Diagnostic.InvalidObjectException">prefixes</exception>
         /// <exception cref="InvalidObjectException">prefixes</exception>
         public HttpListenerServerBase(string[] prefixes, AuthenticationSchemes authenticationSchema = AuthenticationSchemes.Anonymous)
         {
@@ -138,11 +138,11 @@ namespace Beyova
             {
                 try
                 {
-                    this.ProcessHttpRequest(httpContext);
+                    ProcessHttpRequest(httpContext);
                 }
                 catch (Exception ex)
                 {
-                    this.ProcessException(httpContext, ex);
+                    ProcessException(httpContext, ex);
                 }
                 finally
                 {

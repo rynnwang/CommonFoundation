@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
@@ -53,7 +53,7 @@ namespace Beyova
         {
             List<MethodInvokeParameter> result = new List<MethodInvokeParameter>();
 
-            var parameters = this._method.GetParameters();
+            var parameters = _method.GetParameters();
             int sequence = 0;
             foreach (var one in parameters)
             {

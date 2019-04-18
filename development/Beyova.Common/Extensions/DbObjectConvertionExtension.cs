@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Globalization;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -222,7 +222,7 @@ namespace Beyova
         /// <returns></returns>
         public static Date? ObjectToDate(this object data)
         {
-            return (Date?)data.ObjectToString();
+            return data.ObjectToString();
         }
 
         /// <summary>
@@ -332,6 +332,16 @@ namespace Beyova
         public static CryptoKey ObjectToCryptoKey(this object data)
         {
             return new CryptoKey(ObjectToBytes(data));
+        }
+
+        /// <summary>
+        /// Objects to cellphone number.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static CellphoneNumber ObjectToCellphoneNumber(this object data)
+        {
+            return CellphoneNumber.FromString(ObjectToString(data));
         }
 
         /// <summary>

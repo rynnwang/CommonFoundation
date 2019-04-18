@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
-using Beyova.ApiTracking;
+using Beyova.Diagnostic;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
@@ -21,7 +21,7 @@ namespace Beyova
         /// <summary>
         /// The assembly version
         /// </summary>
-        private readonly static Dictionary<string, object> _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, object> _assemblyVersion = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Gets the data security provider.
@@ -449,6 +449,6 @@ namespace Beyova
             }
         }
 
-        #endregion
+        #endregion FunctionInjection and interfaces
     }
 }

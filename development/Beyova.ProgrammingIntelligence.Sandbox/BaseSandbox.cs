@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Newtonsoft.Json;
 
 namespace Beyova
@@ -54,7 +54,7 @@ namespace Beyova
         /// <param name="key">The identifier.</param>
         protected internal BaseSandbox(SandboxSetting setting, Guid key)
         {
-            this.Key = key;
+            Key = key;
             Initialize(setting ?? new SandboxSetting { });
         }
 
@@ -65,7 +65,7 @@ namespace Beyova
         /// <returns></returns>
         protected AppDomain CreateAppDomain(string applicationDirectory)
         {
-            return AppDomain.CreateDomain(this.Key.ToString(), AppDomain.CurrentDomain.Evidence, new AppDomainSetup
+            return AppDomain.CreateDomain(Key.ToString(), AppDomain.CurrentDomain.Evidence, new AppDomainSetup
             {
                 ApplicationBase = applicationDirectory,
                 PrivateBinPath = applicationDirectory
@@ -90,7 +90,7 @@ namespace Beyova
                     Directory.CreateDirectory(applicationDirectory);
                 }
 
-                this.AppDomain = CreateAppDomain(applicationDirectory);
+                AppDomain = CreateAppDomain(applicationDirectory);
 
                 // Start to process assemblies and libraries
                 HashSet<string> assemblyNameToLoad = setting.AssemblyNameListToLoad.ToHashSet() ?? new HashSet<string>();
@@ -121,12 +121,12 @@ namespace Beyova
 
                     if (File.Exists(destinationPath))
                     {
-                        this.AppDomain.Load(Path.GetFileNameWithoutExtension(destinationPath));
+                        AppDomain.Load(Path.GetFileNameWithoutExtension(destinationPath));
                         //  this.AppDomain.Load(File.ReadAllBytes(destinationPath));
                     }
                 }
 
-                this._invoker = CreateInstanceAndUnwrap<SandboxInvoker>(this.AppDomain);
+                _invoker = CreateInstanceAndUnwrap<SandboxInvoker>(AppDomain);
 
                 // Load external byte base assemblies
                 if (setting.ExternalAssemblyToLoad.HasItem())

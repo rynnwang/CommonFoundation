@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Beyova.Diagnostic;
 
 namespace Beyova.Scheduling
 {
@@ -11,7 +12,7 @@ namespace Beyova.Scheduling
         /// <summary>
         /// The day minutes
         /// </summary>
-        const int dayMinutes = 24 * 60;
+        private const int dayMinutes = 24 * 60;
 
         /// <summary>
         /// Gets or sets the block minutes.
@@ -32,12 +33,12 @@ namespace Beyova.Scheduling
         /// Initializes a new instance of the <see cref="TimeBlockSize" /> class.
         /// </summary>
         /// <param name="blockMinutes">The minute.</param>
-        /// <exception cref="ExceptionSystem.FriendlyHint"></exception>
+        /// <exception cref="FriendlyHint"></exception>
         public TimeBlockSize(int blockMinutes = 5)
         {
             if (blockMinutes < 1 || blockMinutes > dayMinutes || dayMinutes % blockMinutes != 0)
             {
-                throw ExceptionFactory.CreateInvalidObjectException(nameof(blockMinutes), blockMinutes, "OutOfRange", new ExceptionSystem.FriendlyHint { Message = "Value of minute should be between [1, 1440] and integer dividable by 1440." });
+                throw ExceptionFactory.CreateInvalidObjectException(nameof(blockMinutes), blockMinutes, "OutOfRange", new FriendlyHint { Message = "Value of minute should be between [1, 1440] and integer dividable by 1440." });
             }
 
             BlockMinutes = blockMinutes;
@@ -120,7 +121,7 @@ namespace Beyova.Scheduling
         /// <returns></returns>
         public int GetBlockIndexOfDay(DateTime dateTime)
         {
-            var x = (dateTime.Hour * 60d + dateTime.Minute) / this.BlockMinutes;
+            var x = (dateTime.Hour * 60d + dateTime.Minute) / BlockMinutes;
 
             // Index is started from 1
             // Regarding it is calculated based on minute, when time is hit like 2:00, 3:00, ... need to add index 1.

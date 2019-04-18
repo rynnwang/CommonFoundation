@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Newtonsoft.Json.Linq;
 
 namespace Beyova
@@ -69,7 +69,7 @@ namespace Beyova
         /// <param name="type">The type.</param>
         /// <param name="throwException">The throw exception.</param>
         /// <returns>System.Object.</returns>
-        private static object ConvertStringToObject(this string value, Type type, bool throwException = true)
+        public static object ConvertStringToObject(this string value, Type type, bool throwException = true)
         {
             try
             {

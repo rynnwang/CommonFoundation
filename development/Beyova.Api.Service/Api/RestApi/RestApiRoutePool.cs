@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Beyova.ApiTracking;
 using Beyova.Cache;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -116,7 +115,7 @@ namespace Beyova.Api.RestApi
                 }
 
                 var apiContract = parentApiContractAttribute ?? interfaceType.GetCustomAttribute<ApiContractAttribute>(true);
-                var omitApiTracking = omitApiTrackingAttribute ?? interfaceType.GetCustomAttribute<ApiTracking.OmitApiTrackingAttribute>(true);
+                var omitApiTracking = omitApiTrackingAttribute ?? interfaceType.GetCustomAttribute<OmitApiTrackingAttribute>(true);
                 var apiModule = parentApiModuleAttribute ?? interfaceType.GetCustomAttribute<ApiModuleAttribute>(true);
                 var tokenRequiredAttribute = parentTokenRequiredAttribute ?? interfaceType.GetCustomAttribute<TokenRequiredAttribute>(true);
                 var moduleName = apiModule?.ToString();
@@ -136,7 +135,7 @@ namespace Beyova.Api.RestApi
 
                         if (apiOperationAttribute != null)
                         {
-                            var permissions = new Dictionary<string, ApiPermission>();
+                            var permissions = new Dictionary<string, ApiPermissionAttribute>();
                             var additionalHeaderKeys = new HashSet<string>();
 
                             var apiPermissionAttributes =
@@ -148,7 +147,7 @@ namespace Beyova.Api.RestApi
                             {
                                 foreach (var one in apiPermissionAttributes)
                                 {
-                                    permissions.Merge(one.PermissionIdentifier, one.Permission);
+                                    permissions.Merge(one.PermissionIdentifier, one);
                                 }
                             }
 
@@ -175,7 +174,7 @@ namespace Beyova.Api.RestApi
 
                             var runtimeRoute = new RuntimeRoute(routeKey, method, interfaceType, instance,
                                    !string.IsNullOrWhiteSpace(apiOperationAttribute.Action),
-                                   tokenRequired != null && tokenRequired.TokenRequired, moduleName, apiOperationAttribute.ContentType, apiOperationAttribute.IsDataSensitive, settings, apiCacheAttribute, omitApiTracking ?? method.GetCustomAttribute<ApiTracking.OmitApiTrackingAttribute>(true), permissions, additionalHeaderKeys.ToList());
+                                   tokenRequired != null && tokenRequired.TokenRequired, moduleName, apiOperationAttribute.ContentType, settings, apiCacheAttribute, omitApiTracking ?? method.GetCustomAttribute<OmitApiTrackingAttribute>(true), permissions, additionalHeaderKeys.ToList());
 
                             if (routes.ContainsKey(routeKey))
                             {

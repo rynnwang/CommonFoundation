@@ -20,16 +20,10 @@ namespace Beyova.Api.RestApi
         public string ModuleName { get; internal set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is data sensitive.
-        /// </summary>
-        /// <value><c>true</c> if this instance is data sensitive; otherwise, <c>false</c>.</value>
-        public bool IsDataSensitive { get; internal set; }
-
-        /// <summary>
         /// Gets or sets the permissions.
         /// </summary>
         /// <value>The permissions.</value>
-        public IDictionary<string, ApiPermission> Permissions { get; internal set; }
+        public IDictionary<string, ApiPermissionAttribute> Permissions { get; internal set; }
 
         /// <summary>
         /// Gets or sets the header keys.

@@ -1207,7 +1207,7 @@ namespace Beyova
         #region Enum
 
         /// <summary>
-        /// Gets the enum contract text.
+        /// Gets the enum contract text. If would read text from <see cref="DescriptionAttribute"/>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumValue">The enum value.</param>
@@ -1216,9 +1216,9 @@ namespace Beyova
             where T : struct, IConvertible, IComparable, IFormattable
         {
             var fieldInfo = typeof(T).GetField(enumValue.ToString());
-            var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attribute = fieldInfo.GetCustomAttribute<DescriptionAttribute>(false);
 
-            return (attributes.Length > 0) ? attributes[0].Description : enumValue.ToString();
+            return attribute != null ? attribute.Description : enumValue.ToString();
         }
 
         /// <summary>
@@ -1336,7 +1336,7 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Testifies the specified object.
+        /// Testifies the specified object. It would throw <see cref="Beyova.Diagnostic.InvalidObjectException"/> if not match condition.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object.</param>
@@ -1403,6 +1403,39 @@ namespace Beyova
         }
 
         #endregion Ensure & Testify
+
+        /// <summary>
+        /// Compares the result maps to.
+        /// </summary>
+        /// <typeparam name="TComparible">The type of the comparible.</typeparam>
+        /// <typeparam name="TMapResult">The type of the map result.</typeparam>
+        /// <param name="item1">The item1.</param>
+        /// <param name="item2">The item2.</param>
+        /// <param name="resultIfItem1GreaterThanItem2">The result if item1 greater than item2.</param>
+        /// <param name="resultIfItem1EqualsItem2">The result if item1 equals item2.</param>
+        /// <param name="resultIfItem1LessThanItem2">The result if item1 less than item2.</param>
+        /// <returns></returns>
+        public static TMapResult CompareResultMapsTo<TComparible, TMapResult>(TComparible item1, TComparible item2, TMapResult resultIfItem1GreaterThanItem2, TMapResult resultIfItem1EqualsItem2, TMapResult resultIfItem1LessThanItem2)
+           where TComparible : IComparable
+        {
+            switch (item1.CompareTo(item2))
+            {
+                case 1:
+                    return resultIfItem1GreaterThanItem2;
+                case 0:
+                    return resultIfItem1EqualsItem2;
+                case -1:
+                    return resultIfItem1LessThanItem2;
+                default:
+                    throw ExceptionFactory.CreateOperationException(new
+                    {
+                        TComparible = typeof(TComparible).FullName,
+                        TMapResult = typeof(TMapResult).FullName,
+                        item1,
+                        item2
+                    });
+            }
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

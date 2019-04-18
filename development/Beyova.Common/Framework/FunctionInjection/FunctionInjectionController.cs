@@ -12,7 +12,7 @@ namespace Beyova
         /// <summary>
         /// The is discovered
         /// </summary>
-        static bool isDiscovered = false;
+        private static bool isDiscovered = false;
 
         /// <summary>
         /// Automatics the discover function injection. No worries, it would only be run once.

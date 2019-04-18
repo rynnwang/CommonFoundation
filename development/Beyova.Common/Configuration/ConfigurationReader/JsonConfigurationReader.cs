@@ -35,7 +35,7 @@ namespace Beyova
         internal JsonConfigurationReader(string sourceAssembly, string coreVersion, string readerType, BeyovaLocalConfigurationOptions options, IDataSecurityProvider dataSecurityProvider = null)
             : base(sourceAssembly, coreVersion, readerType, false)
         {
-            this.Options = options;
+            Options = options;
         }
 
         #region Initialization
@@ -60,12 +60,14 @@ namespace Beyova
                     var localRaw = one.Value.ToObject<LocalConfigurationRawItem>();
                     localRaw.Key = one.Name;
 
-                    var rawItem = new ConfigurationRawItem(localRaw);
-                    rawItem.Value = (localRaw.Encrypted ?? false) ?
+                    var rawItem = new ConfigurationRawItem(localRaw)
+                    {
+                        Value = (localRaw.Encrypted ?? false) ?
                         Framework.DataSecurityProvider.DecryptFromString<string>(localRaw.Value.ToObject<string>()) :
-                        (localRaw.Value.Type == JTokenType.String ? localRaw.Value.ToObject<string>() : localRaw.Value.ToString());
+                        (localRaw.Value.Type == JTokenType.String ? localRaw.Value.ToObject<string>() : localRaw.Value.ToString())
+                    };
 
-                    FillObjectCollection(container, this.CoreComponentVersion, rawItem, this.SourceAssembly, this.ReaderType, throwException);
+                    FillObjectCollection(container, CoreComponentVersion, rawItem, SourceAssembly, ReaderType, throwException);
                 }
             }
             catch (Exception ex)
@@ -133,7 +135,7 @@ namespace Beyova
         /// <returns>Dictionary&lt;System.String, ConfigurationItem&gt;.</returns>
         protected override Dictionary<string, RuntimeConfigurationItem> Initialize(bool throwException = false)
         {
-            return InitializeByOptions(this.Options);
+            return InitializeByOptions(Options);
         }
 
         #endregion Initialization

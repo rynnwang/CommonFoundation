@@ -73,9 +73,9 @@ namespace Beyova.Web
         /// <returns><c>true</c> if equals, <c>false</c> otherwise.</returns>
         public bool Equals(string actionName, string controllerName, string areaName)
         {
-            return string.Equals(actionName, this.ActionName, StringComparison.InvariantCultureIgnoreCase)
-                          && string.Equals(controllerName, this.ControllerName, StringComparison.InvariantCultureIgnoreCase)
-                          && string.Equals(areaName, this.AreaName, StringComparison.InvariantCultureIgnoreCase);
+            return string.Equals(actionName, ActionName, StringComparison.InvariantCultureIgnoreCase)
+                          && string.Equals(controllerName, ControllerName, StringComparison.InvariantCultureIgnoreCase)
+                          && string.Equals(areaName, AreaName, StringComparison.InvariantCultureIgnoreCase);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace Beyova.Web
         /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
         public override int GetHashCode()
         {
-            return (this.ActionName.SafeToString().ToLowerInvariant()
-                + this.ControllerName.SafeToString().ToLowerInvariant()
-                + this.AreaName.SafeToString().ToLowerInvariant()).GetHashCode();
+            return (ActionName.SafeToString().ToLowerInvariant()
+                + ControllerName.SafeToString().ToLowerInvariant()
+                + AreaName.SafeToString().ToLowerInvariant()).GetHashCode();
         }
     }
 }

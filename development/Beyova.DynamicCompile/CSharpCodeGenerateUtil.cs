@@ -17,7 +17,7 @@ namespace Beyova
         /// <summary>
         /// The non variable charactor
         /// </summary>
-        static Regex nonVariableCharactor = new Regex("^[A-Za-z0-9_]", RegexOptions.Compiled);
+        private static Regex nonVariableCharactor = new Regex("^[A-Za-z0-9_]", RegexOptions.Compiled);
 
         /// <summary>
         /// Reformats the name of the variable.
@@ -45,7 +45,7 @@ namespace Beyova
         /// <summary>
         /// The variable specification regex. Start with _ or alphabet, and _+alphabet+numeric
         /// </summary>
-        static Regex VariableSpecificationRegex = new Regex("^[_a-zA-Z]([_a-zA-Z0-9]+)?$", RegexOptions.Compiled);
+        private static Regex VariableSpecificationRegex = new Regex("^[_a-zA-Z]([_a-zA-Z0-9]+)?$", RegexOptions.Compiled);
 
         /// <summary>
         /// Potentiallies the meet variable specification.

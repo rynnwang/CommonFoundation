@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using Beyova.Api.RestApi;
-using Beyova.ApiTracking;
+using Beyova.Diagnostic;
 using Beyova.Http;
 
 namespace Beyova.Api
@@ -17,7 +17,7 @@ namespace Beyova.Api
         /// The _current
         /// </summary>
         [ThreadStatic]
-        private static ApiTraceLogPiece _current;
+        private static ApiTraceStep _current;
 
         /// <summary>
         /// The _root
@@ -74,12 +74,18 @@ namespace Beyova.Api
         {
             if (!string.IsNullOrWhiteSpace(traceId))
             {
-                _root = new ApiTraceLog(entryStamp: entryStamp)
+                if (!entryStamp.HasValue)
+                {
+                    entryStamp = DateTime.UtcNow;
+                }
+
+                _root = new ApiTraceLog()
                 {
                     TraceId = traceId,
-                    TraceSequence = traceSequence.HasValue ? (traceSequence.Value + 1) : 0
+                    TraceSequence = traceSequence.HasValue ? (traceSequence.Value + 1) : 0,
+                    EntryStamp = entryStamp
                 };
-                var current = new ApiTraceLogPiece(_root, methodName, entryStamp);
+                var current = new ApiTraceStep(_root, methodName, entryStamp);
                 _root.InnerTraces.Add(current);
                 _current = current;
             }
@@ -132,7 +138,7 @@ namespace Beyova.Api
         /// <param name="setNameAsMajor">The set name as major.</param>
         public static void Enter(string prefix = null, [CallerMemberName] string methodName = null, bool setNameAsMajor = false)
         {
-            Enter(new ApiTraceLogPiece(_current, string.IsNullOrWhiteSpace(prefix) ? methodName : string.Format("{0}.{1}", prefix, methodName), DateTime.UtcNow), setNameAsMajor);
+            Enter(new ApiTraceStep(_current, string.IsNullOrWhiteSpace(prefix) ? methodName : string.Format("{0}.{1}", prefix, methodName), DateTime.UtcNow), setNameAsMajor);
         }
 
         /// <summary>
@@ -143,7 +149,7 @@ namespace Beyova.Api
         /// <param name="setNameAsMajor">The set name as major.</param>
         internal static void Enter(RuntimeContext context, DateTime? entryStamp = null, bool setNameAsMajor = false)
         {
-            Enter(context.ToTraceLog(_current, entryStamp ?? DateTime.UtcNow), setNameAsMajor);
+            Enter(context.ToApiTraceStep(_current, entryStamp ?? DateTime.UtcNow), setNameAsMajor);
         }
 
         ///// <summary>
@@ -160,17 +166,17 @@ namespace Beyova.Api
         /// <summary>
         /// Enters the specified trace log.
         /// </summary>
-        /// <param name="traceLog">The trace log.</param>
+        /// <param name="traceStep">The trace step.</param>
         /// <param name="setNameAsMajor">The set name as major.</param>
-        internal static void Enter(ApiTraceLogPiece traceLog, bool setNameAsMajor = false)
+        internal static void Enter(ApiTraceStep traceStep, bool setNameAsMajor = false)
         {
-            if (traceLog != null)
+            if (traceStep != null)
             {
                 if (_root != null)
                 {
-                    traceLog.Parent = _current;
-                    _current.InnerTraces.Add(traceLog);
-                    _current = traceLog;
+                    traceStep.Parent = _current;
+                    _current.InnerTraces.Add(traceStep);
+                    _current = traceStep;
 
                     if (setNameAsMajor && !string.IsNullOrWhiteSpace(_current.MethodFullName))
                     {
@@ -264,16 +270,16 @@ namespace Beyova.Api
         /// <summary>
         /// Fills the exit information.
         /// </summary>
-        /// <param name="piece">The piece.</param>
+        /// <param name="step">The piece.</param>
         /// <param name="exceptionKey">The exception key.</param>
         /// <param name="exitStamp">The exit stamp.</param>
-        private static void Exit(ApiTraceLogPiece piece, Guid? exceptionKey, DateTime? exitStamp = null)
+        private static void Exit(ApiTraceStep step, Guid? exceptionKey, DateTime? exitStamp = null)
         {
-            if (piece != null)
+            if (step != null)
             {
-                piece.ExceptionKey = exceptionKey;
-                piece.ExitStamp = exitStamp ?? DateTime.UtcNow;
-                _current = piece.Parent;
+                step.ExceptionKey = exceptionKey;
+                step.ExitStamp = exitStamp ?? DateTime.UtcNow;
+                _current = step.Parent;
             }
 
             if (_root != null && !_root.ExceptionKey.HasValue)

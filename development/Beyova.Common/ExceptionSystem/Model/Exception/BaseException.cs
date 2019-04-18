@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class BaseException.
@@ -68,15 +68,15 @@ namespace Beyova.ExceptionSystem
         protected BaseException(string message, ExceptionCode code, Exception innerException = null, object data = null, FriendlyHint hint = null, ExceptionScene scene = null)
             : base(message, innerException)
         {
-            this.Code = code;
-            this.OperatorCredential = Framework.GetCurrentOperatorCredential?.Invoke();
-            this.ReferenceData = data == null ? null : JToken.FromObject(data);
-            this.Scene = scene;
-            this.CreatedStamp = DateTime.UtcNow;
+            Code = code;
+            OperatorCredential = Framework.GetCurrentOperatorCredential?.Invoke();
+            ReferenceData = data == null ? null : JToken.FromObject(data);
+            Scene = scene;
+            CreatedStamp = DateTime.UtcNow;
 
             var inner = innerException as BaseException;
-            this.Key = inner == null ? Guid.NewGuid() : inner.Key;
-            this.Hint = hint ?? inner?.Hint;
+            Key = inner == null ? Guid.NewGuid() : inner.Key;
+            Hint = hint ?? inner?.Hint;
         }
 
         /// <summary>
@@ -94,13 +94,13 @@ namespace Beyova.ExceptionSystem
         protected BaseException(Guid key, DateTime createdStamp, string message, ExceptionScene scene, ExceptionCode code, Exception innerException, BaseCredential operatorCredential, JToken data, FriendlyHint hint)
                      : base(message, innerException)
         {
-            this.Key = key;
-            this.CreatedStamp = createdStamp;
-            this.Scene = scene;
-            this.Code = code;
-            this.OperatorCredential = operatorCredential as BaseCredential;
-            this.ReferenceData = data;
-            this.Hint = hint;
+            Key = key;
+            CreatedStamp = createdStamp;
+            Scene = scene;
+            Code = code;
+            OperatorCredential = operatorCredential as BaseCredential;
+            ReferenceData = data;
+            Hint = hint;
         }
 
         #endregion Constructor
@@ -110,7 +110,7 @@ namespace Beyova.ExceptionSystem
         /// </summary>
         public void ResetNewKey()
         {
-            this.Key = Guid.NewGuid();
+            Key = Guid.NewGuid();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Beyova.Api
         public TokenRequiredAttribute(bool tokenRequired = true)
             : base()
         {
-            this.TokenRequired = tokenRequired;
+            TokenRequired = tokenRequired;
         }
     }
 }

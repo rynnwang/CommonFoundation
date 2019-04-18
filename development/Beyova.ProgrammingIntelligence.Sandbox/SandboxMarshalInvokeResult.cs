@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -39,8 +39,8 @@ namespace Beyova
                     type = value.GetType();
                 }
             }
-            this.Type = type.GetFullName();
-            this.Value = value.ToJson();
+            Type = type.GetFullName();
+            Value = value.ToJson();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Beyova
         /// <param name="exceptionInfo">The exception information.</param>
         public void SetException(ExceptionInfo exceptionInfo)
         {
-            this.ExceptionInfo = exceptionInfo?.ToJson();
+            ExceptionInfo = exceptionInfo?.ToJson();
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Beyova.ApiTracking;
 using Beyova.Cache;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -113,38 +113,36 @@ namespace Beyova.Api.RestApi
         /// <param name="isTokenRequired">if set to <c>true</c> [is token required].</param>
         /// <param name="moduleName">Name of the module.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="isDataSensitive">if set to <c>true</c> [is data sensitive].</param>
         /// <param name="setting">The setting.</param>
         /// <param name="apiCacheAttribute">The API cache attribute.</param>
         /// <param name="omitApiTracking">The omit API tracking.</param>
         /// <param name="permissions">The permissions.</param>
         /// <param name="headerKeys">The header keys.</param>
-        public RuntimeRoute(ApiRouteIdentifier routeIdentifier, MethodInfo methodInfo, Type instanceType, object instance, bool isActionUsed, bool isTokenRequired, string moduleName, string contentType, bool isDataSensitive, RestApiSettings setting, ApiCacheAttribute apiCacheAttribute, OmitApiTrackingAttribute omitApiTracking, IDictionary<string, ApiPermission> permissions = null, List<string> headerKeys = null) : this()
+        public RuntimeRoute(ApiRouteIdentifier routeIdentifier, MethodInfo methodInfo, Type instanceType, object instance, bool isActionUsed, bool isTokenRequired, string moduleName, string contentType, RestApiSettings setting, ApiCacheAttribute apiCacheAttribute, OmitApiTrackingAttribute omitApiTracking, IDictionary<string, ApiPermissionAttribute> permissions = null, List<string> headerKeys = null) : this()
         {
-            this.ApiMethod = methodInfo;
-            this.ApiInstance = instance;
-            this.IsActionUsed = isActionUsed;
-            this.InstanceType = instanceType;
-            this.Setting = setting;
-            this.OmitApiTracking = omitApiTracking;
+            ApiMethod = methodInfo;
+            ApiInstance = instance;
+            IsActionUsed = isActionUsed;
+            InstanceType = instanceType;
+            Setting = setting;
+            OmitApiTracking = omitApiTracking;
 
-            this.OperationParameters = new RuntimeApiOperationParameters
+            OperationParameters = new RuntimeApiOperationParameters
             {
                 ContentType = contentType,
                 IsTokenRequired = isTokenRequired,
-                IsDataSensitive = isDataSensitive,
                 CustomizedHeaderKeys = headerKeys,
                 Permissions = permissions,
                 ModuleName = moduleName
             };
 
-            this.ApiRouteIdentifier = routeIdentifier;
-            this.IsVoid = this.ApiMethod?.ReturnType?.IsVoid();
+            ApiRouteIdentifier = routeIdentifier;
+            IsVoid = ApiMethod?.ReturnType?.IsVoid();
 
             if (apiCacheAttribute != null)
             {
-                this.ApiCacheAttribute = apiCacheAttribute;
-                this.ApiCacheContainer = apiCacheAttribute.CacheContainer ?? new ApiCacheContainer(routeIdentifier.ToString(), apiCacheAttribute.CacheParameter);
+                ApiCacheAttribute = apiCacheAttribute;
+                ApiCacheContainer = apiCacheAttribute.CacheContainer ?? new ApiCacheContainer(routeIdentifier.ToString(), apiCacheAttribute.CacheParameter);
             }
         }
 
@@ -154,7 +152,7 @@ namespace Beyova.Api.RestApi
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return this.ApiMethod == null ? (InstanceType == null ? string.Empty : InstanceType.FullName) : ApiMethod.GetFullName();
+            return ApiMethod == null ? (InstanceType == null ? string.Empty : InstanceType.FullName) : ApiMethod.GetFullName();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Web
 {

@@ -11,7 +11,7 @@ namespace Beyova.Api.RestApi
         /// <summary>
         /// The default setting name
         /// </summary>
-        const string defaultSettingName = "default";
+        private const string defaultSettingName = "default";
 
         /// <summary>
         /// The default rest API settings

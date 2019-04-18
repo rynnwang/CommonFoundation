@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Beyova.Http;
 using Newtonsoft.Json.Linq;
 
@@ -45,7 +45,7 @@ namespace Beyova.Api.RestApi
         /// <param name="methodNameForTrace">The method name for trace.</param>
         public void InvokeAsVoid(string realm, string version, string httpMethod, string resourceName, string resourceAction, string key = null, Dictionary<string, string> queryString = null, string bodyJson = null, [CallerMemberName] string methodNameForTrace = null)
         {
-            InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key, queryString, bodyJson, this.Timeout, methodNameForTrace);
+            InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key, queryString, bodyJson, Timeout, methodNameForTrace);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Beyova.Api.RestApi
         /// <returns>JToken.</returns>
         public JToken Invoke(string realm, string version, string httpMethod, string resourceName, string resourceAction, string key = null, Dictionary<string, string> queryString = null, string bodyJson = null, [CallerMemberName] string methodNameForTrace = null)
         {
-            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key, queryString, bodyJson, this.Timeout, methodNameForTrace);
+            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key, queryString, bodyJson, Timeout, methodNameForTrace);
         }
 
         #endregion Common usage
@@ -83,7 +83,7 @@ namespace Beyova.Api.RestApi
         /// <returns>JToken.</returns>
         protected JToken InvokeUsingQueryString(string realm, string version, string httpMethod, string resourceName, string resourceAction, string parameter = null, [CallerMemberName] string methodNameForTrace = null)
         {
-            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key: parameter, timeout: this.Timeout, methodNameForTrace: methodNameForTrace);
+            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, key: parameter, timeout: Timeout, methodNameForTrace: methodNameForTrace);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Beyova.Api.RestApi
         /// <returns>JToken.</returns>
         protected JToken InvokeUsingCombinedQueryString(string realm, string version, string httpMethod, string resourceName, string resourceAction, Dictionary<string, string> parameters, [CallerMemberName] string methodNameForTrace = null)
         {
-            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, queryString: parameters, timeout: this.Timeout, methodNameForTrace: methodNameForTrace);
+            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, queryString: parameters, timeout: Timeout, methodNameForTrace: methodNameForTrace);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Beyova.Api.RestApi
         /// <returns>JToken.</returns>
         protected JToken InvokeUsingBody(string realm, string version, string httpMethod, string resourceName, string resourceAction, object parameter, [CallerMemberName] string methodNameForTrace = null)
         {
-            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, bodyJson: parameter.ToJson(), timeout: this.Timeout, methodNameForTrace: methodNameForTrace);
+            return InvokeAsJToken(realm, version, httpMethod, resourceName, resourceAction, bodyJson: parameter.ToJson(), timeout: Timeout, methodNameForTrace: methodNameForTrace);
         }
 
         /// <summary>

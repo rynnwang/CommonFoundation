@@ -31,7 +31,7 @@ namespace Beyova
         /// <param name="destinationPath">The destination path.</param>
         public ZipFileContainer(string destinationPath) : base()
         {
-            this.DestinationPath = destinationPath;
+            DestinationPath = destinationPath;
             destinationPath.EnsureFileDirectoryExistence();
         }
 
@@ -41,7 +41,7 @@ namespace Beyova
         /// <param name="destination">The destination.</param>
         public ZipFileContainer(Stream destination) : base()
         {
-            this.DestinationStream = destination;
+            DestinationStream = destination;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Beyova
 
                 using (var archive = new ZipArchive(destination, ZipArchiveMode.Create, true))
                 {
-                    foreach (var current in this._data)
+                    foreach (var current in _data)
                     {
                         currentPath = current.Key;
 
@@ -76,9 +76,9 @@ namespace Beyova
                     }
                     else
                     {
-                        if (!string.IsNullOrWhiteSpace(this.DestinationPath))
+                        if (!string.IsNullOrWhiteSpace(DestinationPath))
                         {
-                            destination.SaveTo(this.DestinationPath);
+                            destination.SaveTo(DestinationPath);
                         }
 
                         destination.Dispose();

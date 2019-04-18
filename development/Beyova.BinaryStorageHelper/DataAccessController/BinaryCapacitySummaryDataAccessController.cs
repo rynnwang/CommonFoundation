@@ -66,7 +66,7 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_OwnerKey, criteria.OwnerKey)
                 };
 
-                return this.ExecuteReader(spName, parameters).FirstOrDefault();
+                return ExecuteReader(spName, parameters).FirstOrDefault();
             }
             catch (Exception ex)
             {

@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Beyova.Http;
 using Newtonsoft.Json.Linq;
 
@@ -156,7 +156,7 @@ namespace Beyova.Api.RestApi
 
                 ApiTraceContext.WriteHttpRequestRaw(httpRequestRaw);
 
-                var response = await httpRequestRaw.ToHttpRequestMessage().ReadResponseAsObject<JToken>(this._client);
+                var response = await httpRequestRaw.ToHttpRequestMessage().ReadResponseAsObject<JToken>(_client);
                 if (response.HttpStatusCode == HttpStatusCode.NoContent)
                 {
                     return null;

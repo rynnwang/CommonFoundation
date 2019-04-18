@@ -12,7 +12,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\DataSecurityRequiredAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSharpCodeGenerator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)DynamicCompiling\" />
-  </ItemGroup>
 </Project>

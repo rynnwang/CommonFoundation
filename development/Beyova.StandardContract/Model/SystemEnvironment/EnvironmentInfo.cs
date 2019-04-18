@@ -41,7 +41,7 @@ namespace Beyova
         /// </summary>
         public EnvironmentInfo()
         {
-            this.AssemblyVersion = new Dictionary<string, object>();
+            AssemblyVersion = new Dictionary<string, object>();
         }
 
         /// <summary>

@@ -103,7 +103,7 @@ namespace Beyova
 
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            foreach (var one in this.dynamicShards)
+            foreach (var one in dynamicShards)
             {
                 data.Add(one, match.Result(string.Format(placeHolderFormat, one)));
             }

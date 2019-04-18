@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {

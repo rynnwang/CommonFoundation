@@ -1,19 +1,21 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace Beyova
 {
     /// <summary>
     /// Class BinaryStorageMetaData.
     /// </summary>
-    public class BinaryStorageMetaData : BinaryStorageMetaBase, IOwnerIdentifiable
+    public class BinaryStorageMetaData : BinaryStorageMetaBase, IOwnerIdentifiable, IKVMetaExtensible
     {
         /// <summary>
         /// Gets or sets the hash.
         /// </summary>
         /// <value>The hash.</value>
         [JsonProperty(PropertyName = "hash")]
-        public string Hash { get; set; }
+        public CryptoKey Hash { get; set; }
 
         /// <summary>
         /// Gets or sets the created stamp.
@@ -51,6 +53,15 @@ namespace Beyova
         public Guid? OwnerKey { get; set; }
 
         /// <summary>
+        /// Gets or sets the kv meta.
+        /// </summary>
+        /// <value>
+        /// The kv meta.
+        /// </value>
+        [JsonProperty(PropertyName = "kvMeta")]
+        public Dictionary<string, JValue> KVMeta { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="BinaryStorageMetaData" /> class.
         /// </summary>
         public BinaryStorageMetaData() : base()
@@ -65,8 +76,8 @@ namespace Beyova
         {
             if (identifier != null)
             {
-                this.Container = identifier.Container;
-                this.Identifier = identifier.Identifier;
+                Container = identifier.Container;
+                Identifier = identifier.Identifier;
             }
         }
     }

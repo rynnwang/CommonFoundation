@@ -1,4 +1,4 @@
-﻿namespace Beyova.ApiTracking
+﻿namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Interface IGroupByResult

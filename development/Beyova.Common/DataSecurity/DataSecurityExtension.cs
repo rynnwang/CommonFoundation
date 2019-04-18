@@ -10,7 +10,7 @@ namespace Beyova
         /// <summary>
         /// The encoding
         /// </summary>
-        static private Encoding encoding = Encoding.UTF8;
+        private static Encoding encoding = Encoding.UTF8;
 
         /// <summary>
         /// Encrypts the specified object.

@@ -33,26 +33,18 @@ namespace Beyova.Api.RestApi
         public string ContentType { get; protected set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is data sensitive. When it is set as true, EventLog would not log inbound/outbound body.
-        /// </summary>
-        /// <value><c>true</c> if this instance is data sensitive; otherwise, <c>false</c>.</value>
-        public bool IsDataSensitive { get; protected set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ApiOperationAttribute" /> class.
         /// </summary>
         /// <param name="resourceName">The type.</param>
         /// <param name="httpMethod">The HTTP method.</param>
         /// <param name="action">The action.</param>
         /// <param name="contentType">Type of the content.</param>
-        /// <param name="isDataSensitive">if set to <c>true</c> [is data sensitive].</param>
-        public ApiOperationAttribute(string resourceName, string httpMethod, string action = null, string contentType = null, bool isDataSensitive = false)
+        public ApiOperationAttribute(string resourceName, string httpMethod, string action = null, string contentType = null)
         {
-            this.ResourceName = resourceName;
-            this.HttpMethod = httpMethod;
-            this.Action = action;
-            this.ContentType = contentType.SafeToString(HttpConstants.ContentType.Json);
-            this.IsDataSensitive = isDataSensitive;
+            ResourceName = resourceName;
+            HttpMethod = httpMethod;
+            Action = action;
+            ContentType = contentType.SafeToString(HttpConstants.ContentType.Json);
         }
 
         #region Hidden feature. Keep for future.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Beyova.ExceptionSystem
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class InvalidExpressiontException.

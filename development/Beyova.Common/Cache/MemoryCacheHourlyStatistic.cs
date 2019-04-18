@@ -70,8 +70,8 @@ namespace Beyova.Cache
         /// <param name="expriedStamp">The expried stamp.</param>
         internal MemoryCacheHourlyStatistic(string hourIdentifier, DateTime expriedStamp)
         {
-            this.HourIdentifier = hourIdentifier;
-            this.ExpriedStamp = expriedStamp;
+            HourIdentifier = hourIdentifier;
+            ExpriedStamp = expriedStamp;
         }
 
         /// <summary>
@@ -81,14 +81,14 @@ namespace Beyova.Cache
         /// <param name="isHit">if set to <c>true</c> [is hit].</param>
         public void AddHit(bool isFailure, bool isHit)
         {
-            this.TotalAttemptCount++;
+            TotalAttemptCount++;
             if (isFailure)
             {
-                this.FailurRetrievalCount++;
+                FailurRetrievalCount++;
             }
             if (isHit)
             {
-                this.HitAttemptCount++;
+                HitAttemptCount++;
             }
         }
     }

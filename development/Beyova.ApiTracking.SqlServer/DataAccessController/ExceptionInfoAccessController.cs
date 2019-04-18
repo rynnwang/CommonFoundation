@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Beyova.ExceptionSystem;
 
 namespace Beyova.ApiTracking.SqlServer
 {
     /// <summary>
     ///
     /// </summary>
-    public class ExceptionInfoAccessController : ApiLogBaseAccessController<ExceptionInfo>
+    public class ExceptionInfoAccessController : GlobalApiUniqueIdentifierAccessController<ExceptionInfo>
     {
         #region Constructor
 
@@ -47,39 +48,42 @@ namespace Beyova.ApiTracking.SqlServer
         /// <returns></returns>
         protected override ExceptionInfo ConvertEntityObject(SqlDataReader sqlDataReader)
         {
-            var result = new ExceptionInfo
-            {
-                Key = sqlDataReader[column_Key].ObjectToGuid(),
-                OperatorCredential = sqlDataReader[column_OperatorCredential].ObjectToJToken().ToObject<BaseCredential>(),
-
-                //ApiFullName = sqlDataReader[column_ApiFullName].ObjectToString(),
-                //ClientIdentifier = sqlDataReader[column_ClientIdentifier].ObjectToString(),
-                //Content = sqlDataReader[column_Content].ObjectToString(),
-                //ContentLength = sqlDataReader[column_ContentLength].ObjectToNullableInt64(),
-                //CultureCode = sqlDataReader[column_CultureCode].ObjectToString(),
-                //DeviceType = sqlDataReader[column_DeviceType].ObjectToNullableEnum<DeviceType>(),
-                //Duration = sqlDataReader[column_Duration].ObjectToNullableInt32(),
-                //EntryStamp = sqlDataReader[column_EntryStamp].ObjectToDateTime(),
-                //ExceptionKey = sqlDataReader[column_ExceptionKey].ObjectToGuid(),
-                //HitApiCache = sqlDataReader[column_HitApiCache].ObjectToBoolean(),
-                //IpAddress = sqlDataReader[column_IpAddress].ObjectToString(),
-
-                //ModuleName = sqlDataReader[column_ModuleName].ObjectToString(),
-
-                //Platform = sqlDataReader[column_Platform].ObjectToNullableEnum<PlatformType>(),
-                //Protocol = sqlDataReader[column_Protocol].ObjectToString(),
-                //ResourceEntityKey = sqlDataReader[column_ResourceEntityKey].ObjectToString(),
-                //ResourceName = sqlDataReader[column_ResourceName].ObjectToString(),
-                //ExitStamp = sqlDataReader[column_ExitStamp].ObjectToDateTime(),
-                //ReferrerUrl = sqlDataReader[column_ReferrerUrl].ObjectToString(),
-                //TraceId = sqlDataReader[column_TraceId].ObjectToString(),
-                //UIElementId = sqlDataReader[column_UIElementId].ObjectToString(),
-                //UserAgent = sqlDataReader[column_UserAgent].ObjectToString(),
-            };
-
-            FillApiLogData(result, sqlDataReader);
-
+            var result = new ExceptionInfo();
+            FillExceptionInfo(result, sqlDataReader, false);
             return result;
+        }
+
+        /// <summary>
+        /// Fills the exception information.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        /// <param name="simpleMode">if set to <c>true</c> [simple mode].</param>
+        protected void FillExceptionInfo(ExceptionInfo exception, SqlDataReader sqlDataReader, bool simpleMode = false)
+        {
+            if (exception != null && sqlDataReader != null)
+            {
+                exception.Key = sqlDataReader[column_Key].ObjectToGuid();
+                exception.OperatorCredential = sqlDataReader[column_OperatorCredential].ObjectToJToken().ToObject<BaseCredential>();
+                exception.Code = new ExceptionCode
+                {
+                    Major = sqlDataReader[column_MajorCode].ObjectToEnum<ExceptionCode.MajorCode>(),
+                    Minor = sqlDataReader[column_MinorCode].ObjectToString()
+                };
+                exception.RawUrl = sqlDataReader[column_RawUrl].ObjectToString();
+                exception.Message = sqlDataReader[column_Message].ObjectToString();
+                exception.TargetSite = sqlDataReader[column_TargetSite].ObjectToString();
+                exception.StackTrace = sqlDataReader[column_StackTrace].ObjectToString();
+                exception.ExceptionType = sqlDataReader[column_ExceptionType].ObjectToString();
+                exception.Source = simpleMode ? null : sqlDataReader[column_Source].ObjectToString();
+                exception.EventKey = sqlDataReader[column_EventKey].ObjectToString();
+                exception.InnerException = simpleMode ? null : sqlDataReader[column_InnerException].ObjectToJsonObject<ExceptionInfo>();
+                exception.Data = simpleMode ? null : sqlDataReader[column_Data].ObjectToJsonObject<JToken>();
+                exception.Scene = simpleMode ? null : sqlDataReader[column_Scene].ObjectToJsonObject<ExceptionScene>();
+                exception.CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime();
+
+                FillGlobalApiUniqueIdentifier(exception, sqlDataReader);
+            }
         }
 
         #endregion Constructor
@@ -99,27 +103,27 @@ namespace Beyova.ApiTracking.SqlServer
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_MajorCode,(exceptionInfo.Code?.Major).EnumToInt32()),
-                    this.GenerateSqlSpParameter(column_MinorCode, exceptionInfo.Code?.Minor),
-                    this.GenerateSqlSpParameter(column_ServiceIdentifier, exceptionInfo.ServiceIdentifier),
-                    this.GenerateSqlSpParameter(column_ServerIdentifier, exceptionInfo.ServerIdentifier),
-                    this.GenerateSqlSpParameter(column_ServerHost, exceptionInfo.ServerHost),
-                    this.GenerateSqlSpParameter(column_RawUrl, exceptionInfo.RawUrl),
-                    this.GenerateSqlSpParameter(column_Message, exceptionInfo.Message),
-                    this.GenerateSqlSpParameter(column_TargetSite, exceptionInfo.TargetSite),
-                    this.GenerateSqlSpParameter(column_StackTrace, exceptionInfo.StackTrace),
-                    this.GenerateSqlSpParameter(column_ExceptionType, exceptionInfo.ExceptionType),
-                    this.GenerateSqlSpParameter(column_Level, exceptionInfo.Level.EnumToInt32()),
-                    this.GenerateSqlSpParameter(column_Source, exceptionInfo.Source),
-                    this.GenerateSqlSpParameter(column_EventKey, exceptionInfo.EventKey),
-                    this.GenerateSqlSpParameter(column_OperatorCredential, exceptionInfo.OperatorCredential.ToJson(false)),
-                    this.GenerateSqlSpParameter(column_InnerException, exceptionInfo.InnerException.ToJson(false)),
-                    this.GenerateSqlSpParameter(column_Data, exceptionInfo.Data.ToJson(false)),
-                    this.GenerateSqlSpParameter(column_Scene, exceptionInfo.Scene.ToJson(false)),
-                    this.GenerateSqlSpParameter(column_Hint, exceptionInfo.Hint.ToJson(false)),
+                    GenerateSqlSpParameter(column_MajorCode,(exceptionInfo.Code?.Major).EnumToInt32()),
+                    GenerateSqlSpParameter(column_MinorCode, exceptionInfo.Code?.Minor),
+                    GenerateSqlSpParameter(column_ServiceIdentifier, exceptionInfo.ServiceIdentifier),
+                    GenerateSqlSpParameter(column_ServerIdentifier, exceptionInfo.ServerIdentifier),
+                    GenerateSqlSpParameter(column_HttpMethod, exceptionInfo.HttpMethod),
+                    GenerateSqlSpParameter(column_Path, exceptionInfo.Path),
+                    GenerateSqlSpParameter(column_RawUrl, exceptionInfo.RawUrl),
+                    GenerateSqlSpParameter(column_Message, exceptionInfo.Message),
+                    GenerateSqlSpParameter(column_TargetSite, exceptionInfo.TargetSite),
+                    GenerateSqlSpParameter(column_StackTrace, exceptionInfo.StackTrace),
+                    GenerateSqlSpParameter(column_ExceptionType, exceptionInfo.ExceptionType),
+                    GenerateSqlSpParameter(column_Source, exceptionInfo.Source),
+                    GenerateSqlSpParameter(column_EventKey, exceptionInfo.EventKey),
+                    GenerateSqlSpParameter(column_OperatorCredential, ToSqlJson(exceptionInfo.OperatorCredential)),
+                    GenerateSqlSpParameter(column_InnerException,ToSqlJson(exceptionInfo.InnerException)),
+                    GenerateSqlSpParameter(column_Data,ToSqlJson( exceptionInfo.Data)),
+                    GenerateSqlSpParameter(column_Scene, ToSqlJson(exceptionInfo.Scene)),
+                    GenerateSqlSpParameter(column_CreatedStamp, exceptionInfo.CreatedStamp)
                 };
 
-                return this.ExecuteScalar(spName, parameters).ObjectToGuid();
+                return ExecuteScalar(spName, parameters).ObjectToGuid();
             }
             catch (Exception ex)
             {
@@ -142,23 +146,29 @@ namespace Beyova.ApiTracking.SqlServer
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Key,criteria.Key),
-                    this.GenerateSqlSpParameter(column_MajorCode,criteria.MajorCode.EnumToInt32()),
-                    this.GenerateSqlSpParameter(column_MinorCode, criteria.MinorCode),
-                    this.GenerateSqlSpParameter(column_ServiceIdentifier, criteria.ServiceIdentifier),
-                    this.GenerateSqlSpParameter(column_ServerIdentifier, criteria.ServerIdentifier),
-                    this.GenerateSqlSpParameter(column_ServerHost, criteria.ServerHost),
-                    this.GenerateSqlSpParameter(column_RawUrl, criteria.RawUrl),
-                    this.GenerateSqlSpParameter(column_ExceptionType, criteria.ExceptionType),
-                    this.GenerateSqlSpParameter(column_EventKey, criteria.EventKey),
-                    this.GenerateSqlSpParameter(column_Keyword, criteria.Keyword),
-                    this.GenerateSqlSpParameter(column_OperatorCredential, criteria.OperatorCredential),
-                    this.GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
-                    this.GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp),
-                    this.GenerateSqlSpParameter(column_Count, criteria.Count)
+                    GenerateSqlSpParameter(column_Key,criteria.Key),
+                    GenerateSqlSpParameter(column_MajorCode,criteria.MajorCode.EnumToInt32()),
+                    GenerateSqlSpParameter(column_MinorCode, criteria.MinorCode),
+                    GenerateSqlSpParameter(column_ServiceIdentifier, criteria.ServiceIdentifier),
+                    GenerateSqlSpParameter(column_ServerIdentifier, criteria.ServerIdentifier),
+                    GenerateSqlSpParameter(column_HttpMethod, criteria.HttpMethod),
+                    GenerateSqlSpParameter(column_Path, criteria.Path),
+                    GenerateSqlSpParameter(column_RawUrl, criteria.RawUrl),
+                    GenerateSqlSpParameter(column_ExceptionType, criteria.ExceptionType),
+                    GenerateSqlSpParameter(column_EventKey, criteria.EventKey),
+                    GenerateSqlSpParameter(column_Keyword, criteria.Keyword),
+                    GenerateSqlSpParameter(column_OperatorCredential, criteria.OperatorCredential),
+                    GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
+                    GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp),
+                    GenerateSqlSpParameter(column_Count, criteria.Count)
                 };
 
-                return this.ExecuteReader(spName, parameters);
+                return ExecuteReader<ExceptionInfo>(spName, parameters, sqlDataReader =>
+                {
+                    var result = new ExceptionInfo();
+                    FillExceptionInfo(result, sqlDataReader, true);
+                    return result;
+                });
             }
             catch (Exception ex)
             {

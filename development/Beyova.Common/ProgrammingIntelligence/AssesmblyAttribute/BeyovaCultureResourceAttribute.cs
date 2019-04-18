@@ -26,7 +26,7 @@ namespace Beyova
         /// <param name="tryLanguageCompatibility">if set to <c>true</c> [try language compatibility].</param>
         public BeyovaCultureResourceAttribute(string cultureResourceDirectory, string resourceBaseName, string defaultCultureCode, bool tryLanguageCompatibility = true)
         {
-            this.UnderlyingObject = new BeyovaCultureResourceInfo(cultureResourceDirectory, resourceBaseName, defaultCultureCode, tryLanguageCompatibility);
+            UnderlyingObject = new BeyovaCultureResourceInfo(cultureResourceDirectory, resourceBaseName, defaultCultureCode, tryLanguageCompatibility);
         }
     }
 }

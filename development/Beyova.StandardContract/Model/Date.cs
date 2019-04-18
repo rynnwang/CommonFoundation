@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Beyova
@@ -6,6 +7,7 @@ namespace Beyova
     /// <summary>
     ///
     /// </summary>
+    [JsonConverter(typeof(DateConverter))]
     public struct Date : IComparable, IStringConvertable
     {
         private const string dateFormat2 = "yyyy/MM/dd";
@@ -43,9 +45,9 @@ namespace Beyova
         /// <param name="date">The date.</param>
         public Date(DateTime date)
         {
-            this.Year = date.Year;
-            this.Month = date.Month;
-            this.Day = date.Day;
+            Year = date.Year;
+            Month = date.Month;
+            Day = date.Day;
         }
 
         /// <summary>
@@ -56,6 +58,15 @@ namespace Beyova
         /// <param name="day">The day.</param>
         public Date(int year, int month, int day) : this(new DateTime(year, month, day, 0, 0, 0, kind))
         {
+        }
+
+        /// <summary>
+        /// Gets the day of week.
+        /// </summary>
+        /// <returns></returns>
+        public DayOfWeek GetDayOfWeek()
+        {
+            return ToDateTime().DayOfWeek;
         }
 
         /// <summary>
@@ -79,6 +90,172 @@ namespace Beyova
         public static bool operator ==(Date dateA, Date dateB)
         {
             return dateA.Year == dateB.Year && dateA.Month == dateB.Month && dateA.Day == dateB.Day;
+        }
+
+        /// <summary>
+        /// Implements the operator &gt;.
+        /// </summary>
+        /// <param name="dateA">The date a.</param>
+        /// <param name="dateB">The date b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >(Date dateA, Date dateB)
+        {
+            if (dateA.Year > dateB.Year)
+            {
+                return true;
+            }
+            else if (dateA.Year == dateB.Year)
+            {
+                if (dateA.Month > dateB.Month)
+                {
+                    return true;
+                }
+                else if (dateA.Month == dateB.Month)
+                {
+                    return dateA.Day > dateB.Day;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Implements the operator &gt;.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >(Date date, DateTime dateTime)
+        {
+            if (date.Year > dateTime.Year)
+            {
+                return true;
+            }
+            else if (date.Year == dateTime.Year)
+            {
+                if (date.Month > dateTime.Month)
+                {
+                    return true;
+                }
+                else if (date.Month == dateTime.Month)
+                {
+                    return date.Day > dateTime.Day;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Implements the operator &gt;=.
+        /// </summary>
+        /// <param name="dateA">The date a.</param>
+        /// <param name="dateB">The date b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >=(Date dateA, Date dateB)
+        {
+            return !(dateA < dateB);
+        }
+
+        /// <summary>
+        /// Implements the operator &gt;=.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >=(Date date, DateTime dateTime)
+        {
+            return !(date < dateTime);
+        }
+
+        /// <summary>
+        /// Implements the operator &lt;.
+        /// </summary>
+        /// <param name="dateA">The date a.</param>
+        /// <param name="dateB">The date b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <(Date dateA, Date dateB)
+        {
+            if (dateA.Year < dateB.Year)
+            {
+                return true;
+            }
+            else if (dateA.Year == dateB.Year)
+            {
+                if (dateA.Month < dateB.Month)
+                {
+                    return true;
+                }
+                else if (dateA.Month == dateB.Month)
+                {
+                    return dateA.Day < dateB.Day;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Implements the operator &lt;.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <(Date date, DateTime dateTime)
+        {
+            if (date.Year < dateTime.Year)
+            {
+                return true;
+            }
+            else if (date.Year == dateTime.Year)
+            {
+                if (date.Month < dateTime.Month)
+                {
+                    return true;
+                }
+                else if (date.Month == dateTime.Month)
+                {
+                    return date.Day < dateTime.Day;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Implements the operator &lt;=.
+        /// </summary>
+        /// <param name="dateA">The date a.</param>
+        /// <param name="dateB">The date b.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <=(Date dateA, Date dateB)
+        {
+            return !(dateA > dateB);
+        }
+
+        /// <summary>
+        /// Implements the operator &lt;=.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <=(Date date, DateTime dateTime)
+        {
+            return !(date > dateTime);
         }
 
         /// <summary>
@@ -118,6 +295,19 @@ namespace Beyova
         public static Date operator +(Date date, int addDays)
         {
             return addDays == 0 ? date : new Date(ToDateTime(date, kind).AddDays(addDays));
+        }
+
+        /// <summary>
+        /// Implements the operator -.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="minusDays">The minus days.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static Date operator -(Date date, int minusDays)
+        {
+            return date + (-1 * minusDays);
         }
 
         /// <summary>
@@ -213,7 +403,7 @@ namespace Beyova
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Year.GetHashCode() + this.Month.GetHashCode() + this.Day.GetHashCode();
+            return Year.GetHashCode() + Month.GetHashCode() + Day.GetHashCode();
         }
 
         /// <summary>
@@ -224,16 +414,16 @@ namespace Beyova
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}-{1}-{2}", this.Year.ToString("0000"), this.Month.ToString("00"), this.Day.ToString("00"));
+            return string.Format("{0}-{1}-{2}", Year.ToString("0000"), Month.ToString("00"), Day.ToString("00"));
         }
 
         /// <summary>
         /// To the date time.
         /// </summary>
         /// <returns></returns>
-        public DateTime ToDateTime()
+        public DateTime ToDateTime(DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            return ToDateTime(this, DateTimeKind.Unspecified);
+            return ToDateTime(this, kind);
         }
 
         /// <summary>
@@ -243,7 +433,19 @@ namespace Beyova
         /// <returns></returns>
         public int CompareTo(object obj)
         {
-            return this.ToDateTime().CompareTo(((Date)obj).ToDateTime());
+            return ToDateTime().CompareTo(((Date)obj).ToDateTime());
+        }
+
+        /// <summary>
+        /// Todays this instance.
+        /// </summary>
+        /// <returns></returns>
+        public static Date Today
+        {
+            get
+            {
+                return new Date(DateTime.Now);
+            }
         }
     }
 }

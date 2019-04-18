@@ -27,7 +27,7 @@ namespace Beyova
         /// <param name="source">The source.</param>
         internal GlobalCultureResourceCollection(string source)
         {
-            this.Source = source;
+            Source = source;
         }
 
         /// <summary>

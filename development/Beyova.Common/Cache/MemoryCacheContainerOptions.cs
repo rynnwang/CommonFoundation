@@ -44,7 +44,7 @@ namespace Beyova.Cache
         /// <returns></returns>
         public DateTime? GetExpiredStamp()
         {
-            return this.ExpirationInSecond.HasValue ? DateTime.UtcNow.AddSeconds(this.ExpirationInSecond.Value) as DateTime? : null;
+            return ExpirationInSecond.HasValue ? DateTime.UtcNow.AddSeconds(ExpirationInSecond.Value) as DateTime? : null;
         }
     }
 }

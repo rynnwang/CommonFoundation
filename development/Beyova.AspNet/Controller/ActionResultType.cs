@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.Web
+﻿namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public enum ActionResultType
     {

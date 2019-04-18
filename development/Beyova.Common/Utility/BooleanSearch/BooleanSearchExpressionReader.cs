@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.BooleanSearch
 {
@@ -62,7 +62,7 @@ namespace Beyova.BooleanSearch
         /// <param name="parenthesesDepth">The parentheses depth.</param>
         /// <param name="position">The position.</param>
         /// <returns>IBooleanComputable.</returns>
-        /// <exception cref="Beyova.ExceptionSystem.InvalidExpressiontException">
+        /// <exception cref="Beyova.Diagnostic.InvalidExpressiontException">
         /// </exception>
         private IBooleanComputable ExpectExpression(string input, ref int parenthesesDepth, ref int position)
         {
@@ -243,7 +243,7 @@ namespace Beyova.BooleanSearch
         /// <param name="input">The input.</param>
         /// <param name="position">The position.</param>
         /// <returns>System.Nullable&lt;ComputeOperator&gt;.</returns>
-        /// <exception cref="Beyova.ExceptionSystem.InvalidExpressiontException"></exception>
+        /// <exception cref="Beyova.Diagnostic.InvalidExpressiontException"></exception>
         private ComputeOperator? ExpectComputeOperator(string input, ref int position)
         {
             string operatorString = null;

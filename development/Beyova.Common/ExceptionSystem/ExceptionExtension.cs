@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -211,7 +211,7 @@ namespace Beyova
         /// <param name="sourceFilePath">The source file path.</param>
         /// <param name="sourceLineNumber">The source line number.</param>
         /// <returns>
-        /// Beyova.ExceptionSystem.BaseException.
+        /// Beyova.Diagnostic.BaseException.
         /// </returns>
         public static BaseException Handle(this Exception exception, object data = null, FriendlyHint hint = null, string minorCode = null,
                     [CallerMemberName] string operationName = null,
@@ -309,14 +309,14 @@ namespace Beyova
         /// </summary>
         /// <param name="exception">The exception.</param>
         /// <param name="key">The key.</param>
-        /// <param name="level">The level.</param>
         /// <param name="eventKey">The event key.</param>
         /// <returns>
         /// ExceptionInfo.
         /// </returns>
-        public static ExceptionInfo ToExceptionInfo(this Exception exception, Guid? key = null, ExceptionInfo.ExceptionCriticality level = ExceptionInfo.ExceptionCriticality.Error, string eventKey = null)
+        public static ExceptionInfo ToExceptionInfo(this Exception exception, Guid? key = null, string eventKey = null)
         {
-            if (exception != null)
+            var result = InternalToExceptionInfo(exception);
+            if (result != null)
             {
                 var baseException = exception as BaseException;
                 if (key == null)
@@ -324,30 +324,46 @@ namespace Beyova
                     key = baseException?.Key ?? Guid.NewGuid();
                 }
 
+                var uniqueIdentifier = ContextHelper.ApiContext.UniqueIdentifier;
+                result.ServerIdentifier = EnvironmentCore.MachineName;
+                result.ServiceIdentifier = EnvironmentCore.ProductName;
+                result.HttpMethod = uniqueIdentifier?.HttpMethod;
+                result.Path = uniqueIdentifier?.Path;
+                result.Key = key;
+                result.EventKey = eventKey;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Internals to exception information.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <returns></returns>
+        private static ExceptionInfo InternalToExceptionInfo(this Exception exception)
+        {
+            if (exception != null)
+            {
+                var baseException = exception as BaseException;
+
                 var exceptionInfo = new ExceptionInfo
                 {
                     ExceptionType = exception.GetType()?.GetFullName(),
-                    Level = level,
-                    ServerIdentifier = EnvironmentCore.MachineName,
-                    ServiceIdentifier = EnvironmentCore.ProductName,
-                    ServerHost = string.Format("{0} {1}", EnvironmentCore.LocalMachineHostName, EnvironmentCore.LocalMachineIpAddress),
                     Message = exception.Message,
                     Source = exception.Source,
                     TargetSite = exception.TargetSite.SafeToString(),
                     Code = baseException == null ? new ExceptionCode { Major = ExceptionCode.MajorCode.OperationFailure } : baseException.Code,
                     StackTrace = exception.StackTrace,
                     Data = baseException?.ReferenceData,
-                    Key = key,
                     Scene = baseException?.Scene,
                     OperatorCredential = (baseException?.OperatorCredential) ?? (Framework.CurrentOperatorCredential),
-                    Hint = baseException?.Hint,
-                    EventKey = eventKey,
-                    RawUrl = Framework.CurrentRawUrl
+                    Hint = baseException?.Hint
                 };
 
                 if (exception.InnerException != null)
                 {
-                    exceptionInfo.InnerException = ToExceptionInfo(exception.InnerException, key);
+                    exceptionInfo.InnerException = InternalToExceptionInfo(exception.InnerException);
                 }
 
                 return exceptionInfo;
@@ -362,14 +378,13 @@ namespace Beyova
         /// <param name="exception">The exception.</param>
         /// <param name="eventKey">The event key.</param>
         /// <returns>
-        /// Beyova.ExceptionSystem.ExceptionInfo.
+        /// Beyova.Diagnostic.ExceptionInfo.
         /// </returns>
         public static ExceptionInfo ToSimpleExceptionInfo(this BaseException exception, string eventKey = null)
         {
             return exception == null ? null : new ExceptionInfo
             {
                 ExceptionType = exception.GetType()?.GetFullName(),
-                Level = ExceptionInfo.ExceptionCriticality.Error,
                 Message = exception.Hint != null ? exception.Hint.Message : exception.Message,
                 Code = exception.Hint != null ? new ExceptionCode
                 {
@@ -396,10 +411,10 @@ namespace Beyova
 
                 switch (exceptionInfo.ExceptionType)
                 {
-                    case "Beyova.ExceptionSystem.HttpOperationException":
+                    case "Beyova.Diagnostic.HttpOperationException":
                         return new HttpOperationException(exceptionInfo.Key ?? Guid.NewGuid(), exceptionInfo.CreatedStamp ?? DateTime.UtcNow, exceptionInfo.Message, exceptionInfo.Scene, exceptionInfo.Code, ToException(innerException), exceptionInfo.OperatorCredential, exceptionInfo.Data, exceptionInfo.Hint);
 
-                    case "Beyova.ExceptionSystem.SqlStoredProcedureException":
+                    case "Beyova.Diagnostic.SqlStoredProcedureException":
                         return new SqlStoredProcedureException(exceptionInfo.Message, exceptionInfo.Code);
 
                     default:
@@ -465,7 +480,7 @@ namespace Beyova
         /// Converts to.
         /// </summary>
         /// <param name="sqlException">The SQL exception.</param>
-        /// <returns>Beyova.ExceptionSystem.BaseException.</returns>
+        /// <returns>Beyova.Diagnostic.BaseException.</returns>
         public static BaseException ConvertTo(SqlStoredProcedureException sqlException)
         {
             BaseException result = null;
@@ -506,7 +521,7 @@ namespace Beyova
         /// </summary>
         /// <param name="httpRequest">The HTTP request.</param>
         /// <param name="controllerOrServiceName">Name of the controller or service.</param>
-        /// <returns>Beyova.ExceptionSystem.ExceptionScene.</returns>
+        /// <returns>Beyova.Diagnostic.ExceptionScene.</returns>
         public static ExceptionScene ToExceptionScene(this HttpRequestMessage httpRequest, string controllerOrServiceName = null)
         {
             return httpRequest == null ? null : new ExceptionScene

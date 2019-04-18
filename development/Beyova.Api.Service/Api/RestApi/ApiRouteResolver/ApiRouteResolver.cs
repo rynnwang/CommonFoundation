@@ -3,7 +3,7 @@
 //using System.Collections.Specialized;
 //using System.Text.RegularExpressions;
 //using Beyova.Api;
-//using Beyova.ExceptionSystem;
+//using Beyova.Diagnostic;
 
 //namespace Beyova.Api.RestApi
 //{

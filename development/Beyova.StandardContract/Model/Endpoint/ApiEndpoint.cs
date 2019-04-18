@@ -33,13 +33,13 @@ namespace Beyova.Api
         {
             return new ApiEndpoint
             {
-                Account = this.Account,
-                Host = this.Host,
-                Path = this.Path,
-                Port = this.Port,
-                Protocol = this.Protocol,
-                SecondaryToken = this.SecondaryToken,
-                Token = this.Token
+                Account = Account,
+                Host = Host,
+                Path = Path,
+                Port = Port,
+                Protocol = Protocol,
+                SecondaryToken = SecondaryToken,
+                Token = Token
             };
         }
 
@@ -58,7 +58,7 @@ namespace Beyova.Api
         /// <returns></returns>
         public override Uri ToUri()
         {
-            return new Uri(this.ToString());
+            return new Uri(ToString());
         }
 
         /// <summary>

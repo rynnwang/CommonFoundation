@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using Beyova.ExceptionSystem;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -61,9 +61,11 @@ namespace Beyova
                 sqlDataReader.CheckNullObject(nameof(sqlDataReader));
                 converter.CheckNullObject(nameof(converter));
 
-                var result = new List<TOutput>();
-                // When enter this method, Read() has been called for detect exception already.
-                result.Add(converter(sqlDataReader));
+                var result = new List<TOutput>
+                {
+                    // When enter this method, Read() has been called for detect exception already.
+                    converter(sqlDataReader)
+                };
 
                 while (sqlDataReader.Read())
                 {
@@ -115,7 +117,7 @@ namespace Beyova
             {
                 converter.CheckNullObject(nameof(converter));
 
-                reader = this.Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
+                reader = Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
                 return reader == null ? new List<TOutput>() : ConvertObject(reader, converter);
             }
             catch (Exception ex)
@@ -182,6 +184,11 @@ namespace Beyova
         /// </summary>
         protected DatabaseOperator _readOnlyDatabaseOperator = null;
 
+        /// <summary>
+        /// The SQL injection keywords
+        /// </summary>
+        protected static readonly string[] sqlInjectionKeywords = new string[] { "/*", "*/", "--" };
+
         #region Constructor
 
         /// <summary>
@@ -212,8 +219,8 @@ namespace Beyova
         {
             options.CheckNullObject(nameof(options));
 
-            this._primaryDatabaseOperator = new DatabaseOperator(options.PrimarySqlConnection);
-            this._readOnlyDatabaseOperator = options.ReadOnlySqlConnection == null ? null : new DatabaseOperator(options.ReadOnlySqlConnection);
+            _primaryDatabaseOperator = new DatabaseOperator(options.PrimarySqlConnection);
+            _readOnlyDatabaseOperator = options.ReadOnlySqlConnection == null ? null : new DatabaseOperator(options.ReadOnlySqlConnection);
         }
 
         #endregion Constructor
@@ -228,7 +235,7 @@ namespace Beyova
         /// <returns>SqlTransactionScope.</returns>
         internal SqlTransactionScope BeginTransaction(IsolationLevel iso = IsolationLevel.Unspecified, string transactionName = null)
         {
-            return this._primaryDatabaseOperator.BeginTransaction(iso, transactionName);
+            return _primaryDatabaseOperator.BeginTransaction(iso, transactionName);
         }
 
         #endregion Transanction
@@ -257,7 +264,7 @@ namespace Beyova
 
             try
             {
-                reader = this.Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
+                reader = Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
                 return reader == null ? DBNull.Value : reader[0];
             }
             catch (Exception ex)
@@ -290,7 +297,7 @@ namespace Beyova
 
             try
             {
-                reader = this.Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
+                reader = Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
             }
             catch (Exception ex)
             {
@@ -374,7 +381,7 @@ namespace Beyova
 
             if (sqlParameters != null)
             {
-                result.AddRange(sqlParameters.Select(one => string.Format("Name: [{0}], Type: [{1}], Value: [{2}]\n\r", one.ParameterName, one.TypeName, one.Value)));
+                result.AddRange(sqlParameters.Select(one => string.Format("Name: [{0}], Type: [{1}], Value: [{2}]\r\n", one.ParameterName, one.TypeName, one.Value)));
             }
 
             return result;
@@ -459,6 +466,17 @@ namespace Beyova
         }
 
         /// <summary>
+        /// To the SQL json.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the object.</typeparam>
+        /// <param name="anyObject">Any object.</param>
+        /// <returns></returns>
+        protected string ToSqlJson<TObject>(TObject anyObject)
+        {
+            return anyObject?.ToJson(false);
+        }
+
+        /// <summary>
         /// Internals the generate SQL sp parameter.
         /// </summary>
         /// <param name="columnName">Name of the column.</param>
@@ -477,25 +495,8 @@ namespace Beyova
         /// </summary>
         public void Dispose()
         {
-            this._primaryDatabaseOperator?.Dispose();
-            this._readOnlyDatabaseOperator?.Dispose();
-        }
-
-        /// <summary>
-        /// Detects the SQL injection.
-        /// </summary>
-        /// <param name="term">The term.</param>
-        /// <param name="termName">Name of the term.</param>
-        /// <exception cref="InvalidObjectException"></exception>
-        protected static void DetectSqlInjection(string term, string termName)
-        {
-            if (!string.IsNullOrWhiteSpace(term)
-                && (term.Contains("/*")
-                || term.Contains("*/")
-                || term.Contains("--")))
-            {
-                throw new InvalidObjectException(termName.SafeToString(nameof(term)), data: new { term }, reason: "SqlServerInjectionRiskTerm");
-            }
+            _primaryDatabaseOperator?.Dispose();
+            _readOnlyDatabaseOperator?.Dispose();
         }
 
         /// <summary>
@@ -513,13 +514,144 @@ namespace Beyova
                 {
                     if (!string.IsNullOrWhiteSpace(one.By))
                     {
-                        DetectSqlInjection(one.By, nameof(one.By));
+                        one.By = PreventInjection(one.By);
 
                         builder.AppendFormat("{0}{1},", one.By, one.Method == DataOrderOption.OrderMethod.Descending ? " DESC" : string.Empty);
                     }
                 }
 
                 builder.RemoveLastIfMatch(StringConstants.CommaChar);
+                return builder.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Prevents the injection.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <returns></returns>
+        protected static string PreventInjection(string expression)
+        {
+            return string.IsNullOrWhiteSpace(expression) ? expression : expression.Replace(sqlInjectionKeywords, string.Empty).Replace("'", "''");
+        }
+
+        /// <summary>
+        /// Generates the where term.
+        /// </summary>
+        /// <param name="expression">The expression.</param>
+        /// <param name="containerName">Name of the container.</param>
+        /// <returns></returns>
+        protected static string GenerateWhereTerm(KVMetaCriteriaExpression expression, string containerName = null)
+        {
+            if (expression != null)
+            {
+                StringBuilder builder = new StringBuilder(128);
+                FillWhereTerm(builder, expression, containerName);
+                builder.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Fills the where term.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="expression">The expression.</param>
+        /// <param name="containerName">Name of the container.</param>
+        protected static void FillWhereTerm(StringBuilder builder, KVMetaCriteriaExpression expression, string containerName = null)
+        {
+            if (builder != null
+                && expression != null
+                && !string.IsNullOrWhiteSpace(containerName)
+                && !string.IsNullOrWhiteSpace(expression.ItemLeft)
+                && !string.IsNullOrWhiteSpace(expression.Operator)
+                && expression.ItemRight != null)
+            {
+                bool isStringMode = false;
+
+                string valueInString = null;
+                switch (expression.ItemRight.Type)
+                {
+                    case JTokenType.Boolean:
+                        isStringMode = false;
+                        valueInString = expression.ItemRight.Value<bool>() ? "1" : "0";
+                        break;
+
+                    case JTokenType.Integer:
+                    case JTokenType.Float:
+                        isStringMode = false;
+                        valueInString = expression.ItemRight.ToString();
+                        break;
+
+                    case JTokenType.Bytes:
+                        isStringMode = false;
+                        valueInString = expression.ItemRight.Value<byte[]>().ToHex(true);
+                        break;
+
+                    case JTokenType.Date:
+                        isStringMode = true;
+                        valueInString = expression.ItemRight.ToObject<DateTime>().ToFullDateTimeString();
+                        break;
+
+                    case JTokenType.String:
+                        valueInString = expression.ItemRight.Value<string>().PreventSqlInjection();
+                        isStringMode = !string.Equals(expression.Operator, "IS", StringComparison.OrdinalIgnoreCase);
+                        break;
+
+                    case JTokenType.Guid:
+                        isStringMode = true;
+                        valueInString = expression.ItemRight.Value<Guid>().ToString();
+                        break;
+
+                    default:
+                        return;
+                }
+
+                builder.Append("JSON_VALUE(");
+
+                containerName = containerName.PreventSqlInjection();
+                if (!string.IsNullOrWhiteSpace(containerName))
+                {
+                    builder.Append(containerName).Append(".");
+                }
+                builder.Append("[KVMeta], N'$.").Append(expression.ItemLeft.PreventSqlInjection()).Append("') ").Append(expression.Operator.PreventSqlInjection()).Append(" ");
+
+                if (isStringMode)
+                {
+                    builder.Append("N'");
+                }
+
+                builder.Append(valueInString);
+
+                if (isStringMode)
+                {
+                    builder.Append("'");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates the where term.
+        /// </summary>
+        /// <param name="expressions">The expressions.</param>
+        /// <param name="containerName">Name of the container.</param>
+        /// <returns></returns>
+        protected static string GenerateWhereTerm(IEnumerable<KVMetaCriteriaExpression> expressions, string containerName = null)
+        {
+            if (expressions.HasItem() && !string.IsNullOrWhiteSpace(containerName))
+            {
+                StringBuilder builder = new StringBuilder(1024);
+
+                foreach (var item in expressions)
+                {
+                    FillWhereTerm(builder, item, containerName);
+                    builder.Append(" AND ");
+                }
+
+                builder.RemoveLastIfMatch(" AND ");
                 return builder.ToString();
             }
 

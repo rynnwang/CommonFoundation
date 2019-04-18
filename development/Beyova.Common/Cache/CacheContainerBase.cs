@@ -1,5 +1,5 @@
 ﻿using System;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -75,11 +75,11 @@ namespace Beyova.Cache
         {
             containerOptions.CheckNullObject(nameof(containerOptions));
 
-            this.ContainerOptions = containerOptions ?? new CacheContainerOptions();
-            this.ContainerOptions.Name = this.ContainerOptions.Name.SafeToString(typeof(TEntity).GetFullName());
+            ContainerOptions = containerOptions ?? new CacheContainerOptions();
+            ContainerOptions.Name = ContainerOptions.Name.SafeToString(typeof(TEntity).GetFullName());
 
             var expirationInSecond = containerOptions.ExpirationInSecond;
-            this.AutoRetrievalOptions = retrievalOptions ?? new CacheAutoRetrievalOptions<TKey, TEntity>(null, BaseCacheAutoRetrievalOptions.Default);
+            AutoRetrievalOptions = retrievalOptions ?? new CacheAutoRetrievalOptions<TKey, TEntity>(null, BaseCacheAutoRetrievalOptions.Default);
 
             CacheRealm.RegisterCacheContainer(this);
         }
@@ -96,7 +96,7 @@ namespace Beyova.Cache
         /// <returns>System.Nullable&lt;DateTime&gt;.</returns>
         public virtual void Update(TKey key, TEntity entity)
         {
-            InternalUpdate(key, entity, true, this.ContainerOptions.GetExpiredStamp);
+            InternalUpdate(key, entity, true, ContainerOptions.GetExpiredStamp);
         }
 
         /// <summary>
@@ -113,20 +113,20 @@ namespace Beyova.Cache
             if (!InternalTryGetValidEntityFromCache(key, out entity))
             {
                 isHit = false;
-                if (this.AutoRetrievalOptions?.EntityRetrievalImplementation != null)
+                if (AutoRetrievalOptions?.EntityRetrievalImplementation != null)
                 {
                     try
                     {
                         entity = AutoRetrievalOptions.EntityRetrievalImplementation(key);
-                        InternalUpdate(key, entity, true, this.ContainerOptions.GetExpiredStamp);
+                        InternalUpdate(key, entity, true, ContainerOptions.GetExpiredStamp);
                     }
                     catch (Exception ex)
                     {
                         isFailure = true;
-                        if (this.AutoRetrievalOptions.ExceptionProcessingImplementation != null)
+                        if (AutoRetrievalOptions.ExceptionProcessingImplementation != null)
                         {
                             BaseException exception = ex.Handle(key);
-                            if (this.AutoRetrievalOptions.ExceptionProcessingImplementation(exception))
+                            if (AutoRetrievalOptions.ExceptionProcessingImplementation(exception))
                             {
                                 UpdateCounter(isHit, isFailure);
                                 throw exception;
@@ -134,7 +134,7 @@ namespace Beyova.Cache
                         }
                         else
                         {
-                            InternalUpdate(key, default(TEntity), true, this.AutoRetrievalOptions.GetFailureExpiredStamp);
+                            InternalUpdate(key, default(TEntity), true, AutoRetrievalOptions.GetFailureExpiredStamp);
                         }
                     }
                 }

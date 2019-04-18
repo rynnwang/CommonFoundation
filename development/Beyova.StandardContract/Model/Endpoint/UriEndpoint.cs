@@ -49,7 +49,7 @@ namespace Beyova
         /// <returns>System.String.</returns>
         public string GetBaseUri()
         {
-            return this.Port.HasValue ?
+            return Port.HasValue ?
                 string.Format("{0}://{1}:{2}", Protocol.SafeToString(HttpConstants.HttpProtocols.Http), Host.SafeToString(HttpConstants.HttpValues.Localhost), Port.Value) :
                 string.Format("{0}://{1}", Protocol.SafeToString(HttpConstants.HttpProtocols.Http), Host.SafeToString(HttpConstants.HttpValues.Localhost));
         }
@@ -60,7 +60,7 @@ namespace Beyova
         /// <returns></returns>
         public virtual Uri ToUri()
         {
-            return new Uri(this.ToString());
+            return new Uri(ToString());
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Beyova
             UriEndpoint endpoint = obj as UriEndpoint;
 
             return endpoint != null
-                && endpoint.Protocol.SafeEquals(this.Protocol, StringComparison.OrdinalIgnoreCase)
-                && endpoint.Host.SafeEquals(this.Host, StringComparison.OrdinalIgnoreCase)
-                && endpoint.Port.SafeEquals(this.Port)
-                && endpoint.Path.MeaningfulEquals(this.Path, StringComparison.OrdinalIgnoreCase);
+                && endpoint.Protocol.SafeEquals(Protocol, StringComparison.OrdinalIgnoreCase)
+                && endpoint.Host.SafeEquals(Host, StringComparison.OrdinalIgnoreCase)
+                && endpoint.Port.SafeEquals(Port)
+                && endpoint.Path.MeaningfulEquals(Path, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Beyova
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Protocol.SafeGetHashCode() + this.Host.SafeGetHashCode() + this.Port.SafeGetHashCode() + this.Path.SafeGetHashCode();
+            return Protocol.SafeGetHashCode() + Host.SafeGetHashCode() + Port.SafeGetHashCode() + Path.SafeGetHashCode();
         }
 
         /// <summary>
@@ -130,10 +130,10 @@ namespace Beyova
         {
             return new UriEndpoint
             {
-                Host = this.Host,
-                Path = this.Path,
-                Port = this.Port,
-                Protocol = this.Protocol
+                Host = Host,
+                Path = Path,
+                Port = Port,
+                Protocol = Protocol
             };
         }
     }

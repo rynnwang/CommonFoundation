@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Beyova.Diagnostic;
 
 namespace Beyova.ApiTracking.SqlServer
 {
     /// <summary>
     ///
     /// </summary>
-    public class ApiMessageAccessController : BaseDataAccessController<ApiMessage>
+    public class ApiMessageAccessController : BaseApiTrackingAccessController<ApiMessage>
     {
-        /// <summary>
-        /// The column category
-        /// </summary>
-        protected const string column_Category = "Category";
-
-        /// <summary>
-        /// The column message
-        /// </summary>
-        protected const string column_Message = "Message";
-
         #region Constructor
 
         /// <summary>
@@ -63,8 +54,10 @@ namespace Beyova.ApiTracking.SqlServer
                 Message = sqlDataReader[column_Message].ObjectToString(),
                 Category = sqlDataReader[column_Category].ObjectToString(),
                 Key = sqlDataReader[column_Key].ObjectToGuid(),
-                CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime()
+                CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime(),
             };
+
+            FillServiceIdentifiable(result, sqlDataReader);
 
             return result;
         }
@@ -84,16 +77,52 @@ namespace Beyova.ApiTracking.SqlServer
 
                 var parameters = new List<SqlParameter>
                 {
-                    this.GenerateSqlSpParameter(column_Category, message.Category),
-                    this.GenerateSqlSpParameter(column_Message, message.Message),
+                    GenerateSqlSpParameter(column_ServerIdentifier, message.ServerIdentifier),
+                    GenerateSqlSpParameter(column_ServiceIdentifier, message.ServiceIdentifier),
+                    GenerateSqlSpParameter(column_Category, message.Category),
+                    GenerateSqlSpParameter(column_Message, message.Message),
                 };
 
-                return this.ExecuteScalar(spName, parameters).ObjectToGuid();
+                return ExecuteScalar(spName, parameters).ObjectToGuid();
             }
             catch (Exception ex)
             {
                 throw ex.Handle(new { message });
             }
         }
+
+        /// <summary>
+        /// Queries the API message.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <returns></returns>
+        public List<ApiMessage> QueryApiMessage(ApiMessageCriteria criteria)
+        {
+            const string spName = "sp_QueryApiMessage";
+
+            try
+            {
+                criteria.CheckNullObject(nameof(criteria));
+
+                var parameters = new List<SqlParameter>
+                {
+                    GenerateSqlSpParameter(column_Key, criteria.Key),
+                    GenerateSqlSpParameter(column_Count, criteria.Count),
+                    GenerateSqlSpParameter(column_ServerIdentifier, criteria.ServerIdentifier),
+                    GenerateSqlSpParameter(column_ServiceIdentifier, criteria.ServiceIdentifier),
+                    GenerateSqlSpParameter(column_Category, criteria.Category),
+                    GenerateSqlSpParameter(column_Message, criteria.Message),
+                    GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
+                    GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp)
+                };
+
+                return ExecuteReader(spName, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { criteria });
+            }
+        }
+
     }
 }

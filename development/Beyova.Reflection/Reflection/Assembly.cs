@@ -974,7 +974,8 @@ namespace Beyova
         /// <returns></returns>
         private static bool InternalIsNumericPrimitiveType(Type type)
         {
-            return type != null && (IsIntegerBasedType(type)
+            return type != null && (type.IsEnum
+                   || IsIntegerBasedType(type)
                    || typeof(decimal) == type
                    || typeof(float) == type
                    || typeof(double) == type

@@ -46,7 +46,7 @@ namespace Beyova
         {
             lock (locker)
             {
-                this._items.Add(new QueueMessageItem<T>
+                _items.Add(new QueueMessageItem<T>
                 {
                     Message = item,
                     CreatedStamp = DateTime.UtcNow,
@@ -63,7 +63,7 @@ namespace Beyova
         {
             lock (locker)
             {
-                return this._items.Count;
+                return _items.Count;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Beyova
                 List<QueueMessageItem<T>> result = new List<QueueMessageItem<T>>();
                 lock (locker)
                 {
-                    foreach (var item in this._items)
+                    foreach (var item in _items)
                     {
                         if (result.Count >= messageCount)
                         {
@@ -148,7 +148,7 @@ namespace Beyova
         {
             if (queue != null)
             {
-                this._items = new List<QueueMessageItem<T>>(queue);
+                _items = new List<QueueMessageItem<T>>(queue);
             }
         }
 
@@ -175,7 +175,7 @@ namespace Beyova
 
                 lock (locker)
                 {
-                    var deletedItem = this._items.FindAndRemove(x => x.Id.Equals(id));
+                    var deletedItem = _items.FindAndRemove(x => x.Id.Equals(id));
                 }
             }
             catch (Exception ex)

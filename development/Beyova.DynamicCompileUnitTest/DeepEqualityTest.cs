@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Beyova;
 
 namespace Beyova.DynamicCompileUnitTest._DeepEquality
 {
@@ -11,7 +6,7 @@ namespace Beyova.DynamicCompileUnitTest._DeepEquality
     {
         public string Name { get; set; }
 
-        public string Name2 { get { return string.Format("{0}.1", this.Name); } }
+        public string Name2 { get { return string.Format("{0}.1", Name); } }
 
         public string Birthday;
 

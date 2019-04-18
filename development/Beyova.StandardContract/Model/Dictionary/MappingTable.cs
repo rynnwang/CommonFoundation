@@ -110,7 +110,7 @@ namespace Beyova
         public MappingTable(int capacity, bool valueUnique = false, bool caseSensitive = false, IEqualityComparer<T> valueComparer = null) : base(capacity, caseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase)
         {
             _valueComparer = valueComparer ?? EqualityComparer<T>.Default;
-            this.ValueUnique = valueUnique;
+            ValueUnique = valueUnique;
         }
 
         /// <summary>
@@ -145,9 +145,9 @@ namespace Beyova
         {
             value.CheckNullObject(nameof(value));
 
-            if (this.ValueUnique)
+            if (ValueUnique)
             {
-                foreach (var one in this.Values)
+                foreach (var one in Values)
                 {
                     if (_valueComparer.Equals(one, value))
                     {
@@ -206,7 +206,7 @@ namespace Beyova
         /// <returns></returns>
         internal string InternalGetMappedValue(T value, string defaultValue)
         {
-            return this.SafeTryGetKey(value, defaultValue, this._valueComparer);
+            return this.SafeTryGetKey(value, defaultValue, _valueComparer);
         }
     }
 }

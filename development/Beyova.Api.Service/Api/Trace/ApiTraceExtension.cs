@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Beyova.Api.RestApi;
-using Beyova.ApiTracking;
 
-namespace Beyova.Api
+namespace Beyova.Diagnostic
 {
     /// <summary>
     /// Class ApiTraceExtension.
@@ -12,53 +11,41 @@ namespace Beyova.Api
     public static class ApiTraceExtension
     {
         /// <summary>
-        /// To the trace log.
+        /// Converts to apitracestep.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="parent">The parent.</param>
         /// <param name="entryStamp">The entry stamp.</param>
-        /// <returns>Beyova.ApiTracking.ApiTraceLogPiece.</returns>
-        internal static ApiTraceLogPiece ToTraceLog(this RuntimeContext context, ApiTraceLogPiece parent, DateTime? entryStamp = null)
+        /// <returns></returns>
+        internal static ApiTraceStep ToApiTraceStep(this RuntimeContext context, ApiTraceStep parent, DateTime? entryStamp = null)
         {
-            return context != null ? new ApiTraceLogPiece(parent, context.ApiMethod?.GetFullName(), entryStamp) : null;
+            return context != null ? new ApiTraceStep(parent, context.ApiMethod?.GetFullName(), entryStamp) : null;
         }
 
         /// <summary>
-        /// To the trace log.
+        /// Converts to apitracestep.
         /// </summary>
         /// <param name="methodInfo">The method information.</param>
         /// <param name="parent">The parent.</param>
         /// <param name="entryStamp">The entry stamp.</param>
-        /// <returns>Beyova.ApiTracking.ApiTraceLogPiece.</returns>
-        internal static ApiTraceLogPiece ToTraceLog(this MethodInfo methodInfo, ApiTraceLogPiece parent, DateTime? entryStamp = null)
+        /// <returns></returns>
+        internal static ApiTraceStep ToApiTraceStep(this MethodInfo methodInfo, ApiTraceStep parent, DateTime? entryStamp = null)
         {
-            return methodInfo != null ? new ApiTraceLogPiece(parent, methodInfo.GetFullName(), entryStamp) : null;
+            return methodInfo != null ? new ApiTraceStep(parent, methodInfo.GetFullName(), entryStamp) : null;
         }
 
-        ///// <summary>
-        ///// To the trace log.
-        ///// </summary>
-        ///// <param name="methodCallMessage">The method call message.</param>
-        ///// <param name="parent">The parent.</param>
-        ///// <param name="entryStamp">The entry stamp.</param>
-        ///// <returns></returns>
-        //internal static ApiTraceLogPiece ToTraceLog(this MethodCallInfo methodCallMessage, ApiTraceLogPiece parent, DateTime? entryStamp = null)
-        //{
-        //    return methodCallMessage != null ? new ApiTraceLogPiece(parent, methodCallMessage.MethodFullName) : null;
-        //}
-
         /// <summary>
-        /// To the flat.
+        /// Converts to flat.
         /// </summary>
         /// <param name="log">The log.</param>
-        /// <returns>List&lt;ApiTraceLogPiece&gt;.</returns>
-        public static List<ApiTraceLogPiece> ToFlat(this ApiTraceLog log)
+        /// <returns></returns>
+        public static List<ApiTraceStep> ToFlat(this ApiTraceLog log)
         {
-            List<ApiTraceLogPiece> result = new List<ApiTraceLogPiece>();
+            List<ApiTraceStep> result = new List<ApiTraceStep>();
 
             if (log != null)
             {
-                result.Add(log as ApiTraceLogPiece);
+                result.Add(log as ApiTraceStep);
 
                 FillInnerTraceLog(result, log);
             }
@@ -70,12 +57,12 @@ namespace Beyova.Api
         /// Fills the inner trace log.
         /// </summary>
         /// <param name="container">The container.</param>
-        /// <param name="log">The log.</param>
-        private static void FillInnerTraceLog(List<ApiTraceLogPiece> container, ApiTraceLogPiece log)
+        /// <param name="step">The step.</param>
+        private static void FillInnerTraceLog(List<ApiTraceStep> container, ApiTraceStep step)
         {
-            if (log.InnerTraces != null)
+            if (step.InnerTraces != null)
             {
-                foreach (var one in log.InnerTraces)
+                foreach (var one in step.InnerTraces)
                 {
                     container.Add(one);
                     FillInnerTraceLog(container, one);

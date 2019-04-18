@@ -122,10 +122,10 @@ namespace Beyova
         /// <param name="throwException">if set to <c>true</c> [throw exception].</param>
         protected BaseJsonConfigurationReader(string sourceAssembly, string coreComponentVersion, string readerType, bool throwException = false)
         {
-            this.SourceAssembly = sourceAssembly;
-            this.ReaderType = readerType ?? this.GetType().GetFullName();
-            this.CoreComponentVersion = coreComponentVersion.AsVersion();
-            this._throwException = throwException;
+            SourceAssembly = sourceAssembly;
+            ReaderType = readerType ?? GetType().GetFullName();
+            CoreComponentVersion = coreComponentVersion.AsVersion();
+            _throwException = throwException;
 
             // Need to call intialize or reload manually, because additonal constructor parameter loading order issue.
             //_items = Initialize(throwException);
@@ -208,7 +208,7 @@ namespace Beyova
         /// </summary>
         public virtual void Reload()
         {
-            _items = Initialize(this._throwException);
+            _items = Initialize(_throwException);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Beyova
         /// <returns></returns>
         public Dictionary<string, RuntimeConfigurationItem> GetItems()
         {
-            return this._items;
+            return _items;
         }
 
         /// <summary>

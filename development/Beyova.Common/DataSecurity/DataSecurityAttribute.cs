@@ -22,7 +22,7 @@ namespace Beyova
         /// <param name="loader">The loader.</param>
         public DataSecurityAttribute(IDataSecurityOptionLoader loader)
         {
-            this.DataSecurityProvider = loader?.GetProvider();
+            DataSecurityProvider = loader?.GetProvider();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Beyova
         /// <param name="provider">The provider.</param>
         public DataSecurityAttribute(IDataSecurityProvider provider)
         {
-            this.DataSecurityProvider = provider;
+            DataSecurityProvider = provider;
         }
     }
 }

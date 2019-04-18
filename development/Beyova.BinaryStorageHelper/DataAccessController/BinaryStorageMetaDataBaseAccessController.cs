@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Beyova;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Beyova;
 
 namespace Beyova.Binary
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class BinaryStorageMetaDataBaseAccessController : BinaryStorageMetaDataBaseAccessController<BinaryStorageMetaData, BinaryStorageMetaDataCriteria>
     {
     }
-
 
     /// <summary>
     /// Class BinaryStorageMetaDataBaseAccessController.
@@ -130,6 +130,7 @@ namespace Beyova.Binary
                 Height = sqlDataReader[column_Height].ObjectToNullableInt32(),
                 Width = sqlDataReader[column_Width].ObjectToNullableInt32(),
                 Duration = sqlDataReader[column_Duration].ObjectToNullableInt32(),
+                KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<Dictionary<string, JValue>>(),
                 CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime(DateTime.UtcNow),
                 LastUpdatedStamp = sqlDataReader[column_LastUpdatedStamp].ObjectToDateTime(DateTime.UtcNow),
                 State = (BinaryStorageState)sqlDataReader[column_State].ObjectToInt32()
@@ -164,12 +165,13 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_Height, metaData.Height),
                     GenerateSqlSpParameter(column_Width, metaData.Width),
                     GenerateSqlSpParameter(column_Duration, metaData.Duration),
+                    GenerateSqlSpParameter(column_KVMeta, ToSqlJson( metaData.KVMeta)),
                     GenerateSqlSpParameter(column_OperatorKey, operatorKey),
                 };
 
                 FillAdditionalFieldValue(parameters, metaData);
 
-                return this.ExecuteReader(spName, parameters).FirstOrDefault();
+                return ExecuteReader(spName, parameters).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -206,7 +208,7 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_OperatorKey, operatorKey),
                 };
 
-                return this.ExecuteReader(spName, parameters).FirstOrDefault();
+                return ExecuteReader(spName, parameters).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -242,12 +244,13 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_MaxDuration, criteria.DurationTo),
                     GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
                     GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp),
+                    GenerateSqlSpParameter(column_KVMetaCriteria, GenerateWhereTerm(criteria.KVMetaCriteria)),
                     GenerateSqlSpParameter(column_Count, criteria.Count)
                 };
 
                 FillAdditionalFieldValue(parameters, criteria);
 
-                return this.ExecuteReader(spName, parameters);
+                return ExecuteReader(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -283,13 +286,14 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_MaxDuration, criteria.DurationTo),
                     GenerateSqlSpParameter(column_FromStamp, criteria.FromStamp),
                     GenerateSqlSpParameter(column_ToStamp, criteria.ToStamp),
+                    GenerateSqlSpParameter(column_KVMetaCriteria, GenerateWhereTerm(criteria.KVMetaCriteria)),
                     GenerateSqlSpParameter(column_OwnerKey, criteria.OwnerKey),
                     GenerateSqlSpParameter(column_Count, criteria.Count)
                 };
 
                 FillAdditionalFieldValue(parameters, criteria);
 
-                return this.ExecuteReader(spName, parameters);
+                return ExecuteReader(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -317,7 +321,7 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_OperatorKey, operatorKey),
                 };
 
-                this.ExecuteNonQuery(spName, parameters);
+                ExecuteNonQuery(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -344,7 +348,7 @@ namespace Beyova.Binary
                     GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false)),
                 };
 
-                return this.ExecuteReader(spName, parameters);
+                return ExecuteReader(spName, parameters);
             }
             catch (Exception ex)
             {

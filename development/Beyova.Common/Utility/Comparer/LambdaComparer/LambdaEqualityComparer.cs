@@ -31,8 +31,8 @@ namespace Beyova
         /// <param name="comparer">The comparer.</param>
         public LambdaEqualityComparer(Func<T, TComparableType> comparableSelector, IEqualityComparer<TComparableType> comparer = null)
         {
-            this.ComparableSelector = comparableSelector == null ? (x) => { return default(TComparableType); } : comparableSelector;
-            this.Comparer = comparer ?? EqualityComparer<TComparableType>.Default;
+            ComparableSelector = comparableSelector == null ? (x) => { return default(TComparableType); } : comparableSelector;
+            Comparer = comparer ?? EqualityComparer<TComparableType>.Default;
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Beyova
         public bool Equals(T x, TComparableType y)
         {
             //https://referencesource.microsoft.com/#mscorlib/system/nullable.cs,c9505a785f9fd8c5
-            var left = x == null ? default(TComparableType) : this.ComparableSelector(x);
+            var left = x == null ? default(TComparableType) : ComparableSelector(x);
 
             if (left == null)
             {
@@ -72,8 +72,8 @@ namespace Beyova
         public bool Equals(T x, T y)
         {
             //https://referencesource.microsoft.com/#mscorlib/system/nullable.cs,c9505a785f9fd8c5
-            var left = x == null ? default(TComparableType) : this.ComparableSelector(x);
-            var right = y == null ? default(TComparableType) : this.ComparableSelector(y);
+            var left = x == null ? default(TComparableType) : ComparableSelector(x);
+            var right = y == null ? default(TComparableType) : ComparableSelector(y);
 
             if (left == null)
             {

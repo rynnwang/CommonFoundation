@@ -6,14 +6,14 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
     /// <summary>
     /// Extension class for http operations.
     /// </summary>
-    static partial class HttpExtension
+    public static partial class HttpExtension
     {
         #region Uri and Credential
 
@@ -556,7 +556,7 @@ namespace Beyova
         /// <summary>
         /// The ignored headers
         /// </summary>
-        public readonly static string[] ignoredHeaders = new string[] { HttpConstants.HttpHeader.TransferEncoding, HttpConstants.HttpHeader.AccessControlAllowHeaders, HttpConstants.HttpHeader.AccessControlAllowMethods, HttpConstants.HttpHeader.AccessControlAllowOrigin };
+        public static readonly string[] ignoredHeaders = new string[] { HttpConstants.HttpHeader.TransferEncoding, HttpConstants.HttpHeader.AccessControlAllowHeaders, HttpConstants.HttpHeader.AccessControlAllowMethods, HttpConstants.HttpHeader.AccessControlAllowOrigin };
 
         /// <summary>
         /// Transports the HTTP response.

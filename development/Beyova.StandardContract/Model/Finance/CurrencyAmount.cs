@@ -41,7 +41,7 @@ namespace Beyova
         public override bool Equals(object obj)
         {
             var currencyAmount = obj as CurrencyAmount;
-            return currencyAmount != null && this.Currency.MeaningfulEquals(currencyAmount.Currency, StringComparison.OrdinalIgnoreCase) && this.Amount == currencyAmount.Amount;
+            return currencyAmount != null && Currency.MeaningfulEquals(currencyAmount.Currency, StringComparison.OrdinalIgnoreCase) && Amount == currencyAmount.Amount;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Beyova
         /// </returns>
         public override int GetHashCode()
         {
-            return this.Amount.GetHashCode() + this.Currency?.GetHashCode() ?? 0;
+            return Amount.GetHashCode() + Currency?.GetHashCode() ?? 0;
         }
 
         /// <summary>
@@ -65,12 +65,12 @@ namespace Beyova
             var currencyAmount = obj as CurrencyAmount;
             currencyAmount.CheckNullObject(nameof(currencyAmount));
 
-            if (!this.Currency.MeaningfulEquals(currencyAmount.Currency, StringComparison.OrdinalIgnoreCase))
+            if (!Currency.MeaningfulEquals(currencyAmount.Currency, StringComparison.OrdinalIgnoreCase))
             {
                 throw ExceptionFactory.CreateInvalidObjectException(nameof(Currency), new { Self = Currency, Target = currencyAmount.Currency }, "CurrentDismatch");
             }
 
-            return this.Amount.CompareTo(currencyAmount.Amount);
+            return Amount.CompareTo(currencyAmount.Amount);
         }
 
         #region Create CURRENCY

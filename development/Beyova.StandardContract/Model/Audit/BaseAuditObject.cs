@@ -1,11 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TContent">The type of the content.</typeparam>
     public abstract class BaseAuditObject<TContent> : BaseAuditObject<Guid?, TContent>, IIdentifier
@@ -13,7 +12,7 @@ namespace Beyova
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="TAuditKey">The type of the audit key.</typeparam>
     /// <typeparam name="TContent">The type of the content.</typeparam>

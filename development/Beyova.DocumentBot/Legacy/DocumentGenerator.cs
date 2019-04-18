@@ -196,7 +196,7 @@ url{
         /// <param name="tokenKey">The token key.</param>
         public DocumentGenerator(string tokenKey)
         {
-            this.TokenKey = tokenKey;
+            TokenKey = tokenKey;
         }
 
         /// <summary>
@@ -1002,8 +1002,10 @@ url{
         /// <returns>List&lt;Type&gt;.</returns>
         private static List<Type> AppendChain(List<Type> chain, Type type)
         {
-            var list = new List<Type>(chain);
-            list.Add(type);
+            var list = new List<Type>(chain)
+            {
+                type
+            };
 
             return list;
         }

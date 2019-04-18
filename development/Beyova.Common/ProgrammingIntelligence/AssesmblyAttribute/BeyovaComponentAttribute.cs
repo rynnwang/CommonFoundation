@@ -37,7 +37,7 @@ namespace Beyova
         /// <param name="apiTrackingType">Type of the API tracking.</param>
         public BeyovaComponentAttribute(string id, string version, Type apiTrackingType)
         {
-            this.UnderlyingObject = new BeyovaComponentInfo(id, version, apiTrackingType);
+            UnderlyingObject = new BeyovaComponentInfo(id, version, apiTrackingType);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Beyova
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString()
         {
-            return this.UnderlyingObject?.ToString();
+            return UnderlyingObject?.ToString();
         }
 
         /// <summary>

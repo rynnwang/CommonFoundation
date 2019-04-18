@@ -24,7 +24,7 @@ namespace Beyova
         /// </summary>
         public ServiceCredential()
         {
-            this.Permissions = new List<string>();
+            Permissions = new List<string>();
         }
     }
 }

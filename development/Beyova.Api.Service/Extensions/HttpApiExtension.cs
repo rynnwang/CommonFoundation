@@ -3,7 +3,7 @@
 namespace Beyova
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static partial class HttpApiExtension
     {

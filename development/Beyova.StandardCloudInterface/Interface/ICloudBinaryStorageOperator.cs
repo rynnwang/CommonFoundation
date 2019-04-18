@@ -57,7 +57,7 @@ namespace Beyova
         /// <param name="hash">The hash.</param>
         /// <param name="contentType">Type of the content.</param>
         /// <returns>BinaryStorageActionCredential.</returns>
-        BinaryStorageActionCredential CreateBlobUploadCredential(string containerName, string blobIdentifier, int expireOffsetInMinute, string hash = null, string contentType = null);
+        BinaryStorageActionCredential CreateBlobUploadCredential(string containerName, string blobIdentifier, int expireOffsetInMinute, CryptoKey hash = null, string contentType = null);
 
         /// <summary>
         /// Creates the BLOB download credential.

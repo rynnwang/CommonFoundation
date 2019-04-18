@@ -20,6 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\EntitySynchronizationModeAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attribute\TokenRequiredAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IApiCacheContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GlobalApiUniqueIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ApiUniqueIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\IApiContractOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiCacheParameter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiPermission.cs" />

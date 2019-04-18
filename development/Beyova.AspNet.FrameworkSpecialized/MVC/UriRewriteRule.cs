@@ -41,8 +41,10 @@ namespace Beyova
         public UriRewriteRule(string destination, string protocolConstraint, string hostFormat, string hostConstraint, params string[] pathSectionNames)
         {
             StringBuilder builder = new StringBuilder("{protocol}://");
-            Dictionary<string, string> constraints = new Dictionary<string, string>();
-            constraints.Add("protocol", protocolConstraint.SafeToString("[a-zA-Z0-9]+"));
+            Dictionary<string, string> constraints = new Dictionary<string, string>
+            {
+                { "protocol", protocolConstraint.SafeToString("[a-zA-Z0-9]+") }
+            };
 
             if (string.IsNullOrWhiteSpace(hostFormat))
             {

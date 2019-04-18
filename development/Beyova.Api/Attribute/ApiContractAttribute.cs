@@ -1,4 +1,5 @@
 ﻿using System;
+using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -16,7 +17,7 @@ namespace Beyova.Api.RestApi
 
         /// <summary>
         /// Gets or sets the name.
-        /// This name is used for as service identifier in <see cref="Beyova.ApiTracking.ApiEventLog"/> model.
+        /// This name is used for as service identifier in <see cref="ApiEventLog"/> model.
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; set; }
@@ -44,9 +45,9 @@ namespace Beyova.Api.RestApi
         /// <param name="realm">The realm.</param>
         public ApiContractAttribute(string version, string name, string realm)
         {
-            this.Version = version;
-            this.Name = name;
-            this.Realm = realm;
+            Version = version;
+            Name = name;
+            Realm = realm;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Web;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {
-    partial class ExceptionExtension
+    public partial class ExceptionExtension
     {
         #region Http To Exception Scene
 
@@ -12,7 +12,7 @@ namespace Beyova
         /// </summary>
         /// <param name="httpRequest">The HTTP request.</param>
         /// <param name="controllerOrServiceName">Name of the controller or service.</param>
-        /// <returns>Beyova.ExceptionSystem.ExceptionScene.</returns>
+        /// <returns>Beyova.Diagnostic.ExceptionScene.</returns>
         public static ExceptionScene ToExceptionScene(this HttpRequest httpRequest, string controllerOrServiceName = null)
         {
             return httpRequest == null ? null : new ExceptionScene
@@ -27,7 +27,7 @@ namespace Beyova
         /// </summary>
         /// <param name="httpRequest">The HTTP request.</param>
         /// <param name="controllerOrServiceName">Name of the controller or service.</param>
-        /// <returns>Beyova.ExceptionSystem.ExceptionScene.</returns>
+        /// <returns>Beyova.Diagnostic.ExceptionScene.</returns>
         public static ExceptionScene ToExceptionScene(this HttpRequestBase httpRequest, string controllerOrServiceName = null)
         {
             return httpRequest == null ? null : new ExceptionScene
