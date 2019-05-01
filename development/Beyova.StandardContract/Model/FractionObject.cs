@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -11,12 +12,14 @@ namespace Beyova
         /// Gets or sets the numerator.
         /// </summary>
         /// <value>The numerator.</value>
+        [JsonProperty("numerator")]
         public Int64 Numerator { get; set; }
 
         /// <summary>
         /// Gets or sets the denominator.
         /// </summary>
         /// <value>The denominator.</value>
+        [JsonProperty("denominator")]
         public Int64 Denominator { get; set; }
 
         /// <summary>

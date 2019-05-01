@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     ///
@@ -11,6 +13,7 @@
         /// <value>
         /// The image.
         /// </value>
+        [JsonProperty("image")]
         public BinaryStorageMetaBase Image { get; set; }
 
         /// <summary>
@@ -19,6 +22,7 @@
         /// <value>
         /// The audio.
         /// </value>
+        [JsonProperty("audio")]
         public BinaryStorageMetaBase Audio { get; set; }
 
         /// <summary>
@@ -27,6 +31,7 @@
         /// <value>
         /// The video.
         /// </value>
+        [JsonProperty("video")]
         public BinaryStorageMetaBase Video { get; set; }
 
         /// <summary>
@@ -35,6 +40,7 @@
         /// <value>
         /// The text.
         /// </value>
+        [JsonProperty("text")]
         public TextValue Text { get; set; }
     }
 }

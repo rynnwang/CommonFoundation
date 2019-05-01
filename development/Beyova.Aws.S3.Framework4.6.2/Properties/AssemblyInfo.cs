@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using Beyova;
-using Beyova.ProgrammingIntelligence;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -10,7 +9,7 @@ using Beyova.ProgrammingIntelligence;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Aws.S3")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Aws.S3", "1.3.1")]
+[assembly: BeyovaComponent("Beyova.Aws.S3", "1.4.0")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

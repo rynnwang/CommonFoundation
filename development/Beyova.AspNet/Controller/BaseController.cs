@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Beyova.Api;
+using Beyova.Diagnostic;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Beyova.Api;
-using Beyova.Diagnostic;
 
 namespace Beyova.Web
 {
@@ -24,6 +24,11 @@ namespace Beyova.Web
         /// The default error view
         /// </summary>
         protected const string defaultErrorView = "Error";
+
+        /// <summary>
+        /// The partial v iew wrapper
+        /// </summary>
+        protected const string partialViewWrapperView = "PartialViewWrapper";
 
         /// <summary>
         /// Gets the error page route.
@@ -106,19 +111,59 @@ namespace Beyova.Web
         }
 
         /// <summary>
-        /// Gets the entity view.
+        /// Operates the entity json.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="get">The get.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="viewName">Name of the view.</param>
-        /// <param name="resultType">Type of the result.</param>
-        /// <param name="postValidation">The post validation.</param>
+        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="invoke">The invoke.</param>
+        /// <param name="parameter">The parameter.</param>
         /// <returns></returns>
-        /// <exception cref="ResourceNotFoundException">T</exception>
-        protected virtual ActionResult GetEntityView<T>(Func<Guid?, T> get, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null)
+        protected virtual ActionResult OperateEntityJson<TParameter, TOutput>(Func<TParameter, TOutput> invoke, TParameter parameter)
         {
-            return GetEntityView<Guid?, T>(get, key, viewName, x => x.HasValue, resultType, postValidation);
+            BaseException exception = null;
+            object result = null;
+
+            try
+            {
+                invoke.CheckNullObject(nameof(invoke));
+                parameter.CheckNullObject(nameof(parameter));
+
+                result = invoke(parameter);
+            }
+            catch (Exception ex)
+            {
+                exception = ex.Handle(new { parameter });
+            }
+
+            this.PackageResponse(result, exception);
+            return null;
+        }
+
+        /// <summary>
+        /// Operates the entity json.
+        /// </summary>
+        /// <typeparam name="TParameter">The type of the parameter.</typeparam>
+        /// <param name="invoke">The invoke.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns></returns>
+        protected virtual ActionResult OperateEntityJson<TParameter>(Action<TParameter> invoke, TParameter parameter)
+        {
+            BaseException exception = null;
+
+            try
+            {
+                invoke.CheckNullObject(nameof(invoke));
+                parameter.CheckNullObject(nameof(parameter));
+
+                invoke(parameter);
+            }
+            catch (Exception ex)
+            {
+                exception = ex.Handle(new { parameter });
+            }
+
+            this.PackageResponse(null, exception);
+            return null;
         }
 
         /// <summary>
@@ -130,11 +175,29 @@ namespace Beyova.Web
         /// <param name="viewName">Name of the view.</param>
         /// <param name="resultType">Type of the result.</param>
         /// <param name="postValidation">The post validation.</param>
+        /// <param name="considerEmptyKeyAsNew">if set to <c>true</c> [consider empty key as new].</param>
         /// <returns></returns>
         /// <exception cref="ResourceNotFoundException">T</exception>
-        protected virtual ActionResult GetEntityView<T>(Func<string, T> get, string key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null)
+        protected virtual ActionResult GetEntityView<T>(Func<Guid?, T> get, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null, bool considerEmptyKeyAsNew = false)
         {
-            return GetEntityView<string, T>(get, key, viewName, x => !string.IsNullOrWhiteSpace(x), resultType, postValidation);
+            return GetEntityView<Guid?, T>(get, key, viewName, x => x.HasValue, resultType, postValidation, considerEmptyKeyAsNew);
+        }
+
+        /// <summary>
+        /// Gets the entity view.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="get">The get.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="resultType">Type of the result.</param>
+        /// <param name="postValidation">The post validation.</param>
+        /// <param name="considerEmptyKeyAsNew">if set to <c>true</c> [consider empty key as new].</param>
+        /// <returns></returns>
+        /// <exception cref="ResourceNotFoundException">T</exception>
+        protected virtual ActionResult GetEntityView<T>(Func<string, T> get, string key, string viewName, ActionResultType resultType = ActionResultType.View, Func<T, bool> postValidation = null, bool considerEmptyKeyAsNew = false)
+        {
+            return GetEntityView<string, T>(get, key, viewName, x => !string.IsNullOrWhiteSpace(x), resultType, postValidation, considerEmptyKeyAsNew);
         }
 
         /// <summary>
@@ -148,19 +211,51 @@ namespace Beyova.Web
         /// <param name="inputValidator">The input validator.</param>
         /// <param name="resultType">Type of the result.</param>
         /// <param name="postValidation">The post validation.</param>
+        /// <param name="considerEmptyKeyAsNew">if set to <c>true</c> [consider empty key as new].</param>
+        /// <param name="partialViewWrapper">The partial view wrapper.</param>
         /// <returns></returns>
         /// <exception cref="ResourceNotFoundException">TEntity</exception>
-        private ActionResult GetEntityView<TInput, TEntity>(Func<TInput, TEntity> get, TInput key, string viewName, Func<TInput, bool> inputValidator, ActionResultType resultType, Func<TEntity, bool> postValidation)
+        private ActionResult GetEntityView<TInput, TEntity>(Func<TInput, TEntity> get, TInput key, string viewName, Func<TInput, bool> inputValidator, ActionResultType resultType, Func<TEntity, bool> postValidation, bool considerEmptyKeyAsNew = false, PartialViewWrapper partialViewWrapper = null)
         {
             try
             {
                 get.CheckNullObject(nameof(get));
                 viewName.CheckEmptyString(nameof(viewName));
 
-                var result = inputValidator(key) ? get.Invoke(key) : default(TEntity);
-                if (result != null && (postValidation == null || postValidation(result)))
+                var hasKey = inputValidator(key);
+                TEntity result = default(TEntity);
+
+                if (hasKey)
                 {
-                    return resultType == ActionResultType.PartialView ? PartialView(viewName, result) : View(viewName, result) as ActionResult;
+                    result = get.Invoke(key);
+
+                    if (result == null)
+                    {
+                        // force to set considerEmptyKeyAsNew as false
+                        // When KEY is specified and no related object found, return 404
+                        considerEmptyKeyAsNew = false;
+                    }
+                }
+
+                if (result != null || considerEmptyKeyAsNew)
+                {
+                    if (resultType == ActionResultType.PartialView)
+                    {
+                        return PartialView(viewName, result);
+                    }
+                    else
+                    {
+                        if (partialViewWrapper != null)
+                        {
+                            partialViewWrapper.Model = result;
+                            partialViewWrapper.PartialView = viewName;
+                            return View(partialViewWrapperView, partialViewWrapper);
+                        }
+                        else
+                        {
+                            return View(viewName, result);
+                        }
+                    }
                 }
                 else
                 {
@@ -183,9 +278,10 @@ namespace Beyova.Web
         /// <param name="viewName">Name of the view.</param>
         /// <param name="resultType">Type of the result.</param>
         /// <param name="postValidation">The post validation.</param>
+        /// <param name="partialViewWrapper">The partial view wrapper.</param>
         /// <returns></returns>
         /// <exception cref="ResourceNotFoundException">TOutput</exception>
-        protected virtual ActionResult GetEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<TOutput, bool> postValidation = null)
+        protected virtual ActionResult GetEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<TOutput, bool> postValidation = null, PartialViewWrapper partialViewWrapper = null)
             where TCriteria : IIdentifier, new()
         {
             try
@@ -194,13 +290,28 @@ namespace Beyova.Web
                 viewName.CheckEmptyString(nameof(viewName));
 
                 var result = key.HasValue ? query(new TCriteria { Key = key }).SafeFirstOrDefault() : default(TOutput);
-                if (result != null && (postValidation == null || postValidation(result)))
+
+                if (result == null || (postValidation != null && !postValidation(result)))
                 {
-                    return resultType == ActionResultType.PartialView ? PartialView(viewName, result) : View(viewName, result) as ActionResult;
+                    throw new ResourceNotFoundException(nameof(TOutput), key.ToString());
+                }
+
+                if (resultType == ActionResultType.PartialView)
+                {
+                    return PartialView(viewName, result);
                 }
                 else
                 {
-                    throw new ResourceNotFoundException(nameof(TOutput), key.ToString());
+                    if (partialViewWrapper != null)
+                    {
+                        partialViewWrapper.Model = result;
+                        partialViewWrapper.PartialView = viewName;
+                        return View(partialViewWrapperView, partialViewWrapper);
+                    }
+                    else
+                    {
+                        return View(viewName, result);
+                    }
                 }
             }
             catch (Exception ex)

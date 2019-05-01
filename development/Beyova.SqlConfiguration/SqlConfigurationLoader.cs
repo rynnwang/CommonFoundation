@@ -21,7 +21,7 @@
         {
             // Have to set configuration key here, to move get value by configuration key in GetReader.
             // Because when in constructor, none of configuration readers is registered yet.
-            this.ConfigurationKey = configurationKey;
+            ConfigurationKey = configurationKey;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         {
             // Have to use ConfigurationHub.GetConfiguration, not Framework.GetConfiguration.
             // Because when go through this code part, Framework is still in constructor scope.
-            var sqlConnection = string.IsNullOrWhiteSpace(this.ConfigurationKey) ? null : ConfigurationHub.GetConfiguration<string>(this.ConfigurationKey);
+            var sqlConnection = string.IsNullOrWhiteSpace(ConfigurationKey) ? null : ConfigurationHub.GetConfiguration<string>(ConfigurationKey);
             return string.IsNullOrWhiteSpace(sqlConnection) ? null : new SqlConfigurationReader(sourceAssembly, coreComponentVersion, sqlConnection);
         }
     }

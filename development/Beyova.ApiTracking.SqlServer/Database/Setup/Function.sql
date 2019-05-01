@@ -15,7 +15,6 @@ BEGIN
     RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_ObjectIsApproved]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_ObjectIsApproved];
 GO
@@ -33,7 +32,6 @@ BEGIN
     RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_ObjectIsVisible]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_ObjectIsVisible];
 GO
@@ -51,7 +49,6 @@ BEGIN
     RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_ObjectIsWorkable]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_ObjectIsWorkable];
 GO
@@ -62,14 +59,13 @@ RETURNS BIT
 AS
 BEGIN
     DECLARE @ReturnValue AS BIT;
-    IF NOT ((@State & 0x1 = 0x1) OR (@State & 0x1 = 0x8))
-        SET @ReturnValue = 1;
-    ELSE
+    IF ((@State & 0x1 = 0x1) OR (@State & 0x8 = 0x8))
         SET @ReturnValue = 0;
+    ELSE
+        SET @ReturnValue = 1;
     RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_SetObjectDeleted]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_SetObjectDeleted];
 GO
@@ -87,7 +83,6 @@ BEGIN
         RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_GenerateSqlExpression]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_GenerateSqlExpression];
 GO
@@ -115,7 +110,6 @@ BEGIN
     RETURN @Result;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_PreventInjection]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_PreventInjection];
 GO
@@ -135,7 +129,6 @@ BEGIN
     RETURN @Value;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_GenerateWherePattern]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_GenerateWherePattern];
 GO
@@ -162,7 +155,6 @@ BEGIN
     RETURN @Result;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_JsonListToGuidTable]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_JsonListToGuidTable];
 GO
@@ -177,7 +169,6 @@ WITH
 [Value] UNIQUEIDENTIFIER '$'
 ) AS J;
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_CombineWhereExpression]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_CombineWhereExpression];
 GO
@@ -199,7 +190,6 @@ BEGIN
     RETURN @Result;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_JsonListToIntTable]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_JsonListToIntTable];
 GO
@@ -214,7 +204,6 @@ WITH
 [Value] INT '$'
 ) AS J;
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_JsonListToStringTable]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_JsonListToStringTable];
 GO
@@ -229,7 +218,6 @@ WITH
 [Value] NVARCHAR(MAX) '$'
 ) AS J;
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_IsNullOrEmptyString]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_IsNullOrEmptyString];
 GO
@@ -246,7 +234,6 @@ BEGIN
     RETURN @ReturnValue;
 END
 GO
-
 IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[fn_GenerateJsonArrayContainsExpression]') AND type in (N'FN',N'TF',N'IF'))
 DROP FUNCTION [dbo].[fn_GenerateJsonArrayContainsExpression];
 GO
@@ -273,4 +260,5 @@ BEGIN
     RETURN N'';
 END
 GO
+
 

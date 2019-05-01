@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace Beyova
 {
@@ -92,9 +93,23 @@ namespace Beyova
             {
                 type.CheckNullObject(nameof(type));
 
-                return (!string.IsNullOrWhiteSpace(rawStringValue)) ?
-                    type == typeof(string) ? rawStringValue : rawStringValue.ParseToJToken().ToObject(type) :
-                    null;
+                if (!string.IsNullOrWhiteSpace(rawStringValue))
+                {
+                    if (type == typeof(string))
+                    {
+                        return rawStringValue;
+                    }
+                    else if (type == typeof(Guid) || type == typeof(Guid?) || typeof(IStringConvertable).IsAssignableFrom(type))
+                    {
+                        return JToken.FromObject(rawStringValue).ToObject(type);
+                    }
+                    else
+                    {
+                        return rawStringValue.ParseToJToken().ToObject(type);
+                    }
+                }
+
+                return null;
             }
             catch (Exception ex)
             {

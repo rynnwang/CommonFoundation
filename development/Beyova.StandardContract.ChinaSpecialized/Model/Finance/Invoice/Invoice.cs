@@ -60,7 +60,7 @@ namespace Beyova.ChinaSpecialized
         /// </summary>
         public Invoice()
         {
-            this.Items = new List<InvoiceRowItem>();
+            Items = new List<InvoiceRowItem>();
         }
     }
 }

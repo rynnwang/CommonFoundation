@@ -67,8 +67,6 @@ namespace Beyova.Api.RestApi
         /// <param name="endpoint">The endpoint.</param>
         /// <param name="acceptGZip">if set to <c>true</c> [accept g zip].</param>
         /// <param name="timeout">The timeout.</param>
-        /// <exception cref="NotSupportedException"></exception>
-        /// <exception cref="System.NotSupportedException"></exception>
         public RestApiClientBase(ApiEndpoint endpoint, bool acceptGZip = false, int? timeout = null)
         {
             //Try detecting base client version and generated version.

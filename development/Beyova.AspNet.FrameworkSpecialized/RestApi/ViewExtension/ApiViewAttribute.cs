@@ -21,7 +21,7 @@ namespace Beyova.Web
         public ApiViewAttribute(string viewName)
             : base()
         {
-            this.ViewName = viewName;
+            ViewName = viewName;
         }
     }
 }

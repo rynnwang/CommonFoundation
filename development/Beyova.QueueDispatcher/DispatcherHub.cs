@@ -1,20 +1,17 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Beyova.QueueDispatch
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class DispatcherHub
     {
         /// <summary>
         /// The dispatchers
         /// </summary>
-        static HashSet<IQueueDispatcher> dispatchers = new HashSet<IQueueDispatcher>();
+        private static HashSet<IQueueDispatcher> dispatchers = new HashSet<IQueueDispatcher>();
 
         /// <summary>
         /// Registers the specified dispatcher.

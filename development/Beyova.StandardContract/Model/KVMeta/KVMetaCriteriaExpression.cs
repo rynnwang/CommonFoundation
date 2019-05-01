@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -13,6 +14,7 @@ namespace Beyova
         /// <value>
         /// The item left.
         /// </value>
+        [JsonProperty("itemLeft")]
         public string ItemLeft { get; set; }
 
         /// <summary>
@@ -21,6 +23,7 @@ namespace Beyova
         /// <value>
         /// The item right.
         /// </value>
+        [JsonProperty("itemRight")]
         public JValue ItemRight { get; set; }
 
         /// <summary>
@@ -29,6 +32,7 @@ namespace Beyova
         /// <value>
         /// The operator.
         /// </value>
+        [JsonProperty("operator")]
         public string Operator { get; set; }
 
         /// <summary>

@@ -148,6 +148,35 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Checks the default value object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyObject">Any object.</param>
+        /// <param name="objectIdentity">The object identity.</param>
+        /// <param name="friendlyHint">The friendly hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="sourceFilePath">The source file path.</param>
+        /// <param name="sourceLineNumber">The source line number.</param>
+        /// <exception cref="NullObjectException"></exception>
+        /// <exception cref="ExceptionScene"></exception>
+        public static void CheckDefaultValueObject<T>(this T anyObject, string objectIdentity, FriendlyHint friendlyHint = null,
+            [CallerMemberName] string memberName = null,
+            [CallerFilePath] string sourceFilePath = null,
+            [CallerLineNumber] int sourceLineNumber = 0)
+            where T : struct, IConvertible
+        {
+            if ((anyObject as IConvertible).ToInt32(null) == 0)
+            {
+                throw new NullObjectException(objectIdentity, friendlyHint, new ExceptionScene
+                {
+                    FilePath = sourceFilePath,
+                    LineNumber = sourceLineNumber,
+                    MethodName = memberName
+                });
+            }
+        }
+
+        /// <summary>
         /// Validates the object.
         /// </summary>
         /// <typeparam name="T"></typeparam>

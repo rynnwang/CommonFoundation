@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -13,6 +14,7 @@ namespace Beyova
         /// The difference is, this field saves data as base64 string.
         /// </summary>
         /// <value>The data.</value>
+        [JsonProperty("data")]
         public string Data { get; set; }
 
         /// <summary>
@@ -21,6 +23,7 @@ namespace Beyova
         /// <c>Data</c> and this property would not be passed in WCF communication.
         /// </summary>
         /// <value>The data in bytes.</value>
+        [JsonIgnore]
         public byte[] DataInBytes
         {
             get

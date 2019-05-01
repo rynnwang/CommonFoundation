@@ -281,6 +281,136 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this decimal value, string objectIdentifier, bool acceptZero = false)
+        {
+            if (acceptZero ? (value < 0) : (value <= 0))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(objectIdentifier, reason: acceptZero ? "requires>=0" : "requires>0");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this decimal? value, string objectIdentifier, bool acceptZero = false)
+        {
+            value.CheckNullObject(objectIdentifier);
+            RequiresPositiveNumber(value.Value, objectIdentifier, acceptZero);
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this int value, string objectIdentifier, bool acceptZero = false)
+        {
+            if (acceptZero ? (value < 0) : (value <= 0))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(objectIdentifier, reason: acceptZero ? "requires>=0" : "requires>0");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this int? value, string objectIdentifier, bool acceptZero = false)
+        {
+            value.CheckNullObject(objectIdentifier);
+            RequiresPositiveNumber(value.Value, objectIdentifier, acceptZero);
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this long value, string objectIdentifier, bool acceptZero = false)
+        {
+            if (acceptZero ? (value < 0) : (value <= 0))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(objectIdentifier, reason: acceptZero ? "requires>=0" : "requires>0");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this long? value, string objectIdentifier, bool acceptZero = false)
+        {
+            value.CheckNullObject(objectIdentifier);
+            RequiresPositiveNumber(value.Value, objectIdentifier, acceptZero);
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this float value, string objectIdentifier, bool acceptZero = false)
+        {
+            if (acceptZero ? (value < 0) : (value <= 0))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(objectIdentifier, reason: acceptZero ? "requires>=0" : "requires>0");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this float? value, string objectIdentifier, bool acceptZero = false)
+        {
+            value.CheckNullObject(objectIdentifier);
+            RequiresPositiveNumber(value.Value, objectIdentifier, acceptZero);
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this double value, string objectIdentifier, bool acceptZero = false)
+        {
+            if (acceptZero ? (value < 0) : (value <= 0))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(objectIdentifier, reason: acceptZero ? "requires>=0" : "requires>0");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the positive number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="objectIdentifier">The object identifier.</param>
+        /// <param name="acceptZero">if set to <c>true</c> [accept zero].</param>
+        public static void RequiresPositiveNumber(this double? value, string objectIdentifier, bool acceptZero = false)
+        {
+            value.CheckNullObject(objectIdentifier);
+            RequiresPositiveNumber(value.Value, objectIdentifier, acceptZero);
+        }
+
+        /// <summary>
         /// To the bytes.
         /// </summary>
         /// <typeparam name="T"></typeparam>

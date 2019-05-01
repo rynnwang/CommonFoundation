@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -36,6 +37,7 @@ namespace Beyova
         /// <value>
         /// The organization identifier.
         /// </value>
+        [JsonProperty("organizationId")]
         public TOrganizationId OrganizationId { get; set; }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Beyova
         /// <value>
         /// The user identifier.
         /// </value>
+        [JsonProperty("userId")]
         public TUserId UserId { get; set; }
 
         /// <summary>

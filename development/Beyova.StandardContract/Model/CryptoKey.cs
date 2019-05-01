@@ -90,7 +90,7 @@ namespace Beyova
         /// </returns>
         public static implicit operator byte[] (CryptoKey value)
         {
-            return value.ByteValue;
+            return value?.ByteValue;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Beyova
         /// </returns>
         public static implicit operator string(CryptoKey value)
         {
-            return value.StringValue;
+            return value?.StringValue;
         }
 
         #endregion implicit methods
@@ -159,6 +159,15 @@ namespace Beyova
         public override int GetHashCode()
         {
             return ByteValue?.GetHashCode() ?? 0;
+        }
+
+        /// <summary>
+        /// Randoms this instance.
+        /// </summary>
+        /// <returns></returns>
+        public static CryptoKey Random()
+        {
+            return Random(32);
         }
 
         /// <summary>

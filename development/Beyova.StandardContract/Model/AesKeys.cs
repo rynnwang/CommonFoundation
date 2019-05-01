@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     /// Class AesKeys.
@@ -11,6 +13,7 @@
         /// <value>
         /// The key.
         /// </value>
+        [JsonProperty("key")]
         public CryptoKey Key { get; set; }
 
         /// <summary>
@@ -19,6 +22,7 @@
         /// <value>
         /// The initialization vector.
         /// </value>
+        [JsonProperty("initializationVector")]
         public CryptoKey InitializationVector { get; set; }
 
         /// <summary>
@@ -27,6 +31,7 @@
         /// <value>
         /// The size of the key.
         /// </value>
+        [JsonProperty("keySize")]
         public int KeySize { get; set; }
 
         /// <summary>

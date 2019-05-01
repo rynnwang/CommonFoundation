@@ -54,7 +54,7 @@ namespace Beyova
         /// </summary>
         public FinancialItemSummary()
         {
-            this.Details = new List<FinancialItemDetail>();
+            Details = new List<FinancialItemDetail>();
         }
     }
 }

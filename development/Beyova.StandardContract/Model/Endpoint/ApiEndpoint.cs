@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova.Api
 {
@@ -11,18 +12,21 @@ namespace Beyova.Api
         /// Gets or sets the account.
         /// </summary>
         /// <value>The account.</value>
+        [JsonProperty("account")]
         public string Account { get; set; }
 
         /// <summary>
         /// Gets or sets the token.
         /// </summary>
         /// <value>The token.</value>
+        [JsonProperty("token")]
         public string Token { get; set; }
 
         /// <summary>
         /// Gets or sets the secondary token.
         /// </summary>
         /// <value>The secondary token.</value>
+        [JsonProperty("secondaryToken")]
         public string SecondaryToken { get; set; }
 
         /// <summary>

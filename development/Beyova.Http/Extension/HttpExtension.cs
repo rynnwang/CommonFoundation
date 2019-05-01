@@ -357,13 +357,25 @@ namespace Beyova
         /// <returns></returns>
         public static HttpCredential GetBasicAuthentication(string basicAuthorizationValue)
         {
-            HttpCredential result = null;
+            return GetBasicAuthentication<HttpCredential>(basicAuthorizationValue);
+        }
+
+        /// <summary>
+        /// Gets the basic authentication.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="basicAuthorizationValue">The basic authorization value.</param>
+        /// <returns></returns>
+        public static T GetBasicAuthentication<T>(string basicAuthorizationValue)
+            where T : ICommonCredential, new()
+        {
+            T result = default(T);
             if (!string.IsNullOrWhiteSpace(basicAuthorizationValue))
             {
                 if (basicAuthorizationValue.StartsWith(basicAuthorizationPrefix))
                 {
                     basicAuthorizationValue = basicAuthorizationValue.Substring(basicAuthorizationPrefix.Length).DecodeBase64();
-                    result = basicAuthorizationValue.ParseDomainCredentialToHttpCredential();
+                    result = basicAuthorizationValue.ParseDomainCredentialToHttpCredential<T>();
                 }
             }
 

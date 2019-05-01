@@ -1,6 +1,6 @@
 ﻿using System;
-using Beyova.ApiTracking;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
+using Beyova.Diagnostic;
 
 namespace Beyova
 {

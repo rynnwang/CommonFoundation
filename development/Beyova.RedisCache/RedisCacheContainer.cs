@@ -58,9 +58,9 @@ namespace Beyova.Cache
                 containerOptions = new RedisCacheOptions();
             }
 
-            this.EntityName = containerOptions.UseEntityFullName ? typeof(TEntity).ToCodeLook() : typeof(TEntity).Name;
-            this.KeyGenerator = keyGenerator ?? new DefaultRedisKeyGenerator<TKey>(this.EntityName);
-            this.Client = GetMultiplexer(containerOptions.Endpoints, (containerOptions.DatabaseIndex));
+            EntityName = containerOptions.UseEntityFullName ? typeof(TEntity).ToCodeLook() : typeof(TEntity).Name;
+            KeyGenerator = keyGenerator ?? new DefaultRedisKeyGenerator<TKey>(EntityName);
+            Client = GetMultiplexer(containerOptions.Endpoints, (containerOptions.DatabaseIndex));
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace Beyova.Cache
         /// <returns></returns>
         protected override bool InternalTryGetValidEntityFromCache(TKey key, out TEntity entity)
         {
-            if (this.Client != null)
+            if (Client != null)
             {
-                var slotKey = this.KeyGenerator.GetKey(key);
+                var slotKey = KeyGenerator.GetKey(key);
 
-                if (this.Client.Exists(slotKey))
+                if (Client.Exists(slotKey))
                 {
-                    entity = this.Client.Get<TEntity>(slotKey);
+                    entity = Client.Get<TEntity>(slotKey);
                     return true;
                 }
             }
@@ -97,21 +97,21 @@ namespace Beyova.Cache
         protected override DateTime? InternalUpdate(TKey key, TEntity entity, bool ifNotExistsThenInsert, Func<DateTime?> getExpiredStamp)
         {
             DateTime? expiredStamp = null;
-            if (this.Client != null)
+            if (Client != null)
             {
                 try
                 {
-                    var slotKey = this.KeyGenerator.GetKey(key);
+                    var slotKey = KeyGenerator.GetKey(key);
 
-                    if (this.Client.Exists(slotKey))
+                    if (Client.Exists(slotKey))
                     {
                         expiredStamp = getExpiredStamp();
-                        this.Client.Replace(slotKey, entity, expiredStamp);
+                        Client.Replace(slotKey, entity, expiredStamp);
                     }
                     else if (ifNotExistsThenInsert)
                     {
                         expiredStamp = getExpiredStamp();
-                        this.Client.Add(slotKey, entity, expiredStamp);
+                        Client.Add(slotKey, entity, expiredStamp);
                     }
                 }
                 catch (Exception ex)
@@ -128,7 +128,7 @@ namespace Beyova.Cache
         /// </summary>
         protected override void InternalClear()
         {
-            this.Client?.FlushDb();
+            Client?.FlushDb();
         }
 
         #region Static methods

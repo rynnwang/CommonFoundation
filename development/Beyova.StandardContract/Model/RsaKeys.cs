@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     /// Class RsaKeys.
@@ -9,13 +11,14 @@
         /// Gets or sets the private key.
         /// </summary>
         /// <value>The private key.</value>
+        [JsonProperty("privateKey")]
         public CryptoKey PrivateKey { get; set; }
 
         /// <summary>
         /// Gets or sets the public key.
         /// </summary>
         /// <value>The public key.</value>
-        public CryptoKey PublicKey { get; set; }
+        [JsonProperty("publicKey")] public CryptoKey PublicKey { get; set; }
 
         /// <summary>
         /// Gets or sets the size of the double word key.
@@ -23,6 +26,7 @@
         /// <value>
         /// The size of the double word key.
         /// </value>
+        [JsonProperty("doubleWordKeySize")]
         public int DoubleWordKeySize { get; set; }
 
         /// <summary>

@@ -20,12 +20,37 @@
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNet\JsonNetValueProviderFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ActionFilter\RestApiContextConsistenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MemoryExceptionContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SiteOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MultipleSelectionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\PartialViewWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SingleSelectionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SelectionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Scripts\beyova-admin-util.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Content\Scripts\beyova.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Content\Views\Error\Index.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Content\Views\Shared\PartialViewWrapper.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Content\Views\Shared\_Exception.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Content\beyova-admin-util.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

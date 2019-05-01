@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     ///
@@ -11,6 +13,7 @@
         /// <value>
         /// The account.
         /// </value>
+        [JsonProperty("account")]
         public string Account { get; set; }
 
         /// <summary>
@@ -19,6 +22,7 @@
         /// <value>
         /// The token.
         /// </value>
+        [JsonProperty("token")]
         public string Token { get; set; }
 
         /// <summary>
@@ -27,6 +31,7 @@
         /// <value>
         /// The domain.
         /// </value>
+        [JsonProperty("domain")]
         public string Domain { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Beyova
 {
@@ -11,12 +12,14 @@ namespace Beyova
         /// Gets or sets the token.
         /// </summary>
         /// <value>The token.</value>
+        [JsonProperty("token")]
         public string Token { get; set; }
 
         /// <summary>
         /// Gets or sets the permissions.
         /// </summary>
         /// <value>The permissions.</value>
+        [JsonProperty("permissions")]
         public List<string> Permissions { get; set; }
 
         /// <summary>

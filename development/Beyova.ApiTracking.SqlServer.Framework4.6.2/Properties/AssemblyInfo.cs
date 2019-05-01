@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -10,8 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.ApiTracking.SqlServer")]
 [assembly: AssemblyCulture("")]
-
-[assembly: BeyovaComponent("Beyova.ApiTracking.SqlServer", "1.0.0")]
+[assembly: BeyovaComponent("Beyova.ApiTracking.SqlServer", "1.2.1")]
 //[assembly: PreApplicationStartMethod(typeof(WebInfrastructureEnhancement), "Initialize")]
 
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]

@@ -1,16 +1,16 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    ///
+    /// 
     /// </summary>
-    public interface IRowId
+    public interface ISequence
     {
         /// <summary>
-        /// Gets or sets the row identifier.
+        /// Gets or sets the sequence.
         /// </summary>
         /// <value>
-        /// The row identifier.
+        /// The sequence.
         /// </value>
-        long? RowId { get; set; }
+        int Sequence { get; set; }
     }
 }

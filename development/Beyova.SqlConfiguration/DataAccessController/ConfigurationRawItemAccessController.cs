@@ -109,7 +109,7 @@ namespace Beyova
                     GenerateSqlSpParameter(column_Key, key)
                 };
 
-                this.ExecuteNonQuery(spName, parameters);
+                ExecuteNonQuery(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace Beyova
                     GenerateSqlSpParameter(column_Key, key)
                 };
 
-                return this.ExecuteReader(spName, parameters);
+                return ExecuteReader(spName, parameters);
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace Beyova
                     GenerateSqlSpParameter(column_Value, Framework.DataSecurityProvider.EncryptObjectAsString(item.Value)),
                 };
 
-                this.ExecuteNonQuery(spName, parameters);
+                ExecuteNonQuery(spName, parameters);
             }
             catch (Exception ex)
             {

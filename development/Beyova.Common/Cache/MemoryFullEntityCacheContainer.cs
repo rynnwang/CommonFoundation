@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Beyova.Diagnostic;
 
 namespace Beyova.Cache
 {
@@ -202,6 +202,17 @@ namespace Beyova.Cache
         /// <returns></returns>
         public IEnumerable<TEntity> Query(Func<TEntity, bool> predict)
         {
+            if (IsExpired)
+            {
+                lock (_itemChangeLocker)
+                {
+                    if (IsExpired)
+                    {
+                        ExpiredStamp = InternalUpdate();
+                    }
+                }
+            }
+
             return predict == null ? (_readOnlyContainer?.Values) : _readOnlyContainer?.Values?.Where(predict);
         }
 
@@ -212,7 +223,7 @@ namespace Beyova.Cache
         {
             lock (_itemChangeLocker)
             {
-                ExpiredStamp = DateTime.UtcNow;
+                ExpiredStamp = DateTime.UtcNow.AddSeconds(-1);
             }
         }
 
@@ -223,6 +234,17 @@ namespace Beyova.Cache
         /// <returns></returns>
         public TEntity Get(Func<TEntity, bool> predict)
         {
+            if (IsExpired)
+            {
+                lock (_itemChangeLocker)
+                {
+                    if (IsExpired)
+                    {
+                        ExpiredStamp = InternalUpdate();
+                    }
+                }
+            }
+
             if (predict != null && _readOnlyContainer != null && _readOnlyContainer.Values != null)
             {
                 foreach (var item in _readOnlyContainer.Values)

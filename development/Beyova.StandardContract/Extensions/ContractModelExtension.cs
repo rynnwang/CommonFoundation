@@ -113,6 +113,86 @@ namespace Beyova
         #region MatrixList
 
         /// <summary>
+        /// Groups as matrix list.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keySelector">The key selector.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            return source.GroupBy(keySelector).ToMatrixList();
+        }
+
+        /// <summary>
+        /// Groups as matrix list.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keySelector">The key selector.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
+        {
+            return source.GroupBy(keySelector, comparer).ToMatrixList(comparer);
+        }
+
+        /// <summary>
+        /// Groups as matrix list.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keySelector">The key selector.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> keySelector, IEqualityComparer<TKey> comparer)
+            where TKey : struct
+        {
+
+            return source.Where(x => keySelector(x).HasValue).GroupBy(x => keySelector(x).Value, comparer).ToMatrixList(comparer);
+        }
+
+        /// <summary>
+        /// Groups as matrix list.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="keySelector">The key selector.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> keySelector)
+            where TKey : struct
+        {
+
+            return source.Where(x => keySelector(x).HasValue).GroupBy(x => keySelector(x).Value).ToMatrixList();
+        }
+
+        /// <summary>
+        /// To the matrix list.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TSource> ToMatrixList<TKey, TSource>(this IEnumerable<IGrouping<TKey, TSource>> source, IEqualityComparer<TKey> comparer = null)
+        {
+            MatrixList<TKey, TSource> result = new MatrixList<TKey, TSource>(comparer);
+            if (source.HasItem())
+            {
+                foreach (var item in result)
+                {
+                    result.Add(item.Key, (item as IEnumerable<TSource>).ToList() ?? new List<TSource>());
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// To the list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -267,7 +347,7 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="items">The items.</param>
         /// <returns></returns>
-        public static IEnumerable<Guid> Keys<T>(this IEnumerable<T> items)
+        public static HashSet<Guid> Keys<T>(this IEnumerable<T> items)
             where T : IIdentifier
         {
             HashSet<Guid> result = new HashSet<Guid>();
@@ -293,7 +373,7 @@ namespace Beyova
         /// <param name="items">The items.</param>
         /// <param name="stringComparer">The string comparer.</param>
         /// <returns></returns>
-        public static IEnumerable<string> Codes<T>(this IEnumerable<T> items, StringComparer stringComparer = null)
+        public static HashSet<string> Codes<T>(this IEnumerable<T> items, StringComparer stringComparer = null)
             where T : ICodeIdentifier
         {
             HashSet<string> result = new HashSet<string>(stringComparer ?? StringComparer.Ordinal);
@@ -407,6 +487,37 @@ namespace Beyova
         #endregion
 
         /// <summary>
+        /// To the stamp point.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyObject">Any object.</param>
+        /// <returns></returns>
+        public static StampPoint<T> ToStampPoint<T>(this T anyObject)
+            where T : ISimpleBaseObject
+        {
+            if (anyObject != null && anyObject.CreatedStamp.HasValue)
+            {
+                return new StampPoint<T>(anyObject.CreatedStamp.Value, anyObject);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Sorts the by sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sequenceList">The sequence list.</param>
+        public static void SortBySequence<T>(this List<T> sequenceList)
+          where T : ISequence
+        {
+            if (sequenceList.HasItem())
+            {
+                sequenceList.Sort(x => x.Sequence);
+            }
+        }
+
+        /// <summary>
         /// Creates the commit request.
         /// </summary>
         /// <param name="storageIdentifier">The storage identifier.</param>
@@ -414,6 +525,48 @@ namespace Beyova
         public static BinaryStorageCommitRequest CreateCommitRequest(this BinaryStorageIdentifier storageIdentifier)
         {
             return storageIdentifier == null ? null : new BinaryStorageCommitRequest(storageIdentifier);
+        }
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyCollection">Any collection.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static T GetByKey<T>(this IEnumerable<T> anyCollection, Guid? key)
+            where T : IIdentifier
+        {
+            return (anyCollection.HasItem() && key.HasValue) ? anyCollection.FirstOrDefault(x => x.Key == key) : default(T);
+        }
+
+        /// <summary>
+        /// Gets the by code.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyCollection">Any collection.</param>
+        /// <param name="code">The code.</param>
+        /// <param name="stringComparison">The string comparison.</param>
+        /// <returns></returns>
+        public static T GetByCode<T>(this IEnumerable<T> anyCollection, string code, StringComparison stringComparison = StringComparison.OrdinalIgnoreCase)
+           where T : ICodeIdentifier
+        {
+            return (anyCollection.HasItem() && !string.IsNullOrWhiteSpace(code)) ? anyCollection.FirstOrDefault(x => code.MeaningfulEquals(x.Code, stringComparison)) : default(T);
+        }
+
+        /// <summary>
+        /// Determines whether the specified now is expired.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyObject">Any object.</param>
+        /// <param name="now">The now.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified now is expired; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsExpired<T>(this T anyObject, DateTime? now = null)
+            where T : IExpirable
+        {
+            return anyObject != null && anyObject.ExpiredStamp.HasValue && anyObject.ExpiredStamp < (now ?? DateTime.UtcNow);
         }
     }
 }

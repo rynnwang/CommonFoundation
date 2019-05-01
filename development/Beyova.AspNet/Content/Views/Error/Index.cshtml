@@ -1,0 +1,11 @@
+﻿@using Beyova.Diagnostic;
+@model ExceptionInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = SiteOptions.Layout;
+}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        @Html.Partial("_Exception",Model)
+    </div>
+</div>

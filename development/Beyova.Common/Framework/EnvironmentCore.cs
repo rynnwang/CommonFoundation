@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Beyova;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -8,7 +9,6 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using Beyova;
 
 namespace Beyova
 {
@@ -73,38 +73,12 @@ namespace Beyova
         /// The descending assembly dependency chain. Descending here means order by referenced amount.
         /// So result would be like: web -> core -> contract - > common -> json.net, etc.
         /// </summary>
-        public static ReadOnlyCollection<Assembly> DescendingAssemblyDependencyChain { get { return _descendingAssemblyDependencyChain; } }
-
-        /// <summary>
-        /// The descending assembly dependency chain
-        /// </summary>
-        private static ReadOnlyCollection<Assembly> _descendingAssemblyDependencyChain;
+        public static ReadOnlyCollection<Assembly> DescendingAssemblyDependencyChain { get; private set; }
 
         /// <summary>
         /// The ascending assembly dependency chain
         /// </summary>
-        public static ReadOnlyCollection<Assembly> AscendingAssemblyDependencyChain { get { return _ascendingAssemblyDependencyChain; } }
-
-        /// <summary>
-        /// The ascending assembly dependency chain
-        /// </summary>
-        private static ReadOnlyCollection<Assembly> _ascendingAssemblyDependencyChain;
-
-        /// <summary>
-        /// Gets the entry assembly.
-        /// </summary>
-        /// <value>
-        /// The entry assembly.
-        /// </value>
-        public static Assembly EntryAssembly { get { return DescendingAssemblyDependencyChain.FirstOrDefault(); } }
-
-        /// <summary>
-        /// Gets or sets the product component information.
-        /// </summary>
-        /// <value>
-        /// The product component information.
-        /// </value>
-        public static BeyovaComponentInfo ProductComponentInfo { get; private set; }
+        public static ReadOnlyCollection<Assembly> AscendingAssemblyDependencyChain { get; private set; }
 
         /// <summary>
         /// Gets or sets the common component information.
@@ -147,16 +121,10 @@ namespace Beyova
             ApplicationId = System.AppDomain.CurrentDomain.Id;
 
             var dependencyChain = ReflectionExtension.GetAppDomainAssemblies().GetAssemblyDependencyChain(true);
-            _ascendingAssemblyDependencyChain = new List<Assembly>(dependencyChain).AsReadOnly();
+            AscendingAssemblyDependencyChain = new List<Assembly>(dependencyChain).AsReadOnly();
             dependencyChain.Reverse();
 
-            _descendingAssemblyDependencyChain = dependencyChain.AsReadOnly();
-
-            var entryAssembly = DescendingAssemblyDependencyChain.FirstOrDefault();
-            if (!entryAssembly.IsSystemAssembly())
-            {
-                ProductComponentInfo = entryAssembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
-            }
+            DescendingAssemblyDependencyChain = dependencyChain.AsReadOnly();       
 
             CommonComponentInfo = typeof(EnvironmentCore).Assembly.GetCustomAttribute<BeyovaComponentAttribute>()?.UnderlyingObject;
 
@@ -184,19 +152,16 @@ namespace Beyova
 
             try
             {
-                if (AppDomain.CurrentDomain != null)
-                {
-                    ProductName = AppDomain.CurrentDomain.FriendlyName;
-                }
+                ProductName = FindProductName();
 
-                if (string.IsNullOrWhiteSpace(ProductName) || ProductName.IndexOfAny(new char[] { '/', '\\', ':', '*' }) > -1)
+                if (string.IsNullOrWhiteSpace(ProductName))
                 {
                     ProductName = Assembly.GetEntryAssembly()?.FullName;
                 }
 
-                if (string.IsNullOrWhiteSpace(ProductName))
+                if (string.IsNullOrWhiteSpace(ProductName) && AppDomain.CurrentDomain != null)
                 {
-                    ProductName = FindProductName();
+                    ProductName = AppDomain.CurrentDomain.FriendlyName;
                 }
             }
             catch { ProductName = string.Empty; }

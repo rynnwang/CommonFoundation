@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -10,8 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.AspNet")]
 [assembly: AssemblyCulture("")]
-
-[assembly: BeyovaComponent("Beyova.AspNet", "1.7.0")]
+[assembly: BeyovaComponent("Beyova.AspNet", "1.8.4")]
 //[assembly: PreApplicationStartMethod(typeof(WebInfrastructureEnhancement), "Initialize")]
 
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]

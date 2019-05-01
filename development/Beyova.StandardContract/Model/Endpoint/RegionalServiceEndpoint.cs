@@ -1,4 +1,5 @@
 ﻿using Beyova.Api;
+using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -12,6 +13,7 @@ namespace Beyova
         /// Gets or sets the region.
         /// </summary>
         /// <value>The region.</value>
+        [JsonProperty("region")]
         public TRegion Region { get; set; }
     }
 

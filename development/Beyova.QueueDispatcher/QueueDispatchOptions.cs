@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Beyova.QueueDispatch
+﻿namespace Beyova.QueueDispatch
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class QueueDispatchOptions
     {

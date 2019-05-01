@@ -297,11 +297,11 @@ namespace Beyova
                         else
                         {
                             // To be obsoleted
-                            var configurationAttribute = assembly.GetCustomAttribute<BeyovaConfigurationAttribute>();
-                            if (configurationAttribute != null)
-                            {
-                                ConfigurationHub.RegisterConfigurationReader(new JsonConfigurationReader(currentAssemblyName, componentInfo?.Version, nameof(JsonConfigurationReader), configurationAttribute.Options));
-                            }
+                            //var configurationAttribute = assembly.GetCustomAttribute<BeyovaConfigurationAttribute>();
+                            //if (configurationAttribute != null)
+                            //{
+                            //    ConfigurationHub.RegisterConfigurationReader(new JsonConfigurationReader(currentAssemblyName, componentInfo?.Version, nameof(JsonConfigurationReader), configurationAttribute.Options));
+                            //}
                         }
 
                         #endregion BeyovaConfigurationLoaderAttribute

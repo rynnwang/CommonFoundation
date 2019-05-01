@@ -87,12 +87,24 @@ namespace Beyova
         /// <returns></returns>
         public static HttpCredential ParseDomainCredentialToHttpCredential(this string urlCredential)
         {
+            return ParseDomainCredentialToHttpCredential<HttpCredential>(urlCredential);
+        }
+
+        /// <summary>
+        /// Parses the domain credential to HTTP credential.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="urlCredential">The URL credential.</param>
+        /// <returns></returns>
+        public static T ParseDomainCredentialToHttpCredential<T>(this string urlCredential)
+            where T : ICommonCredential, new()
+        {
             if (!string.IsNullOrWhiteSpace(urlCredential))
             {
                 var match = domainCredentialRegex.Match(urlCredential);
                 if (match.Success)
                 {
-                    return new HttpCredential
+                    return new T
                     {
                         Token = match.Result("${Token}"),
                         Account = match.Result("${AccountName}"),
@@ -101,7 +113,7 @@ namespace Beyova
                 }
             }
 
-            return null;
+            return default(T);
         }
 
         /// <summary>

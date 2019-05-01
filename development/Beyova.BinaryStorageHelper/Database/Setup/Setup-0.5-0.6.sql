@@ -39,8 +39,6 @@ BEGIN
 END
 GO
 
-
-
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[view_UserBinaryStorageMetaData]') AND type in (N'V'))
 DROP VIEW [dbo].[view_UserBinaryStorageMetaData]
 GO
@@ -451,8 +449,8 @@ BEGIN
                 ,BSMD.[State]
             FROM [dbo].[BinaryStorageMetaData] AS BSMD
                 JOIN OPENJSON(@Identifiers) WITH(
-                    [Identifier] UNIQUEIDENTIFIER '$.Identifier',
-                    [Container] NVARCHAR(128) '$.Container'
+                    [Identifier] UNIQUEIDENTIFIER '$.identifier',
+                    [Container] NVARCHAR(128) '$.container'
                     ) 
                     AS IDTABLE
                     ON BSMD.[Identifier] = IDTABLE.[Identifier] AND (IDTABLE.[Container] IS NULL OR IDTABLE.[Container] = '' OR BSMD.[Container] = IDTABLE.[Container])

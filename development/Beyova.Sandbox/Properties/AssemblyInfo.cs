@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -10,7 +9,6 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Sandbox")]
 [assembly: AssemblyCulture("")]
-
 [assembly: BeyovaComponent("Beyova.Sandbox", "1.0.1")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]

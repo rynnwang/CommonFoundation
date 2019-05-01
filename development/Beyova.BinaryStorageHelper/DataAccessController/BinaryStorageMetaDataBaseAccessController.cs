@@ -29,11 +29,6 @@ namespace Beyova.Binary
         protected const string column_Mime = "Mime";
 
         /// <summary>
-        /// The column_ length
-        /// </summary>
-        protected const string column_Length = "Length";
-
-        /// <summary>
         /// The column_ minimum length
         /// </summary>
         protected const string column_MinLength = "MinLength";
@@ -49,11 +44,6 @@ namespace Beyova.Binary
         protected const string column_MetaData = "MetaData";
 
         /// <summary>
-        /// The column_ height
-        /// </summary>
-        protected const string column_Height = "Height";
-
-        /// <summary>
         /// The column_ minimum height
         /// </summary>
         protected const string column_MinHeight = "MinHeight";
@@ -62,11 +52,6 @@ namespace Beyova.Binary
         /// The column_ maximum height
         /// </summary>
         protected const string column_MaxHeight = "MaxHeight";
-
-        /// <summary>
-        /// The column_ width
-        /// </summary>
-        protected const string column_Width = "Width";
 
         /// <summary>
         /// The column_ minimum width
@@ -345,7 +330,7 @@ namespace Beyova.Binary
 
                 var parameters = new List<SqlParameter>
                 {
-                    GenerateSqlSpParameter(column_Identifiers, identifiers.ToJson(false)),
+                    GenerateSqlSpParameter(column_Identifiers,ToSqlJson(identifiers)),
                 };
 
                 return ExecuteReader(spName, parameters);

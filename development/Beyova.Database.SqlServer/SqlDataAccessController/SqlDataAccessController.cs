@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -419,51 +421,224 @@ namespace Beyova
         #region GenerateSqlSpParameter
 
         /// <summary>
-        /// Generates the name of the SQL sp parameter.
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the object.</typeparam>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter<TObject>(string columnName, TObject parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            if (typeof(IStringConvertable).IsAssignableFrom(typeof(TObject)))
+            {
+                return GenerateSqlSpParameter(columnName, parameterObject?.ToString(), direction);
+            }
+            else if (typeof(TObject).IsClass)
+            {
+                return InternalGenerateSqlSpParameter(columnName, ToSqlJson(parameterObject), SqlDbType.NVarChar, direction);
+            }
+            else
+            {
+                if (parameterObject is Enum)
+                {
+                    return GenerateSqlSpParameter(columnName, (parameterObject as IConvertible).ToInt32(CultureInfo.InvariantCulture), direction);
+                }
+                else
+                {
+                    return InternalGenerateSqlSpParameter(columnName, parameterObject, null, direction);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">if set to <c>true</c> [parameter object].</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, bool parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return InternalGenerateSqlSpParameter(columnName, parameterObject ? 1 : 0, SqlDbType.Bit, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
         /// </summary>
         /// <param name="columnName">Name of the column.</param>
         /// <param name="parameterObject">The parameter object.</param>
         /// <param name="direction">The direction.</param>
-        /// <returns>SqlParameter.</returns>
-        protected SqlParameter GenerateSqlSpParameter(string columnName, object parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, bool? parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return parameterObject.HasValue ?
+                 GenerateSqlSpParameter(columnName, parameterObject.Value, direction)
+                : InternalGenerateSqlSpParameter(columnName, Convert.DBNull, SqlDbType.Bit, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the numeric structure.</typeparam>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter<TObject>(string columnName, TObject? parameterObject, ParameterDirection direction = ParameterDirection.Input)
+          where TObject : struct
+        {
+            if (parameterObject is Enum)
+            {
+                return parameterObject.HasValue ?
+                    GenerateSqlSpParameter(columnName, ((IConvertible)parameterObject.Value).ToInt32(CultureInfo.InvariantCulture), direction)
+                    : InternalGenerateSqlSpParameter(columnName, Convert.DBNull, SqlDbType.Int, direction);
+            }
+            else if (parameterObject is IStringConvertable)
+            {
+                return GenerateSqlSpParameter(columnName, parameterObject.HasValue ? parameterObject.ToString() : null, direction);
+            }
+            else if (parameterObject is IConvertible)
+            {
+                return InternalGenerateSqlSpParameter(columnName, parameterObject ?? Convert.DBNull, null, direction);
+            }
+            else
+            {
+                return GenerateSqlSpParameter(columnName, ToSqlJson(parameterObject), direction);
+            }
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, string parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return InternalGenerateSqlSpParameter(columnName, parameterObject ?? Convert.DBNull, SqlDbType.NVarChar, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="dateTimeKindIfToDateTime">The date time kind if to date time.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, Date parameterObject, DateTimeKind dateTimeKindIfToDateTime, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return GenerateSqlSpParameter(columnName, parameterObject.ToDateTime(dateTimeKindIfToDateTime), direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, byte[] parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return InternalGenerateSqlSpParameter(columnName, parameterObject ?? SqlBinary.Null, SqlDbType.VarBinary, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, CryptoKey parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return GenerateSqlSpParameter(columnName, parameterObject?.ByteValue, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, JToken parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return GenerateSqlSpParameter(columnName, parameterObject?.ToString(), direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, Guid? parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        {
+            return InternalGenerateSqlSpParameter(columnName, parameterObject ?? Convert.DBNull, SqlDbType.UniqueIdentifier, direction);
+        }
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the object.</typeparam>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter<TObject>(string columnName, IEnumerable<TObject> parameterObject, ParameterDirection direction = ParameterDirection.Input)
+            where TObject : struct
+        {
+            return InternalGenerateSqlSpParameter(columnName, ToSqlJson(parameterObject), SqlDbType.NVarChar, direction);
+        }
+
+        ///// <summary>
+        ///// Generates the SQL sp parameter.
+        ///// </summary>
+        ///// <param name="columnName">Name of the column.</param>
+        ///// <param name="parameterObject">The parameter object.</param>
+        ///// <param name="direction">The direction.</param>
+        ///// <returns></returns>
+        //protected SqlParameter GenerateSqlSpParameter(string columnName, IStringConvertable parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        //{
+        //    return GenerateSqlSpParameter(columnName, parameterObject?.ToString(), direction);
+        //}
+
+        /// <summary>
+        /// Generates the SQL sp parameter.
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="sqlDbType">Type of the SQL database.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
+        protected SqlParameter GenerateSqlSpParameter(string columnName, object parameterObject, SqlDbType? sqlDbType, ParameterDirection direction = ParameterDirection.Input)
         {
             if (parameterObject != null)
             {
-                if (parameterObject is Enum)
-                {
-                    parameterObject = (int)parameterObject;
-                }
-                else if (parameterObject is CryptoKey)
-                {
-                    parameterObject = (byte[])((CryptoKey)parameterObject);
-
-                    // Somehow, when SQL type is VarBinary, DB NULL cannot work for null value.
-                    // Need to specifically set SqlBinary.Null.
-                    if (parameterObject == null)
-                    {
-                        parameterObject = System.Data.SqlTypes.SqlBinary.Null;
-                    }
-                }
-                else if (parameterObject is JToken)
-                {
-                    parameterObject = parameterObject.ToString();
-                }
-                else if (parameterObject is IStringConvertable)
+                if (parameterObject is IStringConvertable)
                 {
                     parameterObject = parameterObject == null ? Convert.DBNull : parameterObject.ToString() as object;
                 }
-                else
-                {
-                    var boolParameterObject = parameterObject as bool?;
-                    if (boolParameterObject.HasValue)
-                    {
-                        parameterObject = boolParameterObject.Value ? 1 : 0;
-                    }
-                }
             }
 
-            return InternalGenerateSqlSpParameter(columnName, parameterObject ?? Convert.DBNull, direction);
+            return InternalGenerateSqlSpParameter(columnName, parameterObject ?? Convert.DBNull, sqlDbType, direction);
         }
+
+        ///// <summary>
+        ///// Generates the name of the SQL sp parameter.
+        ///// </summary>
+        ///// <param name="columnName">Name of the column.</param>
+        ///// <param name="parameterObject">The parameter object.</param>
+        ///// <param name="direction">The direction.</param>
+        ///// <returns>SqlParameter.</returns>
+        //protected SqlParameter GenerateSqlSpParameter(string columnName, object parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        //{
+        //    return GenerateSqlSpParameter(columnName, parameterObject, null, direction);
+        //}
 
         /// <summary>
         /// To the SQL json.
@@ -481,11 +656,21 @@ namespace Beyova
         /// </summary>
         /// <param name="columnName">Name of the column.</param>
         /// <param name="parameterObject">The parameter object.</param>
+        /// <param name="sqlDbType">Type of the SQL database.</param>
         /// <param name="direction">The direction.</param>
-        /// <returns>SqlParameter.</returns>
-        protected internal SqlParameter InternalGenerateSqlSpParameter(string columnName, object parameterObject, ParameterDirection direction = ParameterDirection.Input)
+        /// <returns></returns>
+        protected internal SqlParameter InternalGenerateSqlSpParameter(string columnName, object parameterObject, SqlDbType? sqlDbType = null, ParameterDirection direction = ParameterDirection.Input)
         {
-            return new SqlParameter("@" + columnName.Trim(), parameterObject ?? Convert.DBNull) { Direction = direction };
+            var result = new SqlParameter("@" + columnName.Trim(), parameterObject ?? Convert.DBNull)
+            {
+                Direction = direction
+            };
+            if (sqlDbType.HasValue)
+            {
+                result.SqlDbType = sqlDbType.Value;
+            }
+
+            return result;
         }
 
         #endregion GenerateSqlSpParameter

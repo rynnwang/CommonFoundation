@@ -10,12 +10,12 @@ namespace Beyova
         /// <summary>
         /// The nation code
         /// </summary>
-        const string nationCode = "86";
+        private const string nationCode = "86";
 
         /// <summary>
         /// The cellphone number regex
         /// </summary>
-        static Regex cellphoneNumberRegex = new Regex("^1[0-9]{10}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static Regex cellphoneNumberRegex = new Regex("^1[0-9]{10}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Gets the nation codes.

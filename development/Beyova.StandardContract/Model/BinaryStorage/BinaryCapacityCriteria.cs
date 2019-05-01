@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -11,6 +12,7 @@ namespace Beyova
         /// Gets or sets the container.
         /// </summary>
         /// <value>The container.</value>
+        [JsonProperty("container")]
         public string Container { get; set; }
 
         /// <summary>
@@ -19,6 +21,7 @@ namespace Beyova
         /// <value>
         /// The total count.
         /// </value>
+        [JsonProperty("ownerKey")]
         public Guid? OwnerKey { get; set; }
     }
 }

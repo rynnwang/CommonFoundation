@@ -1,7 +1,6 @@
-﻿using Beyova;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Beyova;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -10,7 +9,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.QueueDispatcher")]
 [assembly: AssemblyCulture("")]
-
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

@@ -1,16 +1,13 @@
-﻿using Beyova.Cache;
-using Beyova.ExceptionSystem;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
+using Beyova.Diagnostic;
 
 namespace Beyova.QueueDispatch
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class BaseQueueDispatcher<T> : IQueueDispatcher

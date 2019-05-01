@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Beyova
@@ -452,6 +453,19 @@ namespace Beyova
         #endregion Constructor
 
         #region Fill interface based object.
+
+        /// <summary>
+        /// Fills the kv extensible.
+        /// </summary>
+        /// <param name="baseObj">The base object.</param>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        protected static void FillKVExtensible(IKVMetaExtensible baseObj, SqlDataReader sqlDataReader)
+        {
+            if (baseObj != null && sqlDataReader != null)
+            {
+                baseObj.KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<Dictionary<string, JValue>>();
+            }
+        }
 
         /// <summary>
         /// Fills the base object fields.

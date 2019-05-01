@@ -21,7 +21,7 @@ namespace Beyova
         /// <param name="sqlConnectionString">The SQL connection string.</param>
         public SqlConfigurationWriter(string sqlConnectionString)
         {
-            this.SqlConnection = sqlConnectionString;
+            SqlConnection = sqlConnectionString;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Beyova
             {
                 key.CheckEmptyString(nameof(key));
 
-                using (var controller = string.IsNullOrWhiteSpace(this.SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(this.SqlConnection))
+                using (var controller = string.IsNullOrWhiteSpace(SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(SqlConnection))
                 {
                     var rawItem = new ConfigurationRawItem
                     {
@@ -66,7 +66,7 @@ namespace Beyova
             {
                 key.CheckEmptyString(nameof(key));
 
-                using (var controller = string.IsNullOrWhiteSpace(this.SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(this.SqlConnection))
+                using (var controller = string.IsNullOrWhiteSpace(SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(SqlConnection))
                 {
                     var rawItem = new ConfigurationRawItem { };
 
@@ -87,7 +87,7 @@ namespace Beyova
         private void TriggerReload()
         {
             SqlConfigurationReader reader = null;
-            if (!string.IsNullOrWhiteSpace(this.SqlConnection) && SqlConfigurationReader._instances.TryGetValue(this.SqlConnection, out reader))
+            if (!string.IsNullOrWhiteSpace(SqlConnection) && SqlConfigurationReader._instances.TryGetValue(SqlConnection, out reader))
             {
                 reader.Reload();
             }

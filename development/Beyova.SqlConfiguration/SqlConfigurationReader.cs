@@ -31,7 +31,7 @@ namespace Beyova
         internal SqlConfigurationReader(string sourceAssembly, string coreComponentVersion, string sqlConnectionString, bool throwException = false)
             : base(sourceAssembly, coreComponentVersion, nameof(SqlConfigurationReader), throwException)
         {
-            this.SqlConnectionString = sqlConnectionString;
+            SqlConnectionString = sqlConnectionString;
             if (!string.IsNullOrWhiteSpace(sqlConnectionString))
             {
                 _instances.Merge(sqlConnectionString, this, false);
@@ -49,16 +49,16 @@ namespace Beyova
 
             try
             {
-                this.SqlConnectionString.CheckEmptyString(nameof(this.SqlConnectionString));
+                SqlConnectionString.CheckEmptyString(nameof(SqlConnectionString));
 
-                using (var controller = new ConfigurationRawItemAccessController(this.SqlConnectionString))
+                using (var controller = new ConfigurationRawItemAccessController(SqlConnectionString))
                 {
                     var rawConfigurations = controller.GetSystemConfigurations();
 
                     foreach (var item in rawConfigurations)
                     {
-                        var runtimeConfigurationItem = RuntimeConfigurationItem.FromRaw(this.SourceAssembly, nameof(SqlConfigurationReader), CoreComponentVersion, item);
-                        result.AddIfNotNull(runtimeConfigurationItem?.Key, runtimeConfigurationItem);
+                        var runtimeConfigurationItem = RuntimeConfigurationItem.FromRaw(SourceAssembly, nameof(SqlConfigurationReader), CoreComponentVersion, item);
+                        result.AddIfBothNotNull(runtimeConfigurationItem?.Key, runtimeConfigurationItem);
                     }
                 }
             }
@@ -85,7 +85,7 @@ namespace Beyova
             {
                 key.CheckEmptyString(nameof(key));
 
-                using (var controller = string.IsNullOrWhiteSpace(this.SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(this.SqlConnection))
+                using (var controller = string.IsNullOrWhiteSpace(SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(SqlConnection))
                 {
                     var rawItem = new ConfigurationRawItem
                     {
@@ -113,7 +113,7 @@ namespace Beyova
             {
                 key.CheckEmptyString(nameof(key));
 
-                using (var controller = string.IsNullOrWhiteSpace(this.SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(this.SqlConnection))
+                using (var controller = string.IsNullOrWhiteSpace(SqlConnection) ? new ConfigurationRawItemAccessController() : new ConfigurationRawItemAccessController(SqlConnection))
                 {
                     var rawItem = new ConfigurationRawItem { };
 

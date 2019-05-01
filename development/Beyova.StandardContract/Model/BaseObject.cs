@@ -1,4 +1,6 @@
-﻿namespace Beyova
+﻿using Newtonsoft.Json;
+
+namespace Beyova
 {
     /// <summary>
     /// Abstract class for base object, with key, created stamp and last updated stamp.
@@ -36,6 +38,7 @@
         /// Gets or sets the object.
         /// </summary>
         /// <value>The object.</value>
+        [JsonProperty("object")]
         public T Object { get; set; }
 
         /// <summary>

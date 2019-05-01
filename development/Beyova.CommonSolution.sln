@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{F8
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Common.Framework", "Beyova.Common.Framework\Beyova.Common.Framework.shproj", "{BDFDAF6E-A6ED-450F-A154-794AB8DDD13E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.x", "4.x", "{62383F6A-048C-400D-88FC-B5953C8BD2D6}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.StandardContract", "Beyova.StandardContract\Beyova.StandardContract.shproj", "{C9507EF5-79A5-4AAD-A002-F188EBBBBFEF}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Aop", "Beyova.Aop\Beyova.Aop.shproj", "{114D620A-06B3-44A1-B7B2-E810024FDC90}"
@@ -85,8 +83,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.SqlConfiguration.Fra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.BinaryStorageHelper.Framework4.6.2", "Beyova.BinaryStorageHelper.Framework4.6.2\Beyova.BinaryStorageHelper.Framework4.6.2.csproj", "{93D25C54-75E9-40B2-AE07-4A047A5114AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aws.S3", "Beyova.Aws.S3\Beyova.Aws.S3.csproj", "{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.VirtualSecuredTransferProtocol", "Beyova.VirtualSecuredTransferProtocol\Beyova.VirtualSecuredTransferProtocol.shproj", "{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiTracking", "ApiTracking", "{BEAF45D6-2528-4F45-9C9F-17957DB94610}"
@@ -94,8 +90,6 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ApiTracking.SqlServer", "Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.shproj", "{0279B826-A639-42FA-8429-01840DEEF360}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.ApiTracking.SqlServer.Framework4.6.2", "Beyova.ApiTracking.SqlServer.Framework4.6.2\Beyova.ApiTracking.SqlServer.Framework4.6.2.csproj", "{713524F5-8360-45A8-B6A7-9C3C2B4534D4}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Function.Generic", "Beyova.Function.Generic\Beyova.Function.Generic.shproj", "{5A123B46-63D9-4559-B88E-47B88977853F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.ChinaSpecialized.Framework4.6.2", "Beyova.ChinaSpecialized.Framework4.6.2\Beyova.ChinaSpecialized.Framework4.6.2.csproj", "{2B847946-26D0-46B6-9620-AA6F45AC7724}"
 EndProject
@@ -123,6 +117,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.QueueDispatcher", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.QueueDispatcher.Framework4.6.2", "..\..\..\CodingNet\CommonSolution\Development\Beyova.QueueDispatcher.Framework4.6.2\Beyova.QueueDispatcher.Framework4.6.2.csproj", "{98A75580-02EE-428B-9E75-11D12C232814}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aws.S3.Framework4.6.2", "Beyova.Aws.S3.Framework4.6.2\Beyova.Aws.S3.Framework4.6.2.csproj", "{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Aws.S3", "Beyova.Aws.S3\Beyova.Aws.S3.shproj", "{DEFD79FB-1275-4197-A63A-705C0F22BBF4}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.projitems*{0279b826-a639-42fa-8429-01840deef360}*SharedItemsImports = 13
@@ -144,7 +142,6 @@ Global
 		Beyova.AspNet\Beyova.AspNet.projitems*{46c0f765-d2f1-443d-be24-ad2b481ae23e}*SharedItemsImports = 4
 		Beyova.FunctionService.Generic\Beyova.FunctionService.Generic.projitems*{4b433056-032f-4eec-a7cf-3461299f3b30}*SharedItemsImports = 13
 		Beyova.DigitalAssetKit\Beyova.DigitalAssetKit.projitems*{5255cd87-6e0f-4eb4-905d-2c94d4bcdf09}*SharedItemsImports = 13
-		Beyova.Function.Generic\Beyova.Function.Generic.projitems*{5a123b46-63d9-4559-b88e-47b88977853f}*SharedItemsImports = 13
 		Beyova.Api\Beyova.Api.projitems*{5b25b255-aa8c-4696-9874-b7a4c693a74a}*SharedItemsImports = 13
 		Beyova.Common.LegacyReserved\Beyova.Common.LegacyReserved.projitems*{5d6e3f46-0ebf-44f1-94c3-ca778cde8854}*SharedItemsImports = 13
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{63b9d4d4-ff67-45c3-8a9e-80d2cf31a7b1}*SharedItemsImports = 13
@@ -160,6 +157,7 @@ Global
 		Beyova.Scheduling.Contract\Beyova.Scheduling.Contract.projitems*{9cafb893-cef7-4438-9d26-e959141951cf}*SharedItemsImports = 13
 		Beyova.AspNet\Beyova.AspNet.projitems*{a0bbbeab-9a29-45d8-9e83-7924df6beb72}*SharedItemsImports = 13
 		Beyova.ProgrammingIntelligence\Beyova.ProgrammingIntelligence.projitems*{a153c9de-958e-4628-a156-f4a74f93064a}*SharedItemsImports = 13
+		Beyova.Aws.S3\Beyova.Aws.S3.projitems*{ab3e9a15-1bda-4f1c-99a7-9bfd0ddbba21}*SharedItemsImports = 4
 		Beyova.BinaryStorageHelper\Beyova.BinaryStorageHelper.projitems*{ae544bc1-1a61-49c0-a866-d8d19194cc4e}*SharedItemsImports = 13
 		Beyova.Common\Beyova.Common.projitems*{b50ceaf8-c299-4ea2-9a38-2f0ff6a0354a}*SharedItemsImports = 13
 		Beyova.Reflection\Beyova.Reflection.projitems*{b52bd1bf-8679-4945-bef8-0c4d7d6fdb71}*SharedItemsImports = 13
@@ -169,6 +167,7 @@ Global
 		Beyova.StandardContract\Beyova.StandardContract.projitems*{c9507ef5-79a5-4aad-a002-f188ebbbbfef}*SharedItemsImports = 13
 		Beyova.RedisCache\Beyova.RedisCache.projitems*{dad3b9e8-48c9-4def-ac19-603f8ab4ce0b}*SharedItemsImports = 4
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{dd80c11f-30d2-4d7e-995e-3f541bb2ce20}*SharedItemsImports = 4
+		Beyova.Aws.S3\Beyova.Aws.S3.projitems*{defd79fb-1275-4197-a63a-705c0f22bbf4}*SharedItemsImports = 13
 		Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems*{e20bb273-9a79-42f8-b4d1-3ef8c94eec90}*SharedItemsImports = 13
 		Beyova.AspNet.CoreSpecialized\Beyova.AspNet.CoreSpecialized.projitems*{e71237cd-9dc1-46c0-8bea-c41c7f9abbe7}*SharedItemsImports = 13
 		Beyova.Api.Service\Beyova.Api.Service.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
@@ -226,10 +225,6 @@ Global
 		{93D25C54-75E9-40B2-AE07-4A047A5114AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D25C54-75E9-40B2-AE07-4A047A5114AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D25C54-75E9-40B2-AE07-4A047A5114AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{713524F5-8360-45A8-B6A7-9C3C2B4534D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{713524F5-8360-45A8-B6A7-9C3C2B4534D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713524F5-8360-45A8-B6A7-9C3C2B4534D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -258,6 +253,10 @@ Global
 		{98A75580-02EE-428B-9E75-11D12C232814}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98A75580-02EE-428B-9E75-11D12C232814}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98A75580-02EE-428B-9E75-11D12C232814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -274,8 +273,6 @@ Global
 		{A153C9DE-958E-4628-A156-F4A74F93064A} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{B50CEAF8-C299-4EA2-9A38-2F0FF6A0354A} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{5B25B255-AA8C-4696-9874-B7A4C693A74A} = {12871993-A575-4CD7-83E4-B114957C1431}
-		{12871993-A575-4CD7-83E4-B114957C1431} = {62383F6A-048C-400D-88FC-B5953C8BD2D6}
-		{F6E47CFC-093A-43FE-A6FC-9DD6882CFA5D} = {62383F6A-048C-400D-88FC-B5953C8BD2D6}
 		{2F540C1A-7D08-4416-A28E-0A23AEC7427E} = {F6E47CFC-093A-43FE-A6FC-9DD6882CFA5D}
 		{67BDCA2E-4931-4463-8665-7B7A2813E3FF} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{2A945E49-CCD9-423D-B13C-DDCF0B62D76B} = {12871993-A575-4CD7-83E4-B114957C1431}
@@ -302,12 +299,10 @@ Global
 		{BEDAE1BF-6B96-45C3-B038-89B0FB9E9A87} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{BCC93C80-68BB-41CD-82A9-1F946106292B} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{93D25C54-75E9-40B2-AE07-4A047A5114AD} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
-		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
 		{7BE4FA48-62E5-4AF2-A2F9-EA5CF26F9B9C} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{BEAF45D6-2528-4F45-9C9F-17957DB94610} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{0279B826-A639-42FA-8429-01840DEEF360} = {BEAF45D6-2528-4F45-9C9F-17957DB94610}
 		{713524F5-8360-45A8-B6A7-9C3C2B4534D4} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
-		{5A123B46-63D9-4559-B88E-47B88977853F} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{2B847946-26D0-46B6-9620-AA6F45AC7724} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{1A9FEC4E-FBA6-4583-8F3C-5AD2BB279E4C} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{936D9664-0D54-41A9-807E-000AD33ADE4D} = {12871993-A575-4CD7-83E4-B114957C1431}
@@ -321,6 +316,8 @@ Global
 		{AE544BC1-1A61-49C0-A866-D8D19194CC4E} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{88F8DF2E-7A97-4271-B412-1BCF07CEEE61} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{98A75580-02EE-428B-9E75-11D12C232814} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
+		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
+		{DEFD79FB-1275-4197-A63A-705C0F22BBF4} = {4127E373-4192-456F-AE8D-4DDAF633534E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}

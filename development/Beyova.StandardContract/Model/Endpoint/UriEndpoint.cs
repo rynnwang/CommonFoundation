@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -11,6 +12,7 @@ namespace Beyova
         /// Gets or sets the protocol.
         /// </summary>
         /// <value>The protocol.</value>
+        [JsonProperty("protocol")]
         public string Protocol { get; set; }
 
         /// <summary>
@@ -19,18 +21,21 @@ namespace Beyova
         /// <value>
         /// The path prefix.
         /// </value>
+        [JsonProperty("path")]
         public string Path { get; set; }
 
         /// <summary>
         /// Gets or sets the host.
         /// </summary>
         /// <value>The host.</value>
+        [JsonProperty("host")]
         public string Host { get; set; }
 
         /// <summary>
         /// Gets or sets the port.
         /// </summary>
         /// <value>The port.</value>
+        [JsonProperty("port")]
         public int? Port { get; set; }
 
         /// <summary>

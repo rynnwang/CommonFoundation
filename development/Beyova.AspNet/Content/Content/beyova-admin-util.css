@@ -1,0 +1,10 @@
+﻿.card-footer > button {
+    margin: 0 3px;
+}
+
+.detail-clickable {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+}

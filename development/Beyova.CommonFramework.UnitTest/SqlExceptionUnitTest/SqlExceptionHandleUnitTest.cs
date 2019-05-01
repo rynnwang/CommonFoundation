@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest

@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICommonCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAccessClientIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICreatedStamp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFriendlyIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuditBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\KVMetaExensible\IKVMetaCriteriaExpression.cs" />
@@ -37,7 +38,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\KVMetaExensible\IKVMetaExtensible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITextNameSearchable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStampCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRowId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISequence.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\IStringConvertable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INameObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRealmable.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Audit\EntityObjectAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Audit\BaseAuditObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\BaseTimeFrameCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\FriendlyIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaCriteriaExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaExtensible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\OAuth2\OAuth2ClientOptions.cs" />
@@ -61,8 +63,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\FlexibleSelectOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TimeFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TagCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredential.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\SessionCredential\SessionCredentialCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AuditBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\BaseQueueMessageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\QueueMessageItem.cs" />
@@ -70,7 +70,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Queue\IQueueMessageOperator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\ICellphoneNumberValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INational.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IServiceUserCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAppPlatform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICredential.cs" />
@@ -195,6 +194,5 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\" />
     <Folder Include="$(MSBuildThisFileDirectory)Model\Finance\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Model\SessionCredential\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -10,9 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.RedisCache")]
 [assembly: AssemblyCulture("")]
-
 [assembly: BeyovaComponent("Beyova.RedisCache", "1.0.0")]
-
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

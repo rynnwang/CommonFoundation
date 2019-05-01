@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Net;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova.Diagnostic
 {
@@ -70,7 +70,7 @@ namespace Beyova.Diagnostic
         /// <param name="webExceptionStatus">The web exception status.</param>
         /// <param name="serverIdentifier">The server identifier.</param>
         public HttpOperationException(string destinationUrl, string httpMethod, string message, string responseText, HttpStatusCode? httpStatusCode, WebExceptionStatus? webExceptionStatus, string serverIdentifier = null)
-            : base(string.Format("Failed to request destination URL [{0}] using method [{1}]. Respond within code [{2}], status [{3}], message: [{4}]. [{5}]", destinationUrl, httpMethod, (int)httpStatusCode, webExceptionStatus.ToString(), message, string.IsNullOrWhiteSpace(serverIdentifier) ? string.Empty : "Machine Name: " + serverIdentifier),
+            : base(string.Format("Failed to request destination URL [{0}] using method [{1}]. Respond within code [{2}], status [{3}], message: [{4}]. [{5}]", destinationUrl, httpMethod, httpStatusCode.HasValue ? httpStatusCode.Value : 0, webExceptionStatus.ToString(), message, string.IsNullOrWhiteSpace(serverIdentifier) ? string.Empty : "Machine Name: " + serverIdentifier),
                   httpStatusCode.ConvertHttpStatusCodeToExceptionCode(webExceptionStatus),
                   data: new HttpExceptionReference
                   {

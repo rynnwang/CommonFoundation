@@ -1,15 +1,9 @@
-﻿using Beyova.Cache;
-using Beyova.ExceptionSystem;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Beyova.Diagnostic;
 
 namespace Beyova.QueueDispatch
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class QueueDispatcherResult
     {

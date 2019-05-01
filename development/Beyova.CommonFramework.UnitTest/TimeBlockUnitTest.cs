@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Beyova.ExceptionSystem;
+using Beyova.Diagnostic;
 using Beyova.Scheduling;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

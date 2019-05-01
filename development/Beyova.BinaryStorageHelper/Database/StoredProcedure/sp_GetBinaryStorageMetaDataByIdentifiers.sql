@@ -28,8 +28,8 @@ BEGIN
                 ,BSMD.[State]
             FROM [dbo].[BinaryStorageMetaData] AS BSMD
                 JOIN OPENJSON(@Identifiers) WITH(
-                    [Identifier] UNIQUEIDENTIFIER '$.Identifier',
-                    [Container] NVARCHAR(128) '$.Container'
+                    [Identifier] UNIQUEIDENTIFIER '$.identifier',
+                    [Container] NVARCHAR(128) '$.container'
                     ) 
                     AS IDTABLE
                     ON BSMD.[Identifier] = IDTABLE.[Identifier] AND (IDTABLE.[Container] IS NULL OR IDTABLE.[Container] = '' OR BSMD.[Container] = IDTABLE.[Container])

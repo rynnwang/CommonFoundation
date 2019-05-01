@@ -1,0 +1,23 @@
+﻿@using Beyova;
+@using Beyova.Web;
+@model PartialViewWrapper
+@{
+    if (Model != null)
+    {
+        ViewBag.Title = Model.Title;
+        Layout = Model.Layout.SafeToString(SiteOptions.Layout);
+
+    <text>
+        @(Html.Partial(Model.PartialView, Model.Model))
+        @{
+    if (!string.IsNullOrWhiteSpace(Model.JavaScripts))
+    {
+        <text>
+        <script type="text/javascript">@(Html.Raw(Model.JavaScripts))</script>
+    </text>
+    }
+        }
+        </text>
+    }
+}
+

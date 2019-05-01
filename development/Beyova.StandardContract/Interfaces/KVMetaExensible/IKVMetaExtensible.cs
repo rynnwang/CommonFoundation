@@ -15,6 +15,6 @@ namespace Beyova
         /// <value>
         /// The kv meta.
         /// </value>
-        Dictionary<string, JValue> KVMeta { get; }
+        Dictionary<string, JValue> KVMeta { get; set; }
     }
 }
