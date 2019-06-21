@@ -20,14 +20,14 @@ namespace Beyova
         /// </summary>
         /// <value>The permissions.</value>
         [JsonProperty("permissions")]
-        public List<string> Permissions { get; set; }
+        public HashSet<string> Permissions { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceCredential"/> class.
         /// </summary>
         public ServiceCredential()
         {
-            Permissions = new List<string>();
+            Permissions = new HashSet<string>();
         }
     }
 }

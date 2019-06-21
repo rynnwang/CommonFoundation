@@ -115,7 +115,7 @@ namespace Beyova.Binary
                 Height = sqlDataReader[column_Height].ObjectToNullableInt32(),
                 Width = sqlDataReader[column_Width].ObjectToNullableInt32(),
                 Duration = sqlDataReader[column_Duration].ObjectToNullableInt32(),
-                KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<Dictionary<string, JValue>>(),
+                KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<KVMetaDictionary>(),
                 CreatedStamp = sqlDataReader[column_CreatedStamp].ObjectToDateTime(DateTime.UtcNow),
                 LastUpdatedStamp = sqlDataReader[column_LastUpdatedStamp].ObjectToDateTime(DateTime.UtcNow),
                 State = (BinaryStorageState)sqlDataReader[column_State].ObjectToInt32()
@@ -139,6 +139,7 @@ namespace Beyova.Binary
             try
             {
                 metaData.CheckNullObject(nameof(metaData));
+                metaData.Container.CheckNullObject(nameof(metaData.Container));
                 operatorKey.CheckNullObject(nameof(operatorKey));
 
                 var parameters = new List<SqlParameter>

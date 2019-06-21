@@ -13,6 +13,135 @@ namespace Beyova
     /// </summary>
     public static class CommonExtension
     {
+        #region Key info collection and model transformer
+
+        /// <summary>
+        /// Keyses the specified items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <returns></returns>
+        public static HashSet<Guid> Keys<T>(this IEnumerable<T> items)
+            where T : IIdentifier
+        {
+            return KeysOf(items, x => x?.Key);
+        }
+
+        /// <summary>
+        /// Keyses the of.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="keyGetter">The key getter.</param>
+        /// <returns></returns>
+        public static HashSet<Guid> KeysOf<T>(this IEnumerable<T> items, Func<T, Guid?> keyGetter)
+        {
+            HashSet<Guid> result = new HashSet<Guid>();
+
+            if (keyGetter != null && items.HasItem())
+            {
+                foreach (T item in items)
+                {
+                    var key = keyGetter(item);
+                    if (key.HasValue)
+                    {
+                        result.Add(key.Value);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Meaningfuls the string of.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="stringGetter">The string getter.</param>
+        /// <param name="stringComparer">The string comparer.</param>
+        /// <param name="trim">if set to <c>true</c> [trim].</param>
+        /// <returns></returns>
+        public static HashSet<string> MeaningfulStringOf<T>(this IEnumerable<T> items, Func<T, string> stringGetter, StringComparer stringComparer = null, bool trim = false)
+        {
+            HashSet<string> result = new HashSet<string>(stringComparer ?? StringComparer.Ordinal);
+
+            if (stringGetter != null && items.HasItem())
+            {
+                foreach (T item in items)
+                {
+                    var key = stringGetter(item);
+                    if (!string.IsNullOrWhiteSpace(key))
+                    {
+                        result.Add(trim ? key.Trim() : key);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Codeses the specified items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="stringComparer">The string comparer.</param>
+        /// <returns></returns>
+        public static HashSet<string> CodesOf<T>(this IEnumerable<T> items, StringComparer stringComparer = null)
+            where T : ICodeIdentifier
+        {
+            return MeaningfulStringOf<T>(items, x => x?.Code, stringComparer, true);
+        }
+
+        /// <summary>
+        /// Removes the null.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <returns></returns>
+        public static int RemoveNull<T>(this List<T> list)
+        {
+            if (list != null)
+            {
+                return list.RemoveAll(x => x == null);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Removes the null or empty.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        /// <returns></returns>
+        public static int RemoveNullOrEmpty(this List<string> list)
+        {
+            if (list != null)
+            {
+                return list.RemoveAll(x => string.IsNullOrWhiteSpace(x));
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Trims all.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        public static void TrimAll(this List<string> list)
+        {
+            if (list.HasItem())
+            {
+                for (var i = 0; i < list.Count; i++)
+                {
+                    list[i] = list[i].Trim();
+                }
+            }
+        }
+
+        #endregion
+
         #region Or + And
 
         /// <summary>
@@ -626,6 +755,16 @@ namespace Beyova
         #region DateTime Extensions
 
         /// <summary>
+        /// To the date.
+        /// </summary>
+        /// <param name="dateTime">The date time.</param>
+        /// <returns></returns>
+        public static Date? ToDate(this DateTime? dateTime)
+        {
+            return dateTime.HasValue ? Date.FromDateTime(dateTime.Value) : default(Date?);
+        }
+
+        /// <summary>
         /// To the date time.
         /// </summary>
         /// <param name="dateTimeOffset">The date time offset.</param>
@@ -899,6 +1038,16 @@ namespace Beyova
         {
             var utc = dateTimeObject.ToUtc(currentTimeZoneOffset);
             return (new DateTime(utc.Year, utc.Month, utc.Day, utc.Hour, utc.Minute, utc.Second, utc.Millisecond, DateTimeKind.Local)) + targetTimeZoneOffset;
+        }
+
+        /// <summary>
+        /// To the local time.
+        /// </summary>
+        /// <param name="dateTimeObject">The date time object.</param>
+        /// <returns></returns>
+        public static DateTime? ToLocalTime(this DateTime? dateTimeObject)
+        {
+            return dateTimeObject.HasValue ? dateTimeObject.Value.ToLocalTime() as DateTime? : null;
         }
 
         /// <summary>
@@ -1403,6 +1552,36 @@ namespace Beyova
         }
 
         #endregion Ensure & Testify
+
+        /// <summary>
+        /// Invokes the when has value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <param name="invoke">The invoke.</param>
+        /// <param name="defaultOutput">The default output.</param>
+        /// <returns></returns>
+        public static TOutput InvokeWhenHasValue<T, TOutput>(this T? value, Func<T, TOutput> invoke, TOutput defaultOutput = default(TOutput))
+            where T : struct
+        {
+            return (value.HasValue && invoke != null) ? invoke(value.Value) : defaultOutput;
+        }
+
+        /// <summary>
+        /// Invokes the when has value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <param name="invoke">The invoke.</param>
+        /// <param name="defaultOutput">The default output.</param>
+        /// <returns></returns>
+        public static TOutput InvokeWhenHasValue<T, TOutput>(this T? value, Func<T?, TOutput> invoke, TOutput defaultOutput = default(TOutput))
+     where T : struct
+        {
+            return (value.HasValue && invoke != null) ? invoke(value.Value) : defaultOutput;
+        }
 
         /// <summary>
         /// Compares the result maps to.

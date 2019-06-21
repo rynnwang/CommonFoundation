@@ -12,8 +12,55 @@ namespace Beyova
     {
         #region Constants
 
-        /// <summary>The column name of Items</summary>
+        /// <summary>
+        /// The column operated by
+        /// </summary>
+        protected const string column_OperatedBy = "OperatedBy";
+
+        /// <summary>
+        /// The column comments
+        /// </summary>
+        protected const string column_Comments = "Comments";
+
+        /// <summary>
+        /// The column name of Items
+        /// </summary>
         protected const string column_Items = "Items";
+
+        /// <summary>
+        /// The column name of Alias
+        /// </summary>
+        protected const string column_Alias = "Alias";
+
+        /// <summary>
+        /// The column name of Amount
+        /// </summary>
+        protected const string column_Amount = "Amount";
+
+        /// <summary>
+        /// The column json
+        /// </summary>
+        protected const string column_Json = "Json";
+
+        /// <summary>
+        /// The column binary key
+        /// </summary>
+        protected const string column_BinaryKey = "BinaryKey";
+
+        /// <summary>
+        /// The column organization key
+        /// </summary>
+        protected const string column_OrganizationKey = "OrganizationKey";
+
+        /// <summary>
+        /// The column short search term
+        /// </summary>
+        protected const string column_ShortSearchTerm = "ShortSearchTerm";
+
+        /// <summary>
+        /// The column search term
+        /// </summary>
+        protected const string column_SearchTerm = "SearchTerm";
 
         /// <summary>
         /// The column keys
@@ -455,6 +502,33 @@ namespace Beyova
         #region Fill interface based object.
 
         /// <summary>
+        /// Converts the friendly identifier.
+        /// </summary>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        /// <returns></returns>
+        protected FriendlyIdentifier ConvertFriendlyIdentifier(SqlDataReader sqlDataReader)
+        {
+            // DO NOT use default parameters so that inheried classes can use it directly to SELECT out FriendlyIdentifier objects.
+            return ConvertFriendlyIdentifier(sqlDataReader, nameof(IIdentifier.Key), nameof(INameObject.Name));
+        }
+
+        /// <summary>
+        /// Converts the friendly identifier.
+        /// </summary>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        /// <param name="keyColumnName">Name of the key column.</param>
+        /// <param name="nameColumnName">Name of the name column.</param>
+        /// <returns></returns>
+        protected FriendlyIdentifier ConvertFriendlyIdentifier(SqlDataReader sqlDataReader, string keyColumnName, string nameColumnName)
+        {
+            return new FriendlyIdentifier
+            {
+                Name = sqlDataReader[column_Name].ObjectToString(),
+                Key = sqlDataReader[column_Key].ObjectToGuid()
+            };
+        }
+
+        /// <summary>
         /// Fills the kv extensible.
         /// </summary>
         /// <param name="baseObj">The base object.</param>
@@ -463,7 +537,7 @@ namespace Beyova
         {
             if (baseObj != null && sqlDataReader != null)
             {
-                baseObj.KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<Dictionary<string, JValue>>();
+                baseObj.KVMeta = sqlDataReader[column_KVMeta].ObjectToJsonObject<KVMetaDictionary>();
             }
         }
 

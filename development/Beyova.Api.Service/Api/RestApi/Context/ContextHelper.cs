@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Beyova.Api.RestApi;
+using Beyova.Diagnostic;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Beyova.Api.RestApi;
-using Beyova.Diagnostic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Beyova
 {
@@ -141,9 +143,48 @@ namespace Beyova
         /// Gets the current permissions.
         /// </summary>
         /// <value>The current permissions.</value>
-        public static List<string> CurrentPermissions
+        public static HashSet<string> CurrentPermissions
         {
-            get { return (ApiContext.CurrentPermissionIdentifiers?.Permissions) ?? new System.Collections.Generic.List<string>(); }
+            get { return (ApiContext.CurrentPermissionIdentifiers?.Permissions) ?? new System.Collections.Generic.HashSet<string>(); }
+        }
+
+        /// <summary>
+        /// Determines whether the specified permission has permission.
+        /// </summary>
+        /// <param name="permission">The permission.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified permission has permission; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasPermission(string permission)
+        {
+            return !string.IsNullOrWhiteSpace(permission) && CurrentPermissions.Contains(permission, StringComparer.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Determines whether [has any of permission] [the specified permissions].
+        /// </summary>
+        /// <param name="permissions">The permissions.</param>
+        /// <returns>
+        ///   <c>true</c> if [has any of permission] [the specified permissions]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasAnyOfPermission(params string[] permissions)
+        {
+            return permissions.HasItem() && CurrentPermissions.MatchAny(permissions);
+        }
+
+        /// <summary>
+        /// Requireses the permission.
+        /// </summary>
+        /// <param name="permission">The permission.</param>
+        /// <param name="hint">The hint.</param>
+        /// <param name="memberName">Name of the member.</param>
+        /// <exception cref="UnauthorizedOperationException">MissingPermission</exception>
+        public static void RequiresPermission(string permission, FriendlyHint hint = null, [CallerMemberName] string memberName = null)
+        {
+            if (!HasPermission(permission))
+            {
+                throw new UnauthorizedOperationException("MissingPermission", data: new { requires = permission }, hint: hint, operationName: memberName);
+            }
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ using Beyova;
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
 [assembly: AssemblyProduct("Beyova.Common")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Common", "4.8.27")]
+[assembly: BeyovaComponent("Beyova.Common", "4.9.6")]
 
 //[assembly: InternalsVisibleTo("Beyova.CentralAuthentication.SDK, PublicKey=00240000048000009400000006020000002400005253413100040000010001008be4b94ca8e465"
 //+ "1d750b4763f58c8819bcc46eef3a919aee556be56976a3fddec89073e07280b7ca9370423fcf4d"

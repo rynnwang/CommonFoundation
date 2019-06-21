@@ -18,6 +18,123 @@ namespace Beyova
     public static partial class CollectionExtension
     {
         /// <summary>
+        /// Adds the specified value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyCollection">Any collection.</param>
+        /// <param name="value">The value.</param>
+        public static void Add<T>(this ICollection<T> anyCollection, T? value)
+           where T : struct
+        {
+            if (anyCollection != null && value.HasValue)
+            {
+                anyCollection.Add(value.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="anyCollection">Any collection.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static T GetByKey<T>(this IEnumerable<T> anyCollection, Guid? key)
+            where T : IIdentifier
+        {
+            return (anyCollection.HasItem() && key.HasValue) ? anyCollection.FirstOrDefault(x => x.Key == key) : default(T);
+        }
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="anyDictionary">Any dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static TValue GetByKey<TKey, TValue>(this IDictionary<TKey, TValue> anyDictionary, Guid? key)
+            where TKey : IIdentifier
+        {
+            TValue result;
+            TryGetByKey(anyDictionary, key, out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Tries the get by key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="anyDictionary">Any dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static bool TryGetByKey<TKey, TValue>(this IDictionary<TKey, TValue> anyDictionary, Guid? key, out TValue value)
+            where TKey : IIdentifier
+        {
+            if (anyDictionary.HasItem() && key.HasValue)
+            {
+                var keyObj = anyDictionary.Keys.FirstOrDefault(x => x.Key == key);
+                if (keyObj != null)
+                {
+                    value = anyDictionary[keyObj];
+                    return true;
+                }
+            }
+
+            value = default(TValue);
+            return false;
+        }
+
+        /// <summary>
+        /// Safes the index of the get by.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        public static T SafeGetByIndex<T>(this IList<T> list, int index)
+        {
+            return (list.HasItem() && index > -1 && index < list.Count) ? list[index] : default(T);
+        }
+
+        /// <summary>
+        /// Safes the index of the get by.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        public static T SafeGetByIndex<T>(this T[] array, int index)
+        {
+            return (array.HasItem() && index > -1 && index < array.Length) ? array[index] : default(T);
+        }
+
+        /// <summary>
+        /// Initials the keys.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="keys">The keys.</param>
+        /// <param name="valueInitializer">The value initializer.</param>
+        public static void InitialKeys<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys, Func<TValue> valueInitializer = null)
+        {
+            if (dictionary != null && keys.HasItem())
+            {
+                if (valueInitializer == null)
+                {
+                    valueInitializer = FunctionFactory.NewDefaultObject<TValue>;
+                }
+                foreach (var item in keys)
+                {
+                    dictionary.Add(item, valueInitializer());
+                }
+            }
+        }
+
+        /// <summary>
         /// Selects the not null.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -116,13 +233,13 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Filters the specified objects.
+        /// Converts as collection.
         /// </summary>
         /// <typeparam name="TOriginal">The type of the original.</typeparam>
         /// <typeparam name="TAsTarget">The type of the target.</typeparam>
         /// <param name="objects">The objects.</param>
         /// <returns></returns>
-        public static Collection<TAsTarget> AsCollection<TOriginal, TAsTarget>(this IEnumerable<TOriginal> objects)
+        public static Collection<TAsTarget> ConvertAsCollection<TOriginal, TAsTarget>(this IEnumerable<TOriginal> objects)
             where TOriginal : class
             where TAsTarget : class
         {
@@ -179,13 +296,31 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Adds if not null or empty.
+        /// </summary>
+        /// <param name="hashSet">The hash set.</param>
+        /// <param name="item">The item.</param>
+        /// <returns></returns>
+        public static bool AddIfNotNullOrEmpty(this HashSet<string> hashSet, string item)
+        {
+            if (hashSet != null && !string.IsNullOrWhiteSpace(item))
+            {
+                hashSet.Add(item);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Adds if not null.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item.</param>
         /// <returns><c>true</c> if succeed to add, <c>false</c> otherwise.</returns>
-        public static bool AddIfNotNull<T>(this ICollection<T> collection, Nullable<T> item) where T : struct
+        public static bool AddIfNotNull<T>(this ICollection<T> collection, Nullable<T> item)
+            where T : struct
         {
             if (collection != null && item.HasValue)
             {
@@ -220,7 +355,8 @@ namespace Beyova
         /// <typeparam name="T"></typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item.</param>
-        public static void AddIfNotNull<T>(this HashSet<T> collection, Nullable<T> item) where T : struct
+        public static void AddIfNotNull<T>(this HashSet<T> collection, Nullable<T> item)
+            where T : struct
         {
             if (collection != null && item.HasValue)
             {
@@ -285,6 +421,8 @@ namespace Beyova
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         public static void AddIfBothNotNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+            where TKey : class
+            where TValue : class
         {
             if (dictionary != null && key != null && value != null)
             {
@@ -306,6 +444,71 @@ namespace Beyova
             }
         }
 
+        /// <summary>
+        /// Adds if both not null or empty.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public static void AddIfBothNotNullOrEmpty<TValue>(this IDictionary<string, TValue> dictionary, string key, TValue value)
+        {
+            if (dictionary != null && !string.IsNullOrWhiteSpace(key) && value != null)
+            {
+                dictionary.Add(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Adds if not null or empty.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public static void AddIfNotNullOrEmpty<TKey>(this IDictionary<TKey, string> dictionary, TKey key, string value)
+            where TKey : struct
+        {
+            if (dictionary != null && !string.IsNullOrWhiteSpace(value))
+            {
+                dictionary.Add(key, value);
+            }
+        }
+
+        /// <summary>
+        /// Adds if not null or empty.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public static void AddIfNotNullOrEmpty<TKey>(this IDictionary<TKey, string> dictionary, TKey? key, string value)
+           where TKey : struct
+        {
+            if (dictionary != null && key.HasValue && !string.IsNullOrWhiteSpace(value))
+            {
+                dictionary.Add(key.Value, value);
+            }
+        }
+
+        /// <summary>
+        /// Adds if not null or empty.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        public static void AddIfNotNullOrEmpty<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey? key, TValue value)
+            where TKey : struct
+            where TValue : class
+        {
+            if (dictionary != null && key.HasValue && value != null)
+            {
+                dictionary.Add(key.Value, value);
+            }
+        }
+
         #endregion Add If Not xxx
 
         #region IEnumerable, ICollection, IList, IDictionary, HashSet
@@ -320,6 +523,19 @@ namespace Beyova
         public static bool SafeContains<T>(this IEnumerable<T> collection, T value)
         {
             return collection.HasItem() ? collection.Contains(value) : false;
+        }
+
+        /// <summary>
+        /// Safes the contains.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <returns></returns>
+        public static bool SafeContains<T>(this IEnumerable<T> collection, T value, IEqualityComparer<T> comparer)
+        {
+            return collection.HasItem() ? collection.Contains(value, comparer) : false;
         }
 
         /// <summary>
@@ -1033,6 +1249,26 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Tries the get value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns></returns>
+        public static TValue TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey? key, TValue defaultValue = default(TValue))
+            where TKey : struct
+        {
+            if (dictionary != null && key.HasValue)
+            {
+                return dictionary.ContainsKey(key.Value) ? dictionary[key.Value] : defaultValue;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// To the hash set.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -1339,7 +1575,7 @@ namespace Beyova
         /// <returns></returns>
         public static Dictionary<TKey, TValue> AsKeyDictionary<TKey, TValue>(this IEnumerable<TKey> collection, Func<TKey, TValue> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
         {
-            return AsDictionary<TKey, TKey, TValue>(collection, FuncExtension.GetSelf, initializer, equalityComparer);
+            return AsDictionary<TKey, TKey, TValue>(collection, FunctionFactory.GetSelf, initializer, equalityComparer);
         }
 
         /// <summary>
@@ -1353,7 +1589,7 @@ namespace Beyova
         /// <returns></returns>
         public static Dictionary<TKey, TValue> AsKeyDictionary<TKey, TValue>(this IEnumerable<TKey> collection, Func<TValue> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
         {
-            return AsDictionary<TKey, TKey, TValue>(collection, FuncExtension.GetSelf, initializer.ExtendAsInputless<TKey, TValue>(), equalityComparer);
+            return AsDictionary<TKey, TKey, TValue>(collection, FunctionFactory.GetSelf, initializer.ExtendAsInputless<TKey, TValue>(), equalityComparer);
         }
 
         /// <summary>
@@ -1367,7 +1603,7 @@ namespace Beyova
         /// <returns></returns>
         public static Dictionary<TKey, TValue> AsValueDictionary<TKey, TValue>(this IEnumerable<TValue> collection, Func<TValue, TKey> initializer = null, IEqualityComparer<TKey> equalityComparer = null)
         {
-            return AsDictionary<TValue, TKey, TValue>(collection, initializer, FuncExtension.GetSelf, equalityComparer);
+            return AsDictionary<TValue, TKey, TValue>(collection, initializer, FunctionFactory.GetSelf, equalityComparer);
         }
 
         /// <summary>
@@ -1443,32 +1679,6 @@ namespace Beyova
         }
 
         /// <summary>
-        /// Determines whether [contains] [the specified string array].
-        /// </summary>
-        /// <param name="stringCollection">The string array.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
-        /// <returns>
-        ///   <c>true</c> if [contains] [the specified string array]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool Contains(this IEnumerable<string> stringCollection, string value, bool ignoreCase)
-        {
-            return stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal);
-        }
-
-        /// <summary>
-        /// Safes the contains.
-        /// </summary>
-        /// <param name="stringCollection">The string collection.</param>
-        /// <param name="value">The value.</param>
-        /// <param name="ignoreCase">if set to <c>true</c> [ignore case].</param>
-        /// <returns></returns>
-        public static bool SafeContains(this IEnumerable<string> stringCollection, string value, bool ignoreCase)
-        {
-            return stringCollection.HasItem() ? stringCollection.Contains(value, ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal) : false;
-        }
-
-        /// <summary>
         /// Determines whether the specified predicate has item.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
@@ -1480,6 +1690,21 @@ namespace Beyova
         public static bool HasItem<TEntity>(this IEnumerable<TEntity> collection, Func<TEntity, bool> predicate)
         {
             return collection != null && predicate != null && collection.Any(predicate);
+        }
+
+        /// <summary>
+        /// Determines whether [has item by key] [the specified key].
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>
+        ///   <c>true</c> if [has item by key] [the specified key]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasItemByKey<TEntity>(this IEnumerable<TEntity> collection, Guid? key)
+            where TEntity : IIdentifier
+        {
+            return HasItem(collection, key, FunctionFactory.GetKey, EqualityComparer<Guid?>.Default);
         }
 
         /// <summary>
@@ -1661,7 +1886,7 @@ namespace Beyova
         /// <returns>T[].</returns>
         public static T[] AsArray<T>(this T anyObject)
         {
-            return anyObject != null ? new T[] { anyObject } : new T[] { };
+            return anyObject != null ? new T[] { anyObject } : null;
         }
 
         /// <summary>
@@ -1763,7 +1988,7 @@ namespace Beyova
         /// <param name="allowDuplicated">if set to <c>true</c> [allow duplicated].</param>
         /// <param name="equalityComparer">The equality comparer.</param>
         /// <returns></returns>
-        public static ICollection<T> Union<T>(this IEnumerable<T> item1, IEnumerable<T> item2, bool allowDuplicated = false, IEqualityComparer<T> equalityComparer = null)
+        internal static ICollection<T> Union<T>(this IEnumerable<T> item1, IEnumerable<T> item2, bool allowDuplicated, IEqualityComparer<T> equalityComparer = null)
         {
             var container = allowDuplicated ? new List<T>(item1?.Count() ?? 0 + item2?.Count() ?? 0) : new HashSet<T>(equalityComparer) as ICollection<T>;
 
@@ -1771,6 +1996,31 @@ namespace Beyova
             container.AddRange(item2);
 
             return container;
+        }
+
+        /// <summary>
+        /// Unions the specified item2.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item1">The item1.</param>
+        /// <param name="item2">The item2.</param>
+        /// <returns></returns>
+        public static List<T> Union<T>(this IEnumerable<T> item1, IEnumerable<T> item2)
+        {
+            return Union(item1, item2, true, null) as List<T>;
+        }
+
+        /// <summary>
+        /// Unions as hash set.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="item1">The item1.</param>
+        /// <param name="item2">The item2.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static HashSet<T> UnionAsHashSet<T>(this IEnumerable<T> item1, IEnumerable<T> item2, IEqualityComparer<T> equalityComparer = null)
+        {
+            return Union(item1, item2, false, equalityComparer) as HashSet<T>;
         }
 
         /// <summary>

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using Beyova.Diagnostic;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova
 {
@@ -337,7 +337,7 @@ namespace Beyova
         /// <returns></returns>
         public static object GetDefaultValue(this Type type)
         {
-            return (type != null && type.IsValueType) ? Activator.CreateInstance(type) : null;
+            return (type != null && type.IsValueType) ? (type.IsEnum ? Enum.ToObject(type, 0) : Activator.CreateInstance(type)) : null;
         }
 
         /// <summary>

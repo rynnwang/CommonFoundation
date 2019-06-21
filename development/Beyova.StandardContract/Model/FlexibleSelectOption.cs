@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -15,6 +16,7 @@ namespace Beyova
         /// <value>
         /// The option value.
         /// </value>
+        [JsonProperty("optionValue")]
         public T OptionValue { get; set; }
 
         /// <summary>
@@ -23,6 +25,7 @@ namespace Beyova
         /// <value>
         /// The option text.
         /// </value>
+        [JsonProperty("optionText")]
         public string OptionText { get; set; }
     }
 

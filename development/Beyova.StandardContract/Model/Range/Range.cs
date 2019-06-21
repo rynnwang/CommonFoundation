@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Beyova
 {
@@ -15,6 +16,7 @@ namespace Beyova
         /// <value>
         /// From.
         /// </value>
+        [JsonProperty("from")]
         public TCoordinate? From { get; set; }
 
         /// <summary>
@@ -23,23 +25,8 @@ namespace Beyova
         /// <value>
         /// The end.
         /// </value>
+        [JsonProperty("to")]
         public TCoordinate? To { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [from value reachable].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [from value reachable]; otherwise, <c>false</c>.
-        /// </value>
-        public bool FromValueReachable { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [to value reachable].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [to value reachable]; otherwise, <c>false</c>.
-        /// </value>
-        public bool ToValueReachable { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Range{TCoordinate}" /> class.
@@ -48,15 +35,13 @@ namespace Beyova
         /// <param name="to">To.</param>
         /// <param name="fromValueReachable">if set to <c>true</c> [from value reachable].</param>
         /// <param name="toValueReachable">if set to <c>true</c> [to value reachable].</param>
-        /// <param name="checkRangeWhenConstruct">if set to <c>true</c> [check range when construct].</param>
-        public Range(TCoordinate? from = null, TCoordinate? to = null, bool fromValueReachable = true, bool toValueReachable = false, bool checkRangeWhenConstruct = true)
+        /// <param name="omitRangeValidation">if set to <c>true</c> [omit range validation].</param>
+        public Range(TCoordinate? from = null, TCoordinate? to = null, bool fromValueReachable = true, bool toValueReachable = false, bool omitRangeValidation = false)
         {
             From = from;
             To = to;
-            FromValueReachable = fromValueReachable;
-            ToValueReachable = toValueReachable;
 
-            if (checkRangeWhenConstruct && from.HasValue && to.HasValue && ((IComparable)From.Value).CompareTo(To.Value) > 0)
+            if (!omitRangeValidation && from.HasValue && to.HasValue && ((IComparable)From.Value).CompareTo(To.Value) >= 0)
             {
                 throw ExceptionFactory.CreateInvalidObjectException(nameof(to), new { from, to }, "InvalidRange");
             }
@@ -75,7 +60,7 @@ namespace Beyova
             {
                 var fromResult = From.Value.CompareTo(value);
 
-                if (FromValueReachable ? fromResult > 0 : fromResult >= 0)
+                if (fromResult >= 0)
                 {
                     return false;
                 }
@@ -85,7 +70,7 @@ namespace Beyova
             {
                 var toResult = To.Value.CompareTo(value);
 
-                if (ToValueReachable ? toResult < 0 : toResult <= 0)
+                if (toResult <= 0)
                 {
                     return false;
                 }
@@ -114,11 +99,7 @@ namespace Beyova
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}{1},{2}{3}",
-                FromValueReachable ? "[" : "(",
-                From,
-                To,
-                ToValueReachable ? "]" : ")");
+            return string.Format("{0} - {1}", From, To);
         }
     }
 }

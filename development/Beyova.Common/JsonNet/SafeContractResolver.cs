@@ -52,7 +52,7 @@ namespace Beyova
             }
             else if (type == typeof(HttpRequest) || type == typeof(HttpListenerRequest) || type == typeof(HttpRequestBase))
             {
-                var x = from property in result where !httpRequestIgnoreProperties.Contains(property.PropertyName, true) select property;
+                var x = from property in result where !httpRequestIgnoreProperties.Contains(property.PropertyName, StringComparer.OrdinalIgnoreCase) select property;
                 result = x.ToList();
             }
             else if (typeof(Stream).IsAssignableFrom(type) || typeof(System.Web.Profile.DefaultProfile) == type)

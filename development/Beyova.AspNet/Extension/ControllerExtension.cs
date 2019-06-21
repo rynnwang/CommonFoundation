@@ -1,7 +1,7 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using Beyova.Api.RestApi;
+﻿using Beyova.Api.RestApi;
 using Beyova.Diagnostic;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Beyova.Web
 {
@@ -35,6 +35,32 @@ namespace Beyova.Web
                 Data = obj,
                 ContentType = HttpConstants.ContentType.Json
             };
+        }
+
+        /// <summary>
+        /// Clouds the content of the BLOB file.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <param name="downloadCredential">The download credential.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
+        public static ActionResult CloudBlobFileResult(this Controller controller, BinaryStorageActionCredential downloadCredential, string contentType = null, string fileName = null)
+        {
+            if (controller != null && downloadCredential != null && !string.IsNullOrWhiteSpace(downloadCredential.CredentialUri))
+            {
+                var httpRequest = downloadCredential.CredentialUri.CreateHttpWebRequest();
+                var stream = httpRequest.GetResponse().GetResponseStream();
+
+                if (!string.IsNullOrWhiteSpace(fileName))
+                {
+                    controller.Response.SafeSetHttpHeader(HttpConstants.HttpHeader.ContentDisposition, fileName);
+                }
+
+                return new FileStreamResult(stream, contentType.SafeToString(HttpConstants.ContentType.BinaryDefault));
+            }
+
+            return new EmptyResult();
         }
     }
 }

@@ -99,6 +99,10 @@ namespace Beyova
                     {
                         return rawStringValue;
                     }
+                    else if (type == typeof(Boolean) || type == typeof(Boolean?))
+                    {
+                        return rawStringValue.ToLowerInvariant().ParseToJToken().ToObject(type);
+                    }
                     else if (type == typeof(Guid) || type == typeof(Guid?) || typeof(IStringConvertable).IsAssignableFrom(type))
                     {
                         return JToken.FromObject(rawStringValue).ToObject(type);

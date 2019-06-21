@@ -917,6 +917,8 @@ namespace Beyova
                 }
                 httpWebRequest.ContentLength = stream.Length;
                 var dataStream = httpWebRequest.GetRequestStream();
+
+                stream.Position = 0;
                 stream.CopyTo(dataStream);
                 dataStream.Close();
             }
@@ -950,7 +952,7 @@ namespace Beyova
         /// <param name="method">The method.</param>
         /// <param name="data">The data.</param>
         /// <param name="contentType">Type of the content.</param>
-        public static void FillData(this HttpWebRequest httpWebRequest, string method, byte[] data, string contentType = HttpConstants.ContentType.Json)
+        public static void FillData(this HttpWebRequest httpWebRequest, string method, byte[] data, string contentType = null)
         {
             InternalFillData(httpWebRequest, method, data, contentType);
         }
@@ -961,7 +963,7 @@ namespace Beyova
         /// <param name="httpWebRequest">The HTTP web request.</param>
         /// <param name="data">The data.</param>
         /// <param name="contentType">Type of the content.</param>
-        public static void FillData(this HttpWebRequest httpWebRequest, byte[] data, string contentType = HttpConstants.ContentType.Json)
+        public static void FillData(this HttpWebRequest httpWebRequest, byte[] data, string contentType = null)
         {
             InternalFillData(httpWebRequest, null, data, contentType);
         }
@@ -973,7 +975,7 @@ namespace Beyova
         /// <param name="stream">The stream.</param>
         /// <param name="contentType">Type of the content.</param>
         /// <param name="method">The method.</param>
-        public static void FillData(this HttpWebRequest httpWebRequest, Stream stream, string contentType = HttpConstants.ContentType.Json, string method = null)
+        public static void FillData(this HttpWebRequest httpWebRequest, Stream stream, string contentType = null, string method = null)
         {
             InternalFillData(httpWebRequest, method, stream, contentType);
         }
@@ -985,7 +987,7 @@ namespace Beyova
         /// <param name="method">The method.</param>
         /// <param name="data">The data.</param>
         /// <param name="contentType">Type of the content.</param>
-        public static void FillData(this HttpWebRequest httpWebRequest, string method, string data, string contentType = HttpConstants.ContentType.Json)
+        public static void FillData(this HttpWebRequest httpWebRequest, string method, string data, string contentType = null)
         {
             InternalFillData(httpWebRequest, method, data, null, contentType);
         }
@@ -1014,7 +1016,7 @@ namespace Beyova
         /// <param name="data">The data.</param>
         /// <param name="encodingToByte">The encoding to byte.</param>
         /// <param name="contentType">Type of the content.</param>
-        public static void FillData(this HttpWebRequest httpWebRequest, string method, string data, Encoding encodingToByte, string contentType = HttpConstants.ContentType.Json)
+        public static void FillData(this HttpWebRequest httpWebRequest, string method, string data, Encoding encodingToByte, string contentType = null)
         {
             byte[] byteArray = null;
 

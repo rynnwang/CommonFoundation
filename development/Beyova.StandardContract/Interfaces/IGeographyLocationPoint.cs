@@ -1,9 +1,9 @@
 ﻿namespace Beyova
 {
     /// <summary>
-    /// Interface IGeographyLocation
+    /// Interface IGeographyLocationPoint
     /// </summary>
-    public interface IGeographyLocation
+    public interface IGeographyLocationPoint
     {
         /// <summary>
         /// Gets or sets the latitude.

@@ -92,14 +92,19 @@ namespace Beyova.Web
         /// <param name="criteria">The criteria.</param>
         /// <param name="viewName">Name of the view.</param>
         /// <param name="resultType">Type of the result.</param>
+        /// <param name="criteriaBoundaryEnsurance">The criteria boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult QueryEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, TCriteria criteria, string viewName, ActionResultType resultType = ActionResultType.PartialView)
+        protected virtual ActionResult QueryEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, TCriteria criteria, string viewName, ActionResultType resultType = ActionResultType.PartialView, Action<TCriteria> criteriaBoundaryEnsurance = null)
+            where TCriteria : class
         {
             try
             {
                 query.CheckNullObject(nameof(query));
                 criteria.CheckNullObject(nameof(criteria));
                 viewName.CheckEmptyString(nameof(viewName));
+
+                criteria = criteria.StandardizeWebObject();
+                criteriaBoundaryEnsurance?.Invoke(criteria);
 
                 var result = query(criteria);
                 return resultType == ActionResultType.PartialView ? PartialView(viewName, result) : View(viewName, result) as ActionResult;
@@ -117,8 +122,10 @@ namespace Beyova.Web
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="invoke">The invoke.</param>
         /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterBoundaryEnsurance">The parameter boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult OperateEntityJson<TParameter, TOutput>(Func<TParameter, TOutput> invoke, TParameter parameter)
+        protected virtual ActionResult OperateEntityJson<TParameter, TOutput>(Func<TParameter, TOutput> invoke, TParameter parameter, Action<TParameter> parameterBoundaryEnsurance = null)
+            where TParameter : class
         {
             BaseException exception = null;
             object result = null;
@@ -127,6 +134,9 @@ namespace Beyova.Web
             {
                 invoke.CheckNullObject(nameof(invoke));
                 parameter.CheckNullObject(nameof(parameter));
+                parameter = parameter.StandardizeWebObject();
+
+                parameterBoundaryEnsurance?.Invoke(parameter);
 
                 result = invoke(parameter);
             }
@@ -145,8 +155,10 @@ namespace Beyova.Web
         /// <typeparam name="TParameter">The type of the parameter.</typeparam>
         /// <param name="invoke">The invoke.</param>
         /// <param name="parameter">The parameter.</param>
+        /// <param name="parameterBoundaryEnsurance">The parameter boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult OperateEntityJson<TParameter>(Action<TParameter> invoke, TParameter parameter)
+        protected virtual ActionResult OperateEntityJson<TParameter>(Action<TParameter> invoke, TParameter parameter, Action<TParameter> parameterBoundaryEnsurance = null)
+                where TParameter : class
         {
             BaseException exception = null;
 
@@ -154,6 +166,9 @@ namespace Beyova.Web
             {
                 invoke.CheckNullObject(nameof(invoke));
                 parameter.CheckNullObject(nameof(parameter));
+                parameter = parameter.StandardizeWebObject();
+
+                parameterBoundaryEnsurance?.Invoke(parameter);
 
                 invoke(parameter);
             }
@@ -279,17 +294,23 @@ namespace Beyova.Web
         /// <param name="resultType">Type of the result.</param>
         /// <param name="postValidation">The post validation.</param>
         /// <param name="partialViewWrapper">The partial view wrapper.</param>
+        /// <param name="criteriaBoundaryEnsurance">The criteria boundary ensurance.</param>
         /// <returns></returns>
         /// <exception cref="ResourceNotFoundException">TOutput</exception>
-        protected virtual ActionResult GetEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<TOutput, bool> postValidation = null, PartialViewWrapper partialViewWrapper = null)
-            where TCriteria : IIdentifier, new()
+        protected virtual ActionResult GetEntityView<TCriteria, TOutput>(Func<TCriteria, List<TOutput>> query, Guid? key, string viewName, ActionResultType resultType = ActionResultType.View, Func<TOutput, bool> postValidation = null, PartialViewWrapper partialViewWrapper = null, Action<TCriteria> criteriaBoundaryEnsurance = null)
+            where TCriteria : class, IIdentifier, new()
         {
             try
             {
                 query.CheckNullObject(nameof(query));
                 viewName.CheckEmptyString(nameof(viewName));
 
-                var result = key.HasValue ? query(new TCriteria { Key = key }).SafeFirstOrDefault() : default(TOutput);
+                var criteria = key.HasValue ? new TCriteria { Key = key } : null;
+                if (criteria != null)
+                {
+                    criteriaBoundaryEnsurance?.Invoke(criteria);
+                }
+                var result = criteria != null ? query(criteria).SafeFirstOrDefault() : default(TOutput);
 
                 if (result == null || (postValidation != null && !postValidation(result)))
                 {
@@ -327,13 +348,18 @@ namespace Beyova.Web
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="action">The action.</param>
         /// <param name="entity">The entity.</param>
+        /// <param name="entityBoundaryEnsurance">The entity boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult CreateOrUpdateEntity<TEntity, TOutput>(Func<TEntity, TOutput> action, TEntity entity)
+        protected virtual ActionResult CreateOrUpdateEntity<TEntity, TOutput>(Func<TEntity, TOutput> action, TEntity entity, Action<TEntity> entityBoundaryEnsurance = null)
+                where TEntity : class
         {
             try
             {
                 action.CheckNullObject(nameof(action));
                 entity.CheckNullObject(nameof(entity));
+
+                entity = entity.StandardizeWebObject();
+                entityBoundaryEnsurance?.Invoke(entity);
 
                 return JsonNet(action(entity));
             }
@@ -346,19 +372,21 @@ namespace Beyova.Web
         /// <summary>
         /// Deletes the entity.
         /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <typeparam name="TEntityKey">The type of the entity.</typeparam>
         /// <typeparam name="TOutput">The type of the output.</typeparam>
         /// <param name="action">The action.</param>
-        /// <param name="entity">The entity.</param>
+        /// <param name="entityKey">The entity.</param>
+        /// <param name="entityKeyBoundaryEnsurance">The entity key boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult DeleteEntity<TEntity, TOutput>(Func<TEntity, TOutput> action, TEntity entity)
+        protected virtual ActionResult DeleteEntity<TEntityKey, TOutput>(Func<TEntityKey, TOutput> action, TEntityKey entityKey, Action<TEntityKey> entityKeyBoundaryEnsurance = null)
         {
             try
             {
                 action.CheckNullObject(nameof(action));
-                entity.CheckNullObject(nameof(entity));
+                entityKey.CheckNullObject(nameof(entityKey));
+                entityKeyBoundaryEnsurance?.Invoke(entityKey);
 
-                return JsonNet(action(entity));
+                return JsonNet(action(entityKey));
             }
             catch (Exception ex)
             {
@@ -369,18 +397,20 @@ namespace Beyova.Web
         /// <summary>
         /// Deletes the entity.
         /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <typeparam name="TEntityKey">The type of the entity key.</typeparam>
         /// <param name="action">The action.</param>
-        /// <param name="entity">The entity.</param>
+        /// <param name="entityKey">The entity.</param>
+        /// <param name="entityKeyBoundaryEnsurance">The entity key boundary ensurance.</param>
         /// <returns></returns>
-        protected virtual ActionResult DeleteEntity<TEntity>(Action<TEntity> action, TEntity entity)
+        protected virtual ActionResult DeleteEntity<TEntityKey>(Action<TEntityKey> action, TEntityKey entityKey, Action<TEntityKey> entityKeyBoundaryEnsurance = null)
         {
             try
             {
                 action.CheckNullObject(nameof(action));
-                entity.CheckNullObject(nameof(entity));
+                entityKey.CheckNullObject(nameof(entityKey));
 
-                action(entity);
+                entityKeyBoundaryEnsurance?.Invoke(entityKey);
+                action(entityKey);
                 return JsonNet(DateTime.UtcNow);
             }
             catch (Exception ex)

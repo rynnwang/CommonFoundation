@@ -9,7 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.AspNet")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.AspNet", "1.8.4")]
+[assembly: BeyovaComponent("Beyova.AspNet", "1.9.5")]
 //[assembly: PreApplicationStartMethod(typeof(WebInfrastructureEnhancement), "Initialize")]
 
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]

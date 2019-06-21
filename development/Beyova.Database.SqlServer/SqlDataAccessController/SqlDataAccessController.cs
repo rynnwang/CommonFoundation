@@ -95,6 +95,56 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Converts the query result object.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <typeparam name="TStartIndex">The type of the start index.</typeparam>
+        /// <typeparam name="TObject">The type of the object.</typeparam>
+        /// <param name="sqlDataReader">The SQL data reader.</param>
+        /// <param name="totalCount">The total count.</param>
+        /// <param name="converter">The converter.</param>
+        /// <returns></returns>
+        protected TResult ConvertQueryResultObject<TResult, TStartIndex, TObject>(SqlDataReader sqlDataReader, int totalCount, Func<SqlDataReader, TObject> converter)
+            where TResult : PagingQueryResult<TStartIndex, TObject>, new()
+        {
+            try
+            {
+                sqlDataReader.CheckNullObject(nameof(sqlDataReader));
+                converter.CheckNullObject(nameof(converter));
+
+                var result = new TResult
+                {
+                    // When enter this method, Read() has been called for detect exception already.
+                    Items = new List<TObject> { converter(sqlDataReader) },
+                    TotalCount = totalCount
+                };
+
+                while (sqlDataReader.Read())
+                {
+                    result.Items.Add(converter(sqlDataReader));
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { type = typeof(T).GetFullName() });
+            }
+            finally
+            {
+                if (sqlDataReader != null)
+                {
+                    sqlDataReader.Close();
+                }
+
+                if (_primaryDatabaseOperator != null)
+                {
+                    _primaryDatabaseOperator.Close();
+                }
+            }
+        }
+
+        /// <summary>
         /// Converts the entity object.
         /// </summary>
         /// <param name="sqlDataReader">The SQL data reader.</param>
@@ -139,6 +189,76 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Executes the reader as paging query result.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <typeparam name="TStartIndex">The type of the start index.</typeparam>
+        /// <typeparam name="TObject">The type of the object.</typeparam>
+        /// <param name="spName">Name of the sp.</param>
+        /// <param name="sqlParameters">The SQL parameters.</param>
+        /// <param name="converter">The converter.</param>
+        /// <param name="preferReadOnlyOperator">if set to <c>true</c> [prefer read only operator].</param>
+        /// <returns></returns>
+        protected TResult ExecuteReaderAsPagingQueryResult<TResult, TStartIndex, TObject>(string spName, List<SqlParameter> sqlParameters, Func<SqlDataReader, TObject> converter, bool preferReadOnlyOperator = false)
+              where TResult : PagingQueryResult<TStartIndex, TObject>, new()
+        {
+            SqlDataReader reader = null;
+            DatabaseOperator databaseOperator = null;
+
+            try
+            {
+                converter.CheckNullObject(nameof(converter));
+
+                reader = Execute(spName, sqlParameters, preferReadOnlyOperator, out databaseOperator);
+                var totalCount = reader.HasColumn(column_TotalCount) ? reader[column_TotalCount].ObjectToInt32() : 0;
+                return reader == null ? new TResult() : ConvertQueryResultObject<TResult, TStartIndex, TObject>(reader, totalCount, converter);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { SpName = spName, Parameters = SqlParameterToList(sqlParameters), PreferReadOnlyOperator = preferReadOnlyOperator });
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+
+                // use Close instead of Dispose so that operator can be reuse without re-initialize.
+                databaseOperator?.Close();
+            }
+        }
+
+        /// <summary>
+        /// Executes the reader as paging query result.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <typeparam name="TStartIndex">The type of the start index.</typeparam>
+        /// <param name="spName">Name of the sp.</param>
+        /// <param name="sqlParameters">The SQL parameters.</param>
+        /// <param name="preferReadOnlyOperator">if set to <c>true</c> [prefer read only operator].</param>
+        /// <returns></returns>
+        protected TResult ExecuteReaderAsPagingQueryResult<TResult, TStartIndex>(string spName, List<SqlParameter> sqlParameters = null, bool preferReadOnlyOperator = false)
+            where TResult : PagingQueryResult<TStartIndex, T>, new()
+        {
+            return ExecuteReaderAsPagingQueryResult<TResult, TStartIndex, T>(spName, sqlParameters, ConvertEntityObject, preferReadOnlyOperator);
+        }
+
+        /// <summary>
+        /// Executes the reader as paging query result.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="spName">Name of the sp.</param>
+        /// <param name="sqlParameters">The SQL parameters.</param>
+        /// <param name="preferReadOnlyOperator">if set to <c>true</c> [prefer read only operator].</param>
+        /// <returns></returns>
+        protected TResult ExecuteReaderAsPagingQueryResult<TResult>(string spName, List<SqlParameter> sqlParameters = null, bool preferReadOnlyOperator = false)
+        where TResult : PagingQueryResult<int, T>, new()
+        {
+            return ExecuteReaderAsPagingQueryResult<TResult, int, T>(spName, sqlParameters, ConvertEntityObject, preferReadOnlyOperator);
+        }
+
+        /// <summary>
         /// Executes the reader. If parameter <c>converter</c> is specified, use it. Otherwise, use <c>ConvertEntityObject</c>.
         /// </summary>
         /// <param name="spName">Name of the sp.</param>
@@ -156,6 +276,12 @@ namespace Beyova
     /// </summary>
     public abstract class SqlDataAccessController : IDisposable
     {
+
+        /// <summary>
+        /// The column total count
+        /// </summary>
+        protected const string column_TotalCount = "TotalCount";
+
         /// <summary>
         /// The column_ SQL error code
         /// </summary>

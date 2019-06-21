@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Beyova
 {
@@ -48,7 +48,15 @@ namespace Beyova
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return Enum.Parse(objectType, reader.Value.SafeToString());
+            var value = reader.Value.SafeToString();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return objectType.IsNullable() ? null : Enum.ToObject(objectType, 0);
+            }
+            else
+            {
+                return Enum.Parse(objectType.IsNullable() ? Nullable.GetUnderlyingType(objectType) : objectType, value);
+            }
         }
 
         /// <summary>

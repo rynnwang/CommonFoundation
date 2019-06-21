@@ -8,3 +8,19 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+.form-control.error {
+    border-color: #ff0000;
+}
+
+.form-control.valid {
+    border-color: #6edd3f;
+}
+
+table tr td.select-col, table tr th.select-col {
+    max-width: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    min-width: 20px;
+    text-align: center;
+}

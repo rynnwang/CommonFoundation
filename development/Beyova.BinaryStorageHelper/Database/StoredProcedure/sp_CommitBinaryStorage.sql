@@ -82,22 +82,22 @@ BEGIN
                             AND [OwnerKey] = @OperatorKey
                             AND [dbo].[fn_ObjectIsWorkable]([State]) = 1 )
                     BEGIN
-                    INSERT INTO [dbo].[UserBinaryStorageMetaData]
-                           ([Identifier]
-                           ,[OwnerKey]
-                           ,[CreatedStamp]
-                           ,[LastUpdatedStamp]
-                           ,[CreatedBy]
-                           ,[LastUpdatedBy]
-                           ,[State])
-                        VALUES
-                           (@InstanceIdentifier
-                           ,@OperatorKey
-                           ,@NowTime
-                           ,@NowTime
-                           ,@OperatorKey
-                           ,@OperatorKey
-                           ,0);
+                        INSERT INTO [dbo].[UserBinaryStorageMetaData]
+                               ([Identifier]
+                               ,[OwnerKey]
+                               ,[CreatedStamp]
+                               ,[LastUpdatedStamp]
+                               ,[CreatedBy]
+                               ,[LastUpdatedBy]
+                               ,[State])
+                            VALUES
+                               (@InstanceIdentifier
+                               ,@OperatorKey
+                               ,@NowTime
+                               ,@NowTime
+                               ,@OperatorKey
+                               ,@OperatorKey
+                               ,0);
                     END
 
                     SELECT TOP 1 [Identifier]

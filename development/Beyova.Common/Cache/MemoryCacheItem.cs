@@ -28,5 +28,13 @@ namespace Beyova.Cache
         {
             get { return ExpiredStamp.HasValue && ExpiredStamp < DateTime.UtcNow; }
         }
+
+        /// <summary>
+        /// Expires this instance.
+        /// </summary>
+        public void Expire()
+        {
+            ExpiredStamp = DateTime.UtcNow.AddMinutes(-1);
+        }
     }
 }

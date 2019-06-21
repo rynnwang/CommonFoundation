@@ -165,7 +165,7 @@ namespace Beyova.Api.RestApi
         /// <param name="headerName">Name of the header.</param>
         public override void RemoveResponseHeader(string headerName)
         {
-            if (!string.IsNullOrWhiteSpace(headerName) && (Response?.Headers?.AllKeys?.Contains(headerName, false) ?? false))
+            if (!string.IsNullOrWhiteSpace(headerName) && (Response?.Headers?.AllKeys?.Contains(headerName, StringComparer.Ordinal) ?? false))
             {
                 Response.Headers.Remove(headerName);
             }

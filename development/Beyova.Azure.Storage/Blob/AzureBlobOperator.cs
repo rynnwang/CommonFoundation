@@ -696,6 +696,7 @@ namespace Beyova.Azure
                 var stream = new MemoryStream { Position = 0 };
 
                 blob.DownloadToStream(stream);
+                stream.Position = 0;
                 return stream;
             }
             catch (Exception ex)

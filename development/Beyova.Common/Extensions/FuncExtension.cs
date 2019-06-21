@@ -18,6 +18,16 @@ namespace Beyova
         }
 
         /// <summary>
+        /// News the default object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T NewDefaultObject<T>()
+        {
+            return default(T);
+        }
+
+        /// <summary>
         /// Converts as nullable input.
         /// </summary>
         /// <typeparam name="TInput">The type of the input.</typeparam>

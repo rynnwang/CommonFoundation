@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\IDataSecurityProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataSecurity\RijndaelProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DbObjectConvertionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\FunctionFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FuncExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\ZipFileContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileContainer\StorageContainer.cs" />

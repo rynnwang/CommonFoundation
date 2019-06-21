@@ -61,6 +61,31 @@ namespace Beyova
             }
         }
 
+        /// <summary>
+        /// Copies to memory stream.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <returns></returns>
+        public static MemoryStream CopyToMemoryStream(this Stream stream)
+        {
+            if (stream != null)
+            {
+                try
+                {
+                    var memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    return memoryStream;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.Handle();
+                }
+            }
+
+            return null;
+        }
+
         #endregion Stream
 
         #region IO
@@ -563,17 +588,6 @@ namespace Beyova
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// To the bytes.
-        /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <returns>The <see cref="Byte" />  array of stream.</returns>
-        [Obsolete("Use ReadStreamToBytes directly")]
-        public static byte[] ToBytes(this Stream stream)
-        {
-            return ReadStreamToBytes(stream, true);
         }
 
         /// <summary>

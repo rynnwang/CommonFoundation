@@ -151,7 +151,6 @@ namespace Beyova
         public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> keySelector, IEqualityComparer<TKey> comparer)
             where TKey : struct
         {
-
             return source.Where(x => keySelector(x).HasValue).GroupBy(x => keySelector(x).Value, comparer).ToMatrixList(comparer);
         }
 
@@ -166,7 +165,6 @@ namespace Beyova
         public static MatrixList<TKey, TSource> GroupAsMatrixList<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey?> keySelector)
             where TKey : struct
         {
-
             return source.Where(x => keySelector(x).HasValue).GroupBy(x => keySelector(x).Value).ToMatrixList();
         }
 
@@ -183,7 +181,7 @@ namespace Beyova
             MatrixList<TKey, TSource> result = new MatrixList<TKey, TSource>(comparer);
             if (source.HasItem())
             {
-                foreach (var item in result)
+                foreach (var item in source)
                 {
                     result.Add(item.Key, (item as IEnumerable<TSource>).ToList() ?? new List<TSource>());
                 }
@@ -232,11 +230,37 @@ namespace Beyova
         {
             var result = new MatrixList<T>(keyCaseSensitive);
 
-            if (list != null)
+            if (list != null && keyFunc != null)
             {
                 foreach (var one in list)
                 {
-                    result.Add(keyFunc == null ? string.Empty : keyFunc(one), one);
+                    result.Add(keyFunc(one), one);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// To the matrix.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="keyFunc">The key function.</param>
+        /// <param name="valueFunc">The value function.</param>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns></returns>
+        public static MatrixList<TKey, TValue> ToMatrix<TEntity, TKey, TValue>(this List<TEntity> list, Func<TEntity, TKey> keyFunc, Func<TEntity, TValue> valueFunc, IEqualityComparer<TKey> equalityComparer = null)
+        {
+            var result = new MatrixList<TKey, TValue>(equalityComparer);
+
+            if (list != null && keyFunc != null && valueFunc != null)
+            {
+                foreach (var one in list)
+                {
+                    result.Add(keyFunc(one), valueFunc(one));
                 }
             }
 
@@ -339,61 +363,6 @@ namespace Beyova
 
         #endregion IAccessClientIdentifier
 
-        #region Key info collection
-
-        /// <summary>
-        /// Keyses the specified items.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items">The items.</param>
-        /// <returns></returns>
-        public static HashSet<Guid> Keys<T>(this IEnumerable<T> items)
-            where T : IIdentifier
-        {
-            HashSet<Guid> result = new HashSet<Guid>();
-
-            if (items.HasItem())
-            {
-                foreach (IIdentifier item in items)
-                {
-                    if (item?.Key.HasValue ?? false)
-                    {
-                        result.Add(item.Key.Value);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Codeses the specified items.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items">The items.</param>
-        /// <param name="stringComparer">The string comparer.</param>
-        /// <returns></returns>
-        public static HashSet<string> Codes<T>(this IEnumerable<T> items, StringComparer stringComparer = null)
-            where T : ICodeIdentifier
-        {
-            HashSet<string> result = new HashSet<string>(stringComparer ?? StringComparer.Ordinal);
-
-            if (items.HasItem())
-            {
-                foreach (ICodeIdentifier item in items)
-                {
-                    if (!string.IsNullOrWhiteSpace(item.Code))
-                    {
-                        result.Add(item.Code);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        #endregion
-
         #region KVMetaExtensible
 
         /// <summary>
@@ -447,16 +416,22 @@ namespace Beyova
                 {
                     case "==":
                         return left == right;
+
                     case "!=":
                         return left != right;
+
                     case ">":
                         return left.CompareTo(right) > 0;
+
                     case "<":
                         return left.CompareTo(right) < 0;
+
                     case "<=":
                         return left.CompareTo(right) >= 0;
+
                     case ">=":
                         return left.CompareTo(right) <= 0;
+
                     default:
                         break;
                 }
@@ -484,7 +459,43 @@ namespace Beyova
                     : false;
         }
 
-        #endregion
+        #endregion KVMetaExtensible
+
+        /// <summary>
+        /// To the tag collection.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="seperators">The seperators.</param>
+        /// <returns></returns>
+        public static TagCollection ToTagCollection(this string value, params char[] seperators)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                TagCollection result = new TagCollection();
+                foreach (var item in value.Split(seperators.HasItem() ? seperators : new char[] { ',', '.', '，', '；', '/', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    result.Add(item);
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Copies to.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="destination">The destination.</param>
+        public static void CopyTo(this IEventStampRange source, IEventDateRange destination)
+        {
+            if (source != null && destination != null)
+            {
+                destination.StartDate = source.StartStamp.ToDate();
+                destination.EndDate = source.EndStamp.ToDate();
+            }
+        }
 
         /// <summary>
         /// To the stamp point.
@@ -525,19 +536,6 @@ namespace Beyova
         public static BinaryStorageCommitRequest CreateCommitRequest(this BinaryStorageIdentifier storageIdentifier)
         {
             return storageIdentifier == null ? null : new BinaryStorageCommitRequest(storageIdentifier);
-        }
-
-        /// <summary>
-        /// Gets the by key.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="anyCollection">Any collection.</param>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public static T GetByKey<T>(this IEnumerable<T> anyCollection, Guid? key)
-            where T : IIdentifier
-        {
-            return (anyCollection.HasItem() && key.HasValue) ? anyCollection.FirstOrDefault(x => x.Key == key) : default(T);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -16,11 +17,11 @@ namespace Beyova.Web
         /// <returns></returns>
         public override IValueProvider GetValueProvider(ControllerContext ctlContext)
         {
-            //if (!controllerContext.HttpContext.Request.ContentType.
-            //    StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
-            //{
-            //    return null;
-            //}
+            if (!ctlContext.HttpContext.Request.ContentType.
+                StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
 
             var reader = new StreamReader(ctlContext.HttpContext.Request.InputStream);
             reader.BaseStream.Position = 0;

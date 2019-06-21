@@ -123,6 +123,14 @@ namespace Beyova.Cache
         #endregion protected methods
 
         /// <summary>
+        /// Clears all.
+        /// </summary>
+        public void ClearAll()
+        {
+            InternalClear();
+        }
+
+        /// <summary>
         /// Gets all entities.
         /// </summary>
         /// <returns></returns>
@@ -152,6 +160,19 @@ namespace Beyova.Cache
             {
                 entity = default(TEntity);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Expireses the specific item.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        public void Expires(TKey key)
+        {
+            MemoryCacheItem<TEntity> cachedObject;
+            if (key != null && container.TryGetValue(key, out cachedObject))
+            {
+                cachedObject.Expire();
             }
         }
 

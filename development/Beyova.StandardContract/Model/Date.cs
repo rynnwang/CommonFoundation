@@ -70,6 +70,44 @@ namespace Beyova
         }
 
         /// <summary>
+        /// Gets the first day of month.
+        /// </summary>
+        /// <returns></returns>
+        public Date GetFirstDayOfMonth()
+        {
+            return new Date(Year, Month, 1);
+        }
+
+        /// <summary>
+        /// Gets the end day of month.
+        /// </summary>
+        /// <returns></returns>
+        public Date GetEndDayOfMonth()
+        {
+            var dateTime = new DateTime(Year, Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
+            dateTime = dateTime.AddMonths(1).AddDays(-1);
+            return new Date(dateTime);
+        }
+
+        /// <summary>
+        /// To the month day.
+        /// </summary>
+        /// <returns></returns>
+        public string ToMonthDay()
+        {
+            return string.Format("{0}/{1}", Month, Day);
+        }
+
+        /// <summary>
+        /// To the year month.
+        /// </summary>
+        /// <returns></returns>
+        public string ToYearMonth()
+        {
+            return string.Format("{0}-{1}", Year, Month);
+        }
+
+        /// <summary>
         /// Froms the date time.
         /// </summary>
         /// <param name="date">The date.</param>
@@ -424,6 +462,15 @@ namespace Beyova
         public DateTime ToDateTime(DateTimeKind kind = DateTimeKind.Unspecified)
         {
             return ToDateTime(this, kind);
+        }
+
+        /// <summary>
+        /// Locals the date to UTC date time.
+        /// </summary>
+        /// <returns></returns>
+        public DateTime LocalDateToUtcDateTime()
+        {
+            return ToDateTime(this, DateTimeKind.Local).ToUtc();
         }
 
         /// <summary>

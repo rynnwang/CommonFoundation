@@ -11,7 +11,7 @@ namespace Beyova
         /// Gets or sets the permissions.
         /// </summary>
         /// <value>The permissions.</value>
-        List<string> Permissions
+        HashSet<string> Permissions
         {
             get; set;
         }

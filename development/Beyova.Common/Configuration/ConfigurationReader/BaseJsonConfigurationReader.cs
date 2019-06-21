@@ -245,7 +245,7 @@ namespace Beyova
 
             if (_items.SafeTryGetValue(key, out configuration) && configuration.IsActive)
             {
-                result = (T)(configuration.Value);
+                result = configuration.Value == null ? default(T) : (T)(configuration.Value);
                 return true;
             }
 

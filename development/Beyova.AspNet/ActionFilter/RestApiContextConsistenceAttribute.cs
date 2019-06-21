@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Beyova;
+using Beyova.Api;
+using Beyova.Api.RestApi;
+using Beyova.Diagnostic;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Beyova;
-using Beyova.Api;
-using Beyova.Api.RestApi;
-using Beyova.Diagnostic;
 
 namespace Beyova.Web
 {
@@ -104,7 +104,7 @@ namespace Beyova.Web
         /// <param name="restApiSetting">The rest API settings.</param>
         public RestApiContextConsistenceAttribute(RestApiSettings restApiSetting) : base()
         {
-            settings = restApiSetting;
+            settings = restApiSetting ?? RestApiSettingPool.DefaultRestApiSettings;
             ApiTracking = restApiSetting?.ApiTracking;
         }
 
@@ -183,7 +183,7 @@ namespace Beyova.Web
                         catch { }
                     }
 
-                    ThreadExtension.Clear();
+                    ContextHelper.Clear();
                 }
 
                 Depth--;
@@ -203,6 +203,7 @@ namespace Beyova.Web
             if (Depth < 1)
             {
                 Depth = 0;
+                ContextHelper.Reinitialize();
 
                 DateTime entryStamp = DateTime.UtcNow;
                 var request = filterContext.HttpContext.Request;
@@ -280,7 +281,7 @@ namespace Beyova.Web
         {
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
-                ApiHandlerBase<HttpRequestBase, HttpResponseBase>.PackageResponse(new HttpBaseApiContextContainer(null, filterContext.HttpContext.Response), null, null, ex: baseException, settings: settings);
+                ApiHandlerBase<HttpRequestBase, HttpResponseBase>.PackageResponse(new HttpBaseApiContextContainer(filterContext.HttpContext.Request, filterContext.HttpContext.Response), null, null, ex: baseException, settings: settings);
                 filterContext.Result = null;
             }
             else

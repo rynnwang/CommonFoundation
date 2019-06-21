@@ -177,6 +177,11 @@ namespace Beyova
         /// </summary>
         private static Regex macAddressRegex = new Regex("^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F]{2}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        /// <summary>
+        /// The pure english name regex
+        /// </summary>
+        private static Regex pureEnglishNameRegex = new Regex(@"^[a-zA-Z\s\.]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         #endregion Format regex
 
         #region Trim
@@ -263,11 +268,13 @@ namespace Beyova
                     for (var i = 0; i < factor.Length; i++)
                     {
                         if (!comparer.Equals(factor[factor.Length - 1 - i], source[start + i]))
+                        {
                             if (factor[factor.Length - 1 - i] != source[end - i])
                             {
                                 isBreak = true;
                                 break;
                             }
+                        }
                     }
 
                     if (isBreak)
@@ -326,7 +333,7 @@ namespace Beyova
         /// <returns></returns>
         public static string SafeFormat(this string anyString, string format)
         {
-            if(!string.IsNullOrEmpty(anyString) && !string.IsNullOrWhiteSpace(format))
+            if (!string.IsNullOrEmpty(anyString) && !string.IsNullOrWhiteSpace(format))
             {
                 return string.Format(format, anyString);
             }
@@ -499,9 +506,13 @@ namespace Beyova
                 for (j = 1; j <= s2Len; ++j)
                 {
                     if (string1[i - 1] == string2[j - 1])
+                    {
                         c[i, j] = c[i - 1, j - 1] + 1;
+                    }
                     else
+                    {
                         c[i, j] = c[i - 1, j].Max(c[i, j - 1]);
+                    }
                 }
             }
 
@@ -518,9 +529,13 @@ namespace Beyova
                     --k;
                 }
                 else if (c[i, j - 1] > c[i - 1, j])
+                {
                     --j;
+                }
                 else
+                {
                     --i;
+                }
             }
 
             return new string(outputStringBuilder);
@@ -562,9 +577,13 @@ namespace Beyova
                     else
                     {
                         if ((i == 0) || (j == 0))
+                        {
                             num[i, j] = 1;
+                        }
                         else
+                        {
                             num[i, j] = 1 + num[i - 1, j - 1];
+                        }
 
                         if (num[i, j] > maxlen)
                         {
@@ -754,6 +773,18 @@ namespace Beyova
         public static bool ContainsChineseCharset(this string stringToCheck)
         {
             return stringToCheck.IndexOfChineseCharset() > -1;
+        }
+
+        /// <summary>
+        /// Determines whether [has english name only].
+        /// </summary>
+        /// <param name="stringToCheck">The string to check.</param>
+        /// <returns>
+        ///   <c>true</c> if [has english name only] [the specified string to check]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasEnglishNameOnly(this string stringToCheck)
+        {
+            return !string.IsNullOrWhiteSpace(stringToCheck) && pureEnglishNameRegex.IsMatch(stringToCheck);
         }
 
         /// <summary>

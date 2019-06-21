@@ -66,8 +66,17 @@ namespace Beyova
         /// <exception cref="DivideByZeroException">Denominator is zero</exception>
         public string ToPercentage(string format = null, bool includesSymbol = false)
         {
-            var value = ((Denominator == 0) ? 0 : ((Numerator / (double)Denominator) * 100)).ToString(format.SafeToString("0.0"));
+            var value = ToDoubleTimes().ToString(format.SafeToString("0.0"));
             return includesSymbol ? (value + "%") : value;
+        }
+
+        /// <summary>
+        /// To the double times.
+        /// </summary>
+        /// <returns></returns>
+        public double ToDoubleTimes()
+        {
+            return (Denominator == 0) ? 0 : ((Numerator / (double)Denominator) * 100);
         }
 
         /// <summary>

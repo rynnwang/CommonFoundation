@@ -59,7 +59,7 @@ namespace Beyova
         /// The kv meta.
         /// </value>
         [JsonProperty(PropertyName = "kvMeta")]
-        public Dictionary<string, JValue> KVMeta { get; set; }
+        public KVMetaDictionary KVMeta { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryStorageMetaData" /> class.

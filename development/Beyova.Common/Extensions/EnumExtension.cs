@@ -8,6 +8,36 @@ namespace Beyova
     public static class EnumExtension
     {
         /// <summary>
+        /// Requireses the enum value.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="enumValue">The enum value.</param>
+        /// <param name="acceptances">The acceptances.</param>
+        public static void RequiresEnumValue<TEnum>(this TEnum enumValue, params TEnum[] acceptances)
+               where TEnum : struct, IConvertible
+        {
+            if (acceptances.HasItem() && !acceptances.HasItem(enumValue))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(nameof(enumValue), new { enumValue, acceptances }, "Unacceptable");
+            }
+        }
+
+        /// <summary>
+        /// Requireses the enum value.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="enumValue">The enum value.</param>
+        /// <param name="acceptances">The acceptances.</param>
+        public static void RequiresEnumValue<TEnum>(this TEnum? enumValue, params TEnum[] acceptances)
+               where TEnum : struct, IConvertible
+        {
+            if (acceptances.HasItem() && (!enumValue.HasValue || !acceptances.HasItem(enumValue.Value)))
+            {
+                throw ExceptionFactory.CreateInvalidObjectException(nameof(enumValue), new { enumValue, acceptances }, "Unacceptable");
+            }
+        }
+
+        /// <summary>
         /// Determines whether [is defined enum value].
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>

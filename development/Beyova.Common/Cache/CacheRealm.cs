@@ -139,7 +139,7 @@ namespace Beyova.Cache
         /// <returns>System.Collections.Generic.List&lt;Beyova.Cache.CacheContainerSummary&gt;.</returns>
         public static List<MemoryCacheContainerSummary> GetSummary<T>()
         {
-            return ToMemoryCacheContainerSummary(GetContainers(typeof(T)).AsCollection<ICacheContainer, IMemoryCacheContainer>());
+            return ToMemoryCacheContainerSummary(GetContainers(typeof(T)).ConvertAsCollection<ICacheContainer, IMemoryCacheContainer>());
         }
 
         /// <summary>

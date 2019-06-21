@@ -272,5 +272,22 @@ namespace Beyova.Azure
 
             return null;
         }
+
+        /// <summary>
+        /// Creates the put HTTP request.
+        /// </summary>
+        /// <param name="actionCredential">The action credential.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns></returns>
+        public static HttpWebRequest CreatePutHttpRequest(this BinaryStorageActionCredential actionCredential, string contentType = null)
+        {
+            var result = CreateHttpRequest(actionCredential, HttpConstants.HttpMethod.Put);
+            if (result != null)
+            {
+                result.SafeSetHttpHeader("x-ms-blob-content-type", contentType.SafeToString(HttpConstants.ContentType.BinaryDefault));
+            }
+
+            return result;
+        }
     }
 }

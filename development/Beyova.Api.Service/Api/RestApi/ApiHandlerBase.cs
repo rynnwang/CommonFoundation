@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Beyova.Cache;
+using Beyova.Diagnostic;
+using Beyova.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -9,11 +14,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using Beyova.Cache;
-using Beyova.Diagnostic;
-using Beyova.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Beyova.Api.RestApi
 {
@@ -538,7 +538,7 @@ namespace Beyova.Api.RestApi
             //Check permissions
             if (apiContext.CurrentCredential != null)
             {
-                var userPermissions = ContextHelper.ApiContext.CurrentPermissionIdentifiers?.Permissions ?? new List<string>();
+                var userPermissions = ContextHelper.ApiContext.CurrentPermissionIdentifiers?.Permissions ?? new HashSet<string>();
                 return userPermissions.ValidateApiPermission(runtimeRoute.OperationParameters.Permissions, apiContext.Token, runtimeRoute.ApiMethod.GetFullName());
             }
 
@@ -550,7 +550,7 @@ namespace Beyova.Api.RestApi
         /// </summary>
         protected virtual void Dispose()
         {
-            ThreadExtension.Clear();
+            ContextHelper.Clear();
         }
 
         #region Protected virtual methods

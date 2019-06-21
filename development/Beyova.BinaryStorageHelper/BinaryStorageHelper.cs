@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Beyova;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Beyova;
 
 namespace Beyova.Binary
 {
@@ -285,7 +285,7 @@ namespace Beyova.Binary
         /// <param name="data">The data.</param>
         /// <param name="contentType">Type of the content.</param>
         /// <returns>System.String.</returns>
-        public string UploadBinaryByCredential(BinaryStorageActionCredential credential, byte[] data, string contentType)
+        public string UploadBinaryByCredential(BinaryStorageActionCredential credential, byte[] data, string contentType = null)
         {
             try
             {
@@ -293,6 +293,28 @@ namespace Beyova.Binary
                 data.CheckNullObject(nameof(data));
 
                 return cloudBinaryStorageOperator.UploadBinaryBytesByCredentialUri(credential.CredentialUri, data, contentType);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { credential, contentType });
+            }
+        }
+
+        /// <summary>
+        /// Uploads the binary by credential.
+        /// </summary>
+        /// <param name="credential">The credential.</param>
+        /// <param name="data">The data.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns></returns>
+        public string UploadBinaryByCredential(BinaryStorageActionCredential credential, Stream data, string contentType)
+        {
+            try
+            {
+                credential.CheckNullObject(nameof(credential));
+                data.CheckNullObject(nameof(data));
+
+                return cloudBinaryStorageOperator.UploadBinaryStreamByCredentialUri(credential.CredentialUri, data, contentType);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Beyova.Diagnostic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Beyova.Diagnostic;
 
 namespace Beyova.Api.RestApi
 {
@@ -15,7 +15,7 @@ namespace Beyova.Api.RestApi
         /// <summary>
         /// The module based URL regex format
         /// </summary>
-        private const string moduleBasedUrlRegexFormat = @"(([^\/\?]+)/)?({0})/([0-9a-zA-Z\-_\.]+)/([^\/\?]+)(/([^\/\?]+))?(/(([^\/\?]+)))?(/)?";
+        private const string moduleBasedUrlRegexFormat = @"(([^\/\?]+)/)?({0})/([0-9a-zA-Z\-_\.]+)/([^\/\?]+)(/([^\/\?]+))?(/(([^\/\?]+)))?(/(.*))?";
 
         /// <summary>
         /// Gets the module based URL regex.
@@ -84,14 +84,14 @@ namespace Beyova.Api.RestApi
         /// <param name="userPermissions">The user permissions.</param>
         /// <param name="methodPermissions">The method permissions.</param>
         /// <returns>System.Nullable&lt;KeyValuePair&lt;System.String, ApiPermission&gt;&gt;.</returns>
-        public static ApiPermissionValidationResult ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions)
+        public static ApiPermissionValidationResult ValidateApiPermission(this ICollection<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions)
         {
             if (methodPermissions == null)
             {
                 return null;
             }
 
-            userPermissions = userPermissions ?? new List<string>();
+            userPermissions = userPermissions ?? new HashSet<string>();
 
             // Check deny first
             foreach (var one in (from item in methodPermissions where item.Value.Permission == ApiPermission.Denied select item.Key))
@@ -130,7 +130,7 @@ namespace Beyova.Api.RestApi
         /// <param name="token">The token.</param>
         /// <param name="methodName">Name of the method.</param>
         /// <returns>BaseException.</returns>
-        public static BaseException ValidateApiPermission(this IList<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions, string token, string methodName)
+        public static BaseException ValidateApiPermission(this ICollection<string> userPermissions, IDictionary<string, ApiPermissionAttribute> methodPermissions, string token, string methodName)
         {
             const string defaultMinor = "ApiPermissionConstraint";
 

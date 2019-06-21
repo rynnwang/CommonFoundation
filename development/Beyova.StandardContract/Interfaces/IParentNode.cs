@@ -5,8 +5,8 @@ namespace Beyova
     /// <summary>
     ///
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IParentNode<T>
+    /// <typeparam name="TKey"></typeparam>
+    public interface IParentNode<TKey>
     {
         /// <summary>
         /// Gets or sets the parent node key.
@@ -14,7 +14,7 @@ namespace Beyova
         /// <value>
         /// The parent node key.
         /// </value>
-        T ParentNodeKey { get; set; }
+        TKey ParentNodeKey { get; set; }
     }
 
     /// <summary>

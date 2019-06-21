@@ -30,9 +30,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICommonCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAccessClientIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICreatedStamp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IEventDateRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IEventStampRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFriendlyIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocationEssential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IAuditBaseObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IContact.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\KVMetaExensible\IKVMetaCriteriaExpression.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\KVMetaExensible\IKVMetaCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\KVMetaExensible\IKVMetaExtensible.cs" />
@@ -46,22 +51,34 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITimeFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\OAuth2\IOAuth2ClientOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\OAuth2\IOAuth2ProviderOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IStatusAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonNetConverter\CellphoneNumberConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiTracking\Query\BaseLogCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Audit\EntityObjectAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Audit\BaseAuditObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PagingQueryResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\BaseTimeFrameCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FriendlyIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Contact.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaCriteriaExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaUpdateRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaUpdateStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\KVMeta\KVMetaExtensible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Matrix\MatrixContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Matrix\MatrixHashSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Matrix\MatrixCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\OAuth2\OAuth2ClientOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\OAuth2\OAuth2ProviderOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Statistic\DecimalKeyStatisticCounter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Statistic\StatisticCounter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\StatusAudit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\StampPoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\StatisticResource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeFrameCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\HttpCredential.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeFrame\TimeFrameCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Http\HttpCredential.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\FlexibleSelectOption.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeFrame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\TimeFrame\TimeFrame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TagCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AuditBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Queue\BaseQueueMessageOperator.cs" />
@@ -78,7 +95,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ICriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IExpirable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IExpression.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IGeographyLocation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IGeographyLocationPoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IGlobalObjectName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\II18NResourceOperatable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IIdentifier.cs" />
@@ -90,7 +107,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IContainerableIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IRsaKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISearchTerm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\ISearchTermConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISimpleBaseObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISnapshotable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\ISqlDataTransportationController.cs" />
@@ -109,7 +125,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementLookup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementReadMark.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\EULA\EndUserLicenseAgreementReadReceipt.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\OrganizationUserIdentifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Http\OrganizationUserIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiTracking\ApiTrackingType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiTracking\Entity\ApiEventLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ApiTracking\Entity\ApiEventLogBase.cs" />
@@ -153,7 +169,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoInfoBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Geography\GeoPosition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\MatrixList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Matrix\MatrixList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\AppServiceStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\App\AppPlatform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Mobile\App\AppPlatformBase.cs" />
@@ -183,16 +199,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\SystemEnvironment\MachineIdentifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\TextValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enum\TimeScope.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionAudit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionRequest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\TransactionFlow\TransactionState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UserPreference\UserPreference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UserPreference\UserPreferenceCriteria.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Interfaces\Behavior\" />
     <Folder Include="$(MSBuildThisFileDirectory)Model\Finance\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Model\Http\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Model\TimeFrame\" />
   </ItemGroup>
 </Project>

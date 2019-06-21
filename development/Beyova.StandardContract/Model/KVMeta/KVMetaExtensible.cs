@@ -16,6 +16,6 @@ namespace Beyova
         /// The kv meta.
         /// </value>
         [JsonProperty(PropertyName = "kvMeta")]
-        public Dictionary<string, JValue> KVMeta { get; set; }
+        public KVMetaDictionary KVMeta { get; set; }
     }
 }

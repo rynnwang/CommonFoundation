@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Beyova.Diagnostic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using Beyova.Diagnostic;
 
 namespace Beyova
 {
@@ -263,6 +263,73 @@ namespace Beyova
             catch (Exception ex)
             {
                 throw ex.Handle(new { entryPathToExtract, destinationDirectoryPath });
+            }
+        }
+
+        /// <summary>
+        /// Extracts the zip to memory.
+        /// </summary>
+        /// <param name="zipFileStreamToOpen">The zip file stream to open.</param>
+        /// <returns></returns>
+        public static Dictionary<string, byte[]> ExtractZipToBytes(this Stream zipFileStreamToOpen)
+        {
+            try
+            {
+                zipFileStreamToOpen.CheckNullObject(nameof(zipFileStreamToOpen));
+
+                using (var archive = new ZipArchive(zipFileStreamToOpen, ZipArchiveMode.Read))
+                {
+                    Dictionary<string, Byte[]> result = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
+
+                    if (archive.Entries != null)
+                    {
+                        foreach (var entry in archive.Entries)
+                        {
+                            result.Add(entry.FullName, entry.Open().ReadStreamToBytes(true));
+                        }
+                    }
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle();
+            }
+        }
+
+        /// <summary>
+        /// Extracts the zip to memory stream. <c>PLEASE REMEMBER TO DISPOSE EACH STREAM!</c>
+        /// </summary>
+        /// <param name="zipFileStreamToOpen">The zip file stream to open.</param>
+        /// <returns></returns>
+        public static Dictionary<string, MemoryStream> ExtractZipToMemoryStream(this Stream zipFileStreamToOpen)
+        {
+            try
+            {
+                zipFileStreamToOpen.CheckNullObject(nameof(zipFileStreamToOpen));
+
+                using (var archive = new ZipArchive(zipFileStreamToOpen, ZipArchiveMode.Read))
+                {
+                    Dictionary<string, MemoryStream> result = new Dictionary<string, MemoryStream>(StringComparer.OrdinalIgnoreCase);
+
+                    if (archive.Entries != null)
+                    {
+                        foreach (var entry in archive.Entries)
+                        {
+                            if (entry.Length > 0)
+                            {
+                                result.Add(entry.FullName, entry.Open().CopyToMemoryStream());
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle();
             }
         }
 
