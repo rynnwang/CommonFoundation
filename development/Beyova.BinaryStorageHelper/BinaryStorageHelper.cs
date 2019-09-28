@@ -12,7 +12,8 @@ namespace Beyova.Binary
     /// <typeparam name="TCloudContainer">The type of the cloud container.</typeparam>
     /// <typeparam name="TCloudBlobObject">The type of the cloud BLOB object.</typeparam>
     public abstract class BinaryStorageHelper<TCloudContainer, TCloudBlobObject>
-        : BinaryStorageHelper<TCloudContainer, TCloudBlobObject, BinaryStorageMetaData, BinaryStorageMetaDataCriteria, BinaryStorageMetaDataBaseAccessController>
+        : BinaryStorageHelper<TCloudContainer, TCloudBlobObject, BinaryStorageMetaData, BinaryStorageMetaDataCriteria, BinaryStorageMetaDataBaseAccessController>,
+        IBinaryStorageHelper
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryStorageHelper{TCloudContainer, TCloudBlobObject}"/> class.
@@ -446,6 +447,52 @@ namespace Beyova.Binary
             catch (Exception ex)
             {
                 throw ex.Handle(new { criteria });
+            }
+        }
+
+        /// <summary>
+        /// Directs the save.
+        /// </summary>
+        /// <param name="meta">The meta.</param>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns></returns>
+        public TBinaryStorageMetaData DirectSave(TBinaryStorageMetaData meta, byte[] bytes)
+        {
+            return DirectSave(meta, bytes.ToStream());
+        }
+
+        /// <summary>
+        /// Directs the save.
+        /// </summary>
+        /// <param name="meta">The meta.</param>
+        /// <param name="stream">The stream.</param>
+        /// <param name="option">The option.</param>
+        /// <returns></returns>
+        public TBinaryStorageMetaData DirectSave(TBinaryStorageMetaData meta, Stream stream, BinaryStorageCommitOption? option = null)
+        {
+            try
+            {
+                meta.CheckNullObject(nameof(meta));
+                stream.CheckNullObject(nameof(stream));
+                meta.Container.CheckEmptyString(nameof(meta.Container));
+                meta.Identifier = Guid.NewGuid().ToString();
+
+                var hash = stream.ToMD5Bytes();
+                var credential = CreateBinaryUploadCredential(meta);
+
+                credential.CheckNullObject(nameof(credential));
+                credential.CredentialUri.CheckNullObject(nameof(credential.CredentialUri));
+
+                meta.Hash = cloudBinaryStorageOperator.UploadBinaryStreamByCredentialUri(credential.CredentialUri, stream, meta.ContentType, meta.Name);
+
+                var commitRequest = credential.CreateCommitRequest();
+                commitRequest.CommitOption = option ?? BinaryStorageCommitOption.AllowDuplicatedInstance;
+
+                return CommitBinaryStorage(commitRequest);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { meta });
             }
         }
     }

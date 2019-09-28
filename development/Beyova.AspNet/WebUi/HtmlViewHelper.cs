@@ -183,7 +183,7 @@ namespace Beyova.Web
         }
 
         /// <summary>
-        /// Renders the boolean value as icon raw. 
+        /// Renders the boolean value as icon raw.
         /// </summary>
         /// <param name="value">if set to <c>true</c> [value].</param>
         /// <param name="additionalClass">The additional class.</param>
@@ -387,7 +387,5 @@ namespace Beyova.Web
 
             return content;
         }
-
-
     }
 }

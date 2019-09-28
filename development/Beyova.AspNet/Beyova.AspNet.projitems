@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ActionFilter\LocalAccessOnlyAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActionFilter\SessionAuthAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContentTypeMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\ActionResultType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\BaseErrorController.cs" />
@@ -25,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MemoryExceptionContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ICPOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ICPOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MvcExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SiteOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StartUp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\AutoCompleteItem.cs" />
@@ -32,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\PartialViewWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SingleSelectionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SelectionOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WebThreadPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\BootstrapViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\HtmlViewHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WebUi\WebUiBuilder.cs" />

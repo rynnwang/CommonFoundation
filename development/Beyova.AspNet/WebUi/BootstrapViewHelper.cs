@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class BootstrapViewHelper
     {

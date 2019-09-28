@@ -1,22 +1,22 @@
-﻿ @using Beyova;
+﻿@using Beyova;
 @using Beyova.Diagnostic;
 @model ExceptionInfo
 
 @{
     if (Model != null)
     {
-        <text>
-            <span class="display-3">@(Model.Code.Major.EnumToInt32())<span class="display-4">@(Model.Code.Major.ToString())</span></span>
-            <div class="bg-light p-3">
-                <p class="lead mb-0">
-                    @(Model.Message)
-                </p>
-            </div>
-            <div class="bg-light p-3">
-                <p class="lead mb-0">
-                    <pre>@(Model.ToJson(true))</pre>
-                </p>
-            </div>
-        </text>
+    <text>
+        <span class="display-3">@(Model.Code.Major.EnumToInt32())<span class="display-4">@(Model.Code.Major.ToString())</span></span>
+        <div class="bg-light p-3">
+            <p class="lead mb-0">
+                @(Model.Message)
+            </p>
+        </div>
+        <div class="bg-light p-3">
+            <p class="lead mb-0">
+                <pre>@(Model.ToJson(true))</pre>
+            </p>
+        </div>
+    </text>
     }
 }

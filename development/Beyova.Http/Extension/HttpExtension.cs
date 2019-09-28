@@ -1165,6 +1165,16 @@ namespace Beyova
             return ReadResponseAsT<byte[]>(httpWebRequest, (webResponse) => { return InternalReadAsBytes(webResponse, true); });
         }
 
+        /// <summary>
+        /// Reads the response as stream.
+        /// </summary>
+        /// <param name="httpWebRequest">The HTTP web request.</param>
+        /// <returns></returns>
+        public static HttpActionResult<Stream> ReadResponseAsStream(this HttpWebRequest httpWebRequest)
+        {
+            return ReadResponseAsT<Stream>(httpWebRequest, (webResponse) => { return InternalReadAsStream(webResponse); });
+        }
+
         #region WebResponse Extension
 
         /// <summary>
@@ -1309,6 +1319,28 @@ namespace Beyova
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Internals the read as stream.
+        /// </summary>
+        /// <param name="webResponse">The web response.</param>
+        /// <returns></returns>
+        internal static Stream InternalReadAsStream(this WebResponse webResponse)
+        {
+            if (webResponse != null)
+            {
+                try
+                {
+                    return webResponse.GetResponseStream();
+                }
+                catch (Exception ex)
+                {
+                    throw ex.Handle(new { });
+                }
+            }
+
+            return null;
         }
 
         #endregion WebResponse Extension

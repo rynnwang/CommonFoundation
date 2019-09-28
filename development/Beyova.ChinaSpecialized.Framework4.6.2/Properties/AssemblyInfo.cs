@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Beyova;
 
@@ -10,12 +9,10 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.ChinaSpecialized")]
 [assembly: AssemblyCulture("")]
-
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]
 [assembly: AssemblyTrademark(BeyovaPropertyConstants.AssemblyTrademark)]
-
 [assembly: BeyovaComponent("Beyova.ChinaSpecialized", "0.2.0-preview01")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

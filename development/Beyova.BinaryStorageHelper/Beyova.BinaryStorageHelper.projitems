@@ -27,6 +27,7 @@
     <None Include="$(MSBuildThisFileDirectory)Database\View\view_UserBinaryStorageMetaData.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryMigrationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BinaryStorageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryCapacitySummaryDataAccessController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataAccessController\BinaryStorageIdentifierAccessController.cs" />

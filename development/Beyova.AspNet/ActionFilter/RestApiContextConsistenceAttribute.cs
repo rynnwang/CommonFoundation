@@ -20,7 +20,7 @@ namespace Beyova.Web
     /// </list>
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class RestApiContextConsistenceAttribute : ActionFilterAttribute
+    public class RestApiContextConsistenceAttribute : ActionFilterAttribute, IExceptionFilter
     {
         /// <summary>
         ///
@@ -215,6 +215,8 @@ namespace Beyova.Web
                 var httpContextContainer = new HttpBaseApiContextContainer(request, filterContext.HttpContext.Response);
                 ContextHelper.ConsistContext(httpContextContainer, settings);
 
+                WebThreadPool.Register();
+
                 if (!string.IsNullOrWhiteSpace(traceId))
                 {
                     ApiTraceContext.Initialize(traceId, traceSequence, entryStamp);
@@ -304,6 +306,18 @@ namespace Beyova.Web
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Called when [exception].
+        /// </summary>
+        /// <param name="filterContext">The filter context.</param>
+        public void OnException(ExceptionContext filterContext)
+        {
+            var exception = filterContext.Exception?.ToExceptionInfo();
+            ContextHelper.Clear();
+            Framework.ApiTracking?.LogException(exception);
+            filterContext.Result = new JsonNetResult { Data = exception };
         }
     }
 }

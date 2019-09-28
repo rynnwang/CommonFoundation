@@ -53,8 +53,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.AspNet", "Beyova.Asp
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.AspNet.FrameworkSpecialized", "Beyova.AspNet.FrameworkSpecialized\Beyova.AspNet.FrameworkSpecialized.shproj", "{46226655-162B-4261-B158-52F7E6D2AE75}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.AspNet.CoreSpecialized", "Beyova.AspNet.CoreSpecialized\Beyova.AspNet.CoreSpecialized.shproj", "{E71237CD-9DC1-46C0-8BEA-C41C7F9ABBE7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.AspNet.Framework4.6.2", "Beyova.AspNet.Framework4.6.2\Beyova.AspNet.Framework4.6.2.csproj", "{46C0F765-D2F1-443D-BE24-AD2B481AE23E}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.ProgrammingIntelligence.Sandbox", "Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.shproj", "{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90}"
@@ -121,6 +119,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aws.S3.Framework4.6.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Beyova.Aws.S3", "Beyova.Aws.S3\Beyova.Aws.S3.shproj", "{DEFD79FB-1275-4197-A63A-705C0F22BBF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beyova.Aliyun.Storage.Framework4.6.2", "Beyova.Aliyun.Storage.Framework4.6.2\Beyova.Aliyun.Storage.Framework4.6.2.csproj", "{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Beyova.ApiTracking.SqlServer\Beyova.ApiTracking.SqlServer.projitems*{0279b826-a639-42fa-8429-01840deef360}*SharedItemsImports = 13
@@ -169,7 +169,6 @@ Global
 		Beyova.StandardContract.ChinaSpecialized\Beyova.StandardContract.ChinaSpecialized.projitems*{dd80c11f-30d2-4d7e-995e-3f541bb2ce20}*SharedItemsImports = 4
 		Beyova.Aws.S3\Beyova.Aws.S3.projitems*{defd79fb-1275-4197-a63a-705c0f22bbf4}*SharedItemsImports = 13
 		Beyova.ProgrammingIntelligence.Sandbox\Beyova.ProgrammingIntelligence.Sandbox.projitems*{e20bb273-9a79-42f8-b4d1-3ef8c94eec90}*SharedItemsImports = 13
-		Beyova.AspNet.CoreSpecialized\Beyova.AspNet.CoreSpecialized.projitems*{e71237cd-9dc1-46c0-8bea-c41c7f9abbe7}*SharedItemsImports = 13
 		Beyova.Api.Service\Beyova.Api.Service.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Api\Beyova.Api.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
 		Beyova.Common.Framework\Beyova.Common.Framework.projitems*{eca11a30-d8b6-40e1-a896-62cbfff66e36}*SharedItemsImports = 4
@@ -257,6 +256,10 @@ Global
 		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -284,7 +287,6 @@ Global
 		{3AC53A29-2C74-4C33-AD6F-9FF16828A6D4} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{A0BBBEAB-9A29-45D8-9E83-7924DF6BEB72} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{46226655-162B-4261-B158-52F7E6D2AE75} = {12871993-A575-4CD7-83E4-B114957C1431}
-		{E71237CD-9DC1-46C0-8BEA-C41C7F9ABBE7} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{46C0F765-D2F1-443D-BE24-AD2B481AE23E} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{E20BB273-9A79-42F8-B4D1-3EF8C94EEC90} = {12871993-A575-4CD7-83E4-B114957C1431}
 		{63B9D4D4-FF67-45C3-8A9E-80D2CF31A7B1} = {12871993-A575-4CD7-83E4-B114957C1431}
@@ -318,6 +320,7 @@ Global
 		{98A75580-02EE-428B-9E75-11D12C232814} = {2F540C1A-7D08-4416-A28E-0A23AEC7427E}
 		{AB3E9A15-1BDA-4F1C-99A7-9BFD0DDBBA21} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
 		{DEFD79FB-1275-4197-A63A-705C0F22BBF4} = {4127E373-4192-456F-AE8D-4DDAF633534E}
+		{E341ECB7-7A9C-4CA2-A020-4016CA19B4B9} = {CE8443FC-E6DA-4A2B-BFE0-E33912D5FA99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0985C75-E8D1-4AB5-AB42-1FCD343DABE7}

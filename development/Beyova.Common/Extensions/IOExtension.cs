@@ -50,6 +50,11 @@ namespace Beyova
 
                     using (var fileStream = File.Create(absoluteFullPath, bufferSize < 512 ? 512 : bufferSize, fileOptions))
                     {
+                        if (stream.CanSeek)
+                        {
+                            stream.Position = 0;
+                        }
+
                         stream.CopyTo(fileStream);
                         fileStream.Close();
                     }
@@ -277,9 +282,42 @@ namespace Beyova
         {
             try
             {
+                path.CheckEmptyString(nameof(path));
+                if (!File.Exists(path))
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(path), data: new { path }, reason: "NotFound");
+                }
                 using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     return stream.ReadStreamToBytes(true);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(path);
+            }
+        }
+
+        /// <summary>
+        /// Reads the bytes to stream.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="destinationStream">The destination stream.</param>
+        public static void ReadBytesToStream(this string path, Stream destinationStream)
+        {
+            try
+            {
+                path.CheckEmptyString(nameof(path));
+                destinationStream.CheckNullObject(nameof(destinationStream));
+
+                if (!File.Exists(path))
+                {
+                    throw ExceptionFactory.CreateInvalidObjectException(nameof(path), data: new { path }, reason: "NotFound");
+                }
+                using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    stream.CopyTo(destinationStream);
                 }
             }
             catch (Exception ex)

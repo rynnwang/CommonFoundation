@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Beyova.Cache;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest
 {
@@ -39,7 +39,6 @@ namespace Beyova.Common.UnitTest
                 new MemoryCacheContainerOptions<string> { Capacity = 2, Name = "Comparer test", ExpirationInSecond = 1, EqualityComparer = StringComparer.OrdinalIgnoreCase },
                 retrievalOptions: new CacheAutoRetrievalOptions<string, string>(x => { return x + this.CreateRandomHexString(5); })
                 );
-
 
             var a = container.Get("a");
             var A = container.Get("A");

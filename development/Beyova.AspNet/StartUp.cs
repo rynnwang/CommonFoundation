@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Beyova.Api.RestApi;
+using System.Linq;
 using System.Web.Mvc;
-using Beyova.Api.RestApi;
 
 namespace Beyova.Web
 {

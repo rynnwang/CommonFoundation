@@ -14,10 +14,17 @@ function showErrorMessage(message, whenClickOk) {
 function apiAjax(url, method, jsonObj, whenOK, whenError) {
     $.ajax({
         url: url,
-        method: (method || "GET"),
+        method: method || "GET",
         contentType: "application/json",
         dataType: "json",
+        cache: false,
         data: JSON.stringify(jsonObj || {}),
+        beforeSend: function (request) {
+            var token = localStorage.getItem("token");
+            if (typeof (token) === "string" && token.length > 0) {
+                request.setRequestHeader("X-BA-TOKEN", token);
+            }
+        },
         complete: function (xhr) {
             var status = xhr.status;
             var text = xhr.responseText;
@@ -29,7 +36,6 @@ function apiAjax(url, method, jsonObj, whenOK, whenError) {
                 }
             } else {
                 if (!(whenError && whenError(status, response))) {
-
                     switch (status) {
                         case 401:
                             window.location.href = "/account/cellphoneLogin?returnUrl=" + encodeURI(window.location);
@@ -57,6 +63,13 @@ function htmlAjax(url, jsonObj, renderContainerId, completedFunc, cleanFunc, met
         method: method || "POST",
         contentType: "application/json",
         dataType: "html",
+        cache: false,
+        beforeSend: function (request) {
+            var token = localStorage.getItem("token");
+            if (typeof (token) === "string" && token.length > 0) {
+                request.setRequestHeader("X-BA-TOKEN", token);
+            }
+        },
         data: JSON.stringify(jsonObj || undefined),
         complete: function (xhr) {
             var status = xhr.status;
@@ -196,7 +209,6 @@ function isEmptyObject(obj) {
 //  -toFocus
 function timeDown(btnObject, options) {
     if (btnObject && typeof (options) === "object") {
-
         var time = options.seconds || 60;
         var availableText = options.availableText || "Get Code";
         var secondUnitText = options.secondUnitText || "s";
@@ -208,7 +220,7 @@ function timeDown(btnObject, options) {
                 btnObject.text(time + secondUnitText);
                 btnObject.prop("disabled", true);
             } else {
-                timeo = seconds;
+                time = options.seconds || 60;
                 btnObject.text(availableText || "");
                 clearInterval(timeStop);
                 btnObject.prop("disabled", false);
@@ -253,7 +265,6 @@ function blobUpload(fileBtnObject, options) {
                     var self = $(this);
 
                     if (self.val()) {
-
                         localCore.form.ajaxSubmit({
                             dataType: "json",
                             beforeSend: function () {
@@ -282,4 +293,18 @@ function blobUpload(fileBtnObject, options) {
 
 function considerEmptyArrayAsNull(arrayObject) {
     return ($.isArray(arrayObject) && (arrayObject.length === 0 || (arrayObject.length === 1 && arrayObject[0] === ""))) ? undefined : arrayObject;
+}
+
+function newid(length) {
+    if (typeof (length) !== "number" || length < 1) {
+        length = 16;
+    }
+
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }

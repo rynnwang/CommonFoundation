@@ -191,6 +191,16 @@
             public const string ContentDisposition = "Content-Disposition";
 
             /// <summary>
+            /// The e tag
+            /// </summary>
+            public const string ETag = "ETag";
+
+            /// <summary>
+            /// The content m d5
+            /// </summary>
+            public const string ContentMD5 = "Content-MD5";
+
+            /// <summary>
             /// The transfer encoding
             /// </summary>
             public const string TransferEncoding = "Transfer-Encoding";
@@ -345,6 +355,11 @@
             public const string Mp3Audio = "audio/mpeg";
 
             /// <summary>
+            /// The MP4 video
+            /// </summary>
+            public const string Mp4Video= "video/mp4";
+
+            /// <summary>
             /// The text
             /// </summary>
             public const string Text = "text/plain";
@@ -388,6 +403,36 @@
             /// The java script
             /// </summary>
             public const string JavaScript = "application/x-javascript";
+
+            /// <summary>
+            /// The markdown
+            /// </summary>
+            public const string Markdown = "text/markdown";
+
+            /// <summary>
+            /// The power point
+            /// </summary>
+            public const string PowerPoint = "application/vnd.ms-powerpoint";
+
+            /// <summary>
+            /// The power point x
+            /// </summary>
+            public const string PowerPointX = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+
+            /// <summary>
+            /// The excel x
+            /// </summary>
+            public const string ExcelX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            /// <summary>
+            /// The word
+            /// </summary>
+            public const string Word = "application/msword";
+
+            /// <summary>
+            /// The word x
+            /// </summary>
+            public const string WordX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         }
     }
 }

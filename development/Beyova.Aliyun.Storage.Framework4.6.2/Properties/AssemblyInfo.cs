@@ -5,13 +5,11 @@ using Beyova;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Beyova.AspNet")]
+[assembly: AssemblyTitle("Beyova.Aliyun.Storage")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("Beyova.AspNet")]
+[assembly: AssemblyProduct("Beyova.Aliyun.Storage")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.AspNet", "1.11.1")]
-//[assembly: PreApplicationStartMethod(typeof(WebInfrastructureEnhancement), "Initialize")]
-
+[assembly: BeyovaComponent("Beyova.Aliyun.Storage", "0.2.0")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]
@@ -23,7 +21,7 @@ using Beyova;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("37f152c2-a7f3-481a-8463-1b488a58eab5")]
+[assembly: Guid("e341ecb7-7a9c-4ca2-a020-4016ca19b4b9")]
 
 // Version information for an assembly consists of the following four values:
 //

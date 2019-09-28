@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class AutoCompleteItem
     {

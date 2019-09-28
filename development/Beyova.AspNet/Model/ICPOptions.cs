@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ICPOptions : HashSet<ICPOption>
     {

@@ -1,7 +1,7 @@
 ﻿namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class PartialViewWrapper
     {

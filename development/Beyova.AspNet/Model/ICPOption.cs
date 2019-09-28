@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ICPOption
     {

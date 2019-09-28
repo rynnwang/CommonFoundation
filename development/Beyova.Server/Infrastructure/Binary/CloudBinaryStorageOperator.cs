@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Security.Cryptography;
 
 namespace Beyova
 {
@@ -48,14 +51,48 @@ namespace Beyova
         /// </summary>
         /// <param name="blobUri">The BLOB URI.</param>
         /// <returns>System.Byte[].</returns>
-        public abstract byte[] DownloadBinaryBytesByCredentialUri(string blobUri);
+        public virtual byte[] DownloadBinaryBytesByCredentialUri(string blobUri)
+        {
+            try
+            {
+                using (var stream = DownloadBinaryStreamByCredentialUri(blobUri))
+                {
+                    return stream.ReadStreamToBytes(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(blobUri);
+            }
+        }
 
         /// <summary>
         /// Downloads the binary stream by credential.
         /// </summary>
         /// <param name="blobUri">The BLOB URI.</param>
-        /// <returns>Stream.</returns>
-        public abstract Stream DownloadBinaryStreamByCredentialUri(string blobUri);
+        /// <returns>
+        /// Stream.
+        /// </returns>
+        public virtual Stream DownloadBinaryStreamByCredentialUri(string blobUri)
+        {
+            try
+            {
+                blobUri.CheckEmptyString(nameof(blobUri));
+
+                var httpRequest = blobUri.CreateHttpWebRequest();
+                var stream = httpRequest.ReadResponseAsStream()?.Body;
+                if (stream != null)
+                {
+                    stream.Position = 0;
+                }
+
+                return stream;
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(blobUri);
+            }
+        }
 
         /// <summary>
         /// Uploads the binary bytes by credential.
@@ -65,7 +102,23 @@ namespace Beyova
         /// <param name="contentType">Type of the content.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>System.String.</returns>
-        public abstract string UploadBinaryBytesByCredentialUri(string blobUri, byte[] dataBytes, string contentType, string fileName = null);
+        public virtual string UploadBinaryBytesByCredentialUri(string blobUri, byte[] dataBytes, string contentType, string fileName = null)
+        {
+            try
+            {
+                blobUri.CheckEmptyString(nameof(blobUri));
+                dataBytes.CheckNullObject(nameof(dataBytes));
+
+                using (var stream = dataBytes.ToStream())
+                {
+                    return UploadBinaryStreamByCredentialUri(blobUri, stream, contentType, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { blobUri, contentType, fileName });
+            }
+        }
 
         /// <summary>
         /// Uploads the binary stream by credential URI.
@@ -75,7 +128,41 @@ namespace Beyova
         /// <param name="contentType">Type of the content.</param>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>System.String.</returns>
-        public abstract string UploadBinaryStreamByCredentialUri(string blobUri, Stream stream, string contentType, string fileName = null);
+        public virtual string UploadBinaryStreamByCredentialUri(string blobUri, Stream stream, string contentType, string fileName = null)
+        {
+            try
+            {
+                blobUri.CheckEmptyString(nameof(blobUri));
+                stream.CheckNullObject(nameof(stream));
+
+                // Upload a file using the pre-signed URL.
+
+                var streamBytes = stream.ReadStreamToBytes(true);
+                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+                var md5hash = md5.ComputeHash(streamBytes).EncodeBase64();
+                HttpWebRequest httpRequest = WebRequest.Create(blobUri) as HttpWebRequest;
+                httpRequest.Method = "PUT";
+                httpRequest.ContentType = contentType;
+                httpRequest.Headers[HttpConstants.HttpHeader.ContentMD5] = md5hash;
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    httpRequest.Headers[HttpConstants.HttpHeader.ContentDisposition] = fileName;
+                }
+
+                using (Stream dataStream = httpRequest.GetRequestStream())
+                {
+                    // Upload blob stream.
+                    dataStream.Write(streamBytes, 0, streamBytes.Length);
+                }
+
+                HttpWebResponse response = httpRequest.GetResponse() as HttpWebResponse;
+                return response.GetResponseHeader(HttpConstants.HttpHeader.ETag);
+            }
+            catch (Exception ex)
+            {
+                throw ex.Handle(new { blobUri, contentType, fileName });
+            }
+        }
 
         /// <summary>
         /// Fetches the cloud meta. Returned object would only includes (md5, length, name, content type).

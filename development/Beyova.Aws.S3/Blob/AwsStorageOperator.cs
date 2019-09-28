@@ -341,9 +341,9 @@ namespace Beyova.Aws
         {
             try
             {
-                storageIdentifier.CheckNullObject("storageIdentifier");
-                storageIdentifier.Container.CheckEmptyString("storageIdentifier.Container");
-                storageIdentifier.Identifier.CheckEmptyString("storageIdentifier.Identifier");
+                storageIdentifier.CheckNullObject(nameof(storageIdentifier));
+                storageIdentifier.Container.CheckEmptyString(nameof(storageIdentifier.Container));
+                storageIdentifier.Identifier.CheckEmptyString(nameof(storageIdentifier.Identifier));
 
                 var deleteObjectRequest = new DeleteObjectRequest
                 {
@@ -355,26 +355,6 @@ namespace Beyova.Aws
             catch (Exception ex)
             {
                 throw ex.Handle(storageIdentifier);
-            }
-        }
-
-        /// <summary>
-        /// Downloads the binary bytes by credential URI.
-        /// </summary>
-        /// <param name="blobUri">The BLOB URI.</param>
-        /// <returns>System.Byte[].</returns>
-        public override byte[] DownloadBinaryBytesByCredentialUri(string blobUri)
-        {
-            try
-            {
-                using (var stream = DownloadBinaryStreamByCredentialUri(blobUri))
-                {
-                    return stream.ReadStreamToBytes();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(blobUri);
             }
         }
 
@@ -453,32 +433,6 @@ namespace Beyova.Aws
         }
 
         /// <summary>
-        /// Uploads the binary bytes by credential URI.
-        /// </summary>
-        /// <param name="blobUri">The BLOB URI.</param>
-        /// <param name="dataBytes">The data bytes.</param>
-        /// <param name="contentType">Type of the content.</param>
-        /// <param name="fileName">Name of the file.</param>
-        /// <returns>ETag</returns>
-        public override string UploadBinaryBytesByCredentialUri(string blobUri, byte[] dataBytes, string contentType, string fileName = null)
-        {
-            try
-            {
-                blobUri.CheckEmptyString(nameof(blobUri));
-                dataBytes.CheckNullObject(nameof(dataBytes));
-
-                using (var stream = dataBytes.ToStream())
-                {
-                    return UploadBinaryStreamByCredentialUri(blobUri, stream, contentType, fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { blobUri, contentType, fileName });
-            }
-        }
-
-        /// <summary>
         /// Fetches the cloud meta. Returned object would only includes (md5, length, name, content type).
         /// </summary>
         /// <param name="identifier">The identifier.</param>
@@ -487,9 +441,9 @@ namespace Beyova.Aws
         {
             try
             {
-                identifier.CheckNullObject("identifier");
-                identifier.Container.CheckEmptyString("identifier.Container");
-                identifier.Identifier.CheckEmptyString("identifier.Identifier");
+                identifier.CheckNullObject(nameof(identifier));
+                identifier.Container.CheckEmptyString(nameof(identifier.Container));
+                identifier.Identifier.CheckEmptyString(nameof(identifier.Identifier));
 
                 var request = new GetObjectMetadataRequest
                 {

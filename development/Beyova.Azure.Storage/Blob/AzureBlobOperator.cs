@@ -633,52 +633,6 @@ namespace Beyova.Azure
         }
 
         /// <summary>
-        /// Uploads the binary bytes by credential URI.
-        /// </summary>
-        /// <param name="blobUri">The BLOB URI.</param>
-        /// <param name="dataBytes">The data bytes.</param>
-        /// <param name="contentType">Type of the content.</param>
-        /// <param name="fileName">Name of the file.</param>
-        /// <returns>System.String.</returns>
-        public override string UploadBinaryBytesByCredentialUri(string blobUri, byte[] dataBytes, string contentType, string fileName = null)
-        {
-            try
-            {
-                blobUri.CheckEmptyString(nameof(blobUri));
-                dataBytes.CheckNullObject(nameof(dataBytes));
-
-                using (var stream = dataBytes.ToStream())
-                {
-                    return UploadBinaryStreamByCredentialUri(blobUri, stream, contentType, fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(new { blobUri, contentType, fileName });
-            }
-        }
-
-        /// <summary>
-        /// Downloads the binary bytes by credential URI.
-        /// </summary>
-        /// <param name="blobUri">The BLOB URI.</param>
-        /// <returns>System.Byte[].</returns>
-        public override byte[] DownloadBinaryBytesByCredentialUri(string blobUri)
-        {
-            try
-            {
-                using (var stream = DownloadBinaryStreamByCredentialUri(blobUri))
-                {
-                    return stream.ReadStreamToBytes();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex.Handle(blobUri);
-            }
-        }
-
-        /// <summary>
         /// Downloads the binary stream by credential URI.
         /// </summary>
         /// <param name="blobUri">The BLOB URI.</param>

@@ -1,5 +1,6 @@
 ﻿using Beyova.Api.RestApi;
 using Beyova.Diagnostic;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,6 +36,26 @@ namespace Beyova.Web
                 Data = obj,
                 ContentType = HttpConstants.ContentType.Json
             };
+        }
+
+        /// <summary>
+        /// Accepteds the result.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <returns></returns>
+        public static ActionResult HttpAcceptedResult(this Controller controller)
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.Accepted);
+        }
+
+        /// <summary>
+        /// HTTPs the created result.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
+        /// <returns></returns>
+        public static ActionResult HttpCreatedResult(this Controller controller)
+        {
+            return new HttpStatusCodeResult(HttpStatusCode.Created);
         }
 
         /// <summary>

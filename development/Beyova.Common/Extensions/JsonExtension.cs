@@ -1,9 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Globalization;
+using System.Linq;
 
 namespace Beyova
 {
@@ -44,7 +44,10 @@ namespace Beyova
         /// <returns>System.String.</returns>
         public static string ToJson(this object anyObject, bool indentedFormat, params JsonConverter[] converters)
         {
-            return JsonConvert.SerializeObject(anyObject, indentedFormat ? Formatting.Indented : Formatting.None, converters == null ? IsoDateTimeConverter.AsArray() : converters);
+            var jsonObject = anyObject as JToken;
+            return jsonObject == null ?
+                JsonConvert.SerializeObject(anyObject, indentedFormat ? Formatting.Indented : Formatting.None, converters == null ? IsoDateTimeConverter.AsArray() : converters)
+                : jsonObject.ToString(indentedFormat ? Formatting.Indented : Formatting.None, converters == null ? IsoDateTimeConverter.AsArray() : converters);
         }
 
         /// <summary>

@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Beyova.Web
+﻿namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IColorStyle
     {

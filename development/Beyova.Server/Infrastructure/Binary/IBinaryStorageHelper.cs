@@ -5,6 +5,13 @@ using System.IO;
 namespace Beyova
 {
     /// <summary>
+    /// 
+    /// </summary>
+    public interface IBinaryStorageHelper : IBinaryStorageHelper<BinaryStorageMetaData, BinaryStorageMetaDataCriteria>
+    {
+    }
+
+    /// <summary>
     /// Interface IBinaryStorageHelper
     /// </summary>
     /// <typeparam name="TBinaryStorageMetaData">The type of the t binary storage meta data.</typeparam>
@@ -67,6 +74,15 @@ namespace Beyova
         /// System.String.
         /// </returns>
         string UploadBinaryByCredential(BinaryStorageActionCredential credential, byte[] data, string contentType);
+
+        /// <summary>
+        /// Uploads the binary by credential.
+        /// </summary>
+        /// <param name="credential">The credential.</param>
+        /// <param name="data">The data.</param>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns></returns>
+        string UploadBinaryByCredential(BinaryStorageActionCredential credential, Stream data, string contentType);
 
         /// <summary>
         /// Downloads the binary by credential.

@@ -5,7 +5,7 @@ using System;
 namespace Beyova.Web
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class MemoryExceptionContainer : MemoryCacheContainer<Guid, ExceptionInfo>
     {

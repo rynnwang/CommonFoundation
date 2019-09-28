@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest
@@ -23,10 +21,8 @@ namespace Beyova.Common.UnitTest
 
             Assert.AreEqual(constUri, endpoint.ToString());
 
-
             UriEndpoint endpoint2 = new Uri(constUri);
             Assert.AreEqual(endpoint, endpoint2);
-
 
             UriEndpoint endpoint3 = new UriEndpoint
             {

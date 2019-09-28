@@ -9,7 +9,7 @@ using Beyova;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Beyova.Aws.S3")]
 [assembly: AssemblyCulture("")]
-[assembly: BeyovaComponent("Beyova.Aws.S3", "1.4.1")]
+[assembly: BeyovaComponent("Beyova.Aws.S3", "1.5.0")]
 [assembly: AssemblyDescription(BeyovaPropertyConstants.AssemblyDescription)]
 [assembly: AssemblyCompany(BeyovaPropertyConstants.Company)]
 [assembly: AssemblyCopyright(BeyovaPropertyConstants.Copyright)]

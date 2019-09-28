@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Beyova.Http;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest
 {

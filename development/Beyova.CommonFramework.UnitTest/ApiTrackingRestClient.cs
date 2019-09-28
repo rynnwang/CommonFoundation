@@ -1,10 +1,20 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Beyova.CodingBot.SqlServer;
+using Beyova.CodingBot.VisualStudio;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Beyova.Common.UnitTest
 {
     [TestClass]
     public class ApiTrackingRestClientUnitTest
     {
+        [TestMethod]
+        public void MergeSql()
+        {
+            var dbRoot = DevelopmentEnvironment.GetCurrentProjectRootDirectory().Parent.GetSubDirectory("Beyova.ApiTracking.SqlServer").GetSubDirectory("Database");
+
+            SqlPublishHelper.MergeSqlPublishScripts(dbRoot, dbRoot.GetSubDirectory("Setup"), "Table", null, null, "StoredProcedure");
+        }
+
         [TestMethod]
         public void TestApiTrackingRestClient()
         {
